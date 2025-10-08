@@ -109,58 +109,6 @@ export class WorkoutService {
     }
   }
 
-  // Routine Management
-  static async createRoutine(routine) {
-    try {
-      const docRef = await addDoc(collection(db, 'routines'), {
-        ...routine,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      });
-      return docRef.id;
-    } catch (error) {
-      console.error('Error creating routine:', error);
-      throw error;
-    }
-  }
-
-  static async getUserRoutines(userId) {
-    try {
-      const routinesQuery = query(
-        collection(db, 'routines'),
-        where('ownerId', '==', userId),
-        orderBy('createdAt', 'desc')
-      );
-      const snapshot = await getDocs(routinesQuery);
-      
-      return snapshot.docs.map(doc => ({ routineId: doc.id, ...doc.data() }));
-    } catch (error) {
-      console.error('Error getting user routines:', error);
-      throw error;
-    }
-  }
-
-  static async updateRoutine(routineId, updates) {
-    try {
-      const routineRef = doc(db, 'routines', routineId);
-      await updateDoc(routineRef, {
-        ...updates,
-        updatedAt: new Date()
-      });
-    } catch (error) {
-      console.error('Error updating routine:', error);
-      throw error;
-    }
-  }
-
-  static async deleteRoutine(routineId) {
-    try {
-      await deleteDoc(doc(db, 'routines', routineId));
-    } catch (error) {
-      console.error('Error deleting routine:', error);
-      throw error;
-    }
-  }
 
   // Workout Logging
   static async logWorkout(workoutLog) {
