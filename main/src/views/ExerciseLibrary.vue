@@ -216,6 +216,7 @@ const loadExercises = async () => {
   }
 }
 
+
 const filterExercises = () => {
   // This is handled by the computed property
 }
@@ -243,6 +244,7 @@ const addToRoutine = (exercise) => {
   // This would add the exercise to a routine
   alert(`Added ${exercise.name} to your routine!`)
 }
+
 </script>
 
 <style scoped>
