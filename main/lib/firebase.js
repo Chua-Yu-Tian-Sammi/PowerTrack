@@ -1,6 +1,5 @@
 
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
@@ -24,9 +23,6 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const functions = getFunctions(app);
-
-// Only initialize analytics in browser environment
-export const analytics = typeof window !== 'undefined' ? getAnalytics(app) : null;
 
 // Connect to Functions emulator in development
 if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
