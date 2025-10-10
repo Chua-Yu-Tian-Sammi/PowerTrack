@@ -15,7 +15,7 @@
         <div class="col-lg-5 box ">
           <h2>Progress Tracking</h2>
           <p>Visualise your progress over time with charts and statistics.</p>
-          <button class="btn2  ">Join us Now</button>
+          <button class="btn2" @click="$router.push('/login')">Join us Now</button>
         </div>
         <div class = "col-lg-1"></div>
       </div>
