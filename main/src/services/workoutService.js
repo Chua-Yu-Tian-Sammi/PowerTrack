@@ -1,5 +1,5 @@
 import { httpsCallable } from 'firebase/functions';
-import { collection, addDoc, getDocs, query, where, orderBy, doc, updateDoc, deleteDoc, setDoc, getDoc } from 'firebase/firestore';
+import { collection, addDoc, getDocs, query, where, orderBy, doc, updateDoc, setDoc, getDoc } from 'firebase/firestore';
 import { functions, db } from '@lib/firebase';
 
 // Cloud Functions
