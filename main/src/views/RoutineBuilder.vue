@@ -82,63 +82,17 @@
                 </div>
 
                 <div v-else>
-                  <div v-for="(exercise, index) in routineForm.exercises" :key="index" class="card mb-3">
-                    <div class="card-body">
-                      <div class="row align-items-center">
-                        <div class="col-md-4">
-                          <h6>{{ getExerciseName(exercise.exerciseId) }}</h6>
-                          <small class="text-muted">{{ getExerciseDescription(exercise.exerciseId) }}</small>
-                        </div>
-                        <div class="col-md-2">
-                          <label class="form-label">Sets</label>
-                          <input 
-                            type="number" 
-                            class="form-control form-control-sm" 
-                            v-model.number="exercise.sets"
-                            min="1" 
-                            max="20"
-                          >
-                        </div>
-                        <div class="col-md-2">
-                          <label class="form-label">Reps</label>
-                          <input 
-                            type="text" 
-                            class="form-control form-control-sm" 
-                            v-model="exercise.reps"
-                            placeholder="8-12"
-                          >
-                        </div>
-                        <div class="col-md-2">
-                          <label class="form-label">Rest (sec)</label>
-                          <input 
-                            type="number" 
-                            class="form-control form-control-sm" 
-                            v-model.number="exercise.restSeconds"
-                            min="0" 
-                            max="300"
-                          >
-                        </div>
-                        <div class="col-md-2">
-                          <button 
-                            type="button" 
-                            class="btn btn-outline-danger btn-sm"
-                            @click="removeExercise(index)"
-                          >
-                            <i class="bi bi-trash"></i>
-                          </button>
-                        </div>
-                      </div>
-                      <div class="mt-2">
-                        <label class="form-label">Notes (optional)</label>
-                        <input 
-                          type="text" 
-                          class="form-control form-control-sm" 
-                          v-model="exercise.notes"
-                          placeholder="e.g., Last set AMRAP"
-                        >
-                      </div>
-                    </div>
-                  </div>
+                  <ExerciseForm 
+                    v-for="(exercise, index) in routineForm.exercises" 
+                    :key="index"
+                    :exercise-name="getExerciseName(exercise.exerciseId)"
+                    :exercise-description="getExerciseDescription(exercise.exerciseId)"
+                    v-model:sets="exercise.sets"
+                    v-model:reps="exercise.reps"
+                    v-model:rest-seconds="exercise.restSeconds"
+                    v-model:notes="exercise.notes"
+                    @remove="removeExercise(index)"
+                  />
                 </div>
               </div>
 
@@ -200,56 +154,26 @@
     </div>
 
     <!-- Exercise Selector Modal -->
-    <div v-if="showExerciseSelector" class="modal show d-block" tabindex="-1">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Select Exercise</h5>
-            <button type="button" class="btn-close" @click="showExerciseSelector = false"></button>
-          </div>
-          <div class="modal-body">
-            <div class="input-group mb-3">
-              <input 
-                type="text" 
-                class="form-control" 
-                placeholder="Search exercises..." 
-                v-model="exerciseSearch"
-              >
-              <button class="btn btn-outline-secondary" type="button">
-                <i class="bi bi-search"></i>
-              </button>
-            </div>
-            <div class="row">
-              <div v-for="exercise in filteredExercises" :key="exercise.exerciseId" class="col-md-6 mb-3">
-                <div class="card exercise-card" @click="addExerciseToRoutine(exercise)">
-                  <div class="card-body">
-                    <h6>{{ exercise.name }}</h6>
-                    <p class="text-muted small">{{ exercise.description }}</p>
-                    <div class="d-flex justify-content-between">
-                      <span class="badge bg-secondary">{{ exercise.difficulty }}</span>
-                      <span class="badge bg-info">{{ exercise.intensity }}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <ExerciseSelector 
+      :show="showExerciseSelector"
+      :exercises="exercises"
+      @close="showExerciseSelector = false"
+      @select="addExerciseToRoutine"
+    />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted} from 'vue'
 import { WorkoutService } from '../services/workoutService.js'
+import ExerciseForm from '../components/ExerciseForm.vue'
+import ExerciseSelector from '../components/ExerciseSelector.vue'
 
 const loading = ref(false)
 const saving = ref(false)
 const routines = ref([])
 const exercises = ref([])
 const showExerciseSelector = ref(false)
-const exerciseSearch = ref('')
 const editingRoutine = ref(null)
 
 const routineForm = ref({
@@ -258,17 +182,6 @@ const routineForm = ref({
   estimatedTimeMinutes: 45,
   intendedIntensity: 'medium',
   exercises: []
-})
-
-const filteredExercises = computed(() => {
-  if (!exerciseSearch.value) return exercises.value
-  
-  const search = exerciseSearch.value.toLowerCase()
-  return exercises.value.filter(exercise => 
-    exercise.name.toLowerCase().includes(search) ||
-    exercise.description.toLowerCase().includes(search) ||
-    exercise.muscle.some(m => m.toLowerCase().includes(search))
-  )
 })
 
 onMounted(async () => {
@@ -280,7 +193,6 @@ const loadRoutines = async () => {
   loading.value = true
   try {
     routines.value = await WorkoutService.getUserRoutines()
-    console.log('Loaded routines:', routines.value.length)
   } catch (error) {
     console.error('Error loading routines:', error)
     alert('Failed to load routines. Please try again.')
@@ -292,7 +204,6 @@ const loadRoutines = async () => {
 const loadExercises = async () => {
   try {
     exercises.value = await WorkoutService.getExercises()
-    console.log('Loaded exercises:', exercises.value.length)
   } catch (error) {
     console.error('Error loading exercises:', error)
   }
@@ -317,7 +228,6 @@ const addExerciseToRoutine = (exercise) => {
     notes: ''
   })
   showExerciseSelector.value = false
-  exerciseSearch.value = ''
 }
 
 const removeExercise = (index) => {
@@ -391,27 +301,5 @@ const resetForm = () => {
 }
 </script>
 
-<style scoped>
-.routine-item .card {
-  transition: transform 0.2s;
-}
 
-.routine-item .card:hover {
-  transform: translateY(-2px);
-}
-
-.exercise-card {
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.exercise-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.modal {
-  background-color: rgba(0,0,0,0.5);
-}
-</style>
 

@@ -126,37 +126,16 @@
           
           <div class="exercises-list">
             <h5>Exercises:</h5>
-            <div v-for="(item, index) in generatedWorkout.routine.items" :key="index" class="exercise-item mb-3">
-              <div class="card">
-                <div class="card-body">
-                  <div class="row align-items-center">
-                    <div class="col-md-6">
-                      <h6>{{ getExerciseName(item.exerciseId) }}</h6>
-                      <p class="text-muted mb-0">{{ getExerciseDescription(item.exerciseId) }}</p>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="row text-center">
-                        <div class="col-4">
-                          <strong>{{ item.sets }}</strong><br>
-                          <small>Sets</small>
-                        </div>
-                        <div class="col-4">
-                          <strong>{{ item.reps }}</strong><br>
-                          <small>Reps</small>
-                        </div>
-                        <div class="col-4">
-                          <strong>{{ item.restTimeSec }}s</strong><br>
-                          <small>Rest</small>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div v-if="item.notes" class="mt-2">
-                    <small class="text-info"><i class="bi bi-info-circle me-1"></i>{{ item.notes }}</small>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <WorkoutStats 
+              v-for="(item, index) in generatedWorkout.routine.items" 
+              :key="index"
+              :exercise-name="getExerciseName(item.exerciseId)"
+              :exercise-description="getExerciseDescription(item.exerciseId)"
+              :sets="item.sets"
+              :reps="item.reps"
+              :rest-time-sec="item.restTimeSec"
+              :notes="item.notes"
+            />
           </div>
         </div>
       </div>
@@ -169,6 +148,7 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { WorkoutService } from '../services/workoutService.js'
 import { AuthService } from '../services/authService.js'
+import WorkoutStats from '../components/WorkoutStats.vue'
 
 const router = useRouter()
 const loading = ref(false)
@@ -192,7 +172,6 @@ const generateWorkout = async () => {
   try {
     const result = await WorkoutService.generateWorkout(workoutForm.value)
     generatedWorkout.value = result
-    console.log('Generated workout:', result)
   } catch (error) {
     console.error('Error generating workout:', error)
     alert('Failed to generate workout. Please try again.')
@@ -231,8 +210,8 @@ const saveRoutine = async () => {
       }))
     }
     
+    // eslint-disable-next-line no-unused-vars
     const routine = await WorkoutService.createRoutine(routineData)
-    console.log('Routine saved:', routine)
     alert('Routine saved successfully!')
   } catch (error) {
     console.error('Error saving routine:', error)
@@ -243,7 +222,7 @@ const saveRoutine = async () => {
 const startWorkout = () => {
   if (!generatedWorkout.value) return
   
-  // Navigate to workout tracking page
+  
   router.push({
     name: 'WorkoutTracking',
     query: {
@@ -255,12 +234,4 @@ const startWorkout = () => {
 }
 </script>
 
-<style scoped>
-.exercise-item {
-  border-left: 4px solid #0d6efd;
-}
 
-.card-header h3, .card-header h4 {
-  margin: 0;
-}
-</style>

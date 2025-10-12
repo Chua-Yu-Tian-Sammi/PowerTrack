@@ -10,59 +10,39 @@
     <!-- Stats Cards -->
     <div class="row mb-4">
       <div class="col-lg-3 col-md-6 mb-3">
-        <div class="card bg-primary text-white">
-          <div class="card-body">
-            <div class="d-flex justify-content-between">
-              <div>
-                <h4>{{ totalWorkouts }}</h4>
-                <p class="mb-0">Total Workouts</p>
-              </div>
-              <i class="bi bi-activity display-4"></i>
-            </div>
-          </div>
-        </div>
+        <StatCard 
+          :value="totalWorkouts"
+          label="Total Workouts"
+          icon-class="bi bi-activity display-4"
+          card-class="bg-primary text-white"
+        />
       </div>
       
       <div class="col-lg-3 col-md-6 mb-3">
-        <div class="card bg-success text-white">
-          <div class="card-body">
-            <div class="d-flex justify-content-between">
-              <div>
-                <h4>{{ totalVolume }}</h4>
-                <p class="mb-0">Total Volume (lbs)</p>
-              </div>
-              <i class="bi bi-speedometer2 display-4"></i>
-            </div>
-          </div>
-        </div>
+        <StatCard 
+          :value="totalVolume"
+          label="Total Volume (lbs)"
+          icon-class="bi bi-speedometer2 display-4"
+          card-class="bg-success text-white"
+        />
       </div>
       
       <div class="col-lg-3 col-md-6 mb-3">
-        <div class="card bg-info text-white">
-          <div class="card-body">
-            <div class="d-flex justify-content-between">
-              <div>
-                <h4>{{ totalDuration }}</h4>
-                <p class="mb-0">Total Time (hours)</p>
-              </div>
-              <i class="bi bi-clock display-4"></i>
-            </div>
-          </div>
-        </div>
+        <StatCard 
+          :value="totalDuration"
+          label="Total Time (hours)"
+          icon-class="bi bi-clock display-4"
+          card-class="bg-info text-white"
+        />
       </div>
       
       <div class="col-lg-3 col-md-6 mb-3">
-        <div class="card bg-warning text-white">
-          <div class="card-body">
-            <div class="d-flex justify-content-between">
-              <div>
-                <h4>{{ averageIntensity }}</h4>
-                <p class="mb-0">Avg Intensity</p>
-              </div>
-              <i class="bi bi-fire display-4"></i>
-            </div>
-          </div>
-        </div>
+        <StatCard 
+          :value="averageIntensity"
+          label="Avg Intensity"
+          icon-class="bi bi-fire display-4"
+          card-class="bg-warning text-white"
+        />
       </div>
     </div>
 
@@ -180,6 +160,7 @@
 import { ref, onMounted, computed } from 'vue'
 import { WorkoutService } from '../services/workoutService.js'
 import { AuthService } from '../services/authService.js'
+import StatCard from '../components/StatCard.vue'
 
 const loading = ref(false)
 const progressData = ref([])
@@ -223,7 +204,6 @@ const loadProgressData = async () => {
     const user = AuthService.getCurrentUser()
     if (user) {
       progressData.value = await WorkoutService.getProgressSummaries(user.uid)
-      console.log('Loaded progress data:', progressData.value.length)
     }
   } catch (error) {
     console.error('Error loading progress data:', error)
@@ -238,7 +218,6 @@ const loadWorkoutLogs = async () => {
     const user = AuthService.getCurrentUser()
     if (user) {
       workoutLogs.value = await WorkoutService.getUserWorkoutLogs(user.uid, 20)
-      console.log('Loaded workout logs:', workoutLogs.value.length)
     }
   } catch (error) {
     console.error('Error loading workout logs:', error)
@@ -259,29 +238,5 @@ const formatDate = (date) => {
 }
 </script>
 
-<style scoped>
-.progress-chart {
-  min-height: 200px;
-}
 
-.card {
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.bg-primary, .bg-success, .bg-info, .bg-warning {
-  background-color: var(--bs-primary) !important;
-}
-
-.bg-success {
-  background-color: var(--bs-success) !important;
-}
-
-.bg-info {
-  background-color: var(--bs-info) !important;
-}
-
-.bg-warning {
-  background-color: var(--bs-warning) !important;
-}
-</style>
 

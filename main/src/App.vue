@@ -11,4 +11,6 @@
 import AppNavbar from './components/AppNavbar.vue'
 </script>
 
-<style scoped></style>
+<style>
+@import './styles/main.css';
+</style>

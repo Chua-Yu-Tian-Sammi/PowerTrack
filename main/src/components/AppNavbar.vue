@@ -48,4 +48,6 @@
   
   <script setup></script>
   
-  <style scoped></style>
+  <style>
+/* AppNavbar styles are in components.css */
+</style>

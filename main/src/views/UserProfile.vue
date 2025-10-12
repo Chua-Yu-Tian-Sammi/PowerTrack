@@ -256,7 +256,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted} from 'vue'
 import { AuthService } from '../services/authService.js'
 
 const userProfile = ref(null)
@@ -297,7 +297,6 @@ const signUpForm = ref({
 onMounted(async () => {
   // Listen for auth state changes
   AuthService.onAuthStateChanged(async (user) => {
-    console.log('Auth state changed:', user?.uid)
     if (user) {
       await loadUserProfile()
     } else {
@@ -321,18 +320,10 @@ onMounted(async () => {
 
 const loadUserProfile = async () => {
   try {
-    console.log('Loading user profile...')
-    const currentUser = AuthService.getCurrentUser()
-    console.log('Current user:', currentUser?.uid)
-    
     userProfile.value = await AuthService.getCurrentUserProfile()
-    console.log('Loaded profile:', userProfile.value)
     
     if (userProfile.value) {
       profileForm.value = { ...userProfile.value }
-      console.log('Profile form updated:', profileForm.value)
-    } else {
-      console.log('No profile found')
     }
   } catch (error) {
     console.error('Error loading user profile:', error)
@@ -356,8 +347,7 @@ const updateProfile = async () => {
 const signIn = async () => {
   signingIn.value = true
   try {
-    const user = await AuthService.signIn(signInForm.value.email, signInForm.value.password)
-    console.log('User signed in:', user.uid)
+    await AuthService.signIn(signInForm.value.email, signInForm.value.password)
     
     // Wait a moment for auth state to update
     await new Promise(resolve => setTimeout(resolve, 500))
@@ -378,7 +368,7 @@ const signIn = async () => {
 const signUp = async () => {
   signingUp.value = true
   try {
-    const user = await AuthService.signUp(signUpForm.value.email, signUpForm.value.password, {
+    await AuthService.signUp(signUpForm.value.email, signUpForm.value.password, {
       username: signUpForm.value.username,
       experienceLevel: signUpForm.value.experienceLevel,
       heightCm: signUpForm.value.heightCm,
@@ -387,8 +377,6 @@ const signUp = async () => {
       preferredIntensity: signUpForm.value.preferredIntensity,
       preferredTimeMin: signUpForm.value.preferredTimeMin
     })
-    
-    console.log('User signed up:', user.uid)
     
     // Wait a moment for the profile to be created
     await new Promise(resolve => setTimeout(resolve, 1000))
@@ -449,12 +437,4 @@ const formatGoal = (goal) => {
 }
 </script>
 
-<style scoped>
-.modal {
-  background-color: rgba(0,0,0,0.5);
-}
 
-.card {
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-</style>

@@ -86,50 +86,11 @@
     <!-- Exercises Grid -->
     <div v-else class="row">
       <div v-for="exercise in filteredExercises" :key="exercise.exerciseId" class="col-lg-4 col-md-6 mb-4">
-        <div class="card h-100 exercise-card" @click="selectExercise(exercise)">
-          <div class="card-body">
-            <div class="d-flex justify-content-between align-items-start mb-2">
-              <h5 class="card-title">{{ exercise.name }}</h5>
-              <span class="badge" :class="getIntensityBadgeClass(exercise.intensity)">
-                {{ exercise.intensity }}
-              </span>
-            </div>
-            
-            <p class="card-text text-muted">{{ exercise.description }}</p>
-            
-            <div class="mb-2">
-              <span class="badge bg-secondary me-1">{{ exercise.difficulty }}</span>
-              <span class="badge bg-info me-1">{{ exercise.timePerSetSec }}s/set</span>
-            </div>
-            
-            <div class="mb-2">
-              <strong>Muscles:</strong>
-              <div class="mt-1">
-                <span v-for="muscle in exercise.muscle" :key="muscle" class="badge bg-light text-dark me-1">
-                  {{ muscle }}
-                </span>
-              </div>
-            </div>
-            
-            <div class="mb-3">
-              <strong>Equipment:</strong>
-              <div class="mt-1">
-                <span v-for="eq in exercise.equipment" :key="eq" class="badge bg-warning me-1">
-                  {{ eq }}
-                </span>
-              </div>
-            </div>
-            
-            <div class="d-flex justify-content-between">
-              <button class="btn btn-outline-primary btn-sm" @click.stop="viewExerciseDetails(exercise)">
-                <i class="bi bi-eye me-1"></i>View Details
-              </button>
-              <button class="btn btn-success btn-sm" @click.stop="addToRoutine(exercise)">
-                <i class="bi bi-plus me-1"></i>Add to Routine
-              </button>
-            </div>
-          </div>
-        </div>
+        <ExerciseCard 
+          :exercise="exercise"
+          @view-details="viewExerciseDetails"
+          @add-to-routine="addToRoutine"
+        />
       </div>
     </div>
 
@@ -145,11 +106,11 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { WorkoutService } from '../services/workoutService.js'
+import ExerciseCard from '../components/ExerciseCard.vue'
 
 const loading = ref(false)
 const exercises = ref([])
 const searchQuery = ref('')
-const selectedExercise = ref(null)
 
 const filters = ref({
   muscle: '',
@@ -207,7 +168,6 @@ const loadExercises = async () => {
   loading.value = true
   try {
     exercises.value = await WorkoutService.getExercises()
-    console.log('Loaded exercises:', exercises.value.length)
   } catch (error) {
     console.error('Error loading exercises:', error)
     alert('Failed to load exercises. Please try again.')
@@ -217,54 +177,19 @@ const loadExercises = async () => {
 }
 
 
-const filterExercises = () => {
-  // This is handled by the computed property
-}
 
-const getIntensityBadgeClass = (intensity) => {
-  switch (intensity) {
-    case 'low': return 'bg-success'
-    case 'medium': return 'bg-warning'
-    case 'high': return 'bg-danger'
-    default: return 'bg-secondary'
-  }
-}
-
-const selectExercise = (exercise) => {
-  selectedExercise.value = exercise
-  viewExerciseDetails(exercise)
-}
 
 const viewExerciseDetails = (exercise) => {
-  // This would open a modal or navigate to exercise details
+  
   alert(`Viewing details for: ${exercise.name}\n\nDescription: ${exercise.description}\n\nInstructions:\n${exercise.instructions.join('\n')}`)
 }
 
 const addToRoutine = (exercise) => {
-  // This would add the exercise to a routine
+  
   alert(`Added ${exercise.name} to your routine!`)
 }
 
 </script>
 
-<style scoped>
-.exercise-card {
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
 
-.exercise-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.card-title {
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
-}
-
-.badge {
-  font-size: 0.75rem;
-}
-</style>
 

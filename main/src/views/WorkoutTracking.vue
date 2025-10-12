@@ -307,7 +307,6 @@ const startWorkout = async () => {
       }
     }, 1000)
     
-    console.log('Workout started:', session)
   } catch (error) {
     console.error('Error starting workout:', error)
     alert('Failed to start workout. Please try again.')
@@ -326,7 +325,7 @@ const endWorkout = async () => {
     }
     
     // Prepare performed exercises data
-    const performedExercises = workoutData.value?.exercises?.map((exercise, index) => ({
+    const performedExercises = workoutData.value?.exercises?.map((exercise) => ({
       exerciseId: exercise.exerciseId,
       targetSets: exercise.sets,
       targetReps: exercise.reps,
@@ -395,21 +394,4 @@ onUnmounted(() => {
 })
 </script>
 
-<style scoped>
-.exercise-item .card {
-  transition: transform 0.2s;
-}
 
-.exercise-item .card:hover {
-  transform: translateY(-2px);
-}
-
-.modal {
-  background-color: rgba(0,0,0,0.5);
-}
-
-.form-check-input:checked {
-  background-color: #28a745;
-  border-color: #28a745;
-}
-</style>
