@@ -18,9 +18,6 @@
                 <button v-if="AuthService.getCurrentUser()" class="btn btn-outline-primary" @click="createProfileForCurrentUser">
                   <i class="bi bi-person-plus me-1"></i>Create Profile
                 </button>
-                <button v-if="AuthService.getCurrentUser()" class="btn btn-outline-secondary" @click="debugFirestore">
-                  <i class="bi bi-bug me-1"></i>Debug Firestore
-                </button>
               </div>
             </div>
             
@@ -266,6 +263,7 @@
 <script setup>
 import { ref, onMounted} from 'vue'
 import { AuthService } from '../services/authService.js'
+import { WorkoutService } from '../services/workoutService.js'
 
 const userProfile = ref(null)
 const saving = ref(false)
@@ -303,16 +301,10 @@ const signUpForm = ref({
 })
 
 onMounted(async () => {
-  console.log('UserProfile component mounted')
-  
-  // Listen for auth state changes
   AuthService.onAuthStateChanged(async (user) => {
-    console.log('Auth state changed:', user ? 'User signed in' : 'User signed out')
     if (user) {
-      console.log('User signed in, loading profile...')
       await loadUserProfile()
     } else {
-      console.log('User signed out, clearing profile...')
       userProfile.value = null
       profileForm.value = {
         username: '',
@@ -327,31 +319,22 @@ onMounted(async () => {
     }
   })
   
-  // Also try to load profile on mount
-  console.log('Loading profile on mount...')
   await loadUserProfile()
 })
 
 const loadUserProfile = async () => {
   try {
-    console.log('Loading user profile...')
     const currentUser = AuthService.getCurrentUser()
-    console.log('Current user:', currentUser)
     
     if (!currentUser) {
-      console.log('No current user found')
       userProfile.value = null
       return
     }
     
     userProfile.value = await AuthService.getCurrentUserProfile()
-    console.log('Loaded user profile:', userProfile.value)
     
     if (userProfile.value) {
       profileForm.value = { ...userProfile.value }
-      console.log('Updated profile form:', profileForm.value)
-    } else {
-      console.log('No user profile found in database')
     }
   } catch (error) {
     console.error('Error loading user profile:', error)
@@ -375,14 +358,10 @@ const updateProfile = async () => {
 const signIn = async () => {
   signingIn.value = true
   try {
-    console.log('Attempting to sign in...')
     await AuthService.signIn(signInForm.value.email, signInForm.value.password)
-    console.log('Sign in successful')
     
-    // Wait a moment for auth state to update
     await new Promise(resolve => setTimeout(resolve, 500))
     
-    console.log('Loading user profile after sign in...')
     await loadUserProfile()
     showSignIn.value = false
     signInForm.value = { email: '', password: '' }
@@ -399,7 +378,6 @@ const signIn = async () => {
 const signUp = async () => {
   signingUp.value = true
   try {
-    console.log('Starting signup process...')
     const userData = {
       username: signUpForm.value.username,
       experienceLevel: signUpForm.value.experienceLevel,
@@ -409,17 +387,11 @@ const signUp = async () => {
       preferredIntensity: signUpForm.value.preferredIntensity,
       preferredTimeMin: signUpForm.value.preferredTimeMin
     }
-    console.log('User data for signup:', userData)
     
     await AuthService.signUp(signUpForm.value.email, signUpForm.value.password, userData)
-    console.log('Signup completed successfully')
     
-    // Wait a moment for the profile to be created
-    console.log('Waiting for profile creation...')
     await new Promise(resolve => setTimeout(resolve, 1000))
     
-    // Load the profile
-    console.log('Loading profile after signup...')
     await loadUserProfile()
     
     showSignUp.value = false
@@ -476,16 +448,12 @@ const formatGoal = (goal) => {
 
 const createProfileForCurrentUser = async () => {
   try {
-    console.log('Creating profile for current user...')
     const currentUser = AuthService.getCurrentUser()
     if (!currentUser) {
       alert('No user signed in')
       return
     }
     
-    console.log('Current user UID:', currentUser.uid)
-    
-    // Create a default profile for the current user
     const defaultProfileData = {
       uid: currentUser.uid,
       email: currentUser.email,
@@ -498,80 +466,13 @@ const createProfileForCurrentUser = async () => {
       preferredTimeMin: 45
     }
     
-    console.log('Creating profile with data:', defaultProfileData)
     await WorkoutService.createUserProfile(defaultProfileData)
-    
-    console.log('Profile created successfully, reloading...')
     await loadUserProfile()
     
     alert('Profile created successfully!')
   } catch (error) {
     console.error('Error creating profile:', error)
     alert('Failed to create profile: ' + error.message)
-  }
-}
-
-const debugFirestore = async () => {
-  try {
-    console.log('=== FIRESTORE DEBUG ===')
-    const currentUser = AuthService.getCurrentUser()
-    console.log('Current user UID:', currentUser?.uid)
-    
-    // Import Firestore functions directly
-    const { collection, getDocs, doc, getDoc, addDoc } = await import('firebase/firestore')
-    const { db } = await import('@lib/firebase')
-    
-    console.log('Firestore instance:', db)
-    console.log('Firestore app:', db.app)
-    
-    // First, let's test if we can write to Firestore
-    console.log('Testing Firestore write...')
-    try {
-      const testDoc = await addDoc(collection(db, 'test'), { 
-        message: 'Test connection', 
-        timestamp: new Date() 
-      })
-      console.log('✅ Firestore write test successful:', testDoc.id)
-    } catch (writeError) {
-      console.error('❌ Firestore write test failed:', writeError)
-    }
-    
-    // Check all users in the collection
-    console.log('Checking all users in Firestore...')
-    try {
-      const usersSnapshot = await getDocs(collection(db, 'users'))
-      console.log('Total users found:', usersSnapshot.docs.length)
-      
-      usersSnapshot.docs.forEach((docSnapshot, index) => {
-        console.log(`User ${index}:`, {
-          documentId: docSnapshot.id,
-          uid: docSnapshot.data().uid,
-          email: docSnapshot.data().email,
-          username: docSnapshot.data().username,
-          fullData: docSnapshot.data()
-        })
-      })
-    } catch (readError) {
-      console.error('❌ Firestore read test failed:', readError)
-    }
-    
-    // Try to find the specific user
-    if (currentUser?.uid) {
-      console.log(`Looking for specific user with UID: ${currentUser.uid}`)
-      try {
-        const userDoc = await getDoc(doc(db, 'users', currentUser.uid))
-        console.log('Direct document lookup result:', {
-          exists: userDoc.exists(),
-          data: userDoc.exists() ? userDoc.data() : null
-        })
-      } catch (docError) {
-        console.error('❌ Document lookup failed:', docError)
-      }
-    }
-    
-    console.log('=== END FIRESTORE DEBUG ===')
-  } catch (error) {
-    console.error('❌ Error debugging Firestore:', error)
   }
 }
 </script>

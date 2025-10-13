@@ -18,10 +18,24 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const functions = getFunctions(app);
 
-if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
-  connectAuthEmulator(auth, 'http://127.0.0.1:9099');
-  connectFirestoreEmulator(db, '127.0.0.1', 8080);
-  connectFunctionsEmulator(functions, '127.0.0.1', 5001);
+if (typeof window !== 'undefined' && (location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
+  try {
+    connectAuthEmulator(auth, 'http://127.0.0.1:9099');
+  } catch (error) {
+    console.log('Auth emulator connection failed:', error.message);
+  }
+  
+  try {
+    connectFirestoreEmulator(db, '127.0.0.1', 8080);
+  } catch (error) {
+    console.log('Firestore emulator connection failed:', error.message);
+  }
+  
+  try {
+    connectFunctionsEmulator(functions, '127.0.0.1', 5001);
+  } catch (error) {
+    console.log('Functions emulator connection failed:', error.message);
+  }
 }
 
 export { app, auth, db, functions };

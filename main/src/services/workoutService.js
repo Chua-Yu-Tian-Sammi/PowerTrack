@@ -46,6 +46,14 @@ async function updateUserProfile(uid, data) {
   return { id: snap.id, ...snap.data() };
 }
 
+async function createUserProfile(data) {
+  const ref = doc(db, 'users', data.uid);
+  const payload = stripUndefined({ ...data, createdAt: serverTimestamp(), updatedAt: serverTimestamp() });
+  await setDoc(ref, payload);
+  const snap = await getDoc(ref);
+  return { id: snap.id, ...snap.data() };
+}
+
 async function createWorkout(uid, workout) {
   const col = collection(db, 'users', uid, 'workouts');
   const payload = stripUndefined({ ...workout, createdAt: serverTimestamp(), updatedAt: serverTimestamp() });
@@ -118,6 +126,7 @@ export const WorkoutService = {
   getUserProfile,
   upsertUserProfile,
   updateUserProfile,
+  createUserProfile,
   createWorkout,
   getExercises,
   getUserRoutines,
@@ -134,6 +143,7 @@ export {
   getUserProfile,
   upsertUserProfile,
   updateUserProfile,
+  createUserProfile,
   createWorkout,
   getExercises,
   getUserRoutines,
