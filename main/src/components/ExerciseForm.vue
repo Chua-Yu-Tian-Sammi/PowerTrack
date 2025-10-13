@@ -92,3 +92,4 @@ defineProps({
 
 defineEmits(['update:sets', 'update:reps', 'update:restSeconds', 'update:notes', 'remove'])
 </script>
+

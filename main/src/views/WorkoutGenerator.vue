@@ -210,8 +210,8 @@ const saveRoutine = async () => {
       }))
     }
     
-    // eslint-disable-next-line no-unused-vars
-    const routine = await WorkoutService.createRoutine(routineData)
+    
+    await WorkoutService.createRoutine(routineData)
     alert('Routine saved successfully!')
   } catch (error) {
     console.error('Error saving routine:', error)

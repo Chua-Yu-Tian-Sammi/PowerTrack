@@ -72,3 +72,4 @@ const selectExercise = (exercise) => {
   emit('close')
 }
 </script>
+

@@ -1,98 +1,112 @@
-import { 
-  signInWithEmailAndPassword, 
-  createUserWithEmailAndPassword, 
-  signOut, 
-  onAuthStateChanged
+// src/services/authService.js
+import { auth, db } from '@lib/firebase';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut as _signOut,
+  onAuthStateChanged as _onAuthStateChanged,
 } from 'firebase/auth';
-import { auth } from '@lib/firebase';
-import { WorkoutService } from './workoutService.js';
+import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 
-export class AuthService {
-  // Sign up with email and password
-  static async signUp(email, password, userData) {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-
-      // Create user profile in Firestore
-      await WorkoutService.createUserProfile({
-        uid: user.uid,
-        email: user.email,
-        username: userData.username,
-        experienceLevel: userData.experienceLevel,
-        heightCm: userData.heightCm,
-        weightKg: userData.weightKg,
-        goal: userData.goal,
-        preferredIntensity: userData.preferredIntensity,
-        preferredTimeMin: userData.preferredTimeMin
-      });
-
-      return user;
-    } catch (error) {
-      console.error('Error signing up:', error);
-      throw error;
-    }
-  }
-
-  // Sign in with email and password
-  static async signIn(email, password) {
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      return userCredential.user;
-    } catch (error) {
-      console.error('Error signing in:', error);
-      throw error;
-    }
-  }
-
-  // Sign out
-  static async signOut() {
-    try {
-      await signOut(auth);
-    } catch (error) {
-      console.error('Error signing out:', error);
-      throw error;
-    }
-  }
-
-  // Get current user
-  static getCurrentUser() {
-    return auth.currentUser;
-  }
-
-  // Listen to auth state changes
-  static onAuthStateChanged(callback) {
-    return onAuthStateChanged(auth, callback);
-  }
-
-  // Get user profile from Firestore
-  static async getCurrentUserProfile() {
-    const currentUser = this.getCurrentUser();
-    if (!currentUser) {
-      return null;
-    }
-
-    try {
-      return await WorkoutService.getUserProfile(currentUser.uid);
-    } catch (error) {
-      console.error('Error getting user profile:', error);
-      return null;
-    }
-  }
-
-  // Update user profile
-  static async updateProfile(updates) {
-    const currentUser = this.getCurrentUser();
-    if (!currentUser) {
-      throw new Error('No user is currently signed in');
-    }
-
-    try {
-      await WorkoutService.updateUserProfile(currentUser.uid, updates);
-    } catch (error) {
-      console.error('Error updating profile:', error);
-      throw error;
-    }
-  }
+function stripUndefined(obj) {
+  return Object.fromEntries(Object.entries(obj).filter(([, v]) => v !== undefined));
 }
 
+async function signUpWithEmail(email, password, profile = {}) {
+  const cred = await createUserWithEmailAndPassword(auth, email, password);
+  const uid = cred.user.uid;
+  const ref = doc(db, 'users', uid);
+  const payload = stripUndefined({
+    uid,
+    email,
+    displayName: profile.displayName ?? '',
+    photoURL: profile.photoURL ?? '',
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+    ...profile,
+  });
+  await setDoc(ref, payload, { merge: true });
+  return cred.user;
+}
+
+async function signInWithEmail(email, password) {
+  const cred = await signInWithEmailAndPassword(auth, email, password);
+  return cred.user;
+}
+
+async function logOut() {
+  await _signOut(auth);
+}
+
+async function signOut() {
+  await _signOut(auth);
+}
+
+function onAuth(cb) {
+  return _onAuthStateChanged(auth, cb);
+}
+
+function onAuthStateChanged(cb) {
+  return _onAuthStateChanged(auth, cb);
+}
+
+function getCurrentUser() {
+  return auth.currentUser;
+}
+
+async function getCurrentUserProfile() {
+  const user = auth.currentUser;
+  if (!user) return null;
+  const ref = doc(db, 'users', user.uid);
+  const snap = await getDoc(ref);
+  if (!snap.exists()) return null;
+  return { id: snap.id, ...snap.data() };
+}
+
+async function updateProfile(data) {
+  const user = auth.currentUser;
+  if (!user) return null;
+  const ref = doc(db, 'users', user.uid);
+  const payload = stripUndefined({ ...data, updatedAt: serverTimestamp() });
+  await setDoc(ref, payload, { merge: true });
+  const snap = await getDoc(ref);
+  return { id: snap.id, ...snap.data() };
+}
+
+async function signUp(email, password, profile = {}) {
+  return signUpWithEmail(email, password, profile);
+}
+
+async function signIn(email, password) {
+  return signInWithEmail(email, password);
+}
+
+export const AuthService = {
+  signUpWithEmail,
+  signInWithEmail,
+  signUp,
+  signIn,
+  signOut,
+  logOut,
+  onAuth,
+  onAuthStateChanged,
+  getCurrentUser,
+  getCurrentUserProfile,
+  updateProfile,
+};
+
+export {
+  signUpWithEmail,
+  signInWithEmail,
+  signUp,
+  signIn,
+  signOut,
+  logOut,
+  onAuth,
+  onAuthStateChanged,
+  getCurrentUser,
+  getCurrentUserProfile,
+  updateProfile,
+};
+
+export default AuthService;
