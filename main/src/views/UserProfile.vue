@@ -1,62 +1,112 @@
 <template>
   <div class="user-profile">
-    <div class="row">
-      <div class="col-lg-8">
-        <div class="card">
-          <div class="card-header">
-            <h3><i class="bi bi-person-circle me-2"></i>User Profile</h3>
+    <!-- Empty State -->
+    <div v-if="!userProfile" class="empty-state">
+      <div class="row justify-content-center">
+        <div class="col-lg-6">
+          <div class="card shadow-sm border-0">
+            <div class="card-body text-center py-5">
+              <div class="empty-icon mb-4">
+                <i class="bi bi-person-circle"></i>
           </div>
-          <div class="card-body">
-            <div v-if="!userProfile" class="text-center py-4">
-              <i class="bi bi-person-x display-1 text-muted"></i>
-              <h4 class="mt-3">No Profile Found</h4>
-              <p class="text-muted">Please sign in to view your profile</p>
-              <div class="d-flex gap-2 justify-content-center">
-                <button class="btn btn-primary" @click="showSignIn = true">
-                  <i class="bi bi-box-arrow-in-right me-1"></i>Sign In
+              <h2 class="mb-3">Welcome to PowerTrack</h2>
+              <p class="text-muted mb-4">Sign in to access your personalized fitness profile and start tracking your progress.</p>
+              <div class="d-flex gap-3 justify-content-center flex-wrap">
+                <button class="btn btn-primary btn-lg px-5" @click="showSignIn = true">
+                  <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
                 </button>
-                <button v-if="AuthService.getCurrentUser()" class="btn btn-outline-primary" @click="createProfileForCurrentUser">
-                  <i class="bi bi-person-plus me-1"></i>Create Profile
+                <button v-if="AuthService.getCurrentUser()" class="btn btn-outline-primary btn-lg px-5" @click="createProfileForCurrentUser">
+                  <i class="bi bi-person-plus me-2"></i>Create Profile
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+              </div>
+            </div>
             
+    <!-- Profile Content -->
             <div v-else>
+      <!-- Profile Header -->
+      <div class="profile-header mb-4">
+        <div class="card shadow-sm">
+          <div class="card-body p-4">
+            <div class="row align-items-center">
+              <div class="col-auto">
+                <div class="profile-avatar">
+                  <i class="bi bi-person-circle"></i>
+                </div>
+              </div>
+              <div class="col">
+                <h2 class="mb-1 text-dark">{{ profileForm.username }}</h2>
+                <p class="text-muted mb-0">
+                  <i class="bi bi-envelope me-2"></i>{{ profileForm.email }}
+                </p>
+              </div>
+              <div class="col-auto">
+                <button type="button" class="btn btn-outline-danger" @click="signOut">
+                  <i class="bi bi-box-arrow-right me-2"></i>Sign Out
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <!-- Main Profile Form -->
+        <div class="col-lg-8">
               <form @submit.prevent="updateProfile">
-                <div class="row mb-3">
+            <!-- Personal Information -->
+            <div class="card shadow-sm border-0 mb-4">
+              <div class="card-header bg-white border-bottom">
+                <h5 class="mb-0">
+                  <i class="bi bi-person-badge me-2 text-primary"></i>Personal Information
+                </h5>
+              </div>
+              <div class="card-body p-4">
+                <div class="row g-3">
                   <div class="col-md-6">
-                    <label for="username" class="form-label">Username</label>
+                    <label for="username" class="form-label fw-semibold">
+                      <i class="bi bi-person me-1"></i>Username
+                    </label>
                     <input 
                       type="text" 
-                      class="form-control" 
+                      class="form-control form-control-lg" 
                       id="username" 
                       v-model="profileForm.username"
                       required
+                      placeholder="Enter your username"
                     >
                   </div>
                   <div class="col-md-6">
-                    <label for="email" class="form-label">Email</label>
-                    <input 
-                      type="email" 
-                      class="form-control" 
-                      id="email" 
-                      v-model="profileForm.email"
-                      disabled
-                    >
-                  </div>
-                </div>
-
-                <div class="row mb-3">
-                  <div class="col-md-4">
-                    <label for="experienceLevel" class="form-label">Experience Level</label>
-                    <select class="form-select" id="experienceLevel" v-model="profileForm.experienceLevel" required>
+                    <label for="experienceLevel" class="form-label fw-semibold">
+                      <i class="bi bi-award me-1"></i>Experience Level
+                    </label>
+                    <select class="form-select form-select-lg" id="experienceLevel" v-model="profileForm.experienceLevel" required>
                       <option value="beginner">Beginner</option>
                       <option value="intermediate">Intermediate</option>
                       <option value="advanced">Advanced</option>
                     </select>
                   </div>
-                  <div class="col-md-4">
-                    <label for="heightCm" class="form-label">Height (cm)</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Body Metrics -->
+            <div class="card shadow-sm border-0 mb-4">
+              <div class="card-header bg-white border-bottom">
+                <h5 class="mb-0">
+                  <i class="bi bi-clipboard-data me-2 text-primary"></i>Body Metrics
+                </h5>
+              </div>
+              <div class="card-body p-4">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label for="heightCm" class="form-label fw-semibold">
+                      <i class="bi bi-arrows-vertical me-1"></i>Height
+                    </label>
+                    <div class="input-group input-group-lg">
                     <input 
                       type="number" 
                       class="form-control" 
@@ -65,10 +115,16 @@
                       min="100" 
                       max="250" 
                       required
+                        placeholder="175"
                     >
+                      <span class="input-group-text">cm</span>
+                    </div>
                   </div>
-                  <div class="col-md-4">
-                    <label for="weightKg" class="form-label">Weight (kg)</label>
+                  <div class="col-md-6">
+                    <label for="weightKg" class="form-label fw-semibold">
+                      <i class="bi bi-speedometer2 me-1"></i>Weight
+                    </label>
+                    <div class="input-group input-group-lg">
                     <input 
                       type="number" 
                       class="form-control" 
@@ -78,14 +134,29 @@
                       max="300" 
                       step="0.1" 
                       required
+                        placeholder="70"
                     >
+                      <span class="input-group-text">kg</span>
+                    </div>
+                  </div>
+                </div>
                   </div>
                 </div>
 
-                <div class="row mb-3">
-                  <div class="col-md-4">
-                    <label for="goal" class="form-label">Fitness Goal</label>
-                    <select class="form-select" id="goal" v-model="profileForm.goal" required>
+            <!-- Fitness Preferences -->
+            <div class="card shadow-sm border-0 mb-4">
+              <div class="card-header bg-white border-bottom">
+                <h5 class="mb-0">
+                  <i class="bi bi-bullseye me-2 text-primary"></i>Fitness Preferences
+                </h5>
+              </div>
+              <div class="card-body p-4">
+                <div class="row g-3">
+                  <div class="col-md-12">
+                    <label for="goal" class="form-label fw-semibold">
+                      <i class="bi bi-trophy me-1"></i>Primary Goal
+                    </label>
+                    <select class="form-select form-select-lg" id="goal" v-model="profileForm.goal" required>
                       <option value="weight_loss">Weight Loss</option>
                       <option value="muscle_gain">Muscle Gain</option>
                       <option value="endurance">Endurance</option>
@@ -93,16 +164,21 @@
                       <option value="general_fitness">General Fitness</option>
                     </select>
                   </div>
-                  <div class="col-md-4">
-                    <label for="preferredIntensity" class="form-label">Preferred Intensity</label>
-                    <select class="form-select" id="preferredIntensity" v-model="profileForm.preferredIntensity" required>
+                  <div class="col-md-6">
+                    <label for="preferredIntensity" class="form-label fw-semibold">
+                      <i class="bi bi-fire me-1"></i>Preferred Intensity
+                    </label>
+                    <select class="form-select form-select-lg" id="preferredIntensity" v-model="profileForm.preferredIntensity" required>
                       <option value="low">Low</option>
                       <option value="medium">Medium</option>
                       <option value="high">High</option>
                     </select>
                   </div>
-                  <div class="col-md-4">
-                    <label for="preferredTimeMin" class="form-label">Preferred Time (min)</label>
+                  <div class="col-md-6">
+                    <label for="preferredTimeMin" class="form-label fw-semibold">
+                      <i class="bi bi-clock me-1"></i>Workout Duration
+                    </label>
+                    <div class="input-group input-group-lg">
                     <input 
                       type="number" 
                       class="form-control" 
@@ -111,47 +187,110 @@
                       min="10" 
                       max="180" 
                       required
+                        placeholder="45"
                     >
+                      <span class="input-group-text">min</span>
+                    </div>
+                  </div>
+                </div>
                   </div>
                 </div>
 
-                <div class="d-flex justify-content-between">
-                  <button type="submit" class="btn btn-primary" :disabled="saving">
+            <!-- Save Button -->
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary btn-lg" :disabled="saving">
                     <span v-if="saving" class="spinner-border spinner-border-sm me-2"></span>
-                    {{ saving ? 'Saving...' : 'Save Changes' }}
-                  </button>
-                  <button type="button" class="btn btn-outline-danger" @click="signOut">
-                    <i class="bi bi-box-arrow-right me-1"></i>Sign Out
+                <i v-if="!saving" class="bi bi-check-circle me-2"></i>
+                {{ saving ? 'Saving Changes...' : 'Save Changes' }}
                   </button>
                 </div>
               </form>
             </div>
+
+        <!-- Stats Sidebar -->
+        <div class="col-lg-4">
+          <!-- BMI Card -->
+          <div class="card shadow-sm mb-4">
+            <div class="card-header" :class="getBMIClass()">
+              <h5 class="mb-0 bmi-header-text">
+                <i class="bi bi-heart-pulse me-2"></i>Body Mass Index
+              </h5>
+            </div>
+            <div class="card-body p-4 text-center">
+              <div class="bmi-display mb-3">
+                <div class="bmi-value">{{ calculateBMI() }}</div>
+                <div class="bmi-label text-muted">BMI</div>
+              </div>
+              <div class="bmi-category">
+                <span class="badge" :class="getBMICategoryBadge()">
+                  {{ getBMICategory() }}
+                </span>
+              </div>
+              <div class="bmi-info mt-3">
+                <small class="text-muted">
+                  Based on your height ({{ profileForm.heightCm }}cm) and weight ({{ profileForm.weightKg }}kg)
+                </small>
           </div>
         </div>
       </div>
       
-      <div class="col-lg-4">
-        <div class="card">
-          <div class="card-header">
-            <h5>Quick Stats</h5>
+          <!-- Quick Stats Card -->
+          <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header bg-white border-bottom">
+              <h5 class="mb-0">
+                <i class="bi bi-graph-up me-2 text-primary"></i>Your Stats
+              </h5>
+            </div>
+            <div class="card-body p-4">
+              <div class="stat-item">
+                <div class="stat-icon">
+                  <i class="bi bi-award"></i>
+                </div>
+                <div class="stat-content">
+                  <div class="stat-label">Experience</div>
+                  <div class="stat-value">{{ formatText(userProfile.experienceLevel) }}</div>
           </div>
-          <div class="card-body">
-            <div v-if="userProfile">
-              <div class="mb-3">
-                <strong>BMI:</strong> {{ calculateBMI() }}
               </div>
-              <div class="mb-3">
-                <strong>Experience:</strong> {{ userProfile.experienceLevel }}
+              
+              <div class="stat-item">
+                <div class="stat-icon">
+                  <i class="bi bi-trophy"></i>
+                </div>
+                <div class="stat-content">
+                  <div class="stat-label">Fitness Goal</div>
+                  <div class="stat-value">{{ formatGoal(userProfile.goal) }}</div>
+                </div>
               </div>
-              <div class="mb-3">
-                <strong>Goal:</strong> {{ formatGoal(userProfile.goal) }}
+              
+              <div class="stat-item">
+                <div class="stat-icon">
+                  <i class="bi bi-clock-history"></i>
+                </div>
+                <div class="stat-content">
+                  <div class="stat-label">Workout Time</div>
+                  <div class="stat-value">{{ userProfile.preferredTimeMin }} min</div>
+                </div>
               </div>
-              <div class="mb-3">
-                <strong>Preferred Time:</strong> {{ userProfile.preferredTimeMin }} min
+              
+              <div class="stat-item mb-0">
+                <div class="stat-icon">
+                  <i class="bi bi-fire"></i>
+                </div>
+                <div class="stat-content">
+                  <div class="stat-label">Intensity Level</div>
+                  <div class="stat-value">{{ formatText(userProfile.preferredIntensity) }}</div>
               </div>
-              <div class="mb-3">
-                <strong>Intensity:</strong> {{ userProfile.preferredIntensity }}
               </div>
+            </div>
+          </div>
+
+          <!-- Tips Card -->
+          <div class="card shadow-sm border-0 bg-light">
+            <div class="card-body p-4">
+              <h6 class="mb-3">
+                <i class="bi bi-lightbulb text-warning me-2"></i>Quick Tip
+              </h6>
+              <p class="small mb-0">{{ getPersonalizedTip() }}</p>
             </div>
           </div>
         </div>
@@ -346,10 +485,8 @@ const updateProfile = async () => {
   try {
     await AuthService.updateProfile(profileForm.value)
     await loadUserProfile()
-    alert('Profile updated successfully!')
   } catch (error) {
     console.error('Error updating profile:', error)
-    alert('Failed to update profile. Please try again.')
   } finally {
     saving.value = false
   }
@@ -365,11 +502,8 @@ const signIn = async () => {
     await loadUserProfile()
     showSignIn.value = false
     signInForm.value = { email: '', password: '' }
-    
-    alert('Signed in successfully!')
   } catch (error) {
     console.error('Error signing in:', error)
-    alert('Failed to sign in. Please check your credentials.')
   } finally {
     signingIn.value = false
   }
@@ -406,11 +540,8 @@ const signUp = async () => {
       preferredIntensity: 'medium',
       preferredTimeMin: 45
     }
-    
-    alert('Account created successfully!')
   } catch (error) {
     console.error('Error signing up:', error)
-    alert('Failed to create account. Please try again.')
   } finally {
     signingUp.value = false
   }
@@ -446,11 +577,69 @@ const formatGoal = (goal) => {
   return goal.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())
 }
 
+const formatText = (text) => {
+  return text.charAt(0).toUpperCase() + text.slice(1)
+}
+
+const getBMICategory = () => {
+  const bmi = calculateBMI()
+  if (bmi < 18.5) return 'Underweight'
+  if (bmi < 25) return 'Normal Weight'
+  if (bmi < 30) return 'Overweight'
+  return 'Obese'
+}
+
+const getBMIClass = () => {
+  const bmi = calculateBMI()
+  if (bmi < 18.5) return 'bg-info'
+  if (bmi < 25) return 'bg-success'
+  if (bmi < 30) return 'bg-warning'
+  return 'bg-danger'
+}
+
+const getBMICategoryBadge = () => {
+  const bmi = calculateBMI()
+  if (bmi < 18.5) return 'bg-info'
+  if (bmi < 25) return 'bg-success'
+  if (bmi < 30) return 'bg-warning'
+  return 'bg-danger'
+}
+
+const getPersonalizedTip = () => {
+  if (!userProfile.value) return ''
+  
+  const tips = {
+    beginner: {
+      weight_loss: 'Start with 3-4 workouts per week and focus on consistency over intensity.',
+      muscle_gain: 'Focus on compound movements and progressive overload. Rest is crucial!',
+      endurance: 'Build your base gradually. Increase duration before intensity.',
+      strength: 'Master proper form before adding weight. Quality over quantity!',
+      general_fitness: 'Mix cardio and strength training for balanced fitness development.'
+    },
+    intermediate: {
+      weight_loss: 'Try adding HIIT sessions to maximize calorie burn.',
+      muscle_gain: 'Track your progressive overload and ensure adequate protein intake.',
+      endurance: 'Add interval training to break through plateaus.',
+      strength: 'Consider periodization to optimize strength gains.',
+      general_fitness: 'Challenge yourself with varied workout styles to stay engaged.'
+    },
+    advanced: {
+      weight_loss: 'Focus on metabolic conditioning and strategic cardio placement.',
+      muscle_gain: 'Utilize advanced techniques like drop sets and tempo training.',
+      endurance: 'Incorporate periodization and peak training cycles.',
+      strength: 'Focus on powerlifting techniques and peak strength cycles.',
+      general_fitness: 'Maintain variety and challenge with complex movement patterns.'
+    }
+  }
+  
+  return tips[userProfile.value.experienceLevel]?.[userProfile.value.goal] || 
+         'Stay consistent with your workouts and track your progress!'
+}
+
 const createProfileForCurrentUser = async () => {
   try {
     const currentUser = AuthService.getCurrentUser()
     if (!currentUser) {
-      alert('No user signed in')
       return
     }
     
@@ -468,13 +657,8 @@ const createProfileForCurrentUser = async () => {
     
     await WorkoutService.createUserProfile(defaultProfileData)
     await loadUserProfile()
-    
-    alert('Profile created successfully!')
   } catch (error) {
     console.error('Error creating profile:', error)
-    alert('Failed to create profile: ' + error.message)
   }
 }
 </script>
-
-

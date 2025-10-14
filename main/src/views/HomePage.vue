@@ -1,71 +1,199 @@
 <template>
   <div class="home">
-    <div class="hero-section text-center py-5 mb-5">
-      <h1 class="display-4 fw-bold">Welcome to PowerTrack!</h1>
-      <p class="lead">Your smart workout companion powered by AI</p>
-      <div class="mt-4">
-        <router-link to="/workout" class="btn btn-primary btn-lg me-3">
-          <i class="bi bi-lightning-charge me-2"></i>Generate Workout
-        </router-link>
-        <router-link to="/exercises" class="btn btn-outline-primary btn-lg me-3">
-          <i class="bi bi-book me-2"></i>Browse Exercises
-        </router-link>
-        <router-link to="/routines" class="btn btn-outline-success btn-lg">
-          <i class="bi bi-list-ul me-2"></i>Build Routines
-        </router-link>
-      </div>
-    </div>
-    
-    <div class="row">
-      <div class="col-lg-4 mb-4">
-        <div class="card h-100">
-          <div class="card-body text-center">
-            <i class="bi bi-lightning-charge display-1 text-primary mb-3"></i>
-            <h4>Smart Workout Generation</h4>
-            <p class="text-muted">Get personalized workout routines based on your time, goals, and fitness level using our AI-powered system.</p>
-            <router-link to="/workout" class="btn btn-primary">Try It Now</router-link>
+    <section class="hero-section">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-6 mb-4 mb-lg-0">
+            <div class="hero-badge mb-3">
+              <i class="bi bi-lightning-charge-fill me-2"></i>
+              <span>Smart Fitness Platform</span>
+            </div>
+            <h1 class="hero-title mb-4">Track Your Fitness Journey with PowerTrack</h1>
+            <p class="hero-description mb-4">
+              PowerTrack is your intelligent fitness companion that helps you create personalized workout routines, 
+              track your progress, and achieve your fitness goals faster. Whether you're a beginner or an advanced 
+              athlete, we've got you covered.
+            </p>
+            <div class="hero-actions">
+              <router-link to="/workout" class="btn btn-primary btn-lg">
+                <i class="bi bi-lightning-charge me-2"></i>Get Started
+              </router-link>
+              <router-link to="/profile" class="btn btn-outline-dark btn-lg">
+                <i class="bi bi-person me-2"></i>Create Profile
+              </router-link>
+            </div>
+            <div class="hero-stats mt-5">
+              <div class="stat-item">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Exercises</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-number">Progress</div>
+                <div class="stat-label">Analytics</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Customizable</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="hero-visual">
+              <div class="visual-card">
+                <div class="visual-header">
+                  <i class="bi bi-calendar-check"></i>
+                  <span>Your Workout Plan</span>
+                </div>
+                <div class="visual-content">
+                  <div class="workout-item">
+                    <div class="workout-icon"><i class="bi bi-circle-fill"></i></div>
+                    <div class="workout-details">
+                      <div class="workout-name">Full Body Strength</div>
+                      <div class="workout-meta">45 min | 8 exercises</div>
+                    </div>
+                  </div>
+                  <div class="workout-item">
+                    <div class="workout-icon"><i class="bi bi-circle-fill"></i></div>
+                    <div class="workout-details">
+                      <div class="workout-name">Cardio & Endurance</div>
+                      <div class="workout-meta">30 min | 6 exercises</div>
+                    </div>
+                  </div>
+                  <div class="workout-item">
+                    <div class="workout-icon"><i class="bi bi-circle"></i></div>
+                    <div class="workout-details">
+                      <div class="workout-name">Core & Flexibility</div>
+                      <div class="workout-meta">20 min | 5 exercises</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      
-      <div class="col-lg-4 mb-4">
-        <div class="card h-100">
-          <div class="card-body text-center">
-            <i class="bi bi-graph-up display-1 text-success mb-3"></i>
-            <h4>Progress Tracking</h4>
-            <p class="text-muted">Track your fitness journey with detailed analytics, workout history, and progress summaries.</p>
-            <router-link to="/progress" class="btn btn-success">View Progress</router-link>
-          </div>
-        </div>
-      </div>
-      
-      <div class="col-lg-4 mb-4">
-        <div class="card h-100">
-          <div class="card-body text-center">
-            <i class="bi bi-book display-1 text-info mb-3"></i>
-            <h4>Exercise Library</h4>
-            <p class="text-muted">Browse our comprehensive database of exercises with detailed instructions and difficulty levels.</p>
-            <router-link to="/exercises" class="btn btn-info">Explore Library</router-link>
-          </div>
-        </div>
-      </div>
-      
-      <div class="col-lg-4 mb-4">
-        <div class="card h-100">
-          <div class="card-body text-center">
-            <i class="bi bi-list-ul display-1 text-success mb-3"></i>
-            <h4>Custom Routines</h4>
-            <p class="text-muted">Build and manage your own workout routines by selecting exercises and customizing sets, reps, and rest periods.</p>
-            <router-link to="/routines" class="btn btn-success">Build Routines</router-link>
-          </div>
-        </div>
-      </div>
-    </div>
+    </section>
 
+    <section class="features-section">
+      <div class="container">
+        <div class="section-header text-center mb-5">
+          <h2 class="section-title">Everything You Need to Succeed</h2>
+          <p class="section-description">Powerful features designed to help you reach your fitness goals</p>
+        </div>
+        
+        <div class="row g-4">
+          <div class="col-md-6 col-lg-3">
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="bi bi-lightning-charge"></i>
+              </div>
+              <h5 class="feature-title">Smart Generation</h5>
+              <p class="feature-description">Personalized workout routines tailored to your goals, experience level, and available time.</p>
+            </div>
+          </div>
+          
+          <div class="col-md-6 col-lg-3">
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="bi bi-graph-up"></i>
+              </div>
+              <h5 class="feature-title">Progress Tracking</h5>
+              <p class="feature-description">Monitor your performance with detailed analytics and visual progress charts.</p>
+            </div>
+          </div>
+          
+          <div class="col-md-6 col-lg-3">
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="bi bi-book"></i>
+              </div>
+              <h5 class="feature-title">Exercise Library</h5>
+              <p class="feature-description">Access a comprehensive database of exercises with detailed instructions.</p>
+            </div>
+          </div>
+          
+          <div class="col-md-6 col-lg-3">
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="bi bi-sliders"></i>
+              </div>
+              <h5 class="feature-title">Custom Routines</h5>
+              <p class="feature-description">Build and save your own workout routines with full control over every detail.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="how-it-works-section">
+      <div class="container">
+        <div class="section-header text-center mb-5">
+          <h2 class="section-title">How It Works</h2>
+          <p class="section-description">Get started with PowerTrack in three simple steps</p>
+        </div>
+        
+        <div class="row g-4">
+          <div class="col-lg-4">
+            <div class="step-card">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h5 class="step-title">Create Your Profile</h5>
+                <p class="step-description">Tell us about your fitness level, goals, and preferences to get personalized recommendations.</p>
+                <router-link to="/profile" class="step-link">
+                  Set up profile <i class="bi bi-arrow-right ms-1"></i>
+                </router-link>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-4">
+            <div class="step-card">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h5 class="step-title">Generate Workouts</h5>
+                <p class="step-description">Generate custom workout routines or build your own from our exercise library.</p>
+                <router-link to="/workout" class="step-link">
+                  Generate workout <i class="bi bi-arrow-right ms-1"></i>
+                </router-link>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-4">
+            <div class="step-card">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h5 class="step-title">Track Progress</h5>
+                <p class="step-description">Log your workouts, monitor your performance, and watch your progress grow over time.</p>
+                <router-link to="/progress" class="step-link">
+                  View progress <i class="bi bi-arrow-right ms-1"></i>
+                </router-link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-card">
+          <div class="row align-items-center">
+            <div class="col-lg-8 mb-4 mb-lg-0">
+              <h3 class="cta-title">Ready to Transform Your Fitness?</h3>
+              <p class="cta-description">Join PowerTrack today and start your journey to a healthier, stronger you.</p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+              <router-link to="/workout" class="btn btn-primary btn-lg">
+                <i class="bi bi-lightning-charge me-2"></i>Start Now
+              </router-link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
-<script setup>
-// HomePage component - no additional logic needed
-</script>
+
 
