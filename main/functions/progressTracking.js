@@ -46,7 +46,7 @@ async function createProgressSummary(userId, weekId, workoutLogs) {
   const totalVolume = workoutLogs.reduce((sum, log) => sum + log.totalVolume, 0);
   const totalDurationSec = workoutLogs.reduce((sum, log) => sum + log.totalDurationSec, 0);
   
-  // Calculate average intensity (simplified - could be enhanced)
+  // Calculate average intensity 
   const averageIntensity = calculateAverageIntensity(workoutLogs);
 
   const progressSummary = {

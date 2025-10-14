@@ -1092,23 +1092,17 @@ const EXERCISES = [
   }
 ];
 
-/**
- * Get all exercises
- */
+
 function getAllExercises() {
   return EXERCISES;
 }
 
-/**
- * Get exercise by ID
- */
+
 function getExerciseById(exerciseId) {
   return EXERCISES.find(ex => ex.exerciseId === exerciseId);
 }
 
-/**
- * Filter exercises by criteria
- */
+
 function filterExercises({ intensity, muscleGroups, equipment, difficulty }) {
   return EXERCISES.filter(exercise => {
     // Filter by intensity
