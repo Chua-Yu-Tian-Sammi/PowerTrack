@@ -24,9 +24,7 @@
             </div>
           </div>
         </div>
-        <div v-if="notes" class="mt-2">
-          <small class="text-info"><i class="bi bi-info-circle me-1"></i>{{ notes }}</small>
-        </div>
+        
       </div>
     </div>
   </div>
@@ -54,10 +52,7 @@ defineProps({
     type: Number,
     required: true
   },
-  notes: {
-    type: String,
-    default: ''
-  }
+  
 })
 </script>
 

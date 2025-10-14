@@ -1,6 +1,6 @@
 <template>
   <div class="user-profile">
-    <!-- Empty State -->
+    <!-- empty state -->
     <div v-if="!userProfile" class="empty-state">
       <div class="row justify-content-center">
         <div class="col-lg-6">
@@ -25,9 +25,9 @@
               </div>
             </div>
             
-    <!-- Profile Content -->
+    <!-- profile content -->
             <div v-else>
-      <!-- Profile Header -->
+      <!-- profile header -->
       <div class="profile-header mb-4">
         <div class="card shadow-sm">
           <div class="card-body p-4">
@@ -54,10 +54,10 @@
       </div>
 
       <div class="row g-4">
-        <!-- Main Profile Form -->
+                <!-- main profile form -->
         <div class="col-lg-8">
               <form @submit.prevent="updateProfile">
-            <!-- Personal Information -->
+                    <!-- personal information -->
             <div class="card shadow-sm border-0 mb-4">
               <div class="card-header bg-white border-bottom">
                 <h5 class="mb-0">
@@ -93,7 +93,7 @@
               </div>
             </div>
 
-            <!-- Body Metrics -->
+                    <!-- body metrics -->
             <div class="card shadow-sm border-0 mb-4">
               <div class="card-header bg-white border-bottom">
                 <h5 class="mb-0">
@@ -143,7 +143,7 @@
                   </div>
                 </div>
 
-            <!-- Fitness Preferences -->
+                    <!-- fitness preferences -->
             <div class="card shadow-sm border-0 mb-4">
               <div class="card-header bg-white border-bottom">
                 <h5 class="mb-0">
@@ -196,7 +196,7 @@
                   </div>
                 </div>
 
-            <!-- Save Button -->
+                    <!-- save button -->
             <div class="d-grid">
               <button type="submit" class="btn btn-primary btn-lg" :disabled="saving">
                     <span v-if="saving" class="spinner-border spinner-border-sm me-2"></span>
@@ -207,9 +207,9 @@
               </form>
             </div>
 
-        <!-- Stats Sidebar -->
+                <!-- stats sidebar -->
         <div class="col-lg-4">
-          <!-- BMI Card -->
+                  <!-- bmi card -->
           <div class="card shadow-sm mb-4">
             <div class="card-header" :class="getBMIClass()">
               <h5 class="mb-0 bmi-header-text">
@@ -234,7 +234,7 @@
         </div>
       </div>
       
-          <!-- Quick Stats Card -->
+                  <!-- quick stats card -->
           <div class="card shadow-sm border-0 mb-4">
             <div class="card-header bg-white border-bottom">
               <h5 class="mb-0">
@@ -284,7 +284,7 @@
             </div>
           </div>
 
-          <!-- Tips Card -->
+                  <!-- tips card -->
           <div class="card shadow-sm border-0 bg-light">
             <div class="card-body p-4">
               <h6 class="mb-3">
@@ -297,7 +297,7 @@
       </div>
     </div>
 
-    <!-- Sign In Modal -->
+    <!-- sign in modal -->
     <div v-if="showSignIn" class="modal show d-block" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -330,7 +330,7 @@
       </div>
     </div>
 
-    <!-- Sign Up Modal -->
+    <!-- sign up modal -->
     <div v-if="showSignUp" class="modal show d-block" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">

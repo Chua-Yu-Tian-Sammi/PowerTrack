@@ -94,7 +94,7 @@
       </div>
     </div>
 
-    <!-- Generated Workout Results -->
+    <!-- generated workout results -->
     <div v-if="generatedWorkout" class="mt-4">
       <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
@@ -174,7 +174,6 @@ const generateWorkout = async () => {
     generatedWorkout.value = result
   } catch (error) {
     console.error('Error generating workout:', error)
-    alert('Failed to generate workout. Please try again.')
   } finally {
     loading.value = false
   }
@@ -205,17 +204,14 @@ const saveRoutine = async () => {
         exerciseId: item.exerciseId,
         sets: item.sets,
         reps: item.reps,
-        restSeconds: item.restTimeSec,
-        notes: item.notes || ''
+        restSeconds: item.restTimeSec
       }))
     }
     
     
     await WorkoutService.createRoutine(routineData)
-    alert('Routine saved successfully!')
   } catch (error) {
     console.error('Error saving routine:', error)
-    alert('Failed to save routine. Please try again.')
   }
 }
 

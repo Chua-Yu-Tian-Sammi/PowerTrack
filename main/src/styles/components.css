@@ -388,27 +388,57 @@
 
 /* Exercise Library */
 .exercise-library {
-  padding: 1rem;
+  padding: 2rem 0;
 }
 
-.exercise-card {
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+.exercise-library .card {
+  border: 1px solid #dee2e6;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  background: #ffffff;
 }
 
-.exercise-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+.exercise-library .card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+  border-color: #212529;
 }
 
 .exercise-card .card-title {
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #212529;
 }
 
-.badge {
+.exercise-card .card-text {
+  color: #6c757d;
+}
+
+.exercise-library .input-group .form-control {
+  border: 1px solid #ced4da;
+}
+
+.exercise-library .input-group .btn {
+  border: 1px solid #ced4da;
+}
+
+.exercise-card .badge {
   font-size: 0.75rem;
   margin-right: 0.25rem;
+}
+
+.exercise-card .badge.border {
+  border-color: #dee2e6 !important;
+}
+
+/* custom badge colors */
+.badge.bg-purple {
+  background-color: #6f42c1 !important; /* purple */
+  color: #fff;
+}
+
+.badge.bg-orange {
+  background-color: #fd7e14 !important; /* orange */
+  color: #212529;
 }
 
 /* Workout Generator */

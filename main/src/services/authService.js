@@ -19,8 +19,6 @@ async function signUpWithEmail(email, password, profile = {}) {
   const payload = stripUndefined({
     uid,
     email,
-    displayName: profile.displayName ?? '',
-    photoURL: profile.photoURL ?? '',
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
     ...profile,

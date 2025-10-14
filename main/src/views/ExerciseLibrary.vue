@@ -1,9 +1,9 @@
 <template>
   <div class="exercise-library">
-    <div class="row mb-4">
-      <div class="col-lg-8">
-        <h2><i class="bi bi-book me-2"></i>Exercise Library</h2>
-        <p class="text-muted">Browse and explore exercises for your workouts</p>
+    <div class="row align-items-center mb-4">
+      <div class="col-lg-8 mb-3 mb-lg-0">
+        <h2 class="mb-1"><i class="bi bi-book me-2"></i>Exercise Library</h2>
+        <p class="text-muted mb-0">Browse and explore exercises for your workouts</p>
       </div>
       <div class="col-lg-4">
         <div class="input-group">
@@ -21,11 +21,11 @@
       </div>
     </div>
 
-    <!-- Filters -->
+    <!-- filters -->
     <div class="row mb-4">
       <div class="col-12">
         <div class="card">
-          <div class="card-body">
+          <div class="card-body p-4">
             <div class="row">
               <div class="col-md-3">
                 <label class="form-label">Muscle Group</label>
@@ -75,7 +75,7 @@
       </div>
     </div>
 
-    <!-- Loading State -->
+    <!-- loading state -->
     <div v-if="loading" class="text-center">
       <div class="spinner-border" role="status">
         <span class="visually-hidden">Loading...</span>
@@ -83,18 +83,17 @@
       <p class="mt-2">Loading exercises...</p>
     </div>
 
-    <!-- Exercises Grid -->
-    <div v-else class="row">
-      <div v-for="exercise in filteredExercises" :key="exercise.exerciseId" class="col-lg-4 col-md-6 mb-4">
+    <!-- exercises grid -->
+    <div v-else class="row g-4">
+      <div v-for="exercise in filteredExercises" :key="exercise.exerciseId" class="col-lg-4 col-md-6">
         <ExerciseCard 
           :exercise="exercise"
-          @view-details="viewExerciseDetails"
           @add-to-routine="addToRoutine"
         />
       </div>
     </div>
 
-    <!-- No Results -->
+    <!-- no results -->
     <div v-if="!loading && filteredExercises.length === 0" class="text-center py-5">
       <i class="bi bi-search display-1 text-muted"></i>
       <h4 class="mt-3">No exercises found</h4>
@@ -170,7 +169,6 @@ const loadExercises = async () => {
     exercises.value = await WorkoutService.getExercises()
   } catch (error) {
     console.error('Error loading exercises:', error)
-    alert('Failed to load exercises. Please try again.')
   } finally {
     loading.value = false
   }
@@ -179,15 +177,26 @@ const loadExercises = async () => {
 
 
 
-const viewExerciseDetails = (exercise) => {
-  
-  alert(`Viewing details for: ${exercise.name}\n\nDescription: ${exercise.description}\n\nInstructions:\n${exercise.instructions.join('\n')}`)
+const addToRoutine = (exercise) => {
+  try {
+    const key = 'draftRoutineExercises'
+    const existing = JSON.parse(localStorage.getItem(key) || '[]')
+    const exists = existing.some(e => e.exerciseId === exercise.exerciseId)
+    if (!exists) {
+      const drafted = {
+        exerciseId: exercise.exerciseId,
+        sets: 3,
+        reps: '8-12',
+        restSeconds: 60
+      }
+      existing.push(drafted)
+      localStorage.setItem(key, JSON.stringify(existing))
+    }
+  } catch (error) {
+    console.error('Error adding exercise to draft routine:', error)
+  }
 }
 
-const addToRoutine = (exercise) => {
-  
-  alert(`Added ${exercise.name} to your routine!`)
-}
 
 </script>
 

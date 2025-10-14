@@ -18,7 +18,7 @@
       </div>
     </div>
 
-    <!-- Workout Controls -->
+    <!-- workout controls -->
     <div class="row mb-4">
       <div class="col-12">
         <div class="card">
@@ -56,7 +56,7 @@
       </div>
     </div>
 
-    <!-- Exercise List -->
+    <!-- exercise list -->
     <div class="row">
       <div class="col-12">
         <div class="card">
@@ -116,7 +116,7 @@
       </div>
     </div>
 
-    <!-- End Workout Modal -->
+    <!-- end workout modal -->
     <div v-if="showEndWorkoutModal" class="modal show d-block" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -145,16 +145,7 @@
                 </select>
               </div>
               
-              <div class="mb-3">
-                <label for="notes" class="form-label">Notes (optional)</label>
-                <textarea 
-                  class="form-control" 
-                  id="notes" 
-                  rows="3" 
-                  v-model="endWorkoutForm.notes"
-                  placeholder="How did the workout go? Any observations..."
-                ></textarea>
-              </div>
+              
               
               <div class="mb-3">
                 <div class="form-check">
@@ -259,7 +250,6 @@ const sourceId = computed(() => {
 const endWorkoutForm = ref({
   perceivedIntensity: 'medium',
   mood: 'good',
-  notes: '',
   saveAsRoutine: false,
   routineTitle: ''
 })
@@ -309,7 +299,6 @@ const startWorkout = async () => {
     
   } catch (error) {
     console.error('Error starting workout:', error)
-    alert('Failed to start workout. Please try again.')
   } finally {
     starting.value = false
   }
@@ -330,7 +319,7 @@ const endWorkout = async () => {
       targetSets: exercise.sets,
       targetReps: exercise.reps,
       targetRestSeconds: exercise.restSeconds,
-      performedSets: [] // Could be enhanced to track actual sets
+    performedSets: []
     })) || []
     
     // End workout session
@@ -338,7 +327,7 @@ const endWorkout = async () => {
       sessionId.value,
       endWorkoutForm.value.perceivedIntensity,
       endWorkoutForm.value.mood,
-      endWorkoutForm.value.notes,
+      '',
       performedExercises
     )
     
@@ -353,22 +342,17 @@ const endWorkout = async () => {
           exerciseId: exercise.exerciseId,
           sets: exercise.sets,
           reps: exercise.reps,
-          restSeconds: exercise.restSeconds,
-          notes: exercise.notes || ''
+          restSeconds: exercise.restSeconds
         })) || []
       }
       
       await WorkoutService.createRoutine(routineData)
-      alert('Workout completed and saved as routine!')
-    } else {
-      alert('Workout completed! Great job!')
     }
     
     // Navigate back to home or progress page
     router.push('/progress')
   } catch (error) {
     console.error('Error ending workout:', error)
-    alert('Failed to end workout. Please try again.')
   } finally {
     ending.value = false
     showEndWorkoutModal.value = false

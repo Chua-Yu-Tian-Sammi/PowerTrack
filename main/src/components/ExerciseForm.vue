@@ -48,16 +48,6 @@
           </button>
         </div>
       </div>
-      <div class="mt-2">
-        <label class="form-label">Notes (optional)</label>
-        <input 
-          type="text" 
-          class="form-control form-control-sm" 
-          :value="notes"
-          @input="$emit('update:notes', $event.target.value)"
-          placeholder="e.g., Last set AMRAP"
-        >
-      </div>
     </div>
   </div>
 </template>
@@ -84,12 +74,9 @@ defineProps({
     type: Number,
     required: true
   },
-  notes: {
-    type: String,
-    default: ''
-  }
+  
 })
 
-defineEmits(['update:sets', 'update:reps', 'update:restSeconds', 'update:notes', 'remove'])
+defineEmits(['update:sets', 'update:reps', 'update:restSeconds', 'remove'])
 </script>
 
