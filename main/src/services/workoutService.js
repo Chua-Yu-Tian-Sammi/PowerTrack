@@ -63,15 +63,9 @@ async function createWorkout(uid, workout) {
 }
 
 async function getExercises({ category, muscle, equipment, take } = {}) {
-  const col = collection(db, 'exercises');
-  const filters = [];
-  if (category) filters.push(where('category', '==', category));
-  if (muscle) filters.push(where('muscle', '==', muscle));
-  if (nonEmptyArray(equipment)) filters.push(where('equipment', 'array-contains-any', equipment));
-  const baseQ = filters.length ? query(col, ...filters) : query(col);
-  const finalQ = take ? query(baseQ, qLimit(take)) : baseQ;
-  const snap = await getDocs(finalQ);
-  return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  const fn = httpsCallable(functions, 'getExercises');
+  const { data } = await fn({ category, muscle, equipment, take });
+  return data;
 }
 
 async function getUserRoutines({ limit = 20 } = {}) {
@@ -104,9 +98,9 @@ async function saveGeneratedWorkoutAsRoutine({ generatedWorkoutId, title }) {
   return data;
 }
 
-async function generateWorkout(uid, params) {
+async function generateWorkout(params) {
   const fn = httpsCallable(functions, 'generateWorkout');
-  const { data } = await fn({ uid, ...params });
+  const { data } = await fn(params);
   return data;
 }
 
@@ -133,6 +127,10 @@ export const WorkoutService = {
   createUserRoutine,
   updateUserRoutine,
   deleteUserRoutine,
+  // Aliases for convenience
+  createRoutine: createUserRoutine,
+  updateRoutine: updateUserRoutine,
+  deleteRoutine: deleteUserRoutine,
   saveGeneratedWorkoutAsRoutine,
   generateWorkout,
   getProgressSummaries,
@@ -150,6 +148,9 @@ export {
   createUserRoutine,
   updateUserRoutine,
   deleteUserRoutine,
+  createUserRoutine as createRoutine,
+  updateUserRoutine as updateRoutine,
+  deleteUserRoutine as deleteRoutine,
   saveGeneratedWorkoutAsRoutine,
   generateWorkout,
   getProgressSummaries,

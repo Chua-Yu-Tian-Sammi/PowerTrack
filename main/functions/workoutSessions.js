@@ -19,7 +19,7 @@ exports.startWorkoutSession = functions.https.onCall(async (data, context) => {
     const sessionData = {
       sessionId,
       userId,
-      sourceType, // 'generated', 'routine', or 'custom'
+      sourceType, // 'generated', 'routine'
       sourceId: sourceId || null,
       startAt: new Date(),
       status: 'active',

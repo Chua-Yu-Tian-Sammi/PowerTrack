@@ -1,5 +1,6 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+const { filterExercises } = require('./staticExercises');
 
 const db = admin.firestore();
 
@@ -42,27 +43,12 @@ exports.generateWorkout = functions.https.onCall(async (data, context) => {
 
     const userExperience = userData?.experienceLevel || 'beginner';
 
-    // Build query for exercises
-    let query = db.collection('exercises');
-    
-    // Filter by intensity
-    query = query.where('intensity', '==', intensity);
-    
-    // Filter by muscle groups if specified
-    if (muscleGroups && muscleGroups.length > 0) {
-      query = query.where('muscle', 'array-contains-any', muscleGroups);
-    }
-    
-    // Filter by equipment if specified
-    if (equipment && equipment.length > 0) {
-      query = query.where('equipment', 'array-contains-any', equipment);
-    }
-
-    const exercisesSnapshot = await query.get();
-    const availableExercises = exercisesSnapshot.docs.map(doc => ({
-      exerciseId: doc.id,
-      ...doc.data()
-    }));
+    // Filter exercises using static exercise database
+    const availableExercises = filterExercises({
+      intensity,
+      muscleGroups,
+      equipment
+    });
 
     if (availableExercises.length === 0) {
       throw new functions.https.HttpsError('not-found', 'No exercises found matching criteria');

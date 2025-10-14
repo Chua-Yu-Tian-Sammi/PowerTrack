@@ -238,7 +238,10 @@ const saveRoutine = async () => {
   saving.value = true
   try {
     if (editingRoutine.value) {
-      await WorkoutService.updateRoutine(editingRoutine.value.routineId, routineForm.value)
+      await WorkoutService.updateRoutine({
+        routineId: editingRoutine.value.routineId,
+        ...routineForm.value
+      })
       alert('Routine updated successfully!')
     } else {
       await WorkoutService.createRoutine(routineForm.value)

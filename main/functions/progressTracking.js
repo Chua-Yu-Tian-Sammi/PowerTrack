@@ -10,7 +10,7 @@ exports.onWorkoutLogCreated = functions.firestore
     const userId = workoutLog.userId;
     const logDate = workoutLog.date.toDate();
     
-    // Calculate week identifier (YYYY-WW format)
+    // Calculate week identifier
     const year = logDate.getFullYear();
     const weekNumber = getWeekNumber(logDate);
     const weekId = `${year}-W${weekNumber.toString().padStart(2, '0')}`;
@@ -77,7 +77,7 @@ async function updateProgressSummary(summaryRef, newWorkoutLog) {
       totalWorkouts: currentData.totalWorkouts + 1,
       totalVolume: currentData.totalVolume + newWorkoutLog.totalVolume,
       totalDurationSec: currentData.totalDurationSec + newWorkoutLog.totalDurationSec,
-      // Note: averageIntensity would need more complex calculation for accurate updates
+      
     };
 
     transaction.update(summaryRef, updatedSummary);
@@ -85,12 +85,7 @@ async function updateProgressSummary(summaryRef, newWorkoutLog) {
 }
 
 function calculateAverageIntensity(workoutLogs) {
-  // Simplified intensity calculation
-  // In a real implementation, you might want to consider:
-  // - Exercise difficulty levels
-  // - Weight used vs user's max
-  // - Rest periods
-  // - Heart rate data if available
+ 
   
   if (workoutLogs.length === 0){
     return 0;

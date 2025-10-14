@@ -21,6 +21,12 @@ const {
   getWorkoutSession, 
   getUserWorkoutSessions 
 } = require('./workoutSessions');
+const {
+  getExercises,
+  getExerciseById,
+  getExercisesByMuscle,
+  getExercisesByEquipment
+} = require('./exerciseService');
 
 // Export Cloud Functions
 exports.generateWorkout = generateWorkout;
@@ -35,4 +41,8 @@ exports.startWorkoutSession = startWorkoutSession;
 exports.endWorkoutSession = endWorkoutSession;
 exports.getWorkoutSession = getWorkoutSession;
 exports.getUserWorkoutSessions = getUserWorkoutSessions;
+exports.getExercises = getExercises;
+exports.getExerciseById = getExerciseById;
+exports.getExercisesByMuscle = getExercisesByMuscle;
+exports.getExercisesByEquipment = getExercisesByEquipment;
 
