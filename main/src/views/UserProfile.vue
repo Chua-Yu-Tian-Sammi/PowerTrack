@@ -1,6 +1,6 @@
 <template>
   <div class="user-profile">
-    <!-- empty state -->
+    <!-- no profile yet -->
     <div v-if="!userProfile" class="empty-state">
       <div class="row justify-content-center">
         <div class="col-lg-6">
@@ -25,9 +25,9 @@
               </div>
             </div>
             
-    <!-- profile content -->
+    <!-- show profile -->
             <div v-else>
-      <!-- profile header -->
+      <!-- header with avatar and sign out -->
       <div class="profile-header mb-4">
         <div class="card shadow-sm">
           <div class="card-body p-4">
@@ -54,10 +54,10 @@
       </div>
 
       <div class="row g-4">
-                <!-- main profile form -->
+                <!-- form on the left -->
         <div class="col-lg-8">
               <form @submit.prevent="updateProfile">
-                    <!-- personal information -->
+                    <!-- username and experience -->
             <div class="card shadow-sm border-0 mb-4">
               <div class="card-header bg-white border-bottom">
                 <h5 class="mb-0">
@@ -93,7 +93,7 @@
               </div>
             </div>
 
-                    <!-- body metrics -->
+                    <!-- height and weight -->
             <div class="card shadow-sm border-0 mb-4">
               <div class="card-header bg-white border-bottom">
                 <h5 class="mb-0">
@@ -143,7 +143,7 @@
                   </div>
                 </div>
 
-                    <!-- fitness preferences -->
+                    <!-- goals and workout prefs -->
             <div class="card shadow-sm border-0 mb-4">
               <div class="card-header bg-white border-bottom">
                 <h5 class="mb-0">
@@ -196,7 +196,7 @@
                   </div>
                 </div>
 
-                    <!-- save button -->
+                    <!-- save changes -->
             <div class="d-grid">
               <button type="submit" class="btn btn-primary btn-lg" :disabled="saving">
                     <span v-if="saving" class="spinner-border spinner-border-sm me-2"></span>
@@ -207,9 +207,9 @@
               </form>
             </div>
 
-                <!-- stats sidebar -->
+                <!-- sidebar with bmi and stats -->
         <div class="col-lg-4">
-                  <!-- bmi card -->
+                  <!-- bmi calculator -->
           <div class="card shadow-sm mb-4">
             <div class="card-header" :class="getBMIClass()">
               <h5 class="mb-0 bmi-header-text">
@@ -234,7 +234,7 @@
         </div>
       </div>
       
-                  <!-- quick stats card -->
+                  <!-- your current stats -->
           <div class="card shadow-sm border-0 mb-4">
             <div class="card-header bg-white border-bottom">
               <h5 class="mb-0">
@@ -283,21 +283,11 @@
               </div>
             </div>
           </div>
-
-                  <!-- tips card -->
-          <div class="card shadow-sm border-0 bg-light">
-            <div class="card-body p-4">
-              <h6 class="mb-3">
-                <i class="bi bi-lightbulb text-warning me-2"></i>Quick Tip
-              </h6>
-              <p class="small mb-0">{{ getPersonalizedTip() }}</p>
-            </div>
-          </div>
         </div>
       </div>
     </div>
 
-    <!-- sign in modal -->
+    <!-- login popup -->
     <div v-if="showSignIn" class="modal show d-block" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -330,7 +320,7 @@
       </div>
     </div>
 
-    <!-- sign up modal -->
+    <!-- signup popup -->
     <div v-if="showSignUp" class="modal show d-block" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -603,37 +593,6 @@ const getBMICategoryBadge = () => {
   if (bmi < 25) return 'bg-success'
   if (bmi < 30) return 'bg-warning'
   return 'bg-danger'
-}
-
-const getPersonalizedTip = () => {
-  if (!userProfile.value) return ''
-  
-  const tips = {
-    beginner: {
-      weight_loss: 'Start with 3-4 workouts per week and focus on consistency over intensity.',
-      muscle_gain: 'Focus on compound movements and progressive overload. Rest is crucial!',
-      endurance: 'Build your base gradually. Increase duration before intensity.',
-      strength: 'Master proper form before adding weight. Quality over quantity!',
-      general_fitness: 'Mix cardio and strength training for balanced fitness development.'
-    },
-    intermediate: {
-      weight_loss: 'Try adding HIIT sessions to maximize calorie burn.',
-      muscle_gain: 'Track your progressive overload and ensure adequate protein intake.',
-      endurance: 'Add interval training to break through plateaus.',
-      strength: 'Consider periodization to optimize strength gains.',
-      general_fitness: 'Challenge yourself with varied workout styles to stay engaged.'
-    },
-    advanced: {
-      weight_loss: 'Focus on metabolic conditioning and strategic cardio placement.',
-      muscle_gain: 'Utilize advanced techniques like drop sets and tempo training.',
-      endurance: 'Incorporate periodization and peak training cycles.',
-      strength: 'Focus on powerlifting techniques and peak strength cycles.',
-      general_fitness: 'Maintain variety and challenge with complex movement patterns.'
-    }
-  }
-  
-  return tips[userProfile.value.experienceLevel]?.[userProfile.value.goal] || 
-         'Stay consistent with your workouts and track your progress!'
 }
 
 const createProfileForCurrentUser = async () => {

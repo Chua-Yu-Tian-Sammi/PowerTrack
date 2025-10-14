@@ -7,7 +7,7 @@
       </div>
     </div>
 
-    <!-- Routine Form -->
+    <!-- create or edit routine -->
     <div class="row">
       <div class="col-lg-8">
         <div class="card">
@@ -67,7 +67,7 @@
                 </div>
               </div>
 
-              <!-- Exercise List -->
+              <!-- exercises you're adding -->
               <div class="mb-4">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                   <h5>Exercises</h5>
@@ -110,7 +110,7 @@
         </div>
       </div>
 
-      <!-- Routine List -->
+      <!-- saved routines -->
       <div class="col-lg-4">
         <div class="card">
           <div class="card-header">
@@ -153,7 +153,7 @@
       </div>
     </div>
 
-    <!-- Exercise Selector Modal -->
+    <!-- popup to pick exercises -->
     <ExerciseSelector 
       :show="showExerciseSelector"
       :exercises="exercises"

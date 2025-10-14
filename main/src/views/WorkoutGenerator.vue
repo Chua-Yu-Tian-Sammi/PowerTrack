@@ -94,7 +94,7 @@
       </div>
     </div>
 
-    <!-- generated workout results -->
+    <!-- your new workout -->
     <div v-if="generatedWorkout" class="mt-4">
       <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">

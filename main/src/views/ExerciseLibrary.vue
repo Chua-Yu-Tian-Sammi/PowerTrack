@@ -21,7 +21,7 @@
       </div>
     </div>
 
-    <!-- filters -->
+    <!-- filter options -->
     <div class="row mb-4">
       <div class="col-12">
         <div class="card">
@@ -75,7 +75,7 @@
       </div>
     </div>
 
-    <!-- loading state -->
+    <!-- loading spinner -->
     <div v-if="loading" class="text-center">
       <div class="spinner-border" role="status">
         <span class="visually-hidden">Loading...</span>
@@ -83,7 +83,7 @@
       <p class="mt-2">Loading exercises...</p>
     </div>
 
-    <!-- exercises grid -->
+    <!-- exercise cards -->
     <div v-else class="row g-4">
       <div v-for="exercise in filteredExercises" :key="exercise.exerciseId" class="col-lg-4 col-md-6">
         <ExerciseCard 
@@ -93,7 +93,7 @@
       </div>
     </div>
 
-    <!-- no results -->
+    <!-- nothing found -->
     <div v-if="!loading && filteredExercises.length === 0" class="text-center py-5">
       <i class="bi bi-search display-1 text-muted"></i>
       <h4 class="mt-3">No exercises found</h4>
@@ -121,7 +121,7 @@ const filters = ref({
 const filteredExercises = computed(() => {
   let filtered = exercises.value
 
-  // Search filter
+  // filter by search text
   if (searchQuery.value) {
     const query = searchQuery.value.toLowerCase()
     filtered = filtered.filter(exercise => 
@@ -131,7 +131,7 @@ const filteredExercises = computed(() => {
     )
   }
 
-  // Other filters
+  // apply other filters
   if (filters.value.muscle) {
     filtered = filtered.filter(exercise => 
       exercise.muscle.includes(filters.value.muscle)

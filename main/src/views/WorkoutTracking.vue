@@ -18,7 +18,7 @@
       </div>
     </div>
 
-    <!-- workout controls -->
+    <!-- start/stop buttons -->
     <div class="row mb-4">
       <div class="col-12">
         <div class="card">
@@ -56,7 +56,7 @@
       </div>
     </div>
 
-    <!-- exercise list -->
+    <!-- what you're doing today -->
     <div class="row">
       <div class="col-12">
         <div class="card">
@@ -116,7 +116,7 @@
       </div>
     </div>
 
-    <!-- end workout modal -->
+    <!-- finish workout popup -->
     <div v-if="showEndWorkoutModal" class="modal show d-block" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -225,7 +225,7 @@ const elapsedTime = ref(0)
 const showEndWorkoutModal = ref(false)
 const exercises = ref([])
 
-// Get workout data from props or query parameters
+// grab workout from props or url
 const workoutData = computed(() => {
   if (props.workoutData) return props.workoutData
   if (route.query.workoutData) {
@@ -290,7 +290,7 @@ const startWorkout = async () => {
     isActive.value = true
     startTime.value = new Date()
     
-    // Start timer
+    // start counting time
     timer = setInterval(() => {
       if (startTime.value) {
         elapsedTime.value = Math.floor((new Date() - startTime.value) / 1000)
@@ -307,13 +307,13 @@ const startWorkout = async () => {
 const endWorkout = async () => {
   ending.value = true
   try {
-    // Stop timer
+    // stop counting
     if (timer) {
       clearInterval(timer)
       timer = null
     }
     
-    // Prepare performed exercises data
+    // get exercise data ready
     const performedExercises = workoutData.value?.exercises?.map((exercise) => ({
       exerciseId: exercise.exerciseId,
       targetSets: exercise.sets,
@@ -322,7 +322,7 @@ const endWorkout = async () => {
     performedSets: []
     })) || []
     
-    // End workout session
+    // finish the session
     await WorkoutService.endWorkoutSession(
       sessionId.value,
       endWorkoutForm.value.perceivedIntensity,
@@ -331,7 +331,7 @@ const endWorkout = async () => {
       performedExercises
     )
     
-    // Save as routine if requested
+    // save it if they want to
     if (endWorkoutForm.value.saveAsRoutine) {
       const routineData = {
         title: endWorkoutForm.value.routineTitle || workoutData.value?.title || 'Custom Workout',
@@ -349,7 +349,7 @@ const endWorkout = async () => {
       await WorkoutService.createRoutine(routineData)
     }
     
-    // Navigate back to home or progress page
+    // go to progress page
     router.push('/progress')
   } catch (error) {
     console.error('Error ending workout:', error)

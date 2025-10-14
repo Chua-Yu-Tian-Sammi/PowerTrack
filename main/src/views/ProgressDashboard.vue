@@ -7,7 +7,7 @@
       </div>
     </div>
 
-    <!-- stats cards -->
+    <!-- overview stats -->
     <div class="row mb-4">
       <div class="col-lg-3 col-md-6 mb-3">
         <StatCard 
@@ -46,7 +46,7 @@
       </div>
     </div>
 
-    <!-- charts row -->
+    <!-- charts and recent stuff -->
     <div class="row mb-4">
       <div class="col-lg-8">
         <div class="card">
@@ -64,7 +64,7 @@
               <p class="text-muted">No progress data available yet</p>
             </div>
             <div v-else class="progress-chart">
-              <!-- simple bar chart representation -->
+              <!-- basic bar chart -->
               <div class="d-flex align-items-end" style="height: 200px;">
                 <div v-for="(week, index) in progressData.slice(0, 8)" :key="index" 
                      class="flex-fill d-flex flex-column align-items-center me-1">
@@ -105,7 +105,7 @@
       </div>
     </div>
 
-    <!-- workout history -->
+    <!-- past workouts -->
     <div class="row">
       <div class="col-12">
         <div class="card">

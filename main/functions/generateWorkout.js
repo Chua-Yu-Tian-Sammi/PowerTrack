@@ -112,7 +112,7 @@ function generateWorkoutRoutine(exercises, timeMin, intensity, goal, userExperie
 
   return {
     routineId,
-    ownerId: '', // Will be set when saved
+    ownerId: '', 
     title: `${intensity.charAt(0).toUpperCase() + intensity.slice(1)} ${goal.replace('_', ' ')} Workout`,
     goal,
     totalTimeMin: actualTimeMin,

@@ -1,4 +1,3 @@
-// src/services/workoutService.js
 import { db, functions } from '@lib/firebase';
 import {
   doc,
@@ -127,7 +126,7 @@ export const WorkoutService = {
   createUserRoutine,
   updateUserRoutine,
   deleteUserRoutine,
-  // Aliases for convenience
+  // shortcuts
   createRoutine: createUserRoutine,
   updateRoutine: updateUserRoutine,
   deleteRoutine: deleteUserRoutine,
