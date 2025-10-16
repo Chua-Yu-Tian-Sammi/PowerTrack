@@ -99,50 +99,8 @@
       <h4 class="mt-3">No exercises found</h4>
       <p class="text-muted">Try adjusting your filters or search terms</p>
     </div>
-    <!-- Login Prompt Modal -->
-    <!-- <div
-      class="modal fade"
-      id="loginModal"
-      tabindex="-1"
-      aria-labelledby="loginModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="loginModalLabel">
-              Please Sign In
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            You need to be signed in to view or add exercises.
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button
-              type="button"
-              class="btn btn-primary"
-              @click="$router.push('/profile')"
-              data-bs-dismiss="modal"
-            >
-              Go to Login
-            </button>
-          </div>
-        </div>
-      </div>
-    </div> -->
+  <!--modal-->
+  <PopUpModal ref="modalRef"/>
   </div>
 </template>
 
@@ -150,14 +108,8 @@
 import { ref, onMounted, computed } from 'vue'
 import { WorkoutService } from '../services/workoutService.js'
 import ExerciseCard from '../components/ExerciseCard.vue'
-//import { AuthService } from '../services/authService.js'
-// import { Modal } from 'bootstrap'
-
-// const openLoginModal = () => {
-//   const modalEl = document.getElementById('loginModal')
-//   if (!modalEl) return
-//   new Modal(modalEl).show()
-// }
+import { AuthService } from '../services/authService.js'
+import PopUpModal from '@/components/PopUpModal.vue'
 
 const loading = ref(false)
 const exercises = ref([])
@@ -211,8 +163,24 @@ const filteredExercises = computed(() => {
   return filtered
 })
 
-onMounted(async () => {
-  await loadExercises()
+// onMounted(async () => {
+//   await loadExercises()
+// })
+
+const user = ref(null)
+const modalRef = ref(null)
+
+onMounted(() => {
+  
+  AuthService.onAuthStateChanged(async (currentUser) => {
+    user.value = currentUser
+    if (user.value) {
+      await loadExercises()
+    } else {
+      console.log("user not login")
+      modalRef.value.show() 
+  }
+  })
 })
 
 const loadExercises = async () => {
@@ -221,7 +189,6 @@ const loadExercises = async () => {
     exercises.value = await WorkoutService.getExercises()
   } catch (error) {
     console.error('Error loading exercises:', error)
-    // openLoginModal()
   } finally {
     loading.value = false
   }
@@ -252,6 +219,3 @@ const addToRoutine = (exercise) => {
 
 
 </script>
-
-
-

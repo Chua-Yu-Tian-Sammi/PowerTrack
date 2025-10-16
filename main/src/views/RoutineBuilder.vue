@@ -160,6 +160,9 @@
       @close="showExerciseSelector = false"
       @select="addExerciseToRoutine"
     />
+
+    <!--modal-->
+    <PopUpModal ref="modalRef"/>
   </div>
 </template>
 
@@ -168,6 +171,8 @@ import { ref, onMounted} from 'vue'
 import { WorkoutService } from '../services/workoutService.js'
 import ExerciseForm from '../components/ExerciseForm.vue'
 import ExerciseSelector from '../components/ExerciseSelector.vue'
+import { AuthService } from '../services/authService.js'
+import PopUpModal from '@/components/PopUpModal.vue'
 
 const loading = ref(false)
 const saving = ref(false)
@@ -184,9 +189,26 @@ const routineForm = ref({
   exercises: []
 })
 
-onMounted(async () => {
-  await loadRoutines()
-  await loadExercises()
+// onMounted(async () => {
+//   await loadRoutines()
+//   await loadExercises()
+// })
+
+const user = ref(null)
+const modalRef = ref(null)
+
+onMounted(() => {
+  
+  AuthService.onAuthStateChanged(async (currentUser) => {
+    user.value = currentUser
+    if (user.value) {
+      await loadRoutines()
+      await loadExercises()
+    } else {
+      console.log("user not login")
+      modalRef.value.show() 
+  }
+  })
 })
 
 const loadRoutines = async () => {
