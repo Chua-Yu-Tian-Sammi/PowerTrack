@@ -99,17 +99,26 @@
       <h4 class="mt-3">No exercises found</h4>
       <p class="text-muted">Try adjusting your filters or search terms</p>
     </div>
-  </div>
+
+    <!--modal-->
+ <PopUpModal ref="modalRef"/>
+
+ </div>
 </template>
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { WorkoutService } from '../services/workoutService.js'
 import ExerciseCard from '../components/ExerciseCard.vue'
+import AuthService from '@/services/authService.js'
+import PopUpModal from '@/components/PopUpModal.vue'
 
 const loading = ref(false)
 const exercises = ref([])
 const searchQuery = ref('')
+
+const user = ref(null)
+const modalRef = ref(null) 
 
 const filters = ref({
   muscle: '',
@@ -159,8 +168,18 @@ const filteredExercises = computed(() => {
   return filtered
 })
 
-onMounted(async () => {
-  await loadExercises()
+
+onMounted(() => {
+  AuthService.onAuthStateChanged(async (currentUser) => {
+    user.value = currentUser
+    if (user.value) {
+      await loadExercises()
+    } else {
+      console.log("user not login")
+      //show pop up modal here
+     modalRef.value.show() 
+  }
+  })
 })
 
 const loadExercises = async () => {
@@ -173,9 +192,6 @@ const loadExercises = async () => {
     loading.value = false
   }
 }
-
-
-
 
 const addToRoutine = (exercise) => {
   try {
