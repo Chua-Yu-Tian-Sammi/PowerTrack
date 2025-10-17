@@ -178,7 +178,7 @@ onMounted(() => {
       await loadExercises()
     } else {
       console.log("user not login")
-      modalRef.value.show() 
+      modalRef.value?.show() 
   }
   })
 })

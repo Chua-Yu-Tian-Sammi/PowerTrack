@@ -48,20 +48,34 @@ function show() {
   bsModal.show()
 }
 
-//when click close
 function hide() {
+  if (bsModal) {
+    bsModal.hide()
+  } else {
+    console.warn('Modal not initialized yet.')
+  }
+}
+
+async function goToLogin() {
+  if (!bsModal) {
+    // If modal not ready, just navigate
+    await router.push('/profile')
+    return
+  }
+  // Hide modal first and navigate after it fully hides
+  bsModal._element.addEventListener('hidden.bs.modal', async () => {
+    await router.push('/profile')
+  }, { once: true })
+
   bsModal.hide()
 }
 
-//redirect to login page
-function goToLogin() {
-  router.push('/profile')
-  hide()
-}
-
-//create a bootstrap model and store it in bsModal
 onMounted(() => {
-  bsModal = new Modal(modalRef.value)
+  if (modalRef.value) {
+    bsModal = new Modal(modalRef.value)
+  } else {
+    console.error('modalRef is null on mounted.')
+  }
 })
 
 onBeforeUnmount(() => {
