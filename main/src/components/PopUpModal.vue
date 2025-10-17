@@ -12,7 +12,7 @@
           <button type="button" class="btn-close" @click="hide" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          You need to be signed in to view or add exercises.
+          {{ message }}
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" @click="hide">Close</button>
@@ -24,9 +24,20 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount, defineExpose } from 'vue'
+import { ref, onMounted, onBeforeUnmount, defineExpose, defineProps } from 'vue'
 import { Modal } from 'bootstrap'
 import { useRouter } from 'vue-router'
+
+const props = defineProps({
+  title: {
+    type: String,
+    default: 'Please Sign In'
+  },
+  message: {
+    type: String,
+    default: 'You need to be signed in to view or add exercises.'
+  }
+})
 
 const modalRef = ref(null)
 let bsModal = null
