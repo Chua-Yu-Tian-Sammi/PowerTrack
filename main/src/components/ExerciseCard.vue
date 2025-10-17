@@ -2,27 +2,31 @@
   <div class="card h-100 exercise-card">
     <div class="card-body d-flex flex-column">
       <div class="d-flex justify-content-between align-items-start mb-2">
-        <h5 class="card-title" style="font-weight:bold;">{{ exercise.name }}</h5>
+        <h5 class="card-title" style="font-weight:bold;">{{ exercise.name }}</h5><span :class="getDifficultyBadgeClass(exercise.difficulty)" class="badge text-capitalize ms-1">{{ exercise.difficulty }}</span>
       </div>
       
       <p class="card-text text-muted">{{ exercise.description }}</p>
       
       <div class="mb-2">
-        <div class="mb-2">
+        <!-- <div class="mb-2">
           <small class="text-muted">Difficulty:</small>
           <span :class="getDifficultyBadgeClass(exercise.difficulty)" class="badge text-capitalize ms-1">{{ exercise.difficulty }}</span>
-        </div>
+        </div> -->
         <!-- <div>
           <small class="text-muted">Intensity:</small>
           <span :class="getIntensityBadgeClass(exercise.intensity)" class="badge text-capitalize ms-1">{{ exercise.intensity }}</span>
         </div> -->
         <div class="mb-2">
           <small class="text-muted">Intensity:</small>
-          <span v-for="intensity in intensityIconCount(exercise.intensity)" :key="intensity">
-            <i class="fa fa-dumbbell me-2 ms-1"></i>
+          <span v-for="n in 3" :key="n">
+            <i class="bi bi-fire me-1 ms-1" 
+              :class="n <= intensityIconCount(exercise.intensity)
+                ? 'fire-orange'
+                : 'fire-faint'">
+            </i>
           </span>
         </div>
-        <div><small class="text-muted">Time required:</small> <span class="ms-1">{{ exercise.timePerSetSec }}s</span></div>
+        <!-- <div><small class="text-muted">Time required:</small> <span class="ms-1">{{ exercise.timePerSetSec }}s</span></div> -->
       </div>
       
       <div class="mb-2">
@@ -44,7 +48,9 @@
           </span>
         </div>
       </div>
-      
+      <div class="mb-2">
+        <div><i class="bi bi-clock"></i> <span class="ms-1">{{ exercise.timePerSetSec }}s</span></div>
+      </div>
       <div class="d-flex justify-content-end mt-auto">
         <button class="btn btn-outline-primary" @click.stop="$emit('addToRoutine', exercise)">
           <i class="bi bi-plus me-1"></i>Add to Routine
@@ -101,3 +107,12 @@ const getDifficultyBadgeClass = (difficulty) => {
 // }
 
 </script>
+<style scoped>
+.fire-orange {
+  color: #FF7F00;
+}
+.fire-faint {
+  color: #6c757d;
+  opacity: 0.3;
+}
+</style>
