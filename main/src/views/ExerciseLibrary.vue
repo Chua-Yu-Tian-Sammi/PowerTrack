@@ -177,7 +177,7 @@ onMounted(() => {
     } else {
       console.log("user not login")
       //show pop up modal here
-     modalRef.value.show() 
+     modalRef.value?.show() 
   }
   })
 })

@@ -161,7 +161,7 @@
       @select="addExerciseToRoutine"
     />
 
-    <PopUpModal ref="modalRef"/>
+    <PopUpModal ref="modalRef" message="You need to be signed in to create or edit routines"/>
   </div>
 </template>
 

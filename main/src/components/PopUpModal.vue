@@ -12,7 +12,7 @@
           <button type="button" class="btn-close" @click="hide" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          You need to be signed in to view or add exercises.
+          {{message}}
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" @click="hide">Close</button>
@@ -24,13 +24,24 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount, defineExpose } from 'vue'
+import { ref, onMounted, onBeforeUnmount, defineExpose ,defineProps} from 'vue'
 import { Modal } from 'bootstrap'
 import { useRouter } from 'vue-router'
 
 const modalRef = ref(null)
 let bsModal = null
 const router = useRouter()
+
+const props = defineProps({
+  title: {
+    type: String,
+    default: 'Please Sign In'
+  },
+  message: {
+    type: String,
+    default: 'You need to be signed in to view or add exercises.'
+  }
+})
 
 //show the modal
 function show() {
@@ -39,20 +50,35 @@ function show() {
 
 //when click close
 function hide() {
-  bsModal.hide()
+  if (bsModal) {
+    bsModal.hide()
+  } else {
+    console.warn('Modal not initialized yet.')
+  }
 }
 
 //redirect to login page
-function goToLogin() {
-  router.push('/profile')
-  hide()
-}
+async function goToLogin() {
+  if (!bsModal) {
+    // If modal not ready, just navigate
+    await router.push('/profile')
+    return
+  }
+  // Hide modal first and navigate after it fully hides
+  bsModal._element.addEventListener('hidden.bs.modal', async () => {
+    await router.push('/profile')
+  }, { once: true })
 
+  bsModal.hide()
+}
 //create a bootstrap model and store it in bsModal
 onMounted(() => {
-  bsModal = new Modal(modalRef.value)
+  if (modalRef.value) {
+    bsModal = new Modal(modalRef.value)
+  } else {
+    console.error('modalRef is null on mounted.')
+  }
 })
-
 onBeforeUnmount(() => {
   bsModal?.dispose()
 })
