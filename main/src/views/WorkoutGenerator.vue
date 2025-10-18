@@ -266,28 +266,31 @@
         <div class="col-12">
           <div class="card shadow-sm border-0">
             <div class="card-header bg-white border-bottom">
-              <div class="row align-items-center">
-                <div class="col-12 col-md-8">
-                  <h4 class="mb-1 text-dark text-break">
-                    <i class="bi bi-check-circle me-2 text-success"></i>Generated Workout
-                  </h4>
-                  <p class="text-muted mb-0 text-break">Your personalized workout is ready!</p>
-    </div>
-                <div class="col-12 col-md-4 mt-3 mt-md-0">
-                  <div class="d-flex flex-column flex-sm-row gap-2">
-                    <button class="btn btn-success flex-fill" @click="saveRoutine" :disabled="saving">
-                      <span v-if="saving" class="spinner-border spinner-border-sm me-2"></span>
-                      <i v-if="!saving" class="bi bi-bookmark me-1"></i>
-                      <span class="d-none d-sm-inline">{{ saving ? 'Saving...' : 'Save Routine' }}</span>
-                      <span class="d-inline d-sm-none">{{ saving ? 'Saving...' : 'Save' }}</span>
-            </button>
-                    <button class="btn btn-primary flex-fill" @click="startWorkout">
-                      <i class="bi bi-play-fill me-1"></i>
-                      <span class="d-none d-sm-inline">Start Workout</span>
-                      <span class="d-inline d-sm-none">Start</span>
-            </button>
-          </div>
-        </div>
+              <div class="d-flex align-items-start align-items-md-center justify-content-between flex-wrap">
+                <!-- Left: title -->
+                <div class="me-3">
+                  <h2 class="h4 mb-1">Generated Workout</h2>
+                  <div class="text-muted small">Your personalized workout is ready!</div>
+                </div>
+
+                <!-- Right: actions -->
+                <div class="d-flex gap-2 ms-auto mt-2 mt-md-0 flex-shrink-0">
+                  <button class="btn btn-success btn-sm d-inline-flex align-items-center text-nowrap px-3" @click="saveRoutine" :disabled="saving" data-bs-toggle="tooltip" title="Save Routine">
+                    <span v-if="saving" class="spinner-border spinner-border-sm me-2"></span>
+                    <i v-if="!saving" class="bi bi-bookmark me-1"></i>
+                    <span class="d-none d-sm-inline">{{ saving ? 'Saving...' : 'Save Routine' }}</span>
+                  </button>
+
+                  <button class="btn btn-primary btn-sm d-inline-flex align-items-center text-nowrap px-3" @click="startWorkout" data-bs-toggle="tooltip" title="Start Workout">
+                    <i class="bi bi-play-fill me-1"></i>
+                    <span class="d-none d-sm-inline">Start Workout</span>
+                  </button>
+
+                  <button class="btn btn-danger btn-sm d-inline-flex align-items-center text-nowrap px-3" @click="clearWorkout" data-bs-toggle="tooltip" title="Clear Workout">
+                    <i class="bi bi-x-circle me-1"></i>
+                    <span class="d-none d-sm-inline">Clear Workout</span>
+                  </button>
+                </div>
               </div>
             </div>
             <div class="card-body p-3 p-md-4">
@@ -580,7 +583,7 @@ const saveRoutine = async () => {
   saving.value = true
   try {
     const routineData = {
-      title: generatedWorkout.value.routine.title,
+      title: "Generated Workout",
       goal: generatedWorkout.value.routine.goal,
       estimatedTimeMinutes: generatedWorkout.value.routine.totalTimeMin,
       intendedIntensity: generatedWorkout.value.routine.intensity,
@@ -608,7 +611,7 @@ const startWorkout = () => {
   
   // Format workout data
   const workoutData = {
-    title: generatedWorkout.value.routine.title,
+    title: "Generated Workout",
     goal: generatedWorkout.value.routine.goal,
     estimatedTimeMinutes: generatedWorkout.value.routine.totalTimeMin,
     intendedIntensity: generatedWorkout.value.routine.intensity,
@@ -631,6 +634,12 @@ const startWorkout = () => {
   })
   
   clearDraftWorkout() // Clear draft state when starting workout
+}
+
+const clearWorkout = () => {
+  generatedWorkout.value = null
+  clearDraftWorkout() // Clear draft state
+  showNotification('Workout cleared successfully!', 'success')
 }
 
 </script>

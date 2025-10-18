@@ -1,22 +1,40 @@
 <template>
   <div class="workout-tracking">
-    <div class="row mb-4">
+    <!-- No workout available - prompt to generate -->
+    <div v-if="!workoutData" class="row">
       <div class="col-12">
-        <h2><i class="bi bi-stopwatch me-2"></i>Workout in Progress</h2>
-        <div class="d-flex justify-content-between align-items-center">
-          <div>
-            <h4 class="mb-1">{{ workoutData?.title || 'Custom Workout' }}</h4>
-            <p class="text-muted mb-0">{{ workoutData?.exercises?.length || 0 }} exercises • {{ workoutData?.estimatedTimeMinutes || 45 }} min</p>
-          </div>
-          <div class="text-end">
-            <div class="h3 mb-1" :class="isActive ? 'text-success' : 'text-muted'">
-              {{ formatTime(elapsedTime) }}
-            </div>
-            <small class="text-muted">Elapsed Time</small>
+        <div class="card shadow-sm border-0">
+          <div class="card-body text-center py-5">
+            <i class="bi bi-lightning-charge display-1 text-muted mb-4"></i>
+            <h3 class="mb-3">No Workout Available</h3>
+            <p class="text-muted mb-4">You need to generate a workout first before you can start tracking your session.</p>
+            <router-link to="/workout" class="btn btn-primary btn-lg">
+              <i class="bi bi-lightning-charge me-2"></i>Generate Workout
+            </router-link>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Workout available - show tracking interface -->
+    <div v-else>
+      <div class="row mb-4">
+        <div class="col-12">
+          <h2><i class="bi bi-stopwatch me-2"></i>Workout in Progress</h2>
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h4 class="mb-1">{{ workoutName }}</h4>
+              <p class="text-muted mb-0">{{ workoutData?.exercises?.length || 0 }} exercises • {{ workoutData?.estimatedTimeMinutes || 45 }} min</p>
+            </div>
+            <div class="text-end">
+              <div class="h3 mb-1" :class="isActive ? 'text-success' : 'text-muted'">
+                {{ formatTime(elapsedTime) }}
+              </div>
+              <small class="text-muted">Elapsed Time</small>
+            </div>
+          </div>
+        </div>
+      </div>
 
     <!-- start/stop buttons -->
     <div class="row mb-4">
@@ -69,26 +87,33 @@
               <p class="mt-2">No exercises in this workout</p>
             </div>
             <div v-else>
-              <div v-for="(exercise, index) in workoutData.exercises" :key="index" class="exercise-item mb-3">
-                <div class="card">
-                  <div class="card-body">
+              <div v-for="(exercise, index) in sortedExercises" :key="index" class="exercise-item mb-3">
+                <div class="card border-0 shadow-sm">
+                  <div class="card-body p-3">
                     <div class="row align-items-center">
-                      <div class="col-md-6">
-                        <h6>{{ getExerciseName(exercise.exerciseId) }}</h6>
-                        <p class="text-muted mb-0">{{ getExerciseDescription(exercise.exerciseId) }}</p>
+                      <div class="col-12 col-md-6 mb-3 mb-md-0">
+                        <div class="d-flex align-items-center mb-2">
+                          <span class="badge bg-primary me-2">{{ index + 1 }}</span>
+                          <h6 class="mb-0 text-truncate">{{ getExerciseName(exercise.exerciseId) }}</h6>
+                        </div>
+                        <p class="text-muted mb-2 text-break">{{ getExerciseDescription(exercise.exerciseId) }}</p>
+                        <div class="d-flex gap-2">
+                          <span class="badge bg-secondary text-capitalize">{{ getExerciseIntensity(exercise.exerciseId) }}</span>
+                          <span class="badge bg-info text-capitalize">{{ getExerciseDifficulty(exercise.exerciseId) }}</span>
+                        </div>
                       </div>
-                      <div class="col-md-6">
-                        <div class="row text-center">
+                      <div class="col-12 col-md-6">
+                        <div class="row text-center g-2">
                           <div class="col-3">
-                            <div class="fw-bold">{{ exercise.sets }}</div>
+                            <div class="fw-bold text-primary">{{ exercise.sets }}</div>
                             <small class="text-muted">Sets</small>
                           </div>
                           <div class="col-3">
-                            <div class="fw-bold">{{ exercise.reps }}</div>
+                            <div class="fw-bold text-primary">{{ exercise.reps }}</div>
                             <small class="text-muted">Reps</small>
                           </div>
                           <div class="col-3">
-                            <div class="fw-bold">{{ exercise.restSeconds }}s</div>
+                            <div class="fw-bold text-primary">{{ exercise.restSeconds }}s</div>
                             <small class="text-muted">Rest</small>
                           </div>
                           <div class="col-3">
@@ -190,6 +215,7 @@
         </div>
       </div>
     </div>
+    </div>
   </div>
 </template>
 
@@ -225,17 +251,45 @@ const elapsedTime = ref(0)
 const showEndWorkoutModal = ref(false)
 const exercises = ref([])
 
-// grab workout from props or url
+// grab workout from props, url, or localStorage
 const workoutData = computed(() => {
+  // First check props
   if (props.workoutData) return props.workoutData
+  
+  // Then check URL query
   if (route.query.workoutData) {
     try {
       return JSON.parse(route.query.workoutData)
     } catch (error) {
       console.error('Error parsing workout data:', error)
-      return null
     }
   }
+  
+  // Finally check localStorage for draft workout
+  try {
+    const draftWorkout = localStorage.getItem('draftGeneratedWorkout')
+    if (draftWorkout) {
+      const parsed = JSON.parse(draftWorkout)
+      if (parsed && parsed.routine) {
+        return {
+          title: parsed.routine.title,
+          goal: parsed.routine.goal,
+          estimatedTimeMinutes: parsed.routine.totalTimeMin,
+          intendedIntensity: parsed.routine.intensity,
+          exercises: parsed.routine.items.map(item => ({
+            exerciseId: item.exerciseId,
+            sets: item.sets,
+            reps: item.reps,
+            restSeconds: item.restTimeSec,
+            completed: false
+          }))
+        }
+      }
+    }
+  } catch (error) {
+    console.error('Error loading draft workout:', error)
+  }
+  
   return null
 })
 
@@ -245,6 +299,52 @@ const sourceType = computed(() => {
 
 const sourceId = computed(() => {
   return props.sourceId || route.query.sourceId || null
+})
+
+// Computed property for sorted exercises (most intensive/difficult first)
+const sortedExercises = computed(() => {
+  if (!workoutData.value || !workoutData.value.exercises) return []
+  
+  return [...workoutData.value.exercises].sort((a, b) => {
+    // Get exercise details for intensity and difficulty comparison
+    const exerciseA = exercises.value.find(ex => ex.exerciseId === a.exerciseId)
+    const exerciseB = exercises.value.find(ex => ex.exerciseId === b.exerciseId)
+    
+    if (!exerciseA || !exerciseB) return 0
+    
+    // Define intensity order (high > medium > low)
+    const intensityOrder = { 'high': 3, 'medium': 2, 'low': 1 }
+    const difficultyOrder = { 'advanced': 3, 'intermediate': 2, 'beginner': 1 }
+    
+    // First sort by intensity (descending)
+    const intensityDiff = intensityOrder[exerciseB.intensity] - intensityOrder[exerciseA.intensity]
+    if (intensityDiff !== 0) return intensityDiff
+    
+    // Then sort by difficulty (descending)
+    const difficultyDiff = difficultyOrder[exerciseB.difficulty] - difficultyOrder[exerciseA.difficulty]
+    if (difficultyDiff !== 0) return difficultyDiff
+    
+    // Finally sort by exercise name for consistency
+    return exerciseA.name.localeCompare(exerciseB.name)
+  })
+})
+
+// Computed property for workout name
+const workoutName = computed(() => {
+  if (!workoutData.value) return 'Custom Workout'
+  
+  // If the workout title is "Generated Workout", always show that
+  if (workoutData.value.title === 'Generated Workout') {
+    return 'Generated Workout'
+  }
+  
+  // For routine-based workouts, show the routine name
+  if (sourceType.value === 'routine' && workoutData.value.title) {
+    return workoutData.value.title
+  }
+  
+  // Fallback to workout title or default
+  return workoutData.value.title || 'Custom Workout'
 })
 
 const endWorkoutForm = ref({
@@ -275,6 +375,16 @@ const getExerciseName = (exerciseId) => {
 const getExerciseDescription = (exerciseId) => {
   const exercise = exercises.value.find(ex => ex.exerciseId === exerciseId)
   return exercise ? exercise.description : ''
+}
+
+const getExerciseIntensity = (exerciseId) => {
+  const exercise = exercises.value.find(ex => ex.exerciseId === exerciseId)
+  return exercise ? exercise.intensity : 'Unknown'
+}
+
+const getExerciseDifficulty = (exerciseId) => {
+  const exercise = exercises.value.find(ex => ex.exerciseId === exerciseId)
+  return exercise ? exercise.difficulty : 'Unknown'
 }
 
 const startWorkout = async () => {

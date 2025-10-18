@@ -128,20 +128,45 @@
             </div>
             <div v-else>
               <div v-for="routine in routines" :key="routine.routineId" class="routine-item mb-3">
-                <div class="card">
+                <div class="card routine-card mb-3">
                   <div class="card-body">
-                    <h6>{{ routine.title }}</h6>
-                    <p class="text-muted mb-2">{{ routine.exercises.length }} exercises • {{ routine.estimatedTimeMinutes }} min</p>
-                    <div class="d-flex justify-content-between">
-                      <span class="badge bg-primary">{{ routine.goal.replace('_', ' ') }}</span>
-                      <span class="badge bg-secondary">{{ routine.intendedIntensity }}</span>
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                      <h6 class="mb-0 text-truncate">{{ routine.title }}</h6>
+                      <div class="d-flex gap-1">
+                        <span class="badge bg-primary text-capitalize">{{ routine.goal.replace('_', ' ') }}</span>
+                        <span class="badge bg-secondary text-capitalize">{{ routine.intendedIntensity }}</span>
+                      </div>
                     </div>
-                    <div class="mt-2">
-                      <button class="btn btn-outline-primary btn-sm me-1" @click="editRoutine(routine)">
-                        <i class="bi bi-pencil me-1"></i>Edit
+                    
+                    <div class="row g-3 mb-3">
+                      <div class="col-12 col-md-6">
+                        <div class="bg-light rounded p-2 d-flex align-items-center gap-2 text-nowrap">
+                          <i class="bi bi-list-ul text-dark"></i>
+                          <span class="fw-bold text-dark">{{ routine.exercises.length }}</span>
+                          <span class="text-muted">Exercise{{ routine.exercises.length !== 1 ? 's' : '' }}</span>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <div class="bg-light rounded p-2 d-flex align-items-center gap-2 text-nowrap">
+                          <i class="bi bi-clock text-dark"></i>
+                          <span class="fw-bold text-dark">{{ routine.estimatedTimeMinutes }}</span>
+                          <span class="text-muted">Minutes</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="d-flex flex-wrap gap-2">
+                      <button class="btn btn-outline-success d-inline-flex align-items-center text-nowrap px-3 btn-sm"
+                              @click="startWorkoutFromRoutine(routine)">
+                        <i class="bi bi-play-fill me-1"></i> Start Workout
                       </button>
-                      <button class="btn btn-outline-danger btn-sm" @click="deleteRoutine(routine.routineId)">
-                        <i class="bi bi-trash me-1"></i>Delete
+                      <button class="btn btn-outline-primary d-inline-flex align-items-center text-nowrap px-3 btn-sm"
+                              @click="editRoutine(routine)">
+                        <i class="bi bi-pencil-square me-1"></i> Edit
+                      </button>
+                      <button class="btn btn-outline-danger d-inline-flex align-items-center text-nowrap px-3 btn-sm"
+                              @click="deleteRoutine(routine.routineId)">
+                        <i class="bi bi-trash me-1"></i> Delete
                       </button>
                     </div>
                   </div>
@@ -205,9 +230,12 @@
 
 <script setup>
 import { ref, onMounted, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import { WorkoutService } from '../services/workoutService.js'
 import ExerciseForm from '../components/ExerciseForm.vue'
 import ExerciseSelector from '../components/ExerciseSelector.vue'
+
+const router = useRouter()
 
 const loading = ref(false)
 const saving = ref(false)
@@ -445,6 +473,33 @@ const cancelDeleteRoutine = () => {
   deleteConfirmation.value.show = false
 }
 
+const startWorkoutFromRoutine = (routine) => {
+  // Format workout data for WorkoutTracking
+  const workoutData = {
+    title: routine.title,
+    goal: routine.goal,
+    estimatedTimeMinutes: routine.estimatedTimeMinutes,
+    intendedIntensity: routine.intendedIntensity,
+    exercises: routine.exercises.map(exercise => ({
+      exerciseId: exercise.exerciseId,
+      sets: exercise.sets,
+      reps: exercise.reps,
+      restSeconds: exercise.restSeconds,
+      completed: false
+    }))
+  }
+  
+  // Navigate to WorkoutTracking with routine data
+  router.push({
+    name: 'WorkoutTracking',
+    query: {
+      workoutData: JSON.stringify(workoutData),
+      sourceType: 'routine',
+      sourceId: routine.routineId
+    }
+  })
+}
+
 const cancelEdit = () => {
   editingRoutine.value = null
   resetForm()
@@ -461,6 +516,60 @@ const resetForm = () => {
   }
 }
 </script>
+
+<style scoped>
+.routine-card {
+  border: 2px solid var(--bs-border-color);
+  border-radius: 1rem;
+  box-shadow: 0 0.25rem 0.75rem rgba(0,0,0,.06);
+  background-color: #fafafa;
+}
+
+.routine-card:hover {
+  border-color: #666;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,.08);
+}
+
+/* Keep stat tiles tidy on one line even when counts are 2–3 digits */
+.routine-card .bg-light { 
+  white-space: nowrap;
+  background-color: #f0f0f0 !important;
+}
+
+/* Custom button styling for monochrome theme */
+.routine-card .btn-outline-success {
+  border-color: #28a745;
+  color: #28a745;
+}
+
+.routine-card .btn-outline-success:hover {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: white;
+}
+
+.routine-card .btn-outline-primary {
+  border-color: #6c757d;
+  color: #6c757d;
+}
+
+.routine-card .btn-outline-primary:hover {
+  background-color: #6c757d;
+  border-color: #6c757d;
+  color: white;
+}
+
+.routine-card .btn-outline-danger {
+  border-color: #dc3545;
+  color: #dc3545;
+}
+
+.routine-card .btn-outline-danger:hover {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: white;
+}
+</style>
 
 
 
