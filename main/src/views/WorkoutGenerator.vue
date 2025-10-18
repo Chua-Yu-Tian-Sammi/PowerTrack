@@ -248,9 +248,12 @@
               </div>
               <div v-else class="text-center py-4">
                 <i class="bi bi-person-circle display-4 text-muted mb-3"></i>
-                <p class="text-muted mb-3 text-break">Sign in to see your personalized stats</p>
+                <p class="text-muted mb-3 text-break">
+                  {{ AuthService.getCurrentUser() ? 'Create your profile to see personalized stats' : 'Sign in to see your personalized stats' }}
+                </p>
                 <router-link to="/profile" class="btn btn-outline-primary btn-sm">
-                  <i class="bi bi-person-plus me-2"></i>Create Profile
+                  <i class="bi me-2" :class="AuthService.getCurrentUser() ? 'bi-person-plus' : 'bi-box-arrow-in-right'"></i>
+                  {{ AuthService.getCurrentUser() ? 'Create Profile' : 'Sign In' }}
                 </router-link>
               </div>
             </div>
@@ -266,7 +269,7 @@
               <div class="row align-items-center">
                 <div class="col-12 col-md-8">
                   <h4 class="mb-1 text-dark text-break">
-                    <i class="bi bi-check-circle me-2 text-success"></i>{{ generatedWorkout.routine.title }}
+                    <i class="bi bi-check-circle me-2 text-success"></i>Generated Workout
                   </h4>
                   <p class="text-muted mb-0 text-break">Your personalized workout is ready!</p>
     </div>
@@ -289,52 +292,24 @@
             </div>
             <div class="card-body p-3 p-md-4">
               <!-- Summary -->
-              <div class="row g-3 mb-4">
-                <div class="col-6 col-sm-3">
-                  <div class="stat-card">
-                    <div class="stat-icon">
-                      <i class="bi bi-clock"></i>
-                    </div>
-                    <div class="stat-content">
-                      <div class="stat-value">{{ generatedWorkout.routine.totalTimeMin }}</div>
-                      <div class="stat-label">Minutes</div>
+              <div class="row g-2 mb-3">
+                <div class="col-6">
+                  <div class="d-flex align-items-center p-2 bg-light rounded">
+                    <i class="bi bi-clock text-primary me-2"></i>
+                    <div class="fw-bold text-primary">
+                      {{ generatedWorkout.routine.totalTimeMin }} Minutes
                     </div>
                   </div>
                 </div>
-                <div class="col-6 col-sm-3">
-                  <div class="stat-card">
-                    <div class="stat-icon">
-                      <i class="bi bi-fire"></i>
-                    </div>
-                    <div class="stat-content">
-                      <div class="stat-value text-truncate">{{ generatedWorkout.routine.intensity === 'low' ? 'Low' : generatedWorkout.routine.intensity === 'medium' ? 'Medium' : 'High' }}</div>
-                      <div class="stat-label">Intensity</div>
+                <div class="col-6">
+                  <div class="d-flex align-items-center p-2 bg-light rounded">
+                    <i class="bi bi-list-ul text-primary me-2"></i>
+                    <div class="fw-bold text-primary">
+                      {{ generatedWorkout.routine.items.length }} Exercise{{ generatedWorkout.routine.items.length !== 1 ? 's' : '' }}
                     </div>
                   </div>
                 </div>
-                <div class="col-6 col-sm-3">
-                  <div class="stat-card">
-                    <div class="stat-icon">
-                      <i class="bi bi-list-ul"></i>
-                    </div>
-                    <div class="stat-content">
-                      <div class="stat-value">{{ generatedWorkout.routine.items.length }}</div>
-                      <div class="stat-label">Exercises</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-6 col-sm-3">
-                  <div class="stat-card">
-                    <div class="stat-icon">
-                      <i class="bi bi-trophy"></i>
-                    </div>
-                    <div class="stat-content">
-                      <div class="stat-value text-truncate">{{ generatedWorkout.routine.goal === 'weight_loss' ? 'Weight Loss' : generatedWorkout.routine.goal === 'muscle_gain' ? 'Muscle Gain' : generatedWorkout.routine.goal === 'general_fitness' ? 'General Fitness' : generatedWorkout.routine.goal.charAt(0).toUpperCase() + generatedWorkout.routine.goal.slice(1) }}</div>
-                      <div class="stat-label">Goal</div>
-            </div>
-            </div>
-            </div>
-          </div>
+              </div>
           
               <!-- Exercises -->
               <div class="exercises-section">
@@ -343,40 +318,37 @@
                 </h5>
           <div class="exercises-list">
                   <div 
-              v-for="(item, index) in generatedWorkout.routine.items" 
-              :key="index"
+                    v-for="(item, index) in sortedExercises" 
+                    :key="item.exerciseId"
                     class="exercise-item mb-3"
                   >
-                    <div class="card">
+                    <div class="card border-0 shadow-sm">
                       <div class="card-body p-3">
                         <div class="row align-items-center">
                           <div class="col-12 col-md-6 mb-3 mb-md-0">
-                            <h6 class="mb-1 text-truncate">{{ getExerciseName(item.exerciseId) }}</h6>
+                            <div class="d-flex align-items-center mb-2">
+                              <span class="badge bg-primary me-2">{{ index + 1 }}</span>
+                              <h6 class="mb-0 text-truncate">{{ getExerciseName(item.exerciseId) }}</h6>
+                            </div>
                             <p class="text-muted mb-2 text-break">{{ getExerciseDescription(item.exerciseId) }}</p>
-                            <div v-if="item.notes" class="mt-2">
-                              <small class="text-info text-break">
-                                <i class="bi bi-lightbulb me-1"></i>{{ item.notes }}
-                              </small>
+                            <div class="d-flex gap-2">
+                              <span class="badge bg-secondary text-capitalize">{{ getExerciseIntensity(item.exerciseId) }}</span>
+                              <span class="badge bg-info text-capitalize">{{ getExerciseDifficulty(item.exerciseId) }}</span>
                             </div>
                           </div>
                           <div class="col-12 col-md-6">
                             <div class="row text-center g-2">
-                              <div class="col-3">
+                              <div class="col-4">
                                 <div class="fw-bold text-primary">{{ item.sets }}</div>
                                 <small class="text-muted">Sets</small>
                               </div>
-                              <div class="col-3">
+                              <div class="col-4">
                                 <div class="fw-bold text-primary">{{ item.reps }}</div>
                                 <small class="text-muted">Reps</small>
                               </div>
-                              <div class="col-3">
+                              <div class="col-4">
                                 <div class="fw-bold text-primary">{{ item.restTimeSec }}s</div>
                                 <small class="text-muted">Rest</small>
-                              </div>
-                              <div class="col-3">
-                                <div class="exercise-number">
-                                  <span class="badge bg-primary">{{ index + 1 }}</span>
-                                </div>
                               </div>
                             </div>
                           </div>
@@ -390,20 +362,20 @@
           </div>
         </div>
       </div>
-    </div>
 
     <!-- Toast -->
     <div v-if="notification.show" class="notification-container">
       <div class="notification" :class="`notification-${notification.type}`">
         <i class="bi" :class="notification.type === 'success' ? 'bi-check-circle' : 'bi-exclamation-triangle'"></i>
         <span>{{ notification.message }}</span>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { WorkoutService } from '../services/workoutService.js'
 import { AuthService } from '../services/authService.js'
@@ -447,10 +419,34 @@ const showNotification = (message, type = 'success') => {
 }
 
 onMounted(async () => {
-  userProfile.value = await AuthService.getCurrentUserProfile()
+  await loadUserProfile()
   initializeForm()
   loadDraftWorkout()
+  
+  // Listen for auth state changes
+  AuthService.onAuthStateChanged(async (user) => {
+    if (user) {
+      await loadUserProfile()
+    } else {
+      userProfile.value = null
+    }
+  })
 })
+
+// Load user profile with proper auth checking
+const loadUserProfile = async () => {
+  try {
+    const currentUser = AuthService.getCurrentUser()
+    if (currentUser) {
+  userProfile.value = await AuthService.getCurrentUserProfile()
+    } else {
+      userProfile.value = null
+    }
+  } catch (error) {
+    console.error('Error loading user profile:', error)
+    userProfile.value = null
+  }
+}
 
 // Load draft workout state from localStorage
 const loadDraftWorkout = () => {
@@ -512,6 +508,34 @@ watch(generatedWorkout, () => {
   saveDraftWorkout()
 }, { deep: true })
 
+// Computed property for sorted exercises (most intensive/difficult first)
+const sortedExercises = computed(() => {
+  if (!generatedWorkout.value) return []
+  
+  return [...generatedWorkout.value.routine.items].sort((a, b) => {
+    // Get exercise details for intensity and difficulty comparison
+    const exerciseA = generatedWorkout.value.exercises.find(ex => ex.exerciseId === a.exerciseId)
+    const exerciseB = generatedWorkout.value.exercises.find(ex => ex.exerciseId === b.exerciseId)
+    
+    if (!exerciseA || !exerciseB) return 0
+    
+    // Define intensity order (high > medium > low)
+    const intensityOrder = { 'high': 3, 'medium': 2, 'low': 1 }
+    const difficultyOrder = { 'advanced': 3, 'intermediate': 2, 'beginner': 1 }
+    
+    // First sort by intensity (descending)
+    const intensityDiff = intensityOrder[exerciseB.intensity] - intensityOrder[exerciseA.intensity]
+    if (intensityDiff !== 0) return intensityDiff
+    
+    // Then sort by difficulty (descending)
+    const difficultyDiff = difficultyOrder[exerciseB.difficulty] - difficultyOrder[exerciseA.difficulty]
+    if (difficultyDiff !== 0) return difficultyDiff
+    
+    // Finally sort by exercise name for consistency
+    return exerciseA.name.localeCompare(exerciseB.name)
+  })
+})
+
 const generateWorkout = async () => {
   loading.value = true
   try {
@@ -536,6 +560,18 @@ const getExerciseDescription = (exerciseId) => {
   if (!generatedWorkout.value) return ''
   const exercise = generatedWorkout.value.exercises.find(ex => ex.exerciseId === exerciseId)
   return exercise ? exercise.description : ''
+}
+
+const getExerciseIntensity = (exerciseId) => {
+  if (!generatedWorkout.value) return 'Unknown'
+  const exercise = generatedWorkout.value.exercises.find(ex => ex.exerciseId === exerciseId)
+  return exercise ? exercise.intensity : 'Unknown'
+}
+
+const getExerciseDifficulty = (exerciseId) => {
+  if (!generatedWorkout.value) return 'Unknown'
+  const exercise = generatedWorkout.value.exercises.find(ex => ex.exerciseId === exerciseId)
+  return exercise ? exercise.difficulty : 'Unknown'
 }
 
 const saveRoutine = async () => {
