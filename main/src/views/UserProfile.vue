@@ -201,7 +201,7 @@
               <button type="submit" class="btn btn-primary btn-lg" :disabled="saving">
                     <span v-if="saving" class="spinner-border spinner-border-sm me-2"></span>
                 <i v-if="!saving" class="bi bi-check-circle me-2"></i>
-                {{ saving ? 'Saving Changes...' : 'Save Changes' }}
+                {{ saving ? 'Saving Profile...' : 'Save Profile' }}
                   </button>
                 </div>
               </form>
@@ -387,6 +387,14 @@
       </div>
     </div>
   </div>
+
+  <!-- Toast Notification -->
+  <div v-if="notification.show" class="notification-container">
+    <div class="notification" :class="`notification-${notification.type}`">
+      <i class="bi" :class="notification.type === 'success' ? 'bi-check-circle' : 'bi-exclamation-triangle'"></i>
+      <span>{{ notification.message }}</span>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -400,6 +408,13 @@ const signingIn = ref(false)
 const signingUp = ref(false)
 const showSignIn = ref(false)
 const showSignUp = ref(false)
+
+// Toast notification
+const notification = ref({
+  show: false,
+  message: '',
+  type: 'success'
+})
 
 const profileForm = ref({
   username: '',
@@ -453,6 +468,14 @@ onMounted(async () => {
   await loadUserProfile()
 })
 
+// Toast notification function
+const showNotification = (message, type = 'success') => {
+  notification.value = { show: true, message, type }
+  setTimeout(() => {
+    notification.value.show = false
+  }, 3000)
+}
+
 const loadUserProfile = async () => {
   try {
     const currentUser = AuthService.getCurrentUser()
@@ -481,8 +504,10 @@ const updateProfile = async () => {
   try {
     await AuthService.updateProfile(profileForm.value)
     await loadUserProfile()
+    showNotification('Profile Saved!', 'success')
   } catch (error) {
     console.error('Error updating profile:', error)
+    showNotification('Error in saving profile, try again.', 'error')
   } finally {
     saving.value = false
   }
