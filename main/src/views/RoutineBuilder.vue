@@ -67,7 +67,7 @@
                 </div>
               </div>
 
-              <!-- exercises you're adding -->
+              <!-- exercises user is adding -->
               <div class="mb-4">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                   <h5>Exercises</h5>

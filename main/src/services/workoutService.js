@@ -115,6 +115,30 @@ async function getUserWorkoutLogs({ uid, limit = 50 } = {}) {
   return data;
 }
 
+async function startWorkoutSession(sourceType, sourceId, routineData) {
+  const fn = httpsCallable(functions, 'startWorkoutSession');
+  const { data } = await fn({ sourceType, sourceId, routineData });
+  return data;
+}
+
+async function endWorkoutSession(sessionId, perceivedIntensity, mood, notes, performedExercises) {
+  const fn = httpsCallable(functions, 'endWorkoutSession');
+  const { data } = await fn({ sessionId, perceivedIntensity, mood, notes, performedExercises });
+  return data;
+}
+
+async function getWorkoutSession(sessionId) {
+  const fn = httpsCallable(functions, 'getWorkoutSession');
+  const { data } = await fn({ sessionId });
+  return data;
+}
+
+async function getUserWorkoutSessions({ limit = 20 } = {}) {
+  const fn = httpsCallable(functions, 'getUserWorkoutSessions');
+  const { data } = await fn({ limit });
+  return data;
+}
+
 export const WorkoutService = {
   getUserProfile,
   upsertUserProfile,
@@ -134,6 +158,10 @@ export const WorkoutService = {
   generateWorkout,
   getProgressSummaries,
   getUserWorkoutLogs,
+  startWorkoutSession,
+  endWorkoutSession,
+  getWorkoutSession,
+  getUserWorkoutSessions,
 };
 
 export {
@@ -154,6 +182,10 @@ export {
   generateWorkout,
   getProgressSummaries,
   getUserWorkoutLogs,
+  startWorkoutSession,
+  endWorkoutSession,
+  getWorkoutSession,
+  getUserWorkoutSessions,
 };
 
 export default WorkoutService;

@@ -8,7 +8,7 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   plugins: [
     vue(),
-    // vueDevTools(), // Disabled to prevent excessive reloads
+    // vueDevTools(), 
   ],
   resolve: {
     alias: {

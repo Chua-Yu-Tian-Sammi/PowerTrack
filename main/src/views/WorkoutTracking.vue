@@ -299,6 +299,7 @@ const startWorkout = async () => {
     
   } catch (error) {
     console.error('Error starting workout:', error)
+    // You could add a toast notification here
   } finally {
     starting.value = false
   }
@@ -319,7 +320,7 @@ const endWorkout = async () => {
       targetSets: exercise.sets,
       targetReps: exercise.reps,
       targetRestSeconds: exercise.restSeconds,
-    performedSets: []
+      performedSets: []
     })) || []
     
     // finish the session
@@ -353,6 +354,7 @@ const endWorkout = async () => {
     router.push('/progress')
   } catch (error) {
     console.error('Error ending workout:', error)
+    // You could add a toast notification here
   } finally {
     ending.value = false
     showEndWorkoutModal.value = false
