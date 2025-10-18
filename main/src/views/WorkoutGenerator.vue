@@ -403,7 +403,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted} from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { WorkoutService } from '../services/workoutService.js'
 import { AuthService } from '../services/authService.js'
@@ -449,7 +449,69 @@ const showNotification = (message, type = 'success') => {
 onMounted(async () => {
   userProfile.value = await AuthService.getCurrentUserProfile()
   initializeForm()
+  loadDraftWorkout()
 })
+
+// Load draft workout state from localStorage
+const loadDraftWorkout = () => {
+  try {
+    const draftKey = 'draftWorkoutState'
+    const generatedKey = 'draftGeneratedWorkout'
+    
+    // Load draft workout form state
+    const draftState = JSON.parse(localStorage.getItem(draftKey) || 'null')
+    if (draftState) {
+      workoutForm.value = { ...workoutForm.value, ...draftState }
+    }
+    
+    // Load generated workout
+    const generatedWorkoutData = JSON.parse(localStorage.getItem(generatedKey) || 'null')
+    if (generatedWorkoutData) {
+      generatedWorkout.value = generatedWorkoutData
+      showNotification('Draft workout loaded', 'success')
+    }
+  } catch (error) {
+    console.error('Error loading draft workout:', error)
+  }
+}
+
+// Save draft workout state to localStorage
+const saveDraftWorkout = () => {
+  try {
+    const draftKey = 'draftWorkoutState'
+    const generatedKey = 'draftGeneratedWorkout'
+    
+    // Save workout form state
+    localStorage.setItem(draftKey, JSON.stringify(workoutForm.value))
+    
+    // Save generated workout if it exists
+    if (generatedWorkout.value) {
+      localStorage.setItem(generatedKey, JSON.stringify(generatedWorkout.value))
+    }
+  } catch (error) {
+    console.error('Error saving draft workout:', error)
+  }
+}
+
+// Clear draft workout state
+const clearDraftWorkout = () => {
+  try {
+    localStorage.removeItem('draftWorkoutState')
+    localStorage.removeItem('draftGeneratedWorkout')
+  } catch (error) {
+    console.error('Error clearing draft workout:', error)
+  }
+}
+
+// Watch for changes in workout form and save draft state
+watch(workoutForm, () => {
+  saveDraftWorkout()
+}, { deep: true })
+
+// Watch for changes in generated workout and save draft state
+watch(generatedWorkout, () => {
+  saveDraftWorkout()
+}, { deep: true })
 
 const generateWorkout = async () => {
   loading.value = true
@@ -497,6 +559,7 @@ const saveRoutine = async () => {
     
     await WorkoutService.createRoutine(routineData)
     showNotification('Routine saved successfully!', 'success')
+    clearDraftWorkout() // Clear draft state after successful save
   } catch (error) {
     console.error('Error saving routine:', error)
     showNotification('Failed to save routine. Please try again.', 'error')
@@ -531,6 +594,8 @@ const startWorkout = () => {
       sourceId: generatedWorkout.value.routine.routineId
     }
   })
+  
+  clearDraftWorkout() // Clear draft state when starting workout
 }
 
 </script>

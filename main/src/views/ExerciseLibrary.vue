@@ -88,7 +88,7 @@
       <div v-for="exercise in filteredExercises" :key="exercise.exerciseId" class="col-lg-4 col-md-6">
         <ExerciseCard 
           :exercise="exercise"
-          @add-to-routine="addToRoutine"
+          @addToRoutine="addToRoutine"
         />
       </div>
     </div>
@@ -98,6 +98,14 @@
       <i class="bi bi-search display-1 text-muted"></i>
       <h4 class="mt-3">No exercises found</h4>
       <p class="text-muted">Try adjusting your filters or search terms</p>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div v-if="notification.show" class="notification-container">
+    <div class="notification" :class="`notification-${notification.type}`">
+      <i class="bi" :class="notification.type === 'success' ? 'bi-check-circle' : 'bi-exclamation-triangle'"></i>
+      <span>{{ notification.message }}</span>
     </div>
   </div>
 </template>
@@ -110,6 +118,13 @@ import ExerciseCard from '../components/ExerciseCard.vue'
 const loading = ref(false)
 const exercises = ref([])
 const searchQuery = ref('')
+
+// Toast notification
+const notification = ref({
+  show: false,
+  message: '',
+  type: 'success'
+})
 
 const filters = ref({
   muscle: '',
@@ -163,6 +178,14 @@ onMounted(async () => {
   await loadExercises()
 })
 
+// Toast notification function
+const showNotification = (message, type = 'success') => {
+  notification.value = { show: true, message, type }
+  setTimeout(() => {
+    notification.value.show = false
+  }, 3000)
+}
+
 const loadExercises = async () => {
   loading.value = true
   try {
@@ -191,9 +214,13 @@ const addToRoutine = (exercise) => {
       }
       existing.push(drafted)
       localStorage.setItem(key, JSON.stringify(existing))
+      showNotification(`${exercise.name} added to routine!`, 'success')
+    } else {
+      showNotification(`${exercise.name} is already in your routine`, 'error')
     }
   } catch (error) {
     console.error('Error adding exercise to draft routine:', error)
+    showNotification('Failed to add exercise to routine', 'error')
   }
 }
 
