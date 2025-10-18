@@ -160,6 +160,14 @@
       @close="showExerciseSelector = false"
       @select="addExerciseToRoutine"
     />
+
+    <!-- Toast Notification -->
+    <div v-if="notification.show" class="notification-container">
+      <div class="notification" :class="`notification-${notification.type}`">
+        <i class="bi" :class="notification.type === 'success' ? 'bi-check-circle' : 'bi-exclamation-triangle'"></i>
+        <span>{{ notification.message }}</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -176,6 +184,13 @@ const exercises = ref([])
 const showExerciseSelector = ref(false)
 const editingRoutine = ref(null)
 
+// Toast notification
+const notification = ref({
+  show: false,
+  message: '',
+  type: 'success'
+})
+
 const routineForm = ref({
   title: '',
   goal: 'general_fitness',
@@ -189,13 +204,21 @@ onMounted(async () => {
   await loadExercises()
 })
 
+// Toast notification function
+const showNotification = (message, type = 'success') => {
+  notification.value = { show: true, message, type }
+  setTimeout(() => {
+    notification.value.show = false
+  }, 3000)
+}
+
 const loadRoutines = async () => {
   loading.value = true
   try {
     routines.value = await WorkoutService.getUserRoutines()
   } catch (error) {
     console.error('Error loading routines:', error)
-    alert('Failed to load routines. Please try again.')
+    showNotification('Failed to load routines. Please try again.', 'error')
   } finally {
     loading.value = false
   }
@@ -242,17 +265,17 @@ const saveRoutine = async () => {
         routineId: editingRoutine.value.routineId,
         ...routineForm.value
       })
-      alert('Routine updated successfully!')
+      showNotification('Routine updated successfully!', 'success')
     } else {
       await WorkoutService.createRoutine(routineForm.value)
-      alert('Routine created successfully!')
+      showNotification('Routine created successfully!', 'success')
     }
     
     await loadRoutines()
     resetForm()
   } catch (error) {
     console.error('Error saving routine:', error)
-    alert('Failed to save routine. Please try again.')
+    showNotification('Failed to save routine. Please try again.', 'error')
   } finally {
     saving.value = false
   }
@@ -280,11 +303,11 @@ const deleteRoutine = async (routineId) => {
   
   try {
     await WorkoutService.deleteRoutine(routineId)
-    alert('Routine deleted successfully!')
+    showNotification('Routine deleted successfully!', 'success')
     await loadRoutines()
   } catch (error) {
     console.error('Error deleting routine:', error)
-    alert('Failed to delete routine. Please try again.')
+    showNotification('Failed to delete routine. Please try again.', 'error')
   }
 }
 
