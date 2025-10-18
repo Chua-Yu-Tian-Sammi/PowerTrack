@@ -468,7 +468,6 @@ const loadDraftWorkout = () => {
     const generatedWorkoutData = JSON.parse(localStorage.getItem(generatedKey) || 'null')
     if (generatedWorkoutData) {
       generatedWorkout.value = generatedWorkoutData
-      showNotification('Draft workout loaded', 'success')
     }
   } catch (error) {
     console.error('Error loading draft workout:', error)

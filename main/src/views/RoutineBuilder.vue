@@ -286,7 +286,7 @@ const loadDraftRoutine = () => {
     
     // Show notification if there's a draft routine
     if (draftState || draftExercises.length > 0) {
-      showNotification('Draft routine loaded', 'success')
+      // Silent loading - no notification needed
     }
   } catch (error) {
     console.error('Error loading draft routine:', error)
