@@ -432,6 +432,8 @@ const signUpForm = ref({
 onMounted(async () => {
   AuthService.onAuthStateChanged(async (user) => {
     if (user) {
+      // Add a small delay to ensure profile is created in Firestore
+      await new Promise(resolve => setTimeout(resolve, 500))
       await loadUserProfile()
     } else {
       userProfile.value = null
@@ -464,9 +466,13 @@ const loadUserProfile = async () => {
     
     if (userProfile.value) {
       profileForm.value = { ...userProfile.value }
+    } else {
+      
+      userProfile.value = null
     }
   } catch (error) {
     console.error('Error loading user profile:', error)
+    userProfile.value = null
   }
 }
 
@@ -514,21 +520,26 @@ const signUp = async () => {
     
     await AuthService.signUp(signUpForm.value.email, signUpForm.value.password, userData)
     
-    await new Promise(resolve => setTimeout(resolve, 1000))
+    
+    await new Promise(resolve => setTimeout(resolve, 1500))
+    
     
     await loadUserProfile()
     
-    showSignUp.value = false
-    signUpForm.value = {
-      email: '',
-      password: '',
-      username: '',
-      heightCm: 175,
-      weightKg: 70,
-      goal: 'general_fitness',
-      experienceLevel: 'beginner',
-      preferredIntensity: 'medium',
-      preferredTimeMin: 45
+    // Only hide signup form if profile loaded successfully
+    if (userProfile.value) {
+      showSignUp.value = false
+      signUpForm.value = {
+        email: '',
+        password: '',
+        username: '',
+        heightCm: 175,
+        weightKg: 70,
+        goal: 'general_fitness',
+        experienceLevel: 'beginner',
+        preferredIntensity: 'medium',
+        preferredTimeMin: 45
+      }
     }
   } catch (error) {
     console.error('Error signing up:', error)
