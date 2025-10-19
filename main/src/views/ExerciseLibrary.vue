@@ -29,8 +29,7 @@
             <div class="row">
               <div class="col-md-3">
                 <label class="form-label">Muscle Group</label>
-                <!-- <select class="form-select" v-model="filters.muscle" @change="filterExercises"> -->
-                <select class="form-select" v-model="filters.muscle">
+                <select class="form-select" v-model="filters.muscle" @change="filterExercises">
                   <option value="">All</option>
                   <option value="chest">Chest</option>
                   <option value="back">Back</option>
@@ -43,8 +42,7 @@
               </div>
               <div class="col-md-3">
                 <label class="form-label">Equipment</label>
-                <!-- <select class="form-select" v-model="filters.equipment" @change="filterExercises"> -->
-                <select class="form-select" v-model="filters.equipment">
+                <select class="form-select" v-model="filters.equipment" @change="filterExercises">
                   <option value="">All</option>
                   <option value="bodyweight">Bodyweight</option>
                   <option value="dumbbells">Dumbbells</option>
@@ -53,75 +51,18 @@
                   <option value="pullup_bar">Pull-up Bar</option>
                 </select>
               </div>
-              <div class="col-md-3 position-static">
+              <div class="col-md-3">
                 <label class="form-label">Intensity</label>
-                <div class="dropdown">
-                  <button
-                    class="btn btn-outline-secondary dropdown-toggle w-100 text-start"
-                    type="button"
-                    id="intensityDropdown"
-                    data-bs-toggle="dropdown"
-                    data-bs-container="body"
-                    data-bs-boundary="viewport"
-                    aria-expanded="false">
-                    <!-- Button label: reflect current selection -->
-                    <template v-if="!filters.intensity">All</template>
-                    <template v-else-if="filters.intensity === 'low'">
-                      Low <i class="bi bi-fire me-1" style="color: #FF7F00;"></i>
-                    </template>
-                    <template v-else-if="filters.intensity === 'medium'">
-                      Medium <i class="bi bi-fire me-1" style="color: #FF7F00;"></i>
-                      <i class="bi bi-fire me-1" style="color: #FF7F00;"></i>
-                    </template>
-                    <template v-else>
-                      High <i class="bi bi-fire me-1" style="color: #FF7F00;"></i>
-                      <i class="bi bi-fire me-1" style="color: #FF7F00;"></i>
-                      <i class="bi bi-fire me-1" style="color: #FF7F00;"></i>
-                    </template>
-                  </button>
-                  <ul class="dropdown-menu w-100" aria-labelledby="intensityDropdown">
-                    <li>
-                      <a class="dropdown-item" href="#" @click.prevent="setIntensity('')">
-                        All
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#" @click.prevent="setIntensity('low')">
-                        Low <i class="bi bi-fire me-1" style="color: #FF7F00;"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#" @click.prevent="setIntensity('medium')">
-                        Medium <i class="bi bi-fire me-1" style="color: #FF7F00;"></i>
-                        <i class="bi bi-fire me-1" style="color: #FF7F00;"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#" @click.prevent="setIntensity('high')">
-                        High <i class="bi bi-fire me-1" style="color: #FF7F00;"></i>
-                        <i class="bi bi-fire me-1" style="color: #FF7F00;"></i>
-                        <i class="bi bi-fire me-1" style="color: #FF7F00;"></i>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                <!-- <select class="form-select" v-model="filters.intensity" @change="filterExercises"> -->
-                
-                  <!-- <select class="selectpicker" v-model="filters.intensity" @change="filterExercises" data-html="true">
+                <select class="form-select" v-model="filters.intensity" @change="filterExercises">
                   <option value="">All</option>
-                  <option value="low" data-content='<i class="bi bi-fire me-1" style="color: #FF7F00;"></i>Low'>Low</option>
-                  <option value="medium" data-content='<i class="bi bi-fire me-1" style="color: #FF7F00;"></i><i class="bi bi-fire me-1" style="color: #FF7F00;"></i>Medium'>Medium</option>
-                  <option value="high" data-content='<i class="bi bi-fire me-1" style="color: #FF7F00;"></i><i class="bi bi-fire me-1" style="color: #FF7F00;"></i><i class="bi bi-fire me-1" style="color: #FF7F00;"></i>High'>High</option>
-
-                  <option value="low">Low</option>
-                  <option value="medium">Medium</option>
-                  <option value="high">High</option> -->
-                <!-- </select> -->
+                  <option value="low">Low &#x1F525;</option>
+                  <option value="medium">Medium &#x1F525; &#x1F525;</option>
+                  <option value="high">High &#x1F525; &#x1F525; &#x1F525;</option>
+                </select>
               </div>
               <div class="col-md-3">
                 <label class="form-label">Difficulty</label>
-                <!-- <select class="form-select" v-model="filters.difficulty" @change="filterExercises"> -->
-                <select class="form-select" v-model="filters.difficulty">
+                <select class="form-select" v-model="filters.difficulty" @change="filterExercises">
                   <option value="">All</option>
                   <option value="beginner">Beginner</option>
                   <option value="intermediate">Intermediate</option>
@@ -202,10 +143,6 @@ const filters = ref({
   intensity: '',
   difficulty: ''
 })
-
-const setIntensity = (level) => {
-  filters.value.intensity = level
-}
 
 const filteredExercises = computed(() => {
   let filtered = exercises.value
