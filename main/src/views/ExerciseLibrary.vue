@@ -144,7 +144,8 @@
 
     <!-- exercise cards -->
     <div v-else class="row g-4">
-      <div v-for="exercise in filteredExercises" :key="exercise.exerciseId" class="col-lg-4 col-md-6">
+      <!-- <div v-for="exercise in filteredExercises" :key="exercise.exerciseId" class="col-lg-4 col-md-6"> -->
+      <div v-for="exercise in paginatedexercisecard" :key="exercise.exerciseId" class="col-lg-4 col-md-6">
         <ExerciseCard 
           :exercise="exercise"
           @add-to-routine="addToRoutine"
@@ -157,6 +158,27 @@
       <i class="bi bi-search display-1 text-muted"></i>
       <h4 class="mt-3">No exercises found</h4>
       <p class="text-muted">Try adjusting your filters or search terms</p>
+    </div>
+    <!---pagination-->
+    <div v-else class="pagination-container d-flex justify-content-center mt-4">
+      <button class="btn btn-secondary btn-sm me-2" :disabled="currentPage===1" @click="previousPage">
+        Previous
+      </button>
+
+      <div class="pagination-pages d-flex align-items-center">
+        <button v-for="page in pages"
+        :key="page" 
+        class="btn btn-sm" 
+        :class="{'btn-primary': currentPage === page}" 
+        @click="goToPage(page)">
+        {{ page }}
+        </button>
+      </div>
+      
+      <button class="btn btn-secondary btn-sm" :disabled="currentPage===totalPages" @click="nextPage">
+        Next
+      </button>
+
     </div>
   <!--modal-->
   <PopUpModal ref="modalRef"/>
@@ -257,9 +279,6 @@ const loadExercises = async () => {
   }
 }
 
-
-
-
 const addToRoutine = (exercise) => {
   try {
     const key = 'draftRoutineExercises'
@@ -280,5 +299,64 @@ const addToRoutine = (exercise) => {
   }
 }
 
+const startPage = ref(1)
+const currentPage = ref(1)
+const itemPerPage = 6 
 
+const totalPages = computed(()=>{
+  return Math.ceil(filteredExercises.value.length/itemPerPage)
+})
+
+const pages = computed(() => {
+  const pages = []
+  const lastpage = Math.min(startPage.value+5,totalPages.value)
+  for (let i = startPage.value; i <= lastpage; i++) {
+    pages.push(i)
+  }
+  return pages
+})
+
+const paginatedexercisecard = computed(()=>{
+  const start = (currentPage.value -1) * itemPerPage
+  const end = start + itemPerPage
+  return filteredExercises.value.slice(start,end)
+})
+
+const previousPage =()=>{
+  if(currentPage.value>1){
+    currentPage.value -=1
+  }
+  if (currentPage.value<startPage.value) {
+    startPage.value -=6
+  }
+}
+
+const nextPage =()=>{
+  if (currentPage.value< totalPages.value) {
+    currentPage.value +=1
+  }
+  if (currentPage.value >startPage.value+5) {
+    startPage.value+=6
+  }
+}
+
+const goToPage = (page)=>{
+  currentPage.value = page
+  startPage.value = Math.floor((page-1)/6)*6 +1
+}
 </script>
+
+<style scope>
+.pagination-container{
+  padding: 10px;
+  position: relative;
+  bottom: 0;
+  margin-bottom: 30px;
+}
+
+/*prevent pagination from getting hidden */
+.pagination-container button{
+  z-index: 1;
+  margin: 0 10px;
+}
+</style>
