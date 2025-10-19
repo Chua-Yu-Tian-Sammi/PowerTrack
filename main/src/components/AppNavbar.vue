@@ -21,6 +21,11 @@
               </router-link>
             </li>
             <li class="nav-item">
+              <router-link class="nav-link" :class="{ active: $route.name === 'RunningRoutes' }" to="/running-routes">
+                <i class="bi bi-geo-alt me-1"></i>Running Routes
+              </router-link>
+            </li>
+            <li class="nav-item">
               <router-link class="nav-link" :class="{ active: $route.name === 'ExerciseLibrary' }" to="/exercises">
                 <i class="bi bi-book me-1"></i>Exercise Library
               </router-link>

@@ -6,6 +6,7 @@ import ProgressDashboard from '../views/ProgressDashboard.vue'
 import UserProfile from '../views/UserProfile.vue'
 import RoutineBuilder from '../views/RoutineBuilder.vue'
 import WorkoutTracking from '../views/WorkoutTracking.vue'
+import RunningRoutes from '../views/RunningRoutes.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +45,11 @@ const router = createRouter({
       path: '/workout-tracking',
       name: 'WorkoutTracking',
       component: WorkoutTracking,
+    },
+    {
+      path: '/running-routes',
+      name: 'RunningRoutes',
+      component: RunningRoutes,
     }
   ],
 })

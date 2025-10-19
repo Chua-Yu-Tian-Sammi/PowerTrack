@@ -54,10 +54,9 @@
               <div class="col-md-3">
                 <label class="form-label">Intensity</label>
                 <select class="form-select" v-model="filters.intensity" @change="filterExercises">
-                  <option value="">All</option>
-                  <option value="low">Low</option>
-                  <option value="medium">Medium</option>
-                  <option value="high">High</option>
+                  <option v-for="intensity in INTENSITIES" :key="intensity.value" :value="intensity.value">
+                    {{ intensity.label }}
+                  </option>
                 </select>
               </div>
               <div class="col-md-3">
@@ -111,7 +110,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, reactive } from 'vue'
 import { WorkoutService } from '../services/workoutService.js'
 import ExerciseCard from '../components/ExerciseCard.vue'
 
@@ -126,7 +125,14 @@ const notification = ref({
   type: 'success'
 })
 
-const filters = ref({
+const INTENSITIES = [
+  { value: '',        label: 'All' },
+  { value: 'low',     label: 'Low 🔥 ' },
+  { value: 'medium',  label: 'Medium 🔥🔥' },
+  { value: 'high',    label: 'High 🔥🔥🔥' }
+]
+
+const filters = reactive({
   muscle: '',
   equipment: '',
   intensity: '',
@@ -147,27 +153,27 @@ const filteredExercises = computed(() => {
   }
 
   // apply other filters
-  if (filters.value.muscle) {
+  if (filters.muscle) {
     filtered = filtered.filter(exercise => 
-      exercise.muscle.includes(filters.value.muscle)
+      exercise.muscle.includes(filters.muscle)
     )
   }
 
-  if (filters.value.equipment) {
+  if (filters.equipment) {
     filtered = filtered.filter(exercise => 
-      exercise.equipment.includes(filters.value.equipment)
+      exercise.equipment.includes(filters.equipment)
     )
   }
 
-  if (filters.value.intensity) {
+  if (filters.intensity) {
     filtered = filtered.filter(exercise => 
-      exercise.intensity === filters.value.intensity
+      exercise.intensity === filters.intensity
     )
   }
 
-  if (filters.value.difficulty) {
+  if (filters.difficulty) {
     filtered = filtered.filter(exercise => 
-      exercise.difficulty === filters.value.difficulty
+      exercise.difficulty === filters.difficulty
     )
   }
 
