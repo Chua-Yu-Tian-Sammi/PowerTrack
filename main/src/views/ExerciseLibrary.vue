@@ -55,9 +55,9 @@
                 <label class="form-label">Intensity</label>
                 <select class="form-select" v-model="filters.intensity" @change="filterExercises">
                   <option value="">All</option>
-                  <option value="low">Low</option>
-                  <option value="medium">Medium</option>
-                  <option value="high">High</option>
+                  <option value="low">Low  &#x1F525;</option>
+                  <option value="medium">Medium  &#x1F525; &#x1F525;</option>
+                  <option value="high">High  &#x1F525; &#x1F525; &#x1F525;</option>
                 </select>
               </div>
               <div class="col-md-3">

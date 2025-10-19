@@ -25,8 +25,8 @@
                   <h6>{{ exercise.name }}</h6>
                   <p class="text-muted small">{{ exercise.description }}</p>
                   <div class="d-flex justify-content-between">
-                    <span class="badge bg-secondary">{{ exercise.difficulty }}</span>
-                    <span class="badge bg-info">{{ exercise.intensity }}</span>
+                    <span class="badge text-capitalize badge-difficulty">{{ exercise.difficulty }}</span>
+                    <span class="badge text-capitalize badge-intensity">{{ exercise.intensity }}</span>
                   </div>
                 </div>
               </div>
@@ -73,3 +73,14 @@ const selectExercise = (exercise) => {
 }
 </script>
 
+<style scoped>
+.badge-difficulty{
+  background:rgba(52,152,219,0.1);
+  color: #2980b9;
+}
+
+.badge-intensity{
+  background: rgba(243,156,18,0.1);
+  color: #d35400;
+}
+</style>

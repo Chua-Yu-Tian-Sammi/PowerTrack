@@ -133,8 +133,8 @@
                     <h6>{{ routine.title }}</h6>
                     <p class="text-muted mb-2">{{ routine.exercises.length }} exercises • {{ routine.estimatedTimeMinutes }} min</p>
                     <div class="d-flex justify-content-between">
-                      <span class="badge bg-primary">{{ routine.goal.replace('_', ' ') }}</span>
-                      <span class="badge bg-secondary">{{ routine.intendedIntensity }}</span>
+                      <span class="badge badge-goal text-capitalize">{{ routine.goal.replace('_', ' ') }}</span>
+                      <span class="badge badge-intensity text-capitalize">{{ routine.intendedIntensity }}</span>
                     </div>
                     <div class="mt-2">
                       <button class="btn btn-outline-primary btn-sm me-1" @click="editRoutine(routine)">
@@ -321,4 +321,14 @@ const resetForm = () => {
 </script>
 
 
+<style scoped>
+.badge-intensity{
+  background: rgba(243,156,18,0.1);
+  color: #d35400;
+}
 
+.badge-goal{
+background: rgba(128, 128, 128, 0.2);
+color: #555555; 
+}
+</style>

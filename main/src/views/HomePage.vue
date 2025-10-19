@@ -1,6 +1,10 @@
 <template>
   <div class="home">
-    <section class="hero-section">
+    <section class="hero-section":style="{
+      backgroundImage: `linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),url(${heroBg})`,
+     backgroundSize: 'cover',
+     backgroundPosition: 'center center',
+     backgroundRepeat: 'no-repeat'}">
       <div class="container">
         <div class="row align-items-center">
           <div class="col-lg-6 mb-4 mb-lg-0">
@@ -60,7 +64,7 @@
                     </div>
                   </div>
                   <div class="workout-item">
-                    <div class="workout-icon"><i class="bi bi-circle"></i></div>
+                    <div class="workout-icon"><i class="bi bi-circle-fill"></i></div>
                     <div class="workout-details">
                       <div class="workout-name">Core & Flexibility</div>
                       <div class="workout-meta">20 min | 5 exercises</div>
@@ -194,6 +198,74 @@
     </section>
   </div>
 </template>
+<script>
+import heroBg from '@/images/core-strength-fitness.jpg';
 
+export default {
+  name: 'HomePage',
+ data() {
+  return { heroBg };
+ }
+};
 
+</script>
+<style scoped>
+.hero-section .hero-title,
+.hero-section .stat-number,
+.hero-section .btn,
+.hero-section .btn i,
+.hero-visual .workout-name {
+  color: #fff;
+}
+
+.hero-section {
+  /* full screen background image */
+  color: #fff;
+  position: relative;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+
+.hero-section .hero-description,
+.hero-section .stat-label  {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.hero-visual .visual-card {
+  background-color: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  padding: 1.5rem;
+  color: #fff;
+}
+
+.hero-visual .visual-header,
+.hero-visual .visual-header i,
+.hero-visual .visual-header span {
+  color: #fff !important;
+  font-weight: 600;
+  font-size: 1.25rem;      
+  margin-bottom: 1rem;
+}
+
+.hero-visual .workout-item {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.hero-visual .workout-icon i {
+  font-size: 0.75rem;
+  color: #fff !important;
+  margin-right: 0.75rem;
+}
+
+.hero-visual .workout-meta {
+  color: rgba(255, 255, 255, 0.75);
+}
+</style>
 
