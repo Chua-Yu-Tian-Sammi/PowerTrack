@@ -196,6 +196,10 @@
         </div>
       </div>
     </section>
+
+    <!---user reviews-->
+    
+
   </div>
 </template>
 <script>
@@ -208,16 +212,18 @@ export default {
  }
 };
 
-</script>
-<style scoped>
-.hero-section .hero-title,
+</script><style scoped>
+.hero-section .hero-title{
+  color:cornflowerblue;
+}
 .hero-section .stat-number,
 .hero-section .btn,
-.hero-section .btn i,
-.hero-visual .workout-name {
+.hero-section .btn i{
   color: #fff;
 }
-
+.hero-visual .workout-name{
+  color:blanchedalmond;
+}
 .hero-section {
   /* full screen background image */
   color: #fff;
@@ -225,12 +231,13 @@ export default {
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
 }
-
-.hero-section .hero-description,
+.hero-section .hero-description{
+  color: #fff;
+  font-weight: 500;
+}
 .hero-section .stat-label  {
   color: rgba(255, 255, 255, 0.8);
 }
-
 .hero-visual .visual-card {
   background-color: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(10px);
@@ -239,16 +246,14 @@ export default {
   padding: 1.5rem;
   color: #fff;
 }
-
 .hero-visual .visual-header,
 .hero-visual .visual-header i,
 .hero-visual .visual-header span {
-  color: #fff !important;
+  color:white;
   font-weight: 600;
   font-size: 1.25rem;      
   margin-bottom: 1rem;
 }
-
 .hero-visual .workout-item {
   display: flex;
   align-items: center;
@@ -257,15 +262,14 @@ export default {
   padding: 0.75rem 1rem;
   margin-bottom: 1rem;
 }
-
 .hero-visual .workout-icon i {
   font-size: 0.75rem;
-  color: #fff !important;
+  color:blanchedalmond;
   margin-right: 0.75rem;
 }
-
 .hero-visual .workout-meta {
-  color: rgba(255, 255, 255, 0.75);
+  color:#fff;
 }
-</style>
 
+
+</style>

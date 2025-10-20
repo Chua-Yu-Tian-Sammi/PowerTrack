@@ -80,7 +80,7 @@ const selectExercise = (exercise) => {
 }
 
 .badge-intensity{
-  background: rgba(243,156,18,0.1);
-  color: #d35400;
+  background: rgba(255,183,77,0.15);
+  color:#c67e22;
 }
 </style>
