@@ -362,4 +362,32 @@ export default {
   font-weight: 600;
   color: #333;
 }
+
+.carousel-control-prev,.carousel-control-next{
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+@media (min-width:769px) and (max-width:992px) {
+  .carousel-control-prev,.carousel-control-next{
+    margin-left: -50px;
+    margin-right: -50px;
+  }
+}
+
+/*for small screen , adjust the button for next and prev for carousel */
+@media (min-width:577px) and (max-width:768px){
+  .carousel-control-prev,.carousel-control-next{
+    margin-left: -50px;
+    margin-right: -50px;
+  }
+}
+
+/*for extra small screen */
+@media(max-width:576px){
+  .carousel-control-prev,.carousel-control-next{
+    margin-left: -50px;
+    margin-right: -50px;
+  }
+}
 </style>
