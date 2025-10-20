@@ -52,6 +52,26 @@ const router = createRouter({
       component: RunningRoutes,
     }
   ],
+  scrollBehavior(to, from, savedPosition) {
+    // If there's a saved position (back/forward navigation), restore it
+    if (savedPosition) {
+      return savedPosition
+    }
+    
+    // For hash links, scroll to the element
+    if (to.hash) {
+      return {
+        el: to.hash,
+        behavior: 'smooth'
+      }
+    }
+    
+    // Always scroll to top when navigating to a new route
+    return { 
+      top: 0,
+      behavior: 'smooth'
+    }
+  }
 })
 
 export default router

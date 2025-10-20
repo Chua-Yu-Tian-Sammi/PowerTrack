@@ -11,9 +11,56 @@
   color: #007bff;
 }
 
+/* Global page styling - add bottom margin to all pages */
+.workout-generator,
+.exercise-library,
+.progress-dashboard,
+.user-profile,
+.routine-builder,
+.workout-tracking,
+.running-routes {
+  padding-bottom: 4rem;
+  margin-bottom: 2rem;
+}
+
+/* Ensure the main container has proper spacing */
+.container-fluid {
+  padding-bottom: 2rem;
+}
+
+/* Additional spacing for pages with cards at the bottom */
+.card:last-child {
+  margin-bottom: 2rem;
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+  .workout-generator,
+  .exercise-library,
+  .progress-dashboard,
+  .user-profile,
+  .routine-builder,
+  .workout-tracking,
+  .running-routes,
+  .home {
+    padding-bottom: 3rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .container-fluid {
+    padding-bottom: 1.5rem;
+  }
+  
+  .card:last-child {
+    margin-bottom: 1.5rem;
+  }
+}
+
 /* home page */
 .home {
   min-height: 100vh;
+  padding-bottom: 4rem;
+  margin-bottom: 2rem;
 }
 
 .home section {

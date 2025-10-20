@@ -48,7 +48,7 @@
                   </div>
                   <div class="col-12 col-sm-6 col-lg-4">
                     <label for="distance" class="form-label fw-semibold text-truncate">
-                      <i class="bi bi-rulers me-1"></i>Distance
+                      <i class="bi bi-signpost-split"></i> Distance
                     </label>
                     <select class="form-select" id="distance" v-model="searchForm.distance">
                       <option value="1">1 km</option>
@@ -211,6 +211,13 @@
       </div>
     </div>
 
+    <!-- Active Workout Confirmation Modal -->
+    <ActiveWorkoutModal 
+      :show="showActiveWorkoutModal" 
+      @cancel="handleCancelActiveWorkout"
+      @end-workout="handleEndActiveWorkout"
+    />
+
   </div>
 </template>
 
@@ -218,6 +225,8 @@
 import { ref, reactive, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { mapsService } from '../services/mapsService.js'
+import { WorkoutStateService } from '../services/workoutStateService.js'
+import ActiveWorkoutModal from '../components/ActiveWorkoutModal.vue'
 import * as bootstrap from 'bootstrap'
 
 const router = useRouter()
@@ -235,6 +244,8 @@ const error = ref('')
 const searchPerformed = ref(false)
 const routes = ref([])
 const selectedRoute = ref(null)
+const showActiveWorkoutModal = ref(false)
+const pendingRouteData = ref(null)
 
 // State management keys
 const DRAFT_SEARCH_KEY = 'draftRunningRoutesSearch'
@@ -348,7 +359,7 @@ const findRoutes = async () => {
   }
 }
 
-// Mock functions removed - now using Google Maps API
+
 
 const viewOnMap = (route) => {
   selectedRoute.value = route
@@ -403,11 +414,11 @@ const startRoute = (route) => {
     }
   }
   
-  // Navigate to workout tracking with route data
-  router.push({
-    name: 'WorkoutTracking',
-    query: {
-      workoutData: JSON.stringify({
+  // Check if there's an active workout
+  if (WorkoutStateService.checkActiveWorkout()) {
+    // Store the route data to start after confirmation
+    pendingRouteData.value = {
+      workoutData: {
         title: `${route.distance}km Running Route`,
         exercises: [{
           name: 'Running',
@@ -418,9 +429,86 @@ const startRoute = (route) => {
         }],
         totalTimeMin: Math.floor(route.distance * 7), // Average 7 min/km
         sourceType: 'running-route'
-      })
+      },
+      routeData: {
+        distance: route.distance,
+        routeType: route.routeType,
+        description: route.description,
+        estimatedTime: route.estimatedTime,
+        startLocation: route.startLocation,
+        coordinates: route.coordinates,
+        highlights: route.highlights
+      }
+    }
+    
+    // Show confirmation modal
+    showActiveWorkoutModal.value = true
+    return
+  }
+  
+  // No active workout, proceed normally
+  proceedWithRoute(route)
+}
+
+const proceedWithRoute = (route) => {
+  const workoutData = {
+    title: `${route.distance}km Running Route`,
+    exercises: [{
+      name: 'Running',
+      description: route.description,
+      duration: route.estimatedTime,
+      distance: route.distance,
+      routeType: route.routeType
+    }],
+    totalTimeMin: Math.floor(route.distance * 7), // Average 7 min/km
+    sourceType: 'running-route'
+  }
+  
+  const routeData = {
+    distance: route.distance,
+    routeType: route.routeType,
+    description: route.description,
+    estimatedTime: route.estimatedTime,
+    startLocation: route.startLocation,
+    coordinates: route.coordinates,
+    highlights: route.highlights
+  }
+  
+  // Navigate to workout tracking with route data
+  router.push({
+    path: '/workout-tracking',
+    query: {
+      workoutData: JSON.stringify(workoutData),
+      routeData: JSON.stringify(routeData),
+      sourceType: 'running-route'
     }
   })
+}
+
+const handleCancelActiveWorkout = () => {
+  showActiveWorkoutModal.value = false
+  pendingRouteData.value = null
+}
+
+const handleEndActiveWorkout = async () => {
+  showActiveWorkoutModal.value = false
+  
+  // Clear the active workout state
+  WorkoutStateService.clearActiveWorkout()
+  
+  // Proceed with the new route
+  if (pendingRouteData.value) {
+    router.push({
+      path: '/workout-tracking',
+      query: {
+        workoutData: JSON.stringify(pendingRouteData.value.workoutData),
+        routeData: JSON.stringify(pendingRouteData.value.routeData),
+        sourceType: 'running-route'
+      }
+    })
+    
+    pendingRouteData.value = null
+  }
 }
 
 // Watchers for state persistence

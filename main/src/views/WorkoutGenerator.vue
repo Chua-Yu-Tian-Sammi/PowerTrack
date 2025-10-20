@@ -374,6 +374,13 @@
         </div>
       </div>
     </div>
+
+    <!-- Active Workout Confirmation Modal -->
+    <ActiveWorkoutModal 
+      :show="showActiveWorkoutModal" 
+      @cancel="handleCancelActiveWorkout"
+      @end-workout="handleEndActiveWorkout"
+    />
   </div>
 </template>
 
@@ -382,6 +389,8 @@ import { ref, onMounted, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { WorkoutService } from '../services/workoutService.js'
 import { AuthService } from '../services/authService.js'
+import { WorkoutStateService } from '../services/workoutStateService.js'
+import ActiveWorkoutModal from '../components/ActiveWorkoutModal.vue'
 
 const router = useRouter()
 const loading = ref(false)
@@ -389,6 +398,8 @@ const saving = ref(false)
 const userProfile = ref(null)
 const generatedWorkout = ref(null)
 const notification = ref({ show: false, message: '', type: 'success' })
+const showActiveWorkoutModal = ref(false)
+const pendingWorkoutData = ref(null)
 
 const workoutForm = ref({
   timeMin: 30,
@@ -609,6 +620,37 @@ const saveRoutine = async () => {
 const startWorkout = () => {
   if (!generatedWorkout.value) return
   
+  // Check if there's an active workout
+  if (WorkoutStateService.checkActiveWorkout()) {
+    // Store the workout data to start after confirmation
+    pendingWorkoutData.value = {
+      title: "Generated Workout",
+      goal: generatedWorkout.value.routine.goal,
+      estimatedTimeMinutes: generatedWorkout.value.routine.totalTimeMin,
+      intendedIntensity: generatedWorkout.value.routine.intensity,
+      exercises: generatedWorkout.value.routine.items.map(item => ({
+        exerciseId: item.exerciseId,
+        sets: item.sets,
+        reps: item.reps,
+        restSeconds: item.restTimeSec,
+        completed: false
+      })),
+      sourceType: 'generated',
+      sourceId: generatedWorkout.value.routine.routineId
+    }
+    
+    // Show confirmation modal
+    showActiveWorkoutModal.value = true
+    return
+  }
+  
+  // No active workout, proceed normally
+  proceedWithWorkout()
+}
+
+const proceedWithWorkout = () => {
+  if (!generatedWorkout.value) return
+  
   // Format workout data
   const workoutData = {
     title: "Generated Workout",
@@ -634,6 +676,35 @@ const startWorkout = () => {
   })
   
   clearDraftWorkout() // Clear draft state when starting workout
+}
+
+const handleCancelActiveWorkout = () => {
+  showActiveWorkoutModal.value = false
+  pendingWorkoutData.value = null
+}
+
+const handleEndActiveWorkout = async () => {
+  showActiveWorkoutModal.value = false
+  
+  // Clear the active workout state
+  WorkoutStateService.clearActiveWorkout()
+  
+  // Proceed with the new workout
+  if (pendingWorkoutData.value) {
+    const { sourceType, sourceId, ...workoutData } = pendingWorkoutData.value
+    
+    router.push({
+      name: 'WorkoutTracking',
+      query: {
+        workoutData: JSON.stringify(workoutData),
+        sourceType: sourceType,
+        sourceId: sourceId
+      }
+    })
+    
+    clearDraftWorkout() // Clear draft state when starting workout
+    pendingWorkoutData.value = null
+  }
 }
 
 const clearWorkout = () => {

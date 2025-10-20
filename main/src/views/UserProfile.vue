@@ -1,7 +1,7 @@
 <template>
   <div class="user-profile">
     <!-- no profile yet -->
-    <div v-if="!userProfile" class="empty-state">
+    <div v-if="!userProfile && !AuthService.getCurrentUser()" class="empty-state">
       <div class="row justify-content-center">
         <div class="col-lg-6">
           <div class="card shadow-sm border-0">
@@ -15,15 +15,34 @@
                 <button class="btn btn-primary btn-lg px-5" @click="showSignIn = true">
                   <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
                 </button>
-                <button v-if="AuthService.getCurrentUser()" class="btn btn-outline-primary btn-lg px-5" @click="createProfileForCurrentUser">
-                  <i class="bi bi-person-plus me-2"></i>Create Profile
-                </button>
               </div>
             </div>
           </div>
         </div>
               </div>
             </div>
+
+    <!-- authenticated but profile loading or missing -->
+    <div v-else-if="AuthService.getCurrentUser() && !userProfile" class="empty-state">
+      <div class="row justify-content-center">
+        <div class="col-lg-6">
+          <div class="card shadow-sm border-0">
+            <div class="card-body text-center py-5">
+              <div class="empty-icon mb-4">
+                <i class="bi bi-person-circle"></i>
+          </div>
+              <h2 class="mb-3">Setting up your profile...</h2>
+              <p class="text-muted mb-4">Please wait while we load your profile information.</p>
+              <div class="d-flex justify-content-center">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
             
     <!-- show profile -->
             <div v-else>
@@ -490,8 +509,8 @@ const loadUserProfile = async () => {
     if (userProfile.value) {
       profileForm.value = { ...userProfile.value }
     } else {
-      
-      userProfile.value = null
+      // User is authenticated but has no profile - create one automatically
+      await createProfileForCurrentUser()
     }
   } catch (error) {
     console.error('Error loading user profile:', error)
@@ -525,6 +544,19 @@ const signIn = async () => {
     signInForm.value = { email: '', password: '' }
   } catch (error) {
     console.error('Error signing in:', error)
+    
+    // Handle specific Firebase auth errors
+    if (error.code === 'auth/user-not-found') {
+      showNotification('No account found with this email. Please check your email or sign up.', 'error')
+    } else if (error.code === 'auth/wrong-password') {
+      showNotification('Incorrect password. Please try again.', 'error')
+    } else if (error.code === 'auth/invalid-email') {
+      showNotification('Invalid email address. Please check your email format.', 'error')
+    } else if (error.code === 'auth/too-many-requests') {
+      showNotification('Too many failed attempts. Please try again later.', 'error')
+    } else {
+      showNotification('Error signing in. Please try again.', 'error')
+    }
   } finally {
     signingIn.value = false
   }
@@ -568,6 +600,17 @@ const signUp = async () => {
     }
   } catch (error) {
     console.error('Error signing up:', error)
+    
+    // Handle specific Firebase auth errors
+    if (error.code === 'auth/email-already-in-use') {
+      showNotification('Email is already in use. Please try a different email or sign in.', 'error')
+    } else if (error.code === 'auth/weak-password') {
+      showNotification('Password is too weak. Please choose a stronger password.', 'error')
+    } else if (error.code === 'auth/invalid-email') {
+      showNotification('Invalid email address. Please check your email format.', 'error')
+    } else {
+      showNotification('Error creating account. Please try again.', 'error')
+    }
   } finally {
     signingUp.value = false
   }
