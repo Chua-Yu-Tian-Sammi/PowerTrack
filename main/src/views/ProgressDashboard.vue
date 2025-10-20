@@ -21,7 +21,6 @@
                   <div>
                     <h2 class="mb-1">{{ daysWorkedOut }}</h2>
                     <p class="text-muted mb-0">Days worked out</p>
-                    <small class="text-muted">Account created: {{ accountCreatedDate }}</small>
                   </div>
                 </div>
               </div>
@@ -31,9 +30,27 @@
       </div>
     </div>
 
-    <!-- Progress Charts -->
+    <!-- Workout Tabs -->
     <div class="row mb-4">
-      <div class="col-lg-6 mb-4">
+      <div class="col-12">
+        <ul class="nav nav-tabs" id="workoutTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="workout-tab" data-bs-toggle="tab" data-bs-target="#workout-pane" type="button" role="tab" aria-controls="workout-pane" aria-selected="true">
+              <i class="bi bi-lightning-charge me-2"></i>Workout Statistics
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="running-tab" data-bs-toggle="tab" data-bs-target="#running-pane" type="button" role="tab" aria-controls="running-pane" aria-selected="false">
+              <i class="bi bi-geo-alt me-2"></i>Running Statistics
+            </button>
+          </li>
+        </ul>
+        <div class="tab-content" id="workoutTabsContent">
+          <!-- Workout Statistics Tab -->
+          <div class="tab-pane fade show active" id="workout-pane" role="tabpanel" aria-labelledby="workout-tab">
+            <!-- Workout Charts -->
+            <div class="row mb-3">
+              <div class="col-lg-4 mb-4">
         <div class="card h-100">
           <div class="card-header bg-primary text-white">
             <h5 class="mb-0"><i class="bi bi-activity me-2"></i>Workouts Completed</h5>
@@ -64,7 +81,7 @@
         </div>
       </div>
 
-      <div class="col-lg-6 mb-4">
+              <div class="col-lg-4 mb-4">
         <div class="card h-100">
           <div class="card-header bg-success text-white">
             <h5 class="mb-0"><i class="bi bi-list-ul me-2"></i>Exercises Completed</h5>
@@ -95,10 +112,10 @@
         </div>
       </div>
 
-      <div class="col-lg-6 mb-4">
+              <div class="col-lg-4 mb-4">
         <div class="card h-100">
           <div class="card-header bg-info text-white">
-            <h5 class="mb-0"><i class="bi bi-clock me-2"></i>Duration (Minutes)</h5>
+                    <h5 class="mb-0"><i class="bi bi-clock me-2"></i>Workout Duration (Minutes)</h5>
           </div>
           <div class="card-body">
             <div v-if="loading" class="text-center py-4">
@@ -125,76 +142,11 @@
           </div>
         </div>
       </div>
-
-      <div class="col-lg-6 mb-4">
-        <div class="card h-100">
-          <div class="card-header bg-warning text-dark">
-            <h5 class="mb-0"><i class="bi bi-fire me-2"></i>Average Intensity</h5>
-          </div>
-          <div class="card-body">
-            <div v-if="loading" class="text-center py-4">
-              <div class="spinner-border text-warning" role="status">
-                <span class="visually-hidden">Loading...</span>
-              </div>
-            </div>
-            <div v-else-if="intensityData.length === 0" class="text-center py-4">
-              <i class="bi bi-fire display-1 text-muted"></i>
-              <p class="text-muted">No intensity data available yet</p>
-            </div>
-            <div v-else class="chart-container">
-              <div class="d-flex align-items-end justify-content-between" style="height: 200px;">
-                <div v-for="(data, index) in intensityData" :key="index" 
-                     class="d-flex flex-column align-items-center me-1 flex-fill">
-                  <div class="bg-warning rounded-top mb-2" 
-                       :style="{ height: `${(data.intensity / maxIntensity) * 160}px` }"
-                       :title="`${data.intensity} intensity`">
-                  </div>
-                  <small class="text-muted text-center">{{ data.label }}</small>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
 
-    <!-- Top Exercises and Muscle Heatmap -->
+            <!-- Muscle Groups Heatmap -->
     <div class="row">
-      <div class="col-lg-6 mb-4">
-        <div class="card h-100">
-          <div class="card-header bg-warning text-dark">
-            <h5 class="mb-0"><i class="bi bi-trophy me-2"></i>Most Popular Exercises</h5>
-          </div>
-          <div class="card-body">
-            <div v-if="loading" class="text-center py-4">
-              <div class="spinner-border text-warning" role="status">
-                <span class="visually-hidden">Loading...</span>
-              </div>
-            </div>
-            <div v-else-if="topExercises.length === 0" class="text-center py-4">
-              <i class="bi bi-trophy display-1 text-muted"></i>
-              <p class="text-muted">No exercise data available yet</p>
-            </div>
-            <div v-else>
-              <div v-for="(exercise, index) in topExercises" :key="exercise.exerciseId" 
-                   class="d-flex align-items-center mb-3 p-3 bg-light rounded">
-                <div class="me-3">
-                  <span class="badge bg-primary fs-6">{{ index + 1 }}</span>
-                </div>
-                <div class="flex-grow-1">
-                  <h6 class="mb-1">{{ exercise.name }}</h6>
-                  <small class="text-muted">{{ exercise.count }} times completed</small>
-                </div>
-                <div class="text-end">
-                  <span class="badge bg-secondary">{{ exercise.intensity }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-6 mb-4">
+              <div class="col-12">
         <div class="card h-100">
           <div class="card-header bg-danger text-white">
             <h5 class="mb-0"><i class="bi bi-heart-pulse me-2"></i>Muscle Groups Trained</h5>
@@ -218,6 +170,109 @@
                        :title="`${muscle.name}: ${muscle.count} exercises`">
                     <div class="fw-bold">{{ muscle.name }}</div>
                     <small>{{ muscle.count }}</small>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Running Statistics Tab -->
+          <div class="tab-pane fade" id="running-pane" role="tabpanel" aria-labelledby="running-tab">
+            <!-- Running Charts -->
+            <div class="row">
+              <div class="col-lg-4 mb-4">
+                <div class="card h-100">
+                  <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-geo-alt me-2"></i>Runs Completed</h5>
+                  </div>
+                  <div class="card-body">
+                    <div v-if="loading" class="text-center py-4">
+                      <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                    </div>
+                    <div v-else-if="runningRunsData.length === 0" class="text-center py-4">
+                      <i class="bi bi-geo-alt display-1 text-muted"></i>
+                      <p class="text-muted">No running data available yet</p>
+                    </div>
+                    <div v-else class="chart-container">
+                      <div class="d-flex align-items-end justify-content-between" style="height: 200px;">
+                        <div v-for="(data, index) in runningRunsData" :key="index" 
+                             class="d-flex flex-column align-items-center me-1 flex-fill">
+                          <div class="bg-primary rounded-top mb-2" 
+                               :style="{ height: `${(data.runs / maxRunningRuns) * 160}px` }"
+                               :title="`${data.runs} runs`">
+                          </div>
+                          <small class="text-muted text-center">{{ data.label }}</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 mb-4">
+                <div class="card h-100">
+                  <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="bi bi-clock-history me-2"></i>Running Duration (Minutes)</h5>
+                  </div>
+                  <div class="card-body">
+                    <div v-if="loading" class="text-center py-4">
+                      <div class="spinner-border text-info" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                    </div>
+                    <div v-else-if="runningDurationData.length === 0" class="text-center py-4">
+                      <i class="bi bi-clock-history display-1 text-muted"></i>
+                      <p class="text-muted">No running duration data yet</p>
+                    </div>
+                    <div v-else class="chart-container">
+                      <div class="d-flex align-items-end justify-content-between" style="height: 200px;">
+                        <div v-for="(data, index) in runningDurationData" :key="index" 
+                             class="d-flex flex-column align-items-center me-1 flex-fill">
+                          <div class="bg-info rounded-top mb-2" 
+                               :style="{ height: `${(data.duration / maxRunningDuration) * 160}px` }"
+                               :title="`${data.duration} minutes`">
+                          </div>
+                          <small class="text-muted text-center">{{ data.label }}</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 mb-4">
+                <div class="card h-100">
+                  <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="bi bi-signpost-split me-2"></i>Distance Ran (km)</h5>
+                  </div>
+                  <div class="card-body">
+                    <div v-if="loading" class="text-center py-4">
+                      <div class="spinner-border text-success" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                    </div>
+                    <div v-else-if="runningDistanceData.length === 0" class="text-center py-4">
+                      <i class="bi bi-signpost-split display-1 text-muted"></i>
+                      <p class="text-muted">No running distance data yet</p>
+                    </div>
+                    <div v-else class="chart-container">
+                      <div class="d-flex align-items-end justify-content-between" style="height: 200px;">
+                        <div v-for="(data, index) in runningDistanceData" :key="index" 
+                             class="d-flex flex-column align-items-center me-1 flex-fill">
+                          <div class="bg-success rounded-top mb-2" 
+                               :style="{ height: `${(data.distance / maxRunningDistance) * 160}px` }"
+                               :title="`${data.distance} km`">
+                          </div>
+                          <small class="text-muted text-center">{{ data.label }}</small>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -236,6 +291,7 @@ import { AuthService } from '../services/authService.js'
 
 const loading = ref(false)
 const workoutLogs = ref([])
+const runningLogs = ref([])
 const exercises = ref([])
 const userProfile = ref(null)
 
@@ -243,15 +299,17 @@ const userProfile = ref(null)
 const workoutData = ref([])
 const exerciseData = ref([])
 const durationData = ref([])
-const intensityData = ref([])
 
-// Top exercises and muscle groups
-const topExercises = ref([])
+// Running routes chart data
+const runningRunsData = ref([])
+const runningDurationData = ref([])
+const runningDistanceData = ref([])
+
+// Muscle groups
 const muscleGroups = ref([])
 
 // Days worked out
 const daysWorkedOut = ref(0)
-const accountCreatedDate = ref('')
 
 // Computed properties for chart scaling
 const maxWorkouts = computed(() => {
@@ -266,8 +324,17 @@ const maxDuration = computed(() => {
   return Math.max(...durationData.value.map(d => d.duration), 1)
 })
 
-const maxIntensity = computed(() => {
-  return Math.max(...intensityData.value.map(d => d.intensity), 1)
+// Running scales
+const maxRunningRuns = computed(() => {
+  return Math.max(...runningRunsData.value.map(d => d.runs), 1)
+})
+
+const maxRunningDuration = computed(() => {
+  return Math.max(...runningDurationData.value.map(d => d.duration), 1)
+})
+
+const maxRunningDistance = computed(() => {
+  return Math.max(...runningDistanceData.value.map(d => d.distance), 1)
 })
 
 onMounted(async () => {
@@ -286,8 +353,14 @@ const loadAllData = async () => {
         calculateDaysWorkedOut()
       ])
       
-      processChartData()
-      processTopExercises()
+      // Split logs into workout vs running
+      const allLogs = workoutLogs.value || []
+      const isRun = (log) => (log.sourceType === 'running-route')
+      runningLogs.value = allLogs.filter(isRun)
+      const workoutOnlyLogs = allLogs.filter(l => !isRun(l))
+
+      processChartData(workoutOnlyLogs)
+      processRunningChartData(runningLogs.value)
       processMuscleGroups()
     }
   } catch (error) {
@@ -318,13 +391,6 @@ const loadExercises = async () => {
 const loadUserProfile = async (userId) => {
   try {
     userProfile.value = await WorkoutService.getUserProfile(userId)
-    if (userProfile.value && userProfile.value.createdAt) {
-      accountCreatedDate.value = new Date(userProfile.value.createdAt).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      })
-    }
   } catch (error) {
     console.error('Error loading user profile:', error)
   }
@@ -345,29 +411,41 @@ const calculateDaysWorkedOut = async () => {
   }
 }
 
-const processChartData = () => {
-  // Group data by weeks for the last 8 weeks
+const processChartData = (logs) => {
+  // Group data by weeks for the last 8 weeks (Monday to Sunday)
   const weeks = []
   const now = new Date()
   
+  // Find the most recent Monday
+  const currentDay = now.getDay()
+  const daysToMonday = currentDay === 0 ? 6 : currentDay - 1 // Sunday = 0, Monday = 1
+  const mostRecentMonday = new Date(now)
+  mostRecentMonday.setDate(now.getDate() - daysToMonday)
+  mostRecentMonday.setHours(0, 0, 0, 0)
+  
   for (let i = 7; i >= 0; i--) {
-    const weekStart = new Date(now)
-    weekStart.setDate(now.getDate() - (i * 7))
+    const weekStart = new Date(mostRecentMonday)
+    weekStart.setDate(mostRecentMonday.getDate() - (i * 7))
     const weekEnd = new Date(weekStart)
     weekEnd.setDate(weekStart.getDate() + 6)
+    weekEnd.setHours(23, 59, 59, 999)
     
-    const weekWorkouts = workoutLogs.value.filter(log => {
+    const weekWorkouts = (logs || []).filter(log => {
       const logDate = new Date(log.date)
       return logDate >= weekStart && logDate <= weekEnd
     })
     
+    // Format date as "Sep 1" style
+    const weekLabel = weekStart.toLocaleDateString('en-US', { 
+      month: 'short', 
+      day: 'numeric'
+    })
+    
     const weekData = {
-      label: `Week ${8-i}`,
+      label: weekLabel,
       workouts: weekWorkouts.length,
       exercises: weekWorkouts.reduce((sum, w) => sum + w.items.length, 0),
-      duration: Math.round(weekWorkouts.reduce((sum, w) => sum + w.totalDurationSec, 0) / 60),
-      intensity: weekWorkouts.length > 0 ? 
-        Math.round(weekWorkouts.reduce((sum, w) => sum + (w.perceivedIntensity || 5), 0) / weekWorkouts.length * 10) / 10 : 0
+      duration: Math.round(weekWorkouts.reduce((sum, w) => sum + w.totalDurationSec, 0) / 60)
     }
     
     weeks.push(weekData)
@@ -376,41 +454,78 @@ const processChartData = () => {
   workoutData.value = weeks.map(w => ({ label: w.label, workouts: w.workouts }))
   exerciseData.value = weeks.map(w => ({ label: w.label, exercises: w.exercises }))
   durationData.value = weeks.map(w => ({ label: w.label, duration: w.duration }))
-  intensityData.value = weeks.map(w => ({ label: w.label, intensity: w.intensity }))
 }
 
-const processTopExercises = () => {
-  const exerciseCounts = {}
+const extractRunDistanceKm = (log) => {
+  // Try multiple places for distance in order of preference
+  // 1) Direct route field
+  if (log.route && typeof log.route.distance === 'number') return Math.round(log.route.distance * 10) / 10
+  if (log.route && typeof log.route.distanceKm === 'number') return Math.round(log.route.distanceKm * 10) / 10
   
-  workoutLogs.value.forEach(log => {
-    log.items.forEach(item => {
-      if (!exerciseCounts[item.exerciseId]) {
-        exerciseCounts[item.exerciseId] = 0
-      }
-      exerciseCounts[item.exerciseId]++
+  // 2) Workout snapshot exercises first item distance
+  const snap = log.workoutSnapshot || log.workout || {}
+  const ex = Array.isArray(snap.exercises) ? snap.exercises[0] : null
+  if (ex && typeof ex.distance === 'number') return Math.round(ex.distance * 10) / 10
+  
+  // 3) Snapshot metadata
+  if (snap.distanceKm && typeof snap.distanceKm === 'number') return Math.round(snap.distanceKm * 10) / 10
+  if (snap.distance && typeof snap.distance === 'number') return Math.round(snap.distance * 10) / 10
+  
+  // 4) Log metadata
+  if (log.distanceKm && typeof log.distanceKm === 'number') return Math.round(log.distanceKm * 10) / 10
+  if (log.distance && typeof log.distance === 'number') return Math.round(log.distance * 10) / 10
+  
+  return 0
+}
+
+const processRunningChartData = (logs) => {
+  const weeks = []
+  const now = new Date()
+  
+  // Find the most recent Monday
+  const currentDay = now.getDay()
+  const daysToMonday = currentDay === 0 ? 6 : currentDay - 1 // Sunday = 0, Monday = 1
+  const mostRecentMonday = new Date(now)
+  mostRecentMonday.setDate(now.getDate() - daysToMonday)
+  mostRecentMonday.setHours(0, 0, 0, 0)
+
+  for (let i = 7; i >= 0; i--) {
+    const weekStart = new Date(mostRecentMonday)
+    weekStart.setDate(mostRecentMonday.getDate() - (i * 7))
+    const weekEnd = new Date(weekStart)
+    weekEnd.setDate(weekStart.getDate() + 6)
+    weekEnd.setHours(23, 59, 59, 999)
+
+    const weekRuns = (logs || []).filter(log => {
+      const logDate = new Date(log.date)
+      return logDate >= weekStart && logDate <= weekEnd
     })
-  })
-  
-  const exerciseStats = Object.entries(exerciseCounts)
-    .map(([exerciseId, count]) => {
-      const exercise = exercises.value.find(e => e.exerciseId === exerciseId)
-      return {
-        exerciseId,
-        name: exercise ? exercise.name : 'Unknown Exercise',
-        intensity: exercise ? exercise.intensity : 'Unknown',
-        count
-      }
+
+    // Format date as "Sep 1" style
+    const weekLabel = weekStart.toLocaleDateString('en-US', { 
+      month: 'short', 
+      day: 'numeric'
     })
-    .sort((a, b) => b.count - a.count)
-    .slice(0, 3)
-  
-  topExercises.value = exerciseStats
+
+    const weekData = {
+      label: weekLabel,
+      runs: weekRuns.length,
+      duration: Math.round(weekRuns.reduce((sum, r) => sum + (r.totalDurationSec || 0), 0) / 60),
+      distance: Math.round(weekRuns.reduce((sum, r) => sum + extractRunDistanceKm(r), 0) * 10) / 10
+    }
+
+    weeks.push(weekData)
+  }
+
+  runningRunsData.value = weeks.map(w => ({ label: w.label, runs: w.runs }))
+  runningDurationData.value = weeks.map(w => ({ label: w.label, duration: w.duration }))
+  runningDistanceData.value = weeks.map(w => ({ label: w.label, distance: w.distance }))
 }
 
 const processMuscleGroups = () => {
   const muscleCounts = {}
   
-  workoutLogs.value.forEach(log => {
+  workoutLogs.value.filter(l => l.sourceType !== 'running-route').forEach(log => {
     log.items.forEach(item => {
       const exercise = exercises.value.find(e => e.exerciseId === item.exerciseId)
       if (exercise && exercise.muscleGroups) {

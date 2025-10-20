@@ -11,6 +11,23 @@
   color: #007bff;
 }
 
+/* Compact navbar spacing */
+.navbar {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.navbar .container-fluid {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.navbar .nav-link {
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
+}
+
 /* Global page styling - add bottom margin to all pages */
 .workout-generator,
 .exercise-library,

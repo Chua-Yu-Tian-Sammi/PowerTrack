@@ -7,6 +7,7 @@ admin.initializeApp();
 // Import Cloud Functions
 const { generateWorkout } = require('./generateWorkout');
 const { onWorkoutLogCreated } = require('./progressTracking');
+const { getProgressSummaries } = require('./progressTracking');
 const { 
   createRoutine, 
   getUserRoutines, 
@@ -19,7 +20,8 @@ const {
   startWorkoutSession, 
   endWorkoutSession, 
   getWorkoutSession, 
-  getUserWorkoutSessions 
+  getUserWorkoutSessions,
+  getUserWorkoutLogs
 } = require('./workoutSessions');
 const {
   getExercises,
@@ -31,6 +33,7 @@ const {
 // Export Cloud Functions
 exports.generateWorkout = generateWorkout;
 exports.onWorkoutLogCreated = onWorkoutLogCreated;
+exports.getProgressSummaries = getProgressSummaries;
 exports.createRoutine = createRoutine;
 exports.getUserRoutines = getUserRoutines;
 exports.getRoutine = getRoutine;
@@ -41,6 +44,7 @@ exports.startWorkoutSession = startWorkoutSession;
 exports.endWorkoutSession = endWorkoutSession;
 exports.getWorkoutSession = getWorkoutSession;
 exports.getUserWorkoutSessions = getUserWorkoutSessions;
+exports.getUserWorkoutLogs = getUserWorkoutLogs;
 exports.getExercises = getExercises;
 exports.getExerciseById = getExerciseById;
 exports.getExercisesByMuscle = getExercisesByMuscle;

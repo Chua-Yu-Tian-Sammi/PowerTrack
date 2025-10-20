@@ -1,4 +1,4 @@
-import { db, functions } from '@lib/firebase';
+import { db, functions, auth } from '@lib/firebase';
 import {
   doc,
   getDoc,
@@ -109,9 +109,9 @@ async function getProgressSummaries({ from, to } = {}) {
   return data;
 }
 
-async function getUserWorkoutLogs({ uid, limit = 50 } = {}) {
+async function getUserWorkoutLogs({ limit = 50 } = {}) {
   const fn = httpsCallable(functions, 'getUserWorkoutLogs');
-  const { data } = await fn({ uid, limit });
+  const { data } = await fn({ limit });
   return data;
 }
 

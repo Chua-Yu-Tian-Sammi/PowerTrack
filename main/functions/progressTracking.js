@@ -43,8 +43,8 @@ async function createProgressSummary(userId, weekId, workoutLogs) {
   const summaryId = db.collection('progress_summaries').doc().id;
   
   const totalWorkouts = workoutLogs.length;
-  const totalVolume = workoutLogs.reduce((sum, log) => sum + log.totalVolume, 0);
-  const totalDurationSec = workoutLogs.reduce((sum, log) => sum + log.totalDurationSec, 0);
+  const totalVolume = workoutLogs.reduce((sum, log) => sum + (Number(log.totalVolume) || 0), 0);
+  const totalDurationSec = workoutLogs.reduce((sum, log) => sum + (Number(log.totalDurationSec) || 0), 0);
   
   // Calculate average intensity 
   const averageIntensity = calculateAverageIntensity(workoutLogs);
@@ -73,11 +73,34 @@ async function updateProgressSummary(summaryRef, newWorkoutLog) {
 
     const currentData = summaryDoc.data();
     
+    // Recompute average intensity for the week using fresh logs
+    const logDate = newWorkoutLog.date.toDate();
+    const year = logDate.getFullYear();
+    const weekNumber = getWeekNumber(logDate);
+    const weekId = `${year}-W${weekNumber.toString().padStart(2, '0')}`;
+
+    // Fetch all logs for the same user and week
+    const updatedLogsSnapshot = await db
+      .collection('workout_logs')
+      .where('userId', '==', currentData.userId)
+      .get();
+
+    const updatedLogs = updatedLogsSnapshot.docs
+      .map(d => d.data())
+      .filter(l => {
+        const d = l.date.toDate();
+        const y = d.getFullYear();
+        const wn = getWeekNumber(d);
+        return `${y}-W${wn.toString().padStart(2, '0')}` === weekId;
+      });
+
+    const averageIntensity = calculateAverageIntensity(updatedLogs);
+
     const updatedSummary = {
-      totalWorkouts: currentData.totalWorkouts + 1,
-      totalVolume: currentData.totalVolume + newWorkoutLog.totalVolume,
-      totalDurationSec: currentData.totalDurationSec + newWorkoutLog.totalDurationSec,
-      
+      totalWorkouts: (currentData.totalWorkouts || 0) + 1,
+      totalVolume: (currentData.totalVolume || 0) + (Number(newWorkoutLog.totalVolume) || 0),
+      totalDurationSec: (currentData.totalDurationSec || 0) + (Number(newWorkoutLog.totalDurationSec) || 0),
+      averageIntensity
     };
 
     transaction.update(summaryRef, updatedSummary);
@@ -93,8 +116,8 @@ function calculateAverageIntensity(workoutLogs) {
     
   
   // based on total volume and duration
-  const totalVolume = workoutLogs.reduce((sum, log) => sum + log.totalVolume, 0);
-  const totalDuration = workoutLogs.reduce((sum, log) => sum + log.totalDurationSec, 0);
+  const totalVolume = workoutLogs.reduce((sum, log) => sum + (Number(log.totalVolume) || 0), 0);
+  const totalDuration = workoutLogs.reduce((sum, log) => sum + (Number(log.totalDurationSec) || 0), 0);
   
   // Higher volume per minute = higher intensity
   const volumePerMinute = totalVolume / (totalDuration / 60);
@@ -161,6 +184,32 @@ exports.recalculateProgressSummaries = functions.https.onCall(async (data, conte
   } catch (error) {
     console.error('Error recalculating progress summaries:', error);
     throw new functions.https.HttpsError('internal', 'Failed to recalculate progress summaries');
+  }
+});
+
+
+// Fetch progress summaries (callable)
+exports.getProgressSummaries = functions.https.onCall(async (data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError('unauthenticated', 'User must be authenticated');
+  }
+
+  const userId = context.auth.uid;
+  const { from, to } = data || {};
+
+  try {
+    let q = db.collection('progress_summaries')
+      .where('userId', '==', userId)
+      .orderBy('week', 'desc');
+
+    if (from) q = q.where('week', '>=', from);
+    if (to) q = q.where('week', '<=', to);
+
+    const snap = await q.get();
+    return snap.docs.map(d => d.data());
+  } catch (error) {
+    console.error('Error fetching progress summaries:', error);
+    throw new functions.https.HttpsError('internal', 'Failed to fetch progress summaries');
   }
 });
 

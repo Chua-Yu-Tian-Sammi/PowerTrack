@@ -92,7 +92,7 @@ export class WorkoutStateService {
   static getActiveWorkoutData() {
     try {
       const sessionData = localStorage.getItem(this.ACTIVE_SESSION_KEY)
-      const workoutData = localStorage.getItem('activeWorkoutSession')
+      const workoutData = localStorage.getItem(this.WORKOUT_DATA_KEY)
       const sourceType = localStorage.getItem('activeWorkoutSourceType')
       
       if (sessionData) {

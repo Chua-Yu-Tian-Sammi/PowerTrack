@@ -1,5 +1,6 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+const cors = require('cors')({ origin: true });
 
 const db = admin.firestore();
 
@@ -66,9 +67,10 @@ exports.endWorkoutSession = functions.https.onCall(async (data, context) => {
     await sessionRef.update({
       endAt,
       totalTimeMinutes,
-      perceivedIntensity,
-      mood,
-      notes,
+      // optional fields; only persist if provided
+      ...(perceivedIntensity ? { perceivedIntensity } : {}),
+      ...(mood ? { mood } : {}),
+      ...(notes ? { notes } : {}),
       status: 'completed'
     });
 
@@ -93,15 +95,50 @@ exports.endWorkoutSession = functions.https.onCall(async (data, context) => {
       await batch.commit();
     }
 
+    // Prepare route data for running routes
+    let routeData = null;
+    if (sessionData.sourceType === 'running-route' && sessionData.routineData) {
+      // Extract route information from routine data
+      const routineData = sessionData.routineData;
+      if (routineData.exercises && routineData.exercises.length > 0) {
+        const firstExercise = routineData.exercises[0];
+        const distanceM = Number(firstExercise.distance ?? 0) || 0;
+        routeData = {
+          distanceM,
+          distanceKm: distanceM / 1000,
+          routeType: firstExercise.routeType || 'unknown',
+          description: firstExercise.description || ''
+        };
+      }
+    }
+    
+    // Compute total volume from performed sets (weight * reps)
+    const totalVolume = (performedExercises || []).reduce((sum, ex) => {
+      const sets = ex?.performedSets || [];
+      const exerciseVolume = sets.reduce((s, set) => {
+        const w = Number(set?.weight) || 0;
+        const r = Number(set?.reps) || 0;
+        return s + (w * r);
+      }, 0);
+      return sum + exerciseVolume;
+    }, 0);
+
     // Trigger progress tracking
     await db.collection('workout_logs').add({
       userId,
       sessionId,
       date: new Date(),
       totalTimeMinutes,
-      perceivedIntensity,
-      mood,
-      notes,
+      totalDurationSec: totalTimeMinutes * 60, // Convert to seconds for dashboard
+      totalVolume,
+      // optional fields in log as well
+      ...(perceivedIntensity ? { perceivedIntensity } : {}),
+      ...(mood ? { mood } : {}),
+      ...(notes ? { notes } : {}),
+      sourceType: sessionData.sourceType || 'custom',
+      items: performedExercises || [], // Include exercise items for dashboard
+      workoutSnapshot: sessionData.routineData, // Include workout snapshot
+      route: routeData, // Include route data for running routes
       createdAt: new Date()
     });
 
@@ -187,6 +224,40 @@ exports.getUserWorkoutSessions = functions.https.onCall(async (data, context) =>
   } catch (error) {
     console.error('Error getting user workout sessions:', error);
     throw new functions.https.HttpsError('internal', 'Failed to get workout sessions');
+  }
+});
+
+// Get user's workout logs (callable)
+exports.getUserWorkoutLogs = functions.https.onCall(async (data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError('unauthenticated', 'User must be authenticated');
+  }
+
+  const userId = context.auth.uid;
+  const { limit = 50 } = data || {};
+
+  try {
+    const logsSnapshot = await db
+      .collection('workout_logs')
+      .where('userId', '==', userId)
+      .orderBy('date', 'desc')
+      .limit(parseInt(limit))
+      .get();
+
+    const logs = logsSnapshot.docs.map(doc => {
+      const payload = doc.data();
+      return {
+        logId: doc.id,
+        ...payload,
+        date: payload.date.toDate(),
+        createdAt: payload.createdAt.toDate()
+      };
+    });
+
+    return logs;
+  } catch (error) {
+    console.error('Error getting user workout logs:', error);
+    throw new functions.https.HttpsError('internal', 'Failed to get workout logs');
   }
 });
 

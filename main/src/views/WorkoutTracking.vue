@@ -184,53 +184,26 @@
             <button type="button" class="btn-close" @click="showEndWorkoutModal = false"></button>
           </div>
           <div class="modal-body">
-            <form @submit.prevent="endWorkout">
-              <div class="mb-3">
-                <label for="perceivedIntensity" class="form-label">How intense was this workout?</label>
-                <select class="form-select" id="perceivedIntensity" v-model="endWorkoutForm.perceivedIntensity" required>
-                  <option value="low">Low - Easy, light effort</option>
-                  <option value="medium">Medium - Moderate effort</option>
-                  <option value="high">High - Hard, challenging effort</option>
-                </select>
+            <p class="mb-3">Are you sure you want to end this workout?</p>
+            <div class="alert alert-info d-flex align-items-center">
+              <i class="bi bi-info-circle me-2"></i>
+              <div>
+                <strong>Workout Summary:</strong><br>
+                <span class="text-muted">{{ workoutName }} • {{ formatTime(elapsedTime) }} • {{ completedExercisesCount }}/{{ totalExercisesCount }} exercises completed</span>
               </div>
-              
-              <div class="mb-3">
-                <label for="mood" class="form-label">How do you feel after this workout?</label>
-                <select class="form-select" id="mood" v-model="endWorkoutForm.mood">
-                  <option value="bad">Bad - Felt terrible</option>
-                  <option value="ok">OK - Felt alright</option>
-                  <option value="good">Good - Felt great</option>
-                  <option value="great">Great - Felt amazing</option>
-                </select>
-              </div>
-              
-              
-              
-              <div class="mb-3">
-                <div class="form-check">
-                  <input 
-                    class="form-check-input" 
-                    type="checkbox" 
-                    id="saveAsRoutine" 
-                    v-model="endWorkoutForm.saveAsRoutine"
-                  >
-                  <label class="form-check-label" for="saveAsRoutine">
-                    Save this workout as a routine
-                  </label>
-                </div>
-              </div>
-              
-              <div v-if="endWorkoutForm.saveAsRoutine" class="mb-3">
-                <label for="routineTitle" class="form-label">Routine Title</label>
-                <input 
-                  type="text" 
-                  class="form-control" 
-                  id="routineTitle" 
-                  v-model="endWorkoutForm.routineTitle"
-                  placeholder="e.g., My Upper Body Workout"
-                >
-              </div>
-            </form>
+            </div>
+
+            <!-- Optional: Save as routine -->
+            <div class="form-check mt-3">
+              <input class="form-check-input" type="checkbox" id="endSaveAsRoutine" v-model="saveAsRoutine">
+              <label class="form-check-label" for="endSaveAsRoutine">
+                Save this workout as a routine
+              </label>
+            </div>
+            <div v-if="saveAsRoutine" class="mt-2">
+              <label for="endRoutineTitle" class="form-label">Routine Title</label>
+              <input type="text" class="form-control" id="endRoutineTitle" v-model="routineTitle" placeholder="e.g., My Upper Body Workout">
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" @click="showEndWorkoutModal = false">
@@ -453,12 +426,19 @@ const workoutName = computed(() => {
   return workoutData.value.title || 'Custom Workout'
 })
 
-const endWorkoutForm = ref({
-  perceivedIntensity: 'medium',
-  mood: 'good',
-  saveAsRoutine: false,
-  routineTitle: ''
+// Computed properties for workout summary
+const completedExercisesCount = computed(() => {
+  if (!workoutData.value?.exercises) return 0
+  return workoutData.value.exercises.filter(exercise => exercise.completed).length
 })
+
+const totalExercisesCount = computed(() => {
+  return workoutData.value?.exercises?.length || 0
+})
+
+// End modal: optional routine save state
+const saveAsRoutine = ref(false)
+const routineTitle = ref('')
 
 let timer = null
 
@@ -605,7 +585,7 @@ const endWorkout = async () => {
       timer = null
     }
     
-    // get exercise data ready
+    // prepare exercises to persist
     const performedExercises = workoutData.value?.exercises?.map((exercise) => ({
       exerciseId: exercise.exerciseId,
       targetSets: exercise.sets,
@@ -613,34 +593,33 @@ const endWorkout = async () => {
       targetRestSeconds: exercise.restSeconds,
       performedSets: []
     })) || []
-    
-    // finish the session
+
+    // persist session end without mood/intensity
     await WorkoutService.endWorkoutSession(
       sessionId.value,
-      endWorkoutForm.value.perceivedIntensity,
-      endWorkoutForm.value.mood,
+      undefined,
+      undefined,
       '',
       performedExercises
     )
-    
-    // save it if they want to
-    if (endWorkoutForm.value.saveAsRoutine) {
+
+    // optionally save as a routine
+    if (saveAsRoutine.value) {
       const routineData = {
-        title: endWorkoutForm.value.routineTitle || workoutData.value?.title || 'Custom Workout',
+        title: routineTitle.value || workoutData.value?.title || 'Custom Workout',
         goal: workoutData.value?.goal || 'general_fitness',
         estimatedTimeMinutes: workoutData.value?.estimatedTimeMinutes || 45,
         intendedIntensity: workoutData.value?.intendedIntensity || 'medium',
-        exercises: workoutData.value?.exercises?.map(exercise => ({
+        exercises: (workoutData.value?.exercises || []).map(exercise => ({
           exerciseId: exercise.exerciseId,
           sets: exercise.sets,
           reps: exercise.reps,
           restSeconds: exercise.restSeconds
-        })) || []
+        }))
       }
-      
       await WorkoutService.createRoutine(routineData)
     }
-    
+
     // Clear ALL workout state when workout is completed
     // This ensures the next identical workout is treated as separate
     WorkoutStateService.clearActiveWorkout()
@@ -650,14 +629,6 @@ const endWorkout = async () => {
     isActive.value = false
     startTime.value = null
     elapsedTime.value = 0
-    
-    // Reset form
-    endWorkoutForm.value = {
-      perceivedIntensity: 'medium',
-      mood: 'good',
-      saveAsRoutine: false,
-      routineTitle: ''
-    }
     
     // go to progress page
     router.push('/progress')
