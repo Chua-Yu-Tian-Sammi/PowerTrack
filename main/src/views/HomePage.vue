@@ -179,6 +179,79 @@
       </div>
     </section>
 
+    <!--user review-->
+    <section class="reviews-section">
+      <div class="container">
+        <div class="section-header text-center mb-5">
+          <h2 class="section-title">Real People, Real Results</h2>
+          <p class="section-description">Join thousands who have achieved their goals with PowerTrack</p>
+        </div>
+
+        <div id="reviewsCarousel" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <div class="review-card mx-auto">
+                <div class="review-stars mb-2">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i>
+                </div>
+                <p class="review-text">PowerTrack's custom routines kept me motivated every single week.</p>
+                <p class="review-author">— Emily R.</p>
+              </div>
+            </div>
+
+            <div class="carousel-item">
+              <div class="review-card mx-auto">
+                <div class="review-stars mb-2">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p class="review-text">The progress tracker is a game-changer. Seeing my gains on a chart keeps me focused.</p>
+                <p class="review-author">— James L.</p>
+              </div>
+            </div>
+
+            <div class="carousel-item">
+              <div class="review-card mx-auto">
+                <div class="review-stars mb-2">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i>
+                </div>
+                <p class="review-text">I love the exercise library. Detailed instructions mean no guesswork in my workouts.</p>
+                <p class="review-author">— Sophia T.</p>
+              </div>
+            </div>
+
+            <div class="carousel-item">
+              <div class="review-card mx-auto">
+                <div class="review-stars mb-2">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p class="review-text">Creating my own routine was so intuitive. I hit new PRs within a month!</p>
+                <p class="review-author">— Michael S.</p>
+              </div>
+            </div>
+
+            <div class="carousel-item">
+              <div class="review-card mx-auto">
+                <div class="review-stars mb-2">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p class="review-text">Joined PowerTrack six months ago and I've never felt stronger or more confident.</p>
+                <p class="review-author">— Olivia M.</p>
+              </div>
+            </div>
+          </div>
+
+          <button class="carousel-control-prev" type="button" data-bs-target="#reviewsCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: invert(1); width: 40px; height: 40px;"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#reviewsCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true" style="filter: invert(1); width: 40px; height: 40px;"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
     <section class="cta-section">
       <div class="container">
         <div class="cta-card">
@@ -196,10 +269,6 @@
         </div>
       </div>
     </section>
-
-    <!---user reviews-->
-    
-
   </div>
 </template>
 <script>
@@ -271,5 +340,42 @@ export default {
   color:#fff;
 }
 
+.reviews-section {
+  padding: 60px 0;
+}
+.review-card {
+  background-color: rgba(230, 247, 255, 0.8);
+  padding: 25px;
+  max-width: 500px;
+  border-radius: 8px;
+  text-align: center;
+}
+.review-stars i {
+  color: #ffc107;
+  margin-right: 2px;
+}
+.review-text {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+.review-author {
+  font-weight: 600;
+  color: #333;
+}
 
+/*for small screen , adjust the button for next and prev for carousel */
+@media(max-width:768px){
+  .carousel-control-prev,.carousel-control-next{
+    margin-left: -90px;
+    margin-right: -90px;
+  }
+}
+
+/*for extra small screen */
+@media(max-width:576px){
+  .carousel-control-prev,.carousel-control-next{
+    margin-left: -55px;
+    margin-right: -55px;
+  }
+}
 </style>
