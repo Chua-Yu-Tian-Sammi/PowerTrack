@@ -180,6 +180,78 @@
       </div>
     </section>
 
+    <section class="reviews-section">
+      <div class="container">
+        <div class="section-header text-center mb-5">
+          <h2 class="section-title">Real People, Real Results</h2>
+          <p class="section-description">Join thousands who have achieved their goals with PowerTrack</p>
+        </div>
+
+        <div id="reviewsCarousel" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <div class="review-card mx-auto">
+                <div class="review-stars mb-2">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i>
+                </div>
+                <p class="review-text">PowerTrack's custom routines kept me motivated every single week.</p>
+                <p class="review-author">— Emily R.</p>
+              </div>
+            </div>
+
+            <div class="carousel-item">
+              <div class="review-card mx-auto">
+                <div class="review-stars mb-2">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p class="review-text">The progress tracker is a game-changer. Seeing my gains on a chart keeps me focused.</p>
+                <p class="review-author">— James L.</p>
+              </div>
+            </div>
+
+            <div class="carousel-item">
+              <div class="review-card mx-auto">
+                <div class="review-stars mb-2">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i>
+                </div>
+                <p class="review-text">I love the exercise library. Detailed instructions mean no guesswork in my workouts.</p>
+                <p class="review-author">— Sophia T.</p>
+              </div>
+            </div>
+
+            <div class="carousel-item">
+              <div class="review-card mx-auto">
+                <div class="review-stars mb-2">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p class="review-text">Creating my own routine was so intuitive. I hit new PRs within a month!</p>
+                <p class="review-author">— Michael S.</p>
+              </div>
+            </div>
+
+            <div class="carousel-item">
+              <div class="review-card mx-auto">
+                <div class="review-stars mb-2">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p class="review-text">Joined PowerTrack six months ago and I've never felt stronger or more confident.</p>
+                <p class="review-author">— Olivia M.</p>
+              </div>
+            </div>
+          </div>
+
+          <button class="carousel-control-prev" type="button" data-bs-target="#reviewsCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: invert(1); width: 40px; height: 40px;"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#reviewsCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true" style="filter: invert(1); width: 40px; height: 40px;"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
     <section class="cta-section">
       <div class="container">
         <div class="cta-card">
@@ -212,14 +284,18 @@ export default {
 </script>
 
 <style scoped>
-.hero-section .hero-title,
+.hero-section .hero-title{
+  color:cornflowerblue;
+}
 .hero-section .stat-number,
 .hero-section .btn,
 .hero-section .btn i,
-.hero-visual .workout-name {
+.hero-visual .workout-meta{
   color: #fff;
 }
-
+.hero-visual .workout-name{
+  color:blanchedalmond;
+}
 .hero-section {
   /* full screen background image */
   color: #fff;
@@ -227,12 +303,13 @@ export default {
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
 }
-
-.hero-section .hero-description,
+.hero-section .hero-description{
+  color: #fff;
+  font-weight: 500;
+}
 .hero-section .stat-label  {
   color: rgba(255, 255, 255, 0.8);
 }
-
 .hero-visual .visual-card {
   background-color: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(10px);
@@ -241,16 +318,14 @@ export default {
   padding: 1.5rem;
   color: #fff;
 }
-
 .hero-visual .visual-header,
 .hero-visual .visual-header i,
 .hero-visual .visual-header span {
-  color: #fff !important;
+  color:#fff;
   font-weight: 600;
   font-size: 1.25rem;      
   margin-bottom: 1rem;
 }
-
 .hero-visual .workout-item {
   display: flex;
   align-items: center;
@@ -259,14 +334,32 @@ export default {
   padding: 0.75rem 1rem;
   margin-bottom: 1rem;
 }
-
 .hero-visual .workout-icon i {
+  color: #fff;
   font-size: 0.75rem;
-  color: #fff !important;
   margin-right: 0.75rem;
 }
 
-.hero-visual .workout-meta {
-  color: rgba(255, 255, 255, 0.75);
+.reviews-section {
+  padding: 60px 0;
+}
+.review-card {
+  background-color: rgba(230, 247, 255, 0.8);
+  padding: 25px;
+  max-width: 500px;
+  border-radius: 8px;
+  text-align: center;
+}
+.review-stars i {
+  color: #ffc107;
+  margin-right: 2px;
+}
+.review-text {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+.review-author {
+  font-weight: 600;
+  color: #333;
 }
 </style>
