@@ -11,12 +11,15 @@
     <div class="row">
       <div class="col-lg-8">
         <div class="card">
-          <div class="card-header">
+          <!-- <div class="card-header">
             <h4>{{ editingRoutine ? 'Edit Routine' : 'Create New Routine' }}</h4>
-          </div>
+          </div> -->
           <div class="card-body">
+            <h4 class="card-title fw-bold ">{{ editingRoutine ? 'Edit Routine' : 'Create New Routine' }}</h4>
+            <span class="text-muted small">Design your perfect workout plan</span>
             <form @submit.prevent="saveRoutine">
-              <div class="row mb-3">
+              <!-- <div class="row mb-3"> -->
+                <div class="row mb-3 mt-3">
                 <div class="col-md-6">
                   <label for="title" class="form-label">Routine Title</label>
                   <input 
@@ -25,7 +28,7 @@
                     id="title" 
                     v-model="routineForm.title"
                     required
-                    placeholder="e.g., Upper Body Strength"
+                    placeholder="e.g. Upper Body Strength"
                   >
                 </div>
                 <div class="col-md-6">
@@ -41,7 +44,8 @@
               </div>
 
               <div class="row mb-3">
-                <div class="col-md-4">
+                <!-- <div class="col-md-4"> -->
+                <div class="col-md-6">
                   <label for="estimatedTime" class="form-label">Estimated Time (min)</label>
                   <input 
                     type="number" 
@@ -53,7 +57,8 @@
                     required
                   >
                 </div>
-                <div class="col-md-4">
+                <!-- <div class="col-md-4"> -->
+                <div class="col-md-6">
                   <label for="intensity" class="form-label">Intensity</label>
                   <select class="form-select" id="intensity" v-model="routineForm.intendedIntensity" required>
                     <option value="low">Low</option>
@@ -61,16 +66,17 @@
                     <option value="high">High</option>
                   </select>
                 </div>
-                <div class="col-md-4">
+                <!-- <div class="col-md-4">
                   <label class="form-label">Total Exercises</label>
                   <div class="form-control-plaintext">{{ routineForm.exercises.length }}</div>
-                </div>
+                </div> -->
               </div>
 
               <!-- exercises you're adding -->
               <div class="mb-4">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                  <h5>Exercises</h5>
+                  <!-- <h5>Exercises</h5> -->
+                  <h6>Exercises ({{ routineForm.exercises.length }})</h6>
                   <button type="button" class="btn btn-outline-primary" @click="showExerciseSelector = true">
                     <i class="bi bi-plus me-1"></i>Add Exercise
                   </button>
@@ -113,10 +119,12 @@
       <!-- saved routines -->
       <div class="col-lg-4">
         <div class="card">
-          <div class="card-header">
+          <!-- <div class="card-header">
             <h5>My Routines</h5>
-          </div>
+          </div> -->
           <div class="card-body">
+            <h5 class="card-title fw-bold">My Routines ({{ routines.length }})</h5>
+            <span class="text-muted small">View and manage your saved routines</span>
             <div v-if="loading" class="text-center py-3">
               <div class="spinner-border" role="status">
                 <span class="visually-hidden">Loading...</span>
@@ -127,14 +135,36 @@
               <p class="mt-2">No routines yet</p>
             </div>
             <div v-else>
-              <div v-for="routine in routines" :key="routine.routineId" class="routine-item mb-3">
+              <div v-for="routine in routines" :key="routine.routineId" class="routine-item mb-2 mt-2">
+                <div class="card routine-card">
+                  <div class="card-body">
+                    <h6>{{ routine.title }}</h6>
+                    <div class="d-flex justify-content-between">
+                      <span class="badge badge-goal text-capitalize">{{ routine.goal.replace('_', ' ') }}</span>
+                      <span class="badge badge-intensity text-capitalize">{{ routine.intendedIntensity }}</span>
+                    </div>
+                    <p class="text-muted mb-2 ">{{ routine.exercises.length }} exercises • {{ routine.estimatedTimeMinutes }} min</p>
+                    
+                    <div class="mt-2 d-flex justify-content-end">
+                      <button class="btn edit-btn btn-sm me-2" @click="editRoutine(routine)">
+                        <i class="bi bi-pencil me-1"></i>Edit
+                      </button>
+                      <button class="btn delete-btn btn-sm" @click="deleteRoutine(routine.routineId)">
+                        <i class="bi bi-trash me-1 "></i>Delete
+                      </button>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              <!-- <div v-for="routine in routines" :key="routine.routineId" class="routine-item mb-3">
                 <div class="card">
                   <div class="card-body">
                     <h6>{{ routine.title }}</h6>
                     <p class="text-muted mb-2">{{ routine.exercises.length }} exercises • {{ routine.estimatedTimeMinutes }} min</p>
                     <div class="d-flex justify-content-between">
-                      <!-- <span class="badge bg-primary">{{ routine.goal.replace('_', ' ') }}</span>
-                      <span class="badge bg-secondary">{{ routine.intendedIntensity }}</span> -->
+                      <span class="badge bg-primary">{{ routine.goal.replace('_', ' ') }}</span>
+                      <span class="badge bg-secondary">{{ routine.intendedIntensity }}</span>
                       <span class="badge badge-goal text-capitalize">{{ routine.goal.replace('_', ' ') }}</span>
                       <span class="badge badge-intensity text-capitalize">{{ routine.intendedIntensity }}</span>
                     </div>
@@ -148,7 +178,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -330,12 +360,56 @@ const resetForm = () => {
 
 <style scoped>
 .badge-intensity{
-  background: rgba(243,156,18,0.1);
-  color: #d35400;
+  background: rgba(255, 183, 77, 0.15);
+  color: #e67e22;
 }
 
 .badge-goal{
-background: rgba(128, 128, 128, 0.2);
-color: #555555; 
+  background: rgba(255, 241, 118, 0.25); 
+  color: #c79300; 
+}
+
+.routine-card {
+  border: 2px solid #e8ecf1;
+  border-radius: 16px;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.routine-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background: linear-gradient(135deg, #0d6efd 0%, #375aba 100%);
+  }
+  
+.routine-card:hover {
+  transform: translateX(4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border-color: #667eea;
+}
+
+.edit-btn{
+  background:#e8f4fd;
+  color: #3490db;
+}
+
+.edit-btn:hover{
+  background: #3498db;
+  color: white;
+}
+
+.delete-btn{
+  background: #fde8e6;
+  color:#e74c3c ;
+}
+
+.delete-btn:hover{
+  background:#e74c3c ;
+  color: white;
 }
 </style>

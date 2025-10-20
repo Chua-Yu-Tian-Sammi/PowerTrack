@@ -41,9 +41,14 @@
         <div class="col-md-2">
           <button 
             type="button" 
-            class="btn btn-outline-danger btn-sm"
+            class="btn btn-outline-danger btn-sm mt-2"
             @click="$emit('remove')"
           >
+          <!-- <button 
+            type="button" 
+            class="btn btn-outline-danger btn-sm"
+            @click="$emit('remove')"
+          > -->
             <i class="bi bi-trash"></i>
           </button>
         </div>
