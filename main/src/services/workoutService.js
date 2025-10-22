@@ -115,6 +115,18 @@ async function getUserWorkoutLogs({ limit = 50 } = {}) {
   return data;
 }
 
+async function getUserRunningLogs({ limit = 50 } = {}) {
+  const fn = httpsCallable(functions, 'getUserRunningLogs');
+  const { data } = await fn({ limit });
+  return data;
+}
+
+async function getAllActivityLogs({ limit = 100 } = {}) {
+  const fn = httpsCallable(functions, 'getAllActivityLogs');
+  const { data } = await fn({ limit });
+  return data;
+}
+
 async function startWorkoutSession(sourceType, sourceId, routineData) {
   const fn = httpsCallable(functions, 'startWorkoutSession');
   const { data } = await fn({ sourceType, sourceId, routineData });
@@ -158,6 +170,8 @@ export const WorkoutService = {
   generateWorkout,
   getProgressSummaries,
   getUserWorkoutLogs,
+  getUserRunningLogs,
+  getAllActivityLogs,
   startWorkoutSession,
   endWorkoutSession,
   getWorkoutSession,
@@ -182,6 +196,8 @@ export {
   generateWorkout,
   getProgressSummaries,
   getUserWorkoutLogs,
+  getUserRunningLogs,
+  getAllActivityLogs,
   startWorkoutSession,
   endWorkoutSession,
   getWorkoutSession,

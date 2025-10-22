@@ -1,5 +1,15 @@
 <template>
   <div class="card h-100 exercise-card">
+    <!-- Exercise Image -->
+    <div class="exercise-image-container">
+      <img 
+        :src="imageSrc" 
+        :alt="exercise.name"
+        class="exercise-image"
+        @error="handleImageError"
+      />
+    </div>
+    
     <div class="card-body d-flex flex-column">
       <div class="d-flex justify-content-between align-items-start mb-2">
         <h5 class="card-title">{{ exercise.name }}</h5>
@@ -47,7 +57,7 @@
 </template>
 
 <script setup>
-defineProps({
+const props = defineProps({
   exercise: {
     type: Object,
     required: true
@@ -55,6 +65,21 @@ defineProps({
 })
 
 defineEmits(['addToRoutine'])
+
+import { computed, ref } from 'vue'
+import { resolveExerciseImage, UNAVAILABLE_DATA_URI } from '../services/imageResolver.js'
+
+const initialSrc = resolveExerciseImage(props.exercise?.exerciseId)
+const imageSrcRef = ref(initialSrc)
+const imageSrc = computed(() => imageSrcRef.value)
+
+const handleImageError = (e) => {
+  if (!e || !e.target) return
+  if (e.target.src !== UNAVAILABLE_DATA_URI) {
+    imageSrcRef.value = UNAVAILABLE_DATA_URI
+    e.target.src = UNAVAILABLE_DATA_URI
+  }
+}
 
 const getIntensityBadgeClass = (intensity) => {
   switch (intensity) {
@@ -75,3 +100,37 @@ const getDifficultyBadgeClass = (difficulty) => {
 }
 
 </script>
+
+<style scoped>
+.exercise-image-container {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.375rem 0.375rem 0 0;
+}
+
+.exercise-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.exercise-card:hover .exercise-image {
+  transform: scale(1.05);
+}
+
+.exercise-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+}
+
+.exercise-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+</style>

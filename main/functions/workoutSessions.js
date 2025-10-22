@@ -74,73 +74,37 @@ exports.endWorkoutSession = functions.https.onCall(async (data, context) => {
       status: 'completed'
     });
 
-    // Create performed exercises if provided
-    if (performedExercises && performedExercises.length > 0) {
-      const batch = db.batch();
-      
-      performedExercises.forEach((exercise, index) => {
-        const performedExerciseRef = db.collection('performed_exercises').doc();
-        batch.set(performedExerciseRef, {
-          performedExerciseId: performedExerciseRef.id,
-          sessionId,
-          exerciseId: exercise.exerciseId,
-          orderIndex: index,
-          targetSets: exercise.targetSets,
-          targetReps: exercise.targetReps,
-          targetRestSeconds: exercise.targetRestSeconds,
-          performedSets: exercise.performedSets || []
-        });
-      });
-
-      await batch.commit();
-    }
-
-    // Prepare route data for running routes
-    let routeData = null;
-    if (sessionData.sourceType === 'running-route' && sessionData.routineData) {
-      // Extract route information from routine data
+    // Log workout to database
+    const isRunningRoute = sessionData.sourceType === 'running-route';
+    
+    if (isRunningRoute && sessionData.routineData) {
       const routineData = sessionData.routineData;
+      let distanceKm = 0;
+      
       if (routineData.exercises && routineData.exercises.length > 0) {
         const firstExercise = routineData.exercises[0];
         const distanceM = Number(firstExercise.distance ?? 0) || 0;
-        routeData = {
-          distanceM,
-          distanceKm: distanceM / 1000,
-          routeType: firstExercise.routeType || 'unknown',
-          description: firstExercise.description || ''
-        };
+        distanceKm = distanceM / 1000;
       }
-    }
-    
-    // Compute total volume from performed sets (weight * reps)
-    const totalVolume = (performedExercises || []).reduce((sum, ex) => {
-      const sets = ex?.performedSets || [];
-      const exerciseVolume = sets.reduce((s, set) => {
-        const w = Number(set?.weight) || 0;
-        const r = Number(set?.reps) || 0;
-        return s + (w * r);
-      }, 0);
-      return sum + exerciseVolume;
-    }, 0);
+      
+      await db.collection('workout_logs').add({
+        userId,
+        workoutType: 'runs',
+        distanceKm: Math.round(distanceKm * 100) / 100,
+        durationMinutes: totalTimeMinutes,
+        timestamp: new Date()
+      });
+    } else {
+      const numberOfExercises = (performedExercises || []).length;
 
-    // Trigger progress tracking
-    await db.collection('workout_logs').add({
-      userId,
-      sessionId,
-      date: new Date(),
-      totalTimeMinutes,
-      totalDurationSec: totalTimeMinutes * 60, // Convert to seconds for dashboard
-      totalVolume,
-      // optional fields in log as well
-      ...(perceivedIntensity ? { perceivedIntensity } : {}),
-      ...(mood ? { mood } : {}),
-      ...(notes ? { notes } : {}),
-      sourceType: sessionData.sourceType || 'custom',
-      items: performedExercises || [], // Include exercise items for dashboard
-      workoutSnapshot: sessionData.routineData, // Include workout snapshot
-      route: routeData, // Include route data for running routes
-      createdAt: new Date()
-    });
+      await db.collection('workout_logs').add({
+        userId,
+        workoutType: 'routine',
+        numberOfExercises,
+        timestamp: new Date(),
+        durationMinutes: totalTimeMinutes
+      });
+    }
 
     return { success: true, totalTimeMinutes };
   } catch (error) {
@@ -227,7 +191,7 @@ exports.getUserWorkoutSessions = functions.https.onCall(async (data, context) =>
   }
 });
 
-// Get user's workout logs (callable)
+// Get user's workout logs (callable) - returns both regular workouts and runs
 exports.getUserWorkoutLogs = functions.https.onCall(async (data, context) => {
   if (!context.auth) {
     throw new functions.https.HttpsError('unauthenticated', 'User must be authenticated');
@@ -240,7 +204,7 @@ exports.getUserWorkoutLogs = functions.https.onCall(async (data, context) => {
     const logsSnapshot = await db
       .collection('workout_logs')
       .where('userId', '==', userId)
-      .orderBy('date', 'desc')
+      .orderBy('timestamp', 'desc')
       .limit(parseInt(limit))
       .get();
 
@@ -249,8 +213,7 @@ exports.getUserWorkoutLogs = functions.https.onCall(async (data, context) => {
       return {
         logId: doc.id,
         ...payload,
-        date: payload.date.toDate(),
-        createdAt: payload.createdAt.toDate()
+        timestamp: payload.timestamp.toDate()
       };
     });
 
@@ -258,6 +221,74 @@ exports.getUserWorkoutLogs = functions.https.onCall(async (data, context) => {
   } catch (error) {
     console.error('Error getting user workout logs:', error);
     throw new functions.https.HttpsError('internal', 'Failed to get workout logs');
+  }
+});
+
+// Get user's running logs (callable) - now just filters workout_logs for runs
+exports.getUserRunningLogs = functions.https.onCall(async (data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError('unauthenticated', 'User must be authenticated');
+  }
+
+  const userId = context.auth.uid;
+  const { limit = 50 } = data || {};
+
+  try {
+    const logsSnapshot = await db
+      .collection('workout_logs')
+      .where('userId', '==', userId)
+      .where('workoutType', '==', 'runs')
+      .orderBy('timestamp', 'desc')
+      .limit(parseInt(limit))
+      .get();
+
+    const logs = logsSnapshot.docs.map(doc => {
+      const payload = doc.data();
+      return {
+        logId: doc.id,
+        ...payload,
+        timestamp: payload.timestamp.toDate()
+      };
+    });
+
+    return logs;
+  } catch (error) {
+    console.error('Error getting user running logs:', error);
+    throw new functions.https.HttpsError('internal', 'Failed to get running logs');
+  }
+});
+
+// Get all activity logs (workouts + running) for combined stats
+exports.getAllActivityLogs = functions.https.onCall(async (data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError('unauthenticated', 'User must be authenticated');
+  }
+
+  const userId = context.auth.uid;
+  const { limit = 100 } = data || {};
+
+  try {
+    // Now everything is in workout_logs with workoutType field
+    const logsSnapshot = await db
+      .collection('workout_logs')
+      .where('userId', '==', userId)
+      .orderBy('timestamp', 'desc')
+      .limit(parseInt(limit))
+      .get();
+
+    const logs = logsSnapshot.docs.map(doc => {
+      const payload = doc.data();
+      return {
+        logId: doc.id,
+        ...payload,
+        timestamp: payload.timestamp.toDate()
+      };
+    });
+
+    return logs;
+  } catch (error) {
+    console.error('Error getting all activity logs:', error);
+    throw new functions.https.HttpsError('internal', 'Failed to get activity logs');
   }
 });
 

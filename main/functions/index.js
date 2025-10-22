@@ -21,7 +21,9 @@ const {
   endWorkoutSession, 
   getWorkoutSession, 
   getUserWorkoutSessions,
-  getUserWorkoutLogs
+  getUserWorkoutLogs,
+  getUserRunningLogs,
+  getAllActivityLogs
 } = require('./workoutSessions');
 const {
   getExercises,
@@ -45,6 +47,8 @@ exports.endWorkoutSession = endWorkoutSession;
 exports.getWorkoutSession = getWorkoutSession;
 exports.getUserWorkoutSessions = getUserWorkoutSessions;
 exports.getUserWorkoutLogs = getUserWorkoutLogs;
+exports.getUserRunningLogs = getUserRunningLogs;
+exports.getAllActivityLogs = getAllActivityLogs;
 exports.getExercises = getExercises;
 exports.getExerciseById = getExerciseById;
 exports.getExercisesByMuscle = getExercisesByMuscle;

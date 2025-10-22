@@ -424,7 +424,8 @@ const startRoute = (route) => {
           name: 'Running',
           description: route.description,
           duration: route.estimatedTime,
-          distance: route.distance,
+          distance: route.distance * 1000, // Convert km to meters for backend
+          distanceKm: route.distance, // Also keep km for reference
           routeType: route.routeType
         }],
         totalTimeMin: Math.floor(route.distance * 7), // Average 7 min/km
@@ -457,7 +458,8 @@ const proceedWithRoute = (route) => {
       name: 'Running',
       description: route.description,
       duration: route.estimatedTime,
-      distance: route.distance,
+      distance: route.distance * 1000, // Convert km to meters for backend
+      distanceKm: route.distance, // Also keep km for reference
       routeType: route.routeType
     }],
     totalTimeMin: Math.floor(route.distance * 7), // Average 7 min/km

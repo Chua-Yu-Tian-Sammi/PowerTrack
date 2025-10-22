@@ -82,8 +82,10 @@
       <p class="mt-2">Loading exercises...</p>
     </div>
 
+    
+
     <!-- exercise cards -->
-    <div v-else class="row g-4">
+    <div v-if="!loading" class="row g-4">
       <div v-for="exercise in filteredExercises" :key="exercise.exerciseId" class="col-lg-4 col-md-6">
         <ExerciseCard 
           :exercise="exercise"
@@ -117,6 +119,7 @@ import ExerciseCard from '../components/ExerciseCard.vue'
 const loading = ref(false)
 const exercises = ref([])
 const searchQuery = ref('')
+// no additional loading state needed for images; placeholders are synchronous
 
 // Toast notification
 const notification = ref({
@@ -195,13 +198,16 @@ const showNotification = (message, type = 'success') => {
 const loadExercises = async () => {
   loading.value = true
   try {
-    exercises.value = await WorkoutService.getExercises()
+    const fetchedExercises = await WorkoutService.getExercises()
+    exercises.value = fetchedExercises
   } catch (error) {
     console.error('Error loading exercises:', error)
   } finally {
     loading.value = false
   }
 }
+
+// No async image loading needed
 
 
 

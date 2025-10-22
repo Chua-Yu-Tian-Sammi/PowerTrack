@@ -20,6 +20,22 @@ export default defineConfig({
   esbuild: {
     target: 'esnext'
   },
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    sourcemap: false,
+    minify: 'esbuild',
+    chunkSizeWarningLimit: 1000,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor': ['vue', 'vue-router'],
+          'firebase': ['firebase/app', 'firebase/auth', 'firebase/firestore', 'firebase/functions'],
+          'bootstrap': ['bootstrap']
+        }
+      }
+    }
+  },
   server: {
     hmr: {
       overlay: false // Disable error overlay to prevent page reloads

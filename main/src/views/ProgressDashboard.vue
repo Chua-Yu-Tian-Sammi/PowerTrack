@@ -61,7 +61,7 @@
                 <span class="visually-hidden">Loading...</span>
               </div>
             </div>
-            <div v-else-if="workoutData.length === 0" class="text-center py-4">
+            <div v-else-if="!hasWorkoutData" class="text-center py-4">
               <i class="bi bi-graph-up display-1 text-muted"></i>
               <p class="text-muted">No workout data available yet</p>
             </div>
@@ -92,7 +92,7 @@
                 <span class="visually-hidden">Loading...</span>
               </div>
             </div>
-            <div v-else-if="exerciseData.length === 0" class="text-center py-4">
+            <div v-else-if="!hasExerciseData" class="text-center py-4">
               <i class="bi bi-list-ul display-1 text-muted"></i>
               <p class="text-muted">No exercise data available yet</p>
             </div>
@@ -123,7 +123,7 @@
                 <span class="visually-hidden">Loading...</span>
               </div>
             </div>
-            <div v-else-if="durationData.length === 0" class="text-center py-4">
+            <div v-else-if="!hasDurationData" class="text-center py-4">
               <i class="bi bi-clock display-1 text-muted"></i>
               <p class="text-muted">No duration data available yet</p>
             </div>
@@ -144,40 +144,8 @@
       </div>
     </div>
 
-            <!-- Muscle Groups Heatmap -->
-    <div class="row">
-              <div class="col-12">
-        <div class="card h-100">
-          <div class="card-header bg-danger text-white">
-            <h5 class="mb-0"><i class="bi bi-heart-pulse me-2"></i>Muscle Groups Trained</h5>
-          </div>
-          <div class="card-body">
-            <div v-if="loading" class="text-center py-4">
-              <div class="spinner-border text-danger" role="status">
-                <span class="visually-hidden">Loading...</span>
-              </div>
-            </div>
-            <div v-else-if="muscleGroups.length === 0" class="text-center py-4">
-              <i class="bi bi-heart-pulse display-1 text-muted"></i>
-              <p class="text-muted">No muscle group data available yet</p>
-            </div>
-            <div v-else class="muscle-heatmap">
-              <div class="row g-2">
-                <div v-for="muscle in muscleGroups" :key="muscle.name" 
-                     class="col-6 col-md-4">
-                  <div class="muscle-group-item p-2 rounded text-center border"
-                       :class="getMuscleIntensityClass(muscle.count)"
-                       :title="`${muscle.name}: ${muscle.count} exercises`">
-                    <div class="fw-bold">{{ muscle.name }}</div>
-                    <small>{{ muscle.count }}</small>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <!-- Muscle Groups Heatmap - Hidden for simplified logging -->
+            <!-- Future feature: Track individual exercises to show muscle group breakdown -->
           </div>
 
           <!-- Running Statistics Tab -->
@@ -195,7 +163,7 @@
                         <span class="visually-hidden">Loading...</span>
                       </div>
                     </div>
-                    <div v-else-if="runningRunsData.length === 0" class="text-center py-4">
+                    <div v-else-if="!hasRunningRunsData" class="text-center py-4">
                       <i class="bi bi-geo-alt display-1 text-muted"></i>
                       <p class="text-muted">No running data available yet</p>
                     </div>
@@ -226,7 +194,7 @@
                         <span class="visually-hidden">Loading...</span>
                       </div>
                     </div>
-                    <div v-else-if="runningDurationData.length === 0" class="text-center py-4">
+                    <div v-else-if="!hasRunningDurationData" class="text-center py-4">
                       <i class="bi bi-clock-history display-1 text-muted"></i>
                       <p class="text-muted">No running duration data yet</p>
                     </div>
@@ -257,7 +225,7 @@
                         <span class="visually-hidden">Loading...</span>
                       </div>
                     </div>
-                    <div v-else-if="runningDistanceData.length === 0" class="text-center py-4">
+                    <div v-else-if="!hasRunningDistanceData" class="text-center py-4">
                       <i class="bi bi-signpost-split display-1 text-muted"></i>
                       <p class="text-muted">No running distance data yet</p>
                     </div>
@@ -324,6 +292,19 @@ const maxDuration = computed(() => {
   return Math.max(...durationData.value.map(d => d.duration), 1)
 })
 
+// Check if workout data has any actual values
+const hasWorkoutData = computed(() => {
+  return workoutData.value.some(d => d.workouts > 0)
+})
+
+const hasExerciseData = computed(() => {
+  return exerciseData.value.some(d => d.exercises > 0)
+})
+
+const hasDurationData = computed(() => {
+  return durationData.value.some(d => d.duration > 0)
+})
+
 // Running scales
 const maxRunningRuns = computed(() => {
   return Math.max(...runningRunsData.value.map(d => d.runs), 1)
@@ -337,6 +318,19 @@ const maxRunningDistance = computed(() => {
   return Math.max(...runningDistanceData.value.map(d => d.distance), 1)
 })
 
+// Check if running data has any actual values
+const hasRunningRunsData = computed(() => {
+  return runningRunsData.value.some(d => d.runs > 0)
+})
+
+const hasRunningDurationData = computed(() => {
+  return runningDurationData.value.some(d => d.duration > 0)
+})
+
+const hasRunningDistanceData = computed(() => {
+  return runningDistanceData.value.some(d => d.distance > 0)
+})
+
 onMounted(async () => {
   await loadAllData()
 })
@@ -348,18 +342,16 @@ const loadAllData = async () => {
     if (user) {
       await Promise.all([
         loadWorkoutLogs(user.uid),
+        loadRunningLogs(user.uid),
         loadExercises(),
-        loadUserProfile(user.uid),
-        calculateDaysWorkedOut()
+        loadUserProfile(user.uid)
       ])
       
-      // Split logs into workout vs running
-      const allLogs = workoutLogs.value || []
-      const isRun = (log) => (log.sourceType === 'running-route')
-      runningLogs.value = allLogs.filter(isRun)
-      const workoutOnlyLogs = allLogs.filter(l => !isRun(l))
-
-      processChartData(workoutOnlyLogs)
+      // Calculate days worked out from both workout and running logs
+      calculateDaysWorkedOut()
+      
+      // Process chart data
+      processChartData(workoutLogs.value)
       processRunningChartData(runningLogs.value)
       processMuscleGroups()
     }
@@ -372,10 +364,21 @@ const loadAllData = async () => {
 
 const loadWorkoutLogs = async (userId) => {
   try {
-    workoutLogs.value = await WorkoutService.getUserWorkoutLogs({ uid: userId, limit: 100 })
+    const allLogs = await WorkoutService.getUserWorkoutLogs({ limit: 100 })
+    workoutLogs.value = allLogs.filter(log => log.workoutType === 'routine')
   } catch (error) {
     console.error('Error loading workout logs:', error)
     workoutLogs.value = []
+  }
+}
+
+const loadRunningLogs = async (userId) => {
+  try {
+    const allLogs = await WorkoutService.getUserWorkoutLogs({ limit: 100 })
+    runningLogs.value = allLogs.filter(log => log.workoutType === 'runs')
+  } catch (error) {
+    console.error('Error loading running logs:', error)
+    runningLogs.value = []
   }
 }
 
@@ -396,15 +399,27 @@ const loadUserProfile = async (userId) => {
   }
 }
 
-const calculateDaysWorkedOut = async () => {
+const calculateDaysWorkedOut = () => {
   try {
-    // Get all workout logs and count unique days
     const uniqueDays = new Set()
+    
+    // Convert timestamps to dates
+    const convertTimestamp = (timestamp) => {
+      if (timestamp instanceof Date) return timestamp
+      if (timestamp?.seconds) return new Date(timestamp.seconds * 1000)
+      return new Date(timestamp)
+    }
+    
     workoutLogs.value.forEach(log => {
-      const date = new Date(log.date)
-      const dateString = date.toDateString()
-      uniqueDays.add(dateString)
+      const date = convertTimestamp(log.timestamp)
+      uniqueDays.add(date.toDateString())
     })
+    
+    runningLogs.value.forEach(log => {
+      const date = convertTimestamp(log.timestamp)
+      uniqueDays.add(date.toDateString())
+    })
+    
     daysWorkedOut.value = uniqueDays.size
   } catch (error) {
     console.error('Error calculating days worked out:', error)
@@ -412,16 +427,22 @@ const calculateDaysWorkedOut = async () => {
 }
 
 const processChartData = (logs) => {
-  // Group data by weeks for the last 8 weeks (Monday to Sunday)
   const weeks = []
   const now = new Date()
   
-  // Find the most recent Monday
+  // Calculate most recent Monday
   const currentDay = now.getDay()
-  const daysToMonday = currentDay === 0 ? 6 : currentDay - 1 // Sunday = 0, Monday = 1
+  const daysToMonday = currentDay === 0 ? 6 : currentDay - 1
   const mostRecentMonday = new Date(now)
   mostRecentMonday.setDate(now.getDate() - daysToMonday)
   mostRecentMonday.setHours(0, 0, 0, 0)
+  
+  const convertTimestamp = (timestamp) => {
+    if (timestamp instanceof Date) return timestamp
+    if (timestamp?.seconds) return new Date(timestamp.seconds * 1000)
+    if (typeof timestamp === 'string') return new Date(timestamp)
+    return new Date(timestamp)
+  }
   
   for (let i = 7; i >= 0; i--) {
     const weekStart = new Date(mostRecentMonday)
@@ -431,11 +452,10 @@ const processChartData = (logs) => {
     weekEnd.setHours(23, 59, 59, 999)
     
     const weekWorkouts = (logs || []).filter(log => {
-      const logDate = new Date(log.date)
+      const logDate = convertTimestamp(log.timestamp)
       return logDate >= weekStart && logDate <= weekEnd
     })
     
-    // Format date as "Sep 1" style
     const weekLabel = weekStart.toLocaleDateString('en-US', { 
       month: 'short', 
       day: 'numeric'
@@ -444,8 +464,8 @@ const processChartData = (logs) => {
     const weekData = {
       label: weekLabel,
       workouts: weekWorkouts.length,
-      exercises: weekWorkouts.reduce((sum, w) => sum + w.items.length, 0),
-      duration: Math.round(weekWorkouts.reduce((sum, w) => sum + w.totalDurationSec, 0) / 60)
+      exercises: weekWorkouts.reduce((sum, w) => sum + (w.numberOfExercises || 0), 0),
+      duration: weekWorkouts.reduce((sum, w) => sum + (w.durationMinutes || 0), 0)
     }
     
     weeks.push(weekData)
@@ -457,37 +477,25 @@ const processChartData = (logs) => {
 }
 
 const extractRunDistanceKm = (log) => {
-  // Try multiple places for distance in order of preference
-  // 1) Direct route field
-  if (log.route && typeof log.route.distance === 'number') return Math.round(log.route.distance * 10) / 10
-  if (log.route && typeof log.route.distanceKm === 'number') return Math.round(log.route.distanceKm * 10) / 10
-  
-  // 2) Workout snapshot exercises first item distance
-  const snap = log.workoutSnapshot || log.workout || {}
-  const ex = Array.isArray(snap.exercises) ? snap.exercises[0] : null
-  if (ex && typeof ex.distance === 'number') return Math.round(ex.distance * 10) / 10
-  
-  // 3) Snapshot metadata
-  if (snap.distanceKm && typeof snap.distanceKm === 'number') return Math.round(snap.distanceKm * 10) / 10
-  if (snap.distance && typeof snap.distance === 'number') return Math.round(snap.distance * 10) / 10
-  
-  // 4) Log metadata
-  if (log.distanceKm && typeof log.distanceKm === 'number') return Math.round(log.distanceKm * 10) / 10
-  if (log.distance && typeof log.distance === 'number') return Math.round(log.distance * 10) / 10
-  
-  return 0
+  return log.distanceKm || 0
 }
 
 const processRunningChartData = (logs) => {
   const weeks = []
   const now = new Date()
   
-  // Find the most recent Monday
   const currentDay = now.getDay()
-  const daysToMonday = currentDay === 0 ? 6 : currentDay - 1 // Sunday = 0, Monday = 1
+  const daysToMonday = currentDay === 0 ? 6 : currentDay - 1
   const mostRecentMonday = new Date(now)
   mostRecentMonday.setDate(now.getDate() - daysToMonday)
   mostRecentMonday.setHours(0, 0, 0, 0)
+
+  const convertTimestamp = (timestamp) => {
+    if (timestamp instanceof Date) return timestamp
+    if (timestamp?.seconds) return new Date(timestamp.seconds * 1000)
+    if (typeof timestamp === 'string') return new Date(timestamp)
+    return new Date(timestamp)
+  }
 
   for (let i = 7; i >= 0; i--) {
     const weekStart = new Date(mostRecentMonday)
@@ -497,11 +505,10 @@ const processRunningChartData = (logs) => {
     weekEnd.setHours(23, 59, 59, 999)
 
     const weekRuns = (logs || []).filter(log => {
-      const logDate = new Date(log.date)
+      const logDate = convertTimestamp(log.timestamp)
       return logDate >= weekStart && logDate <= weekEnd
     })
 
-    // Format date as "Sep 1" style
     const weekLabel = weekStart.toLocaleDateString('en-US', { 
       month: 'short', 
       day: 'numeric'
@@ -510,7 +517,7 @@ const processRunningChartData = (logs) => {
     const weekData = {
       label: weekLabel,
       runs: weekRuns.length,
-      duration: Math.round(weekRuns.reduce((sum, r) => sum + (r.totalDurationSec || 0), 0) / 60),
+      duration: weekRuns.reduce((sum, r) => sum + (r.durationMinutes || 0), 0),
       distance: Math.round(weekRuns.reduce((sum, r) => sum + extractRunDistanceKm(r), 0) * 10) / 10
     }
 
@@ -523,25 +530,7 @@ const processRunningChartData = (logs) => {
 }
 
 const processMuscleGroups = () => {
-  const muscleCounts = {}
-  
-  workoutLogs.value.filter(l => l.sourceType !== 'running-route').forEach(log => {
-    log.items.forEach(item => {
-      const exercise = exercises.value.find(e => e.exerciseId === item.exerciseId)
-      if (exercise && exercise.muscleGroups) {
-        exercise.muscleGroups.forEach(muscle => {
-          if (!muscleCounts[muscle]) {
-            muscleCounts[muscle] = 0
-          }
-          muscleCounts[muscle]++
-        })
-      }
-    })
-  })
-  
-  muscleGroups.value = Object.entries(muscleCounts)
-    .map(([name, count]) => ({ name, count }))
-    .sort((a, b) => b.count - a.count)
+  muscleGroups.value = []
 }
 
 const getMuscleIntensityClass = (count) => {

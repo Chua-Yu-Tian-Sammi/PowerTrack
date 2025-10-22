@@ -12,9 +12,11 @@
     "preview": "vite preview",
     "lint": "eslint . --fix",
     "firebase:emulators": "firebase emulators:start",
-    "firebase:deploy": "firebase deploy",
+    "firebase:deploy": "npm run build && firebase deploy",
+    "firebase:deploy:hosting": "npm run build && firebase deploy --only hosting",
     "firebase:deploy:functions": "firebase deploy --only functions",
-    "firebase:deploy:firestore": "firebase deploy --only firestore"
+    "firebase:deploy:firestore": "firebase deploy --only firestore:rules,firestore:indexes",
+    "firebase:deploy:all": "npm run build && firebase deploy --only hosting,functions,firestore:rules,firestore:indexes"
   },
   "dependencies": {
     "axios": "^1.12.2",

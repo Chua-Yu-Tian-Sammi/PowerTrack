@@ -579,22 +579,22 @@ const startWorkout = async () => {
 const endWorkout = async () => {
   ending.value = true
   try {
-    // stop counting
+    // Stop timer
     if (timer) {
       clearInterval(timer)
       timer = null
     }
     
-    // prepare exercises to persist
+    // Prepare exercises to persist
     const performedExercises = workoutData.value?.exercises?.map((exercise) => ({
       exerciseId: exercise.exerciseId,
-      targetSets: exercise.sets,
-      targetReps: exercise.reps,
-      targetRestSeconds: exercise.restSeconds,
+      targetSets: exercise.sets || 0,
+      targetReps: exercise.reps || 0,
+      targetRestSeconds: exercise.restSeconds || 0,
       performedSets: []
     })) || []
 
-    // persist session end without mood/intensity
+    // End workout session
     await WorkoutService.endWorkoutSession(
       sessionId.value,
       undefined,
@@ -603,7 +603,7 @@ const endWorkout = async () => {
       performedExercises
     )
 
-    // optionally save as a routine
+    // Save as routine if requested
     if (saveAsRoutine.value) {
       const routineData = {
         title: routineTitle.value || workoutData.value?.title || 'Custom Workout',
@@ -620,21 +620,17 @@ const endWorkout = async () => {
       await WorkoutService.createRoutine(routineData)
     }
 
-    // Clear ALL workout state when workout is completed
-    // This ensures the next identical workout is treated as separate
+    // Clear workout state
     WorkoutStateService.clearActiveWorkout()
-    
-    // Reset all local state variables
     sessionId.value = null
     isActive.value = false
     startTime.value = null
     elapsedTime.value = 0
     
-    // go to progress page
     router.push('/progress')
   } catch (error) {
     console.error('Error ending workout:', error)
-    // You could add a toast notification here
+    alert('Failed to save workout.')
   } finally {
     ending.value = false
     showEndWorkoutModal.value = false
