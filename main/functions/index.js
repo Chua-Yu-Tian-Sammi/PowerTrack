@@ -23,7 +23,8 @@ const {
   getUserWorkoutSessions,
   getUserWorkoutLogs,
   getUserRunningLogs,
-  getAllActivityLogs
+  getAllActivityLogs,
+  migrateWorkoutLogs
 } = require('./workoutSessions');
 const {
   getExercises,
@@ -49,6 +50,7 @@ exports.getUserWorkoutSessions = getUserWorkoutSessions;
 exports.getUserWorkoutLogs = getUserWorkoutLogs;
 exports.getUserRunningLogs = getUserRunningLogs;
 exports.getAllActivityLogs = getAllActivityLogs;
+exports.migrateWorkoutLogs = migrateWorkoutLogs;
 exports.getExercises = getExercises;
 exports.getExerciseById = getExerciseById;
 exports.getExercisesByMuscle = getExercisesByMuscle;

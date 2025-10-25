@@ -29,106 +29,106 @@
               </h5>
             </div>
             <div class="card-body p-3 p-md-4">
-            <form @submit.prevent="generateWorkout">
-                <!-- Basic Settings -->
+              <form @submit.prevent="generateWorkout">
+                <!-- Dropdown Filters - All in one row for M/L resolutions -->
                 <div class="row g-3 mb-4">
-                  <div class="col-12 col-sm-6 col-lg-4">
-                    <label for="timeMin" class="form-label fw-semibold text-truncate">
+                  <div class="col-12 col-md-3">
+                    <label for="timeMin" class="form-label fw-semibold">
                       <i class="bi bi-clock me-1"></i>Duration
                     </label>
                     <div class="input-group">
-                  <input 
-                    type="number" 
-                    class="form-control" 
-                    id="timeMin" 
-                    v-model="workoutForm.timeMin"
-                    min="10" 
-                    max="120" 
-                    required
+                      <input 
+                        type="number" 
+                        class="form-control" 
+                        id="timeMin" 
+                        v-model="workoutForm.timeMin"
+                        min="10" 
+                        max="120" 
+                        required
                         placeholder="30"
-                  >
+                      >
                       <span class="input-group-text">min</span>
                     </div>
-                </div>
-                  <div class="col-12 col-sm-6 col-lg-4">
-                    <label for="intensity" class="form-label fw-semibold text-truncate">
+                  </div>
+                  <div class="col-12 col-md-3">
+                    <label for="intensity" class="form-label fw-semibold">
                       <i class="bi bi-fire me-1"></i>Intensity
                     </label>
-                  <select class="form-select" id="intensity" v-model="workoutForm.intensity" required>
-                    <option value="low">Low</option>
-                    <option value="medium">Medium</option>
-                    <option value="high">High</option>
-                  </select>
-                </div>
-                  <div class="col-12 col-sm-12 col-lg-4">
-                    <label for="goal" class="form-label fw-semibold text-truncate">
+                    <select class="form-select" id="intensity" v-model="workoutForm.intensity" required>
+                      <option value="low">Low</option>
+                      <option value="medium">Medium</option>
+                      <option value="high">High</option>
+                    </select>
+                  </div>
+                  <div class="col-12 col-md-3">
+                    <label for="goal" class="form-label fw-semibold">
                       <i class="bi bi-trophy me-1"></i>Goal
                     </label>
-                  <select class="form-select" id="goal" v-model="workoutForm.goal" required>
-                    <option value="weight_loss">Weight Loss</option>
-                    <option value="muscle_gain">Muscle Gain</option>
-                    <option value="endurance">Endurance</option>
-                    <option value="strength">Strength</option>
-                    <option value="general_fitness">General Fitness</option>
-                  </select>
-                </div>
-              </div>
-              
-                <!-- Experience & Muscle Groups -->
-                <div class="row g-3 mb-4">
-                  <div class="col-12 col-md-6">
-                    <label for="experienceLevel" class="form-label fw-semibold text-truncate">
+                    <select class="form-select" id="goal" v-model="workoutForm.goal" required>
+                      <option value="weight_loss">Weight Loss</option>
+                      <option value="muscle_gain">Muscle Gain</option>
+                      <option value="endurance">Endurance</option>
+                      <option value="strength">Strength</option>
+                      <option value="general_fitness">General Fitness</option>
+                    </select>
+                  </div>
+                  <div class="col-12 col-md-3">
+                    <label for="experienceLevel" class="form-label fw-semibold">
                       <i class="bi bi-award me-1"></i>Experience Level
                     </label>
                     <select class="form-select" id="experienceLevel" v-model="workoutForm.experienceLevel" required>
                       <option value="beginner">Beginner</option>
                       <option value="intermediate">Intermediate</option>
                       <option value="advanced">Advanced</option>
-                  </select>
+                    </select>
+                  </div>
                 </div>
-                  <div class="col-12 col-md-6">
-                    <label class="form-label fw-semibold text-truncate">
-                      <i class="bi bi-activity me-1"></i>Target Muscle Groups
-                    </label>
-                    <div class="muscle-groups-container">
-                      <div class="row g-2">
-                        <div class="col-6 col-sm-4">
+              
+                <!-- Target Muscle Groups -->
+                <div class="mb-4">
+                  <label class="form-label fw-semibold">
+                    <i class="bi bi-activity me-1"></i>Target Muscle Groups
+                  </label>
+                  <div class="card border-0 bg-light">
+                    <div class="card-body p-3">
+                      <div class="row g-3">
+                        <div class="col-6 col-sm-4 col-md-3">
                           <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="muscle-chest" value="chest" v-model="workoutForm.muscleGroups">
                             <label class="form-check-label" for="muscle-chest">Chest</label>
                           </div>
                         </div>
-                        <div class="col-6 col-sm-4">
+                        <div class="col-6 col-sm-4 col-md-3">
                           <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="muscle-back" value="back" v-model="workoutForm.muscleGroups">
                             <label class="form-check-label" for="muscle-back">Back</label>
                           </div>
                         </div>
-                        <div class="col-6 col-sm-4">
+                        <div class="col-6 col-sm-4 col-md-3">
                           <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="muscle-shoulders" value="shoulders" v-model="workoutForm.muscleGroups">
                             <label class="form-check-label" for="muscle-shoulders">Shoulders</label>
                           </div>
                         </div>
-                        <div class="col-6 col-sm-4">
+                        <div class="col-6 col-sm-4 col-md-3">
                           <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="muscle-arms" value="arms" v-model="workoutForm.muscleGroups">
                             <label class="form-check-label" for="muscle-arms">Arms</label>
                           </div>
                         </div>
-                        <div class="col-6 col-sm-4">
+                        <div class="col-6 col-sm-4 col-md-3">
                           <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="muscle-legs" value="legs" v-model="workoutForm.muscleGroups">
                             <label class="form-check-label" for="muscle-legs">Legs</label>
                           </div>
                         </div>
-                        <div class="col-6 col-sm-4">
+                        <div class="col-6 col-sm-4 col-md-3">
                           <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="muscle-core" value="core" v-model="workoutForm.muscleGroups">
                             <label class="form-check-label" for="muscle-core">Core</label>
                           </div>
                         </div>
-                        <div class="col-6 col-sm-4">
+                        <div class="col-6 col-sm-4 col-md-3">
                           <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="muscle-cardio" value="cardio" v-model="workoutForm.muscleGroups">
                             <label class="form-check-label" for="muscle-cardio">Cardio</label>
@@ -138,49 +138,6 @@
                     </div>
                   </div>
                 </div>
-
-                <!-- Equipment -->
-                <div class="row g-3 mb-4">
-                  <div class="col-12">
-                    <label class="form-label fw-semibold text-truncate">
-                      <i class="bi bi-tools me-1"></i>Available Equipment
-                    </label>
-                    <div class="equipment-container">
-                      <div class="row g-2">
-                        <div class="col-6 col-sm-4 col-md-3">
-                          <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="equipment-bodyweight" value="bodyweight" v-model="workoutForm.equipment">
-                            <label class="form-check-label" for="equipment-bodyweight">Bodyweight</label>
-                          </div>
-                        </div>
-                        <div class="col-6 col-sm-4 col-md-3">
-                          <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="equipment-dumbbells" value="dumbbells" v-model="workoutForm.equipment">
-                            <label class="form-check-label" for="equipment-dumbbells">Dumbbells</label>
-                          </div>
-                        </div>
-                        <div class="col-6 col-sm-4 col-md-3">
-                          <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="equipment-barbell" value="barbell" v-model="workoutForm.equipment">
-                            <label class="form-check-label" for="equipment-barbell">Barbell</label>
-                          </div>
-                        </div>
-                        <div class="col-6 col-sm-4 col-md-3">
-                          <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="equipment-bench" value="bench" v-model="workoutForm.equipment">
-                            <label class="form-check-label" for="equipment-bench">Bench</label>
-                          </div>
-                        </div>
-                        <div class="col-6 col-sm-4 col-md-3">
-                          <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="equipment-pullup" value="pullup_bar" v-model="workoutForm.equipment">
-                            <label class="form-check-label" for="equipment-pullup">Pull-up Bar</label>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                </div>
-              </div>
 
                 <!-- Generate -->
                 <div class="d-grid">
@@ -406,8 +363,7 @@ const workoutForm = ref({
   intensity: 'medium',
   goal: 'general_fitness',
   experienceLevel: 'beginner',
-  muscleGroups: [],
-  equipment: []
+  muscleGroups: []
 })
 
 // Load user data
@@ -418,8 +374,7 @@ const initializeForm = () => {
       intensity: userProfile.value.preferredIntensity || 'medium',
       goal: userProfile.value.goal || 'general_fitness',
       experienceLevel: userProfile.value.experienceLevel || 'beginner',
-      muscleGroups: [],
-      equipment: []
+      muscleGroups: []
     }
   }
 }

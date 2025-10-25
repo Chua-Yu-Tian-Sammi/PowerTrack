@@ -53,24 +53,29 @@ const router = createRouter({
     }
   ],
   scrollBehavior(to, from, savedPosition) {
-    // If there's a saved position (back/forward navigation), restore it
-    if (savedPosition) {
-      return savedPosition
-    }
-    
-    // For hash links, scroll to the element
-    if (to.hash) {
-      return {
-        el: to.hash,
-        behavior: 'smooth'
-      }
-    }
-    
-    // Always scroll to top when navigating to a new route
-    return { 
-      top: 0,
-      behavior: 'smooth'
-    }
+    // Return a promise to delay scroll until after transition
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        // If there's a saved position (back/forward navigation), restore it
+        if (savedPosition) {
+          resolve(savedPosition)
+        }
+        // For hash links, scroll to the element
+        else if (to.hash) {
+          resolve({
+            el: to.hash,
+            behavior: 'smooth'
+          })
+        }
+        // Always scroll to top when navigating to a new route
+        else {
+          resolve({ 
+            top: 0,
+            behavior: 'smooth'
+          })
+        }
+      }, 500) // Match transition duration (400ms + 100ms delay)
+    })
   }
 })
 

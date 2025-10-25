@@ -199,27 +199,111 @@ exports.getUserWorkoutLogs = functions.https.onCall(async (data, context) => {
 
   const userId = context.auth.uid;
   const { limit = 50 } = data || {};
+  
+  console.log('[CloudFunction.getUserWorkoutLogs] Called by user:', userId, 'with limit:', limit);
 
   try {
+    // Try to fetch logs - some may have 'timestamp', others may have 'date'
+    // We'll fetch all user logs and sort in memory for backward compatibility
     const logsSnapshot = await db
       .collection('workout_logs')
       .where('userId', '==', userId)
-      .orderBy('timestamp', 'desc')
-      .limit(parseInt(limit))
       .get();
+
+    console.log('[CloudFunction.getUserWorkoutLogs] Found', logsSnapshot.docs.length, 'logs (before sorting)');
 
     const logs = logsSnapshot.docs.map(doc => {
       const payload = doc.data();
-      return {
+      
+      // Handle both 'timestamp' and 'date' fields (for backward compatibility)
+      // Convert to milliseconds for proper serialization
+      let timestampMs;
+      if (payload.timestamp) {
+        if (payload.timestamp.toDate) {
+          timestampMs = payload.timestamp.toDate().getTime();
+        } else if (payload.timestamp.seconds !== undefined) {
+          timestampMs = payload.timestamp.seconds * 1000;
+        } else if (payload.timestamp instanceof Date) {
+          timestampMs = payload.timestamp.getTime();
+        } else {
+          timestampMs = new Date(payload.timestamp).getTime();
+        }
+      } else if (payload.date) {
+        if (payload.date.toDate) {
+          timestampMs = payload.date.toDate().getTime();
+        } else if (payload.date.seconds !== undefined) {
+          timestampMs = payload.date.seconds * 1000;
+        } else {
+          timestampMs = new Date(payload.date).getTime();
+        }
+      } else if (payload.createdAt) {
+        if (payload.createdAt.toDate) {
+          timestampMs = payload.createdAt.toDate().getTime();
+        } else if (payload.createdAt.seconds !== undefined) {
+          timestampMs = payload.createdAt.seconds * 1000;
+        } else {
+          timestampMs = new Date(payload.createdAt).getTime();
+        }
+      } else {
+        timestampMs = Date.now(); // Fallback to now if no timestamp field
+      }
+      
+      //  Extract the required fields for Progress Dashboard
+      const log = {
         logId: doc.id,
-        ...payload,
-        timestamp: payload.timestamp.toDate()
+        userId: payload.userId,
+        timestamp: timestampMs, // Send as milliseconds, not Date object
+        // Include original payload for backward compatibility
+        ...payload
       };
+      
+      // Add missing fields for Progress Dashboard if they don't exist
+      if (!log.workoutType) {
+        log.workoutType = payload.sourceType === 'running-route' ? 'runs' : 'routine';
+      }
+      
+      if (!log.numberOfExercises && payload.items) {
+        log.numberOfExercises = payload.items.length;
+      } else if (!log.numberOfExercises && payload.workoutSnapshot?.exercises) {
+        log.numberOfExercises = payload.workoutSnapshot.exercises.length;
+      }
+      
+      if (!log.durationMinutes && payload.totalTimeMinutes !== undefined) {
+        log.durationMinutes = payload.totalTimeMinutes;
+      }
+      
+      return log;
     });
+    
+    // Sort by timestamp (most recent first) and apply limit
+    const sortedLogs = logs
+      .sort((a, b) => b.timestamp - a.timestamp)
+      .slice(0, parseInt(limit));
+    
+    console.log('[CloudFunction.getUserWorkoutLogs] After sorting and limiting:', sortedLogs.length, 'logs');
+    
+    // Log sample of data being returned
+    if (sortedLogs.length > 0) {
+      console.log('[CloudFunction.getUserWorkoutLogs] Sample log:', {
+        logId: sortedLogs[0].logId,
+        workoutType: sortedLogs[0].workoutType,
+        timestamp: sortedLogs[0].timestamp,
+        timestampType: typeof sortedLogs[0].timestamp,
+        timestampAsDate: new Date(sortedLogs[0].timestamp).toISOString(),
+        numberOfExercises: sortedLogs[0].numberOfExercises,
+        durationMinutes: sortedLogs[0].durationMinutes,
+        distanceKm: sortedLogs[0].distanceKm
+      });
+      
+      // Log all unique workoutType values
+      const workoutTypes = [...new Set(sortedLogs.map(log => log.workoutType))];
+      console.log('[CloudFunction.getUserWorkoutLogs] Unique workoutType values:', workoutTypes);
+    }
 
-    return logs;
+    console.log('[CloudFunction.getUserWorkoutLogs] Returning', sortedLogs.length, 'logs');
+    return sortedLogs;
   } catch (error) {
-    console.error('Error getting user workout logs:', error);
+    console.error('[CloudFunction.getUserWorkoutLogs] Error getting user workout logs:', error);
     throw new functions.https.HttpsError('internal', 'Failed to get workout logs');
   }
 });
@@ -289,6 +373,125 @@ exports.getAllActivityLogs = functions.https.onCall(async (data, context) => {
   } catch (error) {
     console.error('Error getting all activity logs:', error);
     throw new functions.https.HttpsError('internal', 'Failed to get activity logs');
+  }
+});
+
+// Migration function to add workoutType to old workout logs
+exports.migrateWorkoutLogs = functions.https.onCall(async (data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError('unauthenticated', 'User must be authenticated');
+  }
+
+  const userId = context.auth.uid;
+  console.log('[migrateWorkoutLogs] Starting migration for user:', userId);
+
+  try {
+    // Get all workout logs for this user that don't have workoutType
+    const logsSnapshot = await db
+      .collection('workout_logs')
+      .where('userId', '==', userId)
+      .get();
+
+    let updatedCount = 0;
+    const batch = db.batch();
+
+    logsSnapshot.docs.forEach(doc => {
+      const data = doc.data();
+      const updates = {};
+      
+      // Fix timestamp field if missing
+      if (!data.timestamp) {
+        if (data.date) {
+          updates.timestamp = data.date;
+          console.log(`[migrateWorkoutLogs] Converting 'date' to 'timestamp' for log ${doc.id}`);
+        } else if (data.createdAt) {
+          updates.timestamp = data.createdAt;
+          console.log(`[migrateWorkoutLogs] Converting 'createdAt' to 'timestamp' for log ${doc.id}`);
+        }
+      }
+      
+      // Determine workoutType if missing
+      if (!data.workoutType) {
+        // Check sourceType field
+        if (data.sourceType === 'running-route') {
+          updates.workoutType = 'runs';
+        } else if (data.distanceKm !== undefined) {
+          updates.workoutType = 'runs';
+        } else {
+          updates.workoutType = 'routine';
+        }
+        console.log(`[migrateWorkoutLogs] Adding workoutType='${updates.workoutType}' to log ${doc.id}`);
+      }
+      
+      // For routine workouts, ensure required fields exist
+      if ((data.workoutType === 'routine' || updates.workoutType === 'routine')) {
+        // Extract numberOfExercises from items or workoutSnapshot
+        if (data.numberOfExercises === undefined) {
+          if (data.items && Array.isArray(data.items)) {
+            updates.numberOfExercises = data.items.length;
+            console.log(`[migrateWorkoutLogs] Adding numberOfExercises=${updates.numberOfExercises} from items[] to log ${doc.id}`);
+          } else if (data.workoutSnapshot?.exercises) {
+            updates.numberOfExercises = data.workoutSnapshot.exercises.length;
+            console.log(`[migrateWorkoutLogs] Adding numberOfExercises=${updates.numberOfExercises} from workoutSnapshot to log ${doc.id}`);
+          } else {
+            updates.numberOfExercises = 0;
+            console.log(`[migrateWorkoutLogs] Adding numberOfExercises=0 (no items found) to log ${doc.id}`);
+          }
+        }
+        
+        // Map totalTimeMinutes to durationMinutes
+        if (data.durationMinutes === undefined) {
+          if (data.totalTimeMinutes !== undefined) {
+            updates.durationMinutes = data.totalTimeMinutes;
+            console.log(`[migrateWorkoutLogs] Copying totalTimeMinutes=${updates.durationMinutes} to durationMinutes for log ${doc.id}`);
+          } else {
+            updates.durationMinutes = 0;
+            console.log(`[migrateWorkoutLogs] Adding durationMinutes=0 to log ${doc.id}`);
+          }
+        }
+      }
+      
+      // For running workouts, ensure required fields exist
+      if ((data.workoutType === 'runs' || updates.workoutType === 'runs')) {
+        if (data.distanceKm === undefined) {
+          updates.distanceKm = 0;
+          console.log(`[migrateWorkoutLogs] Adding distanceKm=0 to log ${doc.id}`);
+        }
+        
+        if (data.durationMinutes === undefined) {
+          if (data.totalTimeMinutes !== undefined) {
+            updates.durationMinutes = data.totalTimeMinutes;
+            console.log(`[migrateWorkoutLogs] Copying totalTimeMinutes=${updates.durationMinutes} to durationMinutes for log ${doc.id}`);
+          } else {
+            updates.durationMinutes = 0;
+            console.log(`[migrateWorkoutLogs] Adding durationMinutes=0 to log ${doc.id}`);
+          }
+        }
+      }
+      
+      // Only update if there are changes
+      if (Object.keys(updates).length > 0) {
+        console.log(`[migrateWorkoutLogs] Updating log ${doc.id}:`, updates);
+        batch.update(doc.ref, updates);
+        updatedCount++;
+      }
+    });
+
+    if (updatedCount > 0) {
+      await batch.commit();
+      console.log(`[migrateWorkoutLogs] Successfully updated ${updatedCount} logs`);
+    } else {
+      console.log('[migrateWorkoutLogs] No logs needed updating');
+    }
+
+    return { 
+      success: true, 
+      message: `Updated ${updatedCount} workout logs`,
+      updatedCount 
+    };
+  } catch (error) {
+    console.error('[migrateWorkoutLogs] Error migrating workout logs:', error);
+    throw new functions.https.HttpsError('internal', 'Failed to migrate workout logs');
   }
 });
 

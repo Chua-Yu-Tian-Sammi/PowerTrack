@@ -19,9 +19,10 @@ const db = getFirestore(app);
 
 const functions = getFunctions(app, 'us-central1');
 
-if (typeof window !== 'undefined' && (location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
+// Only connect to emulators when explicitly enabled via environment variable
+if (import.meta.env.VITE_USE_EMULATORS === 'true') {
   try {
-    connectAuthEmulator(auth, 'http://localhost:9099');
+    connectAuthEmulator(auth, 'http://localhost:9099', { disableWarnings: true });
   } catch (error) {
     console.log('Auth emulator connection failed:', error.message);
   }
