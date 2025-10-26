@@ -1,14 +1,10 @@
-import { db, functions, auth } from '@lib/firebase';
+import { db, functions } from '@lib/firebase';
 import {
   doc,
   getDoc,
   collection,
   addDoc,
-  getDocs,
-  query,
-  where,
   serverTimestamp,
-  limit as qLimit,
   updateDoc,
   setDoc,
 } from 'firebase/firestore';
@@ -16,10 +12,6 @@ import { httpsCallable } from 'firebase/functions';
 
 function stripUndefined(obj) {
   return Object.fromEntries(Object.entries(obj).filter(([, v]) => v !== undefined));
-}
-
-function nonEmptyArray(a) {
-  return Array.isArray(a) && a.length > 0;
 }
 
 async function getUserProfile(uid) {

@@ -65,21 +65,8 @@
               <i class="bi bi-graph-up display-1 text-muted"></i>
               <p class="text-muted">No workout data available yet</p>
             </div>
-            <div v-else class="chart-container">
-              <div class="d-flex align-items-end justify-content-between" style="height: 200px;">
-                <div v-for="(data, index) in workoutData" :key="index" 
-                     class="d-flex flex-column align-items-center me-1 flex-fill">
-                  <div class="bg-primary rounded-top mb-2" 
-                       :style="{ height: `${(data.workouts / maxWorkouts) * 160}px` }"
-                       :title="`${data.workouts} workouts`">
-                  </div>
-                  <small class="text-muted text-center">{{ data.label }}</small>
-                </div>
-              </div>
-              <!-- DEBUG: Show raw numbers -->
-              <div class="mt-3 p-2 bg-light border rounded">
-                <small><strong>Numbers:</strong> {{ workoutData.map(d => `${d.label}: ${d.workouts}`).join(' | ') }}</small>
-              </div>
+            <div v-else class="chart-container" style="height: 250px;">
+              <Line :data="workoutChartData" :options="chartOptions" />
             </div>
           </div>
         </div>
@@ -100,21 +87,8 @@
               <i class="bi bi-list-ul display-1 text-muted"></i>
               <p class="text-muted">No exercise data available yet</p>
             </div>
-            <div v-else class="chart-container">
-              <div class="d-flex align-items-end justify-content-between" style="height: 200px;">
-                <div v-for="(data, index) in exerciseData" :key="index" 
-                     class="d-flex flex-column align-items-center me-1 flex-fill">
-                  <div class="bg-success rounded-top mb-2" 
-                       :style="{ height: `${(data.exercises / maxExercises) * 160}px` }"
-                       :title="`${data.exercises} exercises`">
-                  </div>
-                  <small class="text-muted text-center">{{ data.label }}</small>
-                </div>
-              </div>
-              <!-- DEBUG: Show raw numbers -->
-              <div class="mt-3 p-2 bg-light border rounded">
-                <small><strong>Numbers:</strong> {{ exerciseData.map(d => `${d.label}: ${d.exercises}`).join(' | ') }}</small>
-              </div>
+            <div v-else class="chart-container" style="height: 250px;">
+              <Line :data="exerciseChartData" :options="chartOptions" />
             </div>
           </div>
         </div>
@@ -135,21 +109,8 @@
               <i class="bi bi-clock display-1 text-muted"></i>
               <p class="text-muted">No duration data available yet</p>
             </div>
-            <div v-else class="chart-container">
-              <div class="d-flex align-items-end justify-content-between" style="height: 200px;">
-                <div v-for="(data, index) in durationData" :key="index" 
-                     class="d-flex flex-column align-items-center me-1 flex-fill">
-                  <div class="bg-info rounded-top mb-2" 
-                       :style="{ height: `${(data.duration / maxDuration) * 160}px` }"
-                       :title="`${data.duration} minutes`">
-                  </div>
-                  <small class="text-muted text-center">{{ data.label }}</small>
-                </div>
-              </div>
-              <!-- DEBUG: Show raw numbers -->
-              <div class="mt-3 p-2 bg-light border rounded">
-                <small><strong>Numbers:</strong> {{ durationData.map(d => `${d.label}: ${d.duration} min`).join(' | ') }}</small>
-              </div>
+            <div v-else class="chart-container" style="height: 250px;">
+              <Line :data="durationChartData" :options="chartOptions" />
             </div>
           </div>
         </div>
@@ -179,17 +140,8 @@
                       <i class="bi bi-geo-alt display-1 text-muted"></i>
                       <p class="text-muted">No running data available yet</p>
                     </div>
-                    <div v-else class="chart-container">
-                      <div class="d-flex align-items-end justify-content-between" style="height: 200px;">
-                        <div v-for="(data, index) in runningRunsData" :key="index" 
-                             class="d-flex flex-column align-items-center me-1 flex-fill">
-                          <div class="bg-primary rounded-top mb-2" 
-                               :style="{ height: `${(data.runs / maxRunningRuns) * 160}px` }"
-                               :title="`${data.runs} runs`">
-                          </div>
-                          <small class="text-muted text-center">{{ data.label }}</small>
-                        </div>
-                      </div>
+                    <div v-else class="chart-container" style="height: 250px;">
+                      <Line :data="runningRunsChartData" :options="chartOptions" />
                     </div>
                   </div>
                 </div>
@@ -210,17 +162,8 @@
                       <i class="bi bi-clock-history display-1 text-muted"></i>
                       <p class="text-muted">No running duration data yet</p>
                     </div>
-                    <div v-else class="chart-container">
-                      <div class="d-flex align-items-end justify-content-between" style="height: 200px;">
-                        <div v-for="(data, index) in runningDurationData" :key="index" 
-                             class="d-flex flex-column align-items-center me-1 flex-fill">
-                          <div class="bg-info rounded-top mb-2" 
-                               :style="{ height: `${(data.duration / maxRunningDuration) * 160}px` }"
-                               :title="`${data.duration} minutes`">
-                          </div>
-                          <small class="text-muted text-center">{{ data.label }}</small>
-                        </div>
-                      </div>
+                    <div v-else class="chart-container" style="height: 250px;">
+                      <Line :data="runningDurationChartData" :options="chartOptions" />
                     </div>
                   </div>
                 </div>
@@ -241,17 +184,8 @@
                       <i class="bi bi-signpost-split display-1 text-muted"></i>
                       <p class="text-muted">No running distance data yet</p>
                     </div>
-                    <div v-else class="chart-container">
-                      <div class="d-flex align-items-end justify-content-between" style="height: 200px;">
-                        <div v-for="(data, index) in runningDistanceData" :key="index" 
-                             class="d-flex flex-column align-items-center me-1 flex-fill">
-                          <div class="bg-success rounded-top mb-2" 
-                               :style="{ height: `${(data.distance / maxRunningDistance) * 160}px` }"
-                               :title="`${data.distance} km`">
-                          </div>
-                          <small class="text-muted text-center">{{ data.label }}</small>
-                        </div>
-                      </div>
+                    <div v-else class="chart-container" style="height: 250px;">
+                      <Line :data="runningDistanceChartData" :options="chartOptions" />
                     </div>
                   </div>
                 </div>
@@ -266,8 +200,13 @@
 
 <script setup>
 import { ref, onMounted, computed, toRaw } from 'vue'
+import { Line } from 'vue-chartjs'
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from 'chart.js'
 import { WorkoutService } from '../services/workoutService.js'
 import { AuthService } from '../services/authService.js'
+
+// Register Chart.js components
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler)
 
 const loading = ref(false)
 const workoutLogs = ref([])
@@ -291,19 +230,6 @@ const muscleGroups = ref([])
 // Days worked out
 const daysWorkedOut = ref(0)
 
-// Computed properties for chart scaling
-const maxWorkouts = computed(() => {
-  return Math.max(...workoutData.value.map(d => d.workouts), 1)
-})
-
-const maxExercises = computed(() => {
-  return Math.max(...exerciseData.value.map(d => d.exercises), 1)
-})
-
-const maxDuration = computed(() => {
-  return Math.max(...durationData.value.map(d => d.duration), 1)
-})
-
 // Check if workout data has any actual values
 const hasWorkoutData = computed(() => {
   return workoutData.value.some(d => d.workouts > 0)
@@ -315,19 +241,6 @@ const hasExerciseData = computed(() => {
 
 const hasDurationData = computed(() => {
   return durationData.value.some(d => d.duration > 0)
-})
-
-// Running scales
-const maxRunningRuns = computed(() => {
-  return Math.max(...runningRunsData.value.map(d => d.runs), 1)
-})
-
-const maxRunningDuration = computed(() => {
-  return Math.max(...runningDurationData.value.map(d => d.duration), 1)
-})
-
-const maxRunningDistance = computed(() => {
-  return Math.max(...runningDistanceData.value.map(d => d.distance), 1)
 })
 
 // Check if running data has any actual values
@@ -620,6 +533,101 @@ const getMuscleIntensityClass = (count) => {
   if (intensity >= 0.2) return 'bg-secondary text-white'
   return 'bg-light text-dark'
 }
+
+// Chart.js data and options
+const workoutChartData = computed(() => ({
+  labels: workoutData.value.map(d => d.label),
+  datasets: [{
+    label: 'Workouts',
+    data: workoutData.value.map(d => d.workouts),
+    borderColor: '#0d6efd',
+    backgroundColor: 'rgba(13, 110, 253, 0.1)',
+    tension: 0.4,
+    fill: true
+  }]
+}))
+
+const exerciseChartData = computed(() => ({
+  labels: exerciseData.value.map(d => d.label),
+  datasets: [{
+    label: 'Exercises',
+    data: exerciseData.value.map(d => d.exercises),
+    borderColor: '#198754',
+    backgroundColor: 'rgba(25, 135, 84, 0.1)',
+    tension: 0.4,
+    fill: true
+  }]
+}))
+
+const durationChartData = computed(() => ({
+  labels: durationData.value.map(d => d.label),
+  datasets: [{
+    label: 'Minutes',
+    data: durationData.value.map(d => d.duration),
+    borderColor: '#0dcaf0',
+    backgroundColor: 'rgba(13, 202, 240, 0.1)',
+    tension: 0.4,
+    fill: true
+  }]
+}))
+
+const runningRunsChartData = computed(() => ({
+  labels: runningRunsData.value.map(d => d.label),
+  datasets: [{
+    label: 'Runs',
+    data: runningRunsData.value.map(d => d.runs),
+    borderColor: '#0d6efd',
+    backgroundColor: 'rgba(13, 110, 253, 0.1)',
+    tension: 0.4,
+    fill: true
+  }]
+}))
+
+const runningDurationChartData = computed(() => ({
+  labels: runningDurationData.value.map(d => d.label),
+  datasets: [{
+    label: 'Minutes',
+    data: runningDurationData.value.map(d => d.duration),
+    borderColor: '#0dcaf0',
+    backgroundColor: 'rgba(13, 202, 240, 0.1)',
+    tension: 0.4,
+    fill: true
+  }]
+}))
+
+const runningDistanceChartData = computed(() => ({
+  labels: runningDistanceData.value.map(d => d.label),
+  datasets: [{
+    label: 'Kilometers',
+    data: runningDistanceData.value.map(d => d.distance),
+    borderColor: '#198754',
+    backgroundColor: 'rgba(25, 135, 84, 0.1)',
+    tension: 0.4,
+    fill: true
+  }]
+}))
+
+const chartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      display: false
+    },
+    tooltip: {
+      mode: 'index',
+      intersect: false
+    }
+  },
+  scales: {
+    y: {
+      beginAtZero: true,
+      ticks: {
+        precision: 0
+      }
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -628,7 +636,8 @@ const getMuscleIntensityClass = (count) => {
 }
 
 .chart-container {
-  min-height: 200px;
+  position: relative;
+  padding: 1rem 0.5rem;
 }
 
 .muscle-group-item {
