@@ -149,28 +149,6 @@
 
               <div class="col-lg-4 mb-4">
                 <div class="card h-100">
-                  <div class="card-header bg-info text-white">
-                    <h5 class="mb-0"><i class="bi bi-clock-history me-2"></i>Running Duration (Minutes)</h5>
-                  </div>
-                  <div class="card-body">
-                    <div v-if="loading" class="text-center py-4">
-                      <div class="spinner-border text-info" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                      </div>
-                    </div>
-                    <div v-else-if="!hasRunningDurationData" class="text-center py-4">
-                      <i class="bi bi-clock-history display-1 text-muted"></i>
-                      <p class="text-muted">No running duration data yet</p>
-                    </div>
-                    <div v-else class="chart-container" style="height: 250px;">
-                      <Line :data="runningDurationChartData" :options="chartOptions" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-lg-4 mb-4">
-                <div class="card h-100">
                   <div class="card-header bg-success text-white">
                     <h5 class="mb-0"><i class="bi bi-signpost-split me-2"></i>Distance Ran (km)</h5>
                   </div>
@@ -186,6 +164,28 @@
                     </div>
                     <div v-else class="chart-container" style="height: 250px;">
                       <Line :data="runningDistanceChartData" :options="chartOptions" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 mb-4">
+                <div class="card h-100">
+                  <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="bi bi-clock-history me-2"></i>Running Duration (Minutes)</h5>
+                  </div>
+                  <div class="card-body">
+                    <div v-if="loading" class="text-center py-4">
+                      <div class="spinner-border text-info" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                    </div>
+                    <div v-else-if="!hasRunningDurationData" class="text-center py-4">
+                      <i class="bi bi-clock-history display-1 text-muted"></i>
+                      <p class="text-muted">No running duration data yet</p>
+                    </div>
+                    <div v-else class="chart-container" style="height: 250px;">
+                      <Line :data="runningDurationChartData" :options="chartOptions" />
                     </div>
                   </div>
                 </div>
