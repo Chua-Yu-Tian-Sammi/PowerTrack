@@ -5,44 +5,56 @@
           <i class="bi bi-lightning-charge-fill me-2"></i>
           PowerTrack
         </router-link>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button 
+          class="navbar-toggler" 
+          :class="{ collapsed: !isMenuOpen }"
+          type="button" 
+          @click="toggleMenu"
+          aria-controls="navbarSupportedContent" 
+          :aria-expanded="isMenuOpen"
+          aria-label="Toggle navigation"
+        >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div 
+          class="collapse navbar-collapse" 
+          :class="{ show: isMenuOpen }"
+          id="navbarSupportedContent"
+        >
           <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <router-link class="nav-link" :class="{ active: $route.name === 'WorkoutGenerator' }" to="/workout">
+              <router-link class="nav-link" :class="{ active: $route.name === 'WorkoutGenerator' }" to="/workout" @click="closeMenu">
                 <i class="bi bi-lightning-charge me-1"></i>Generate Workout
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" :class="{ active: $route.name === 'WorkoutTracking' }" to="/workout-tracking">
+              <router-link class="nav-link" :class="{ active: $route.name === 'WorkoutTracking' }" to="/workout-tracking" @click="closeMenu">
                 <i class="bi bi-play-circle me-1"></i>Workout Tracking
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" :class="{ active: $route.name === 'RunningRoutes' }" to="/running-routes">
+              <router-link class="nav-link" :class="{ active: $route.name === 'RunningRoutes' }" to="/running-routes" @click="closeMenu">
                 <i class="bi bi-geo-alt me-1"></i>Running Routes
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" :class="{ active: $route.name === 'ExerciseLibrary' }" to="/exercises">
+              <router-link class="nav-link" :class="{ active: $route.name === 'ExerciseLibrary' }" to="/exercises" @click="closeMenu">
                 <i class="bi bi-book me-1"></i>Exercise Library
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" :class="{ active: $route.name === 'RoutineBuilder' }" to="/routines">
+              <router-link class="nav-link" :class="{ active: $route.name === 'RoutineBuilder' }" to="/routines" @click="closeMenu">
                 <i class="bi bi-list-ul me-1"></i>Routines
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" :class="{ active: $route.name === 'ProgressDashboard' }" to="/progress">
+              <router-link class="nav-link" :class="{ active: $route.name === 'ProgressDashboard' }" to="/progress" @click="closeMenu">
                 <i class="bi bi-graph-up me-1"></i>Progress
               </router-link>
             </li>
           </ul>
           <div class="d-flex">
-            <router-link class="btn btn-outline-primary me-2" to="/profile">
+            <router-link class="btn btn-outline-primary me-2" to="/profile" @click="closeMenu">
               <i class="bi bi-person-circle me-1"></i>Profile
             </router-link>
           </div>
@@ -51,6 +63,18 @@
     </nav>
   </template>
   
-  <script setup></script>
+  <script setup>
+  import { ref } from 'vue'
+
+  const isMenuOpen = ref(false)
+
+  const toggleMenu = () => {
+    isMenuOpen.value = !isMenuOpen.value
+  }
+
+  const closeMenu = () => {
+    isMenuOpen.value = false
+  }
+  </script>
   
   
