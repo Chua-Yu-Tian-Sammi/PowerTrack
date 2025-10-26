@@ -110,14 +110,8 @@ async function getProgressSummaries({ from, to } = {}) {
 }
 
 async function getUserWorkoutLogs({ limit = 50 } = {}) {
-  console.log('[WorkoutService.getUserWorkoutLogs] Calling with limit:', limit);
   const fn = httpsCallable(functions, 'getUserWorkoutLogs');
   const { data } = await fn({ limit });
-  console.log('[WorkoutService.getUserWorkoutLogs] Received data:', {
-    isArray: Array.isArray(data),
-    count: data?.length || 0,
-    sample: data?.slice(0, 2)
-  });
   return data;
 }
 
@@ -158,10 +152,8 @@ async function getUserWorkoutSessions({ limit = 20 } = {}) {
 }
 
 async function migrateWorkoutLogs() {
-  console.log('[WorkoutService.migrateWorkoutLogs] Starting migration...');
   const fn = httpsCallable(functions, 'migrateWorkoutLogs');
   const { data } = await fn({});
-  console.log('[WorkoutService.migrateWorkoutLogs] Result:', data);
   return data;
 }
 
