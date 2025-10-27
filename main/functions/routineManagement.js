@@ -69,32 +69,69 @@ exports.getUserRoutines = functions.https.onCall(async (data, context) => {
   const { limit = 20 } = data;
 
   try {
-    const routinesSnapshot = await db
-      .collection('routines')
-      .where('ownerId', '==', userId)
-      .orderBy('updatedAt', 'desc')
-      .limit(limit)
-      .get();
+    let routinesSnapshot;
+    
+    try {
+      routinesSnapshot = await db
+        .collection('routines')
+        .where('ownerId', '==', userId)
+        .orderBy('updatedAt', 'desc')
+        .limit(limit)
+        .get();
+    } catch (orderByError) {
+      console.warn('orderBy failed, fetching all routines:', orderByError.message);
+      routinesSnapshot = await db
+        .collection('routines')
+        .where('ownerId', '==', userId)
+        .get();
+    }
 
     const routines = [];
     
     for (const doc of routinesSnapshot.docs) {
-      const routineData = { routineId: doc.id, ...doc.data() };
-      
-      // Get exercises for this routine
-      const exercisesSnapshot = await db
-        .collection('routine_exercises')
-        .where('routineId', '==', doc.id)
-        .orderBy('orderIndex', 'asc')
-        .get();
+      try {
+        const routineData = { routineId: doc.id, ...doc.data() };
+        
+        if (!routineData.updatedAt) {
+          routineData.updatedAt = routineData.createdAt || new Date();
+        }
+        
+        let exercisesSnapshot;
+        try {
+          exercisesSnapshot = await db
+            .collection('routine_exercises')
+            .where('routineId', '==', doc.id)
+            .orderBy('orderIndex', 'asc')
+            .get();
+        } catch (exerciseOrderByError) {
+          console.warn(`orderBy failed for routine ${doc.id} exercises:`, exerciseOrderByError.message);
+          exercisesSnapshot = await db
+            .collection('routine_exercises')
+            .where('routineId', '==', doc.id)
+            .get();
+        }
 
-      const exercises = exercisesSnapshot.docs.map(exerciseDoc => ({
-        routineExerciseId: exerciseDoc.id,
-        ...exerciseDoc.data()
-      }));
+        const exercises = exercisesSnapshot.docs.map(exerciseDoc => ({
+          routineExerciseId: exerciseDoc.id,
+          ...exerciseDoc.data()
+        }));
 
-      routineData.exercises = exercises;
-      routines.push(routineData);
+        exercises.sort((a, b) => (a.orderIndex || 0) - (b.orderIndex || 0));
+
+        routineData.exercises = exercises;
+        routines.push(routineData);
+      } catch (routineError) {
+        console.error(`Error processing routine ${doc.id}:`, routineError.message);
+      }
+    }
+    
+    if (routines.length > limit) {
+      routines.sort((a, b) => {
+        const aTime = a.updatedAt instanceof Date ? a.updatedAt : new Date(a.updatedAt);
+        const bTime = b.updatedAt instanceof Date ? b.updatedAt : new Date(b.updatedAt);
+        return bTime - aTime;
+      });
+      return routines.slice(0, parseInt(limit));
     }
 
     return routines;

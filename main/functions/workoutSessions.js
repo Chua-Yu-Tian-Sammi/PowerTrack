@@ -201,77 +201,96 @@ exports.getUserWorkoutLogs = functions.https.onCall(async (data, context) => {
   const { limit = 50 } = data || {};
 
   try {
-    // Try to fetch logs - some may have 'timestamp', others may have 'date'
-    // We'll fetch all user logs and sort in memory for backward compatibility
     const logsSnapshot = await db
       .collection('workout_logs')
       .where('userId', '==', userId)
       .get();
 
-    const logs = logsSnapshot.docs.map(doc => {
-      const payload = doc.data();
-      
-      // Handle both 'timestamp' and 'date' fields (for backward compatibility)
-      // Convert to milliseconds for proper serialization
-      let timestampMs;
-      if (payload.timestamp) {
-        if (payload.timestamp.toDate) {
-          timestampMs = payload.timestamp.toDate().getTime();
-        } else if (payload.timestamp.seconds !== undefined) {
-          timestampMs = payload.timestamp.seconds * 1000;
-        } else if (payload.timestamp instanceof Date) {
-          timestampMs = payload.timestamp.getTime();
-        } else {
-          timestampMs = new Date(payload.timestamp).getTime();
+    const logs = [];
+    
+    logsSnapshot.docs.forEach(doc => {
+      try {
+        const payload = doc.data();
+        
+        if (!payload || typeof payload !== 'object') {
+          console.warn(`Skipping malformed document ${doc.id}`);
+          return;
         }
-      } else if (payload.date) {
-        if (payload.date.toDate) {
-          timestampMs = payload.date.toDate().getTime();
-        } else if (payload.date.seconds !== undefined) {
-          timestampMs = payload.date.seconds * 1000;
-        } else {
-          timestampMs = new Date(payload.date).getTime();
+        
+        let timestampMs;
+        try {
+          if (payload.timestamp) {
+            if (payload.timestamp.toDate) {
+              timestampMs = payload.timestamp.toDate().getTime();
+            } else if (payload.timestamp.seconds !== undefined) {
+              timestampMs = payload.timestamp.seconds * 1000;
+            } else if (payload.timestamp instanceof Date) {
+              timestampMs = payload.timestamp.getTime();
+            } else if (typeof payload.timestamp === 'number') {
+              timestampMs = payload.timestamp;
+            } else {
+              timestampMs = new Date(payload.timestamp).getTime();
+            }
+          } else if (payload.date) {
+            if (payload.date.toDate) {
+              timestampMs = payload.date.toDate().getTime();
+            } else if (payload.date.seconds !== undefined) {
+              timestampMs = payload.date.seconds * 1000;
+            } else {
+              timestampMs = new Date(payload.date).getTime();
+            }
+          } else if (payload.createdAt) {
+            if (payload.createdAt.toDate) {
+              timestampMs = payload.createdAt.toDate().getTime();
+            } else if (payload.createdAt.seconds !== undefined) {
+              timestampMs = payload.createdAt.seconds * 1000;
+            } else {
+              timestampMs = new Date(payload.createdAt).getTime();
+            }
+          } else {
+            timestampMs = doc.createTime ? doc.createTime.toMillis() : Date.now();
+          }
+          
+          if (isNaN(timestampMs) || timestampMs <= 0) {
+            console.warn(`Invalid timestamp for document ${doc.id}, using current time`);
+            timestampMs = Date.now();
+          }
+        } catch (timestampError) {
+          console.warn(`Error converting timestamp for document ${doc.id}:`, timestampError.message);
+          timestampMs = Date.now();
         }
-      } else if (payload.createdAt) {
-        if (payload.createdAt.toDate) {
-          timestampMs = payload.createdAt.toDate().getTime();
-        } else if (payload.createdAt.seconds !== undefined) {
-          timestampMs = payload.createdAt.seconds * 1000;
-        } else {
-          timestampMs = new Date(payload.createdAt).getTime();
+        
+        const log = {
+          logId: doc.id,
+          userId: payload.userId || userId,
+          timestamp: timestampMs,
+          ...payload
+        };
+        
+        if (!log.workoutType) {
+          log.workoutType = payload.sourceType === 'running-route' ? 'runs' : 'routine';
         }
-      } else {
-        timestampMs = Date.now(); // Fallback to now if no timestamp field
+        
+        if (!log.numberOfExercises && payload.items) {
+          log.numberOfExercises = Array.isArray(payload.items) ? payload.items.length : 0;
+        } else if (!log.numberOfExercises && payload.workoutSnapshot?.exercises) {
+          log.numberOfExercises = Array.isArray(payload.workoutSnapshot.exercises) ? payload.workoutSnapshot.exercises.length : 0;
+        } else if (!log.numberOfExercises) {
+          log.numberOfExercises = 0;
+        }
+        
+        if (!log.durationMinutes && payload.totalTimeMinutes !== undefined) {
+          log.durationMinutes = payload.totalTimeMinutes;
+        } else if (!log.durationMinutes) {
+          log.durationMinutes = 0;
+        }
+        
+        logs.push(log);
+      } catch (docError) {
+        console.error(`Error processing document ${doc.id}:`, docError.message);
       }
-      
-      //  Extract the required fields for Progress Dashboard
-      const log = {
-        logId: doc.id,
-        userId: payload.userId,
-        timestamp: timestampMs, // Send as milliseconds, not Date object
-        // Include original payload for backward compatibility
-        ...payload
-      };
-      
-      // Add missing fields for Progress Dashboard if they don't exist
-      if (!log.workoutType) {
-        log.workoutType = payload.sourceType === 'running-route' ? 'runs' : 'routine';
-      }
-      
-      if (!log.numberOfExercises && payload.items) {
-        log.numberOfExercises = payload.items.length;
-      } else if (!log.numberOfExercises && payload.workoutSnapshot?.exercises) {
-        log.numberOfExercises = payload.workoutSnapshot.exercises.length;
-      }
-      
-      if (!log.durationMinutes && payload.totalTimeMinutes !== undefined) {
-        log.durationMinutes = payload.totalTimeMinutes;
-      }
-      
-      return log;
     });
     
-    // Sort by timestamp (most recent first) and apply limit
     const sortedLogs = logs
       .sort((a, b) => b.timestamp - a.timestamp)
       .slice(0, parseInt(limit));
