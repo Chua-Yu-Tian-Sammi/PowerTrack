@@ -1,34 +1,33 @@
 <template>
-  <div class="routine-builder">
-    <div class="row mb-4">
-      <div class="col-12">
-        <h2><i class="bi bi-list-ul me-2"></i>Routine Builder</h2>
-        <p class="text-muted">Create and manage your custom workout routines</p>
-      </div>
-    </div>
+  <div class="routine-page">
+    <!-- Hero Section -->
+    <section class="hero text-center">
+      <h1 class="hero-title">Routine Builder</h1>
+      <p class="hero-subtitle">Create and manage your custom workout routines</p>
+    </section>
 
-    <!-- create or edit routine -->
-    <div class="row">
-      <div class="col-lg-8">
-        <div class="card">
+    <!-- Main Content stacked -->
+    <div class="content-container">
+      <div class="card mb-4">
           <div class="card-header">
-            <h4>{{ editingRoutine ? 'Edit Routine' : 'Create New Routine' }}</h4>
+            <h4 class="card-title">{{ editingRoutine ? 'Edit Routine' : 'Create New Routine' }}</h4>
           </div>
           <div class="card-body">
             <form @submit.prevent="saveRoutine">
+              <div class="mb-3">
+                <label for="title" class="form-label">Routine Title</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="title" 
+                  v-model="routineForm.title"
+                  required
+                  placeholder="e.g. Upper Body Strength"
+                >
+              </div>
+
               <div class="row mb-3">
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Routine Title</label>
-                  <input 
-                    type="text" 
-                    class="form-control" 
-                    id="title" 
-                    v-model="routineForm.title"
-                    required
-                    placeholder="e.g., Upper Body Strength"
-                  >
-                </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <label for="goal" class="form-label">Goal</label>
                   <select class="form-select" id="goal" v-model="routineForm.goal" required>
                     <option value="fat_loss">Fat Loss</option>
@@ -38,9 +37,6 @@
                     <option value="general_fitness">General Fitness</option>
                   </select>
                 </div>
-              </div>
-
-              <div class="row mb-3">
                 <div class="col-md-4">
                   <label for="estimatedTime" class="form-label">Estimated Time (min)</label>
                   <input 
@@ -61,46 +57,46 @@
                     <option value="high">High</option>
                   </select>
                 </div>
-                <div class="col-md-4">
-                  <label class="form-label">Total Exercises</label>
-                  <div class="form-control-plaintext">{{ routineForm.exercises.length }}</div>
-                </div>
               </div>
 
               <!-- exercises user is adding -->
               <div class="mb-4">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                  <h5>Exercises</h5>
-                  <button type="button" class="btn btn-outline-primary" @click="showExerciseSelector = true">
-                    <i class="bi bi-plus me-1"></i>Add Exercise
+                <div class="exercises-header-with-button mb-3">
+                  <h5 class="section-title">Exercises ({{ routineForm.exercises.length }})</h5>
+                  <button type="button" class="btn btn-outline-dark btn-add-exercise-desktop" @click="showExerciseSelector = true">
+                    Add Exercise
                   </button>
                 </div>
 
-                <div v-if="routineForm.exercises.length === 0" class="text-center py-4 text-muted">
-                  <i class="bi bi-list-ul display-4"></i>
-                  <p class="mt-2">No exercises added yet. Click "Add Exercise" to get started.</p>
+                <div v-if="routineForm.exercises.length === 0" class="empty-state-box empty-exercises-mobile">
+                  <p class="mb-1">No exercises added yet</p>
+                  <small class="text-muted">Browse the exercise library and select exercises to build your routine</small>
                 </div>
 
-                <div v-else>
+                <transition-group name="list-fade" tag="div" v-else class="exercise-list-container mb-3">
                   <ExerciseForm 
                     v-for="(exercise, index) in routineForm.exercises" 
-                    :key="index"
+                    :key="exercise.exerciseId + '-' + index"
                     :exercise-name="getExerciseName(exercise.exerciseId)"
                     :exercise-description="getExerciseDescription(exercise.exerciseId)"
                     v-model:sets="exercise.sets"
                     v-model:reps="exercise.reps"
                     v-model:rest-seconds="exercise.restSeconds"
                     v-model:notes="exercise.notes"
+                    :index="index"
                     @remove="removeExercise(index)"
                   />
-                </div>
+                </transition-group>
+
+                <!-- Add Exercise button for mobile (below exercises) -->
+                <button type="button" class="btn btn-outline-dark w-100 btn-add-exercise-mobile" @click="showExerciseSelector = true">
+                  Add Exercise
+                </button>
               </div>
 
-              <div class="d-flex justify-content-between">
-                <button type="button" class="btn btn-outline-secondary" @click="cancelEdit">
-                  Cancel
-                </button>
-                <button type="submit" class="btn btn-primary" :disabled="saving || routineForm.exercises.length === 0">
+              <div class="d-flex gap-2 button-group-full">
+                <button type="button" class="btn btn-outline-secondary flex-1" @click="cancelEdit">Clear All</button>
+                <button type="submit" class="btn btn-dark flex-1" :disabled="saving || routineForm.exercises.length === 0">
                   <span v-if="saving" class="spinner-border spinner-border-sm me-2"></span>
                   {{ saving ? 'Saving...' : (editingRoutine ? 'Update Routine' : 'Create Routine') }}
                 </button>
@@ -108,74 +104,110 @@
             </form>
           </div>
         </div>
-      </div>
 
-      <!-- saved routines -->
-      <div class="col-lg-4">
-        <div class="card">
-          <div class="card-header">
-            <h5>My Routines</h5>
+        <!-- saved routines -->
+        <div class="saved-routines-section">
+          <div class="routines-header mb-4">
+            <h2 class="routines-title">My Routines</h2>
           </div>
-          <div class="card-body">
-            <div v-if="loading" class="text-center py-3">
-              <div class="spinner-border" role="status">
-                <span class="visually-hidden">Loading...</span>
-              </div>
+
+          <div v-if="loading" class="text-center py-5">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
             </div>
-            <div v-else-if="routines.length === 0" class="text-center py-3 text-muted">
-              <i class="bi bi-list-ul display-4"></i>
-              <p class="mt-2">No routines yet</p>
+          </div>
+
+          <div v-else-if="routines.length === 0" class="empty-routines">
+            <div class="empty-content">
+              <p class="empty-title">No routines yet</p>
+              <p class="empty-subtitle">Create your first routine to start tracking your workouts</p>
             </div>
-            <div v-else>
-              <div v-for="routine in routines" :key="routine.routineId" class="routine-item mb-3">
-                <div class="card routine-card mb-3">
-                  <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start mb-3">
-                      <h6 class="mb-0 text-truncate">{{ routine.title }}</h6>
-                      <div class="d-flex gap-1">
-                        <span class="badge bg-primary text-capitalize">{{ routine.goal.replace('_', ' ') }}</span>
-                        <span class="badge bg-secondary text-capitalize">{{ routine.intendedIntensity }}</span>
+          </div>
+
+          <!-- Desktop/Tablet Grid View -->
+          <div v-else class="routines-grid d-none d-sm-grid">
+            <div v-for="routine in routines" :key="routine.routineId" class="routine-card">
+              <div class="routine-card-content">
+                <div class="routine-card-header mb-3">
+                  <div class="title-section">
+                    <div class="title-row">
+                      <h3 class="routine-card-title">{{ routine.title }}</h3>
+                      <div class="dropdown">
+                        <button class="btn-menu" type="button" data-bs-toggle="dropdown">⋯</button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                          <li><a class="dropdown-item" href="#" @click.prevent="editRoutine(routine)">Edit Routine</a></li>
+                          <li><a class="dropdown-item text-danger" href="#" @click.prevent="deleteRoutine(routine.routineId)">Delete</a></li>
+                        </ul>
                       </div>
                     </div>
-                    
-                    <div class="row g-3 mb-3">
-                      <div class="col-12 col-md-6">
-                        <div class="bg-light rounded p-2 d-flex align-items-center gap-2 text-nowrap">
-                          <i class="bi bi-list-ul text-dark"></i>
-                          <span class="fw-bold text-dark">{{ routine.exercises.length }}</span>
-                          <span class="text-muted">Exercise{{ routine.exercises.length !== 1 ? 's' : '' }}</span>
-                        </div>
-                      </div>
-                      <div class="col-12 col-md-6">
-                        <div class="bg-light rounded p-2 d-flex align-items-center gap-2 text-nowrap">
-                          <i class="bi bi-clock text-dark"></i>
-                          <span class="fw-bold text-dark">{{ routine.estimatedTimeMinutes }}</span>
-                          <span class="text-muted">Minutes</span>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div class="d-flex flex-wrap gap-2">
-                      <button class="btn btn-outline-success d-inline-flex align-items-center text-nowrap px-3 btn-sm"
-                              @click="startWorkoutFromRoutine(routine)">
-                        <i class="bi bi-play-fill me-1"></i> Start Workout
-                      </button>
-                      <button class="btn btn-outline-primary d-inline-flex align-items-center text-nowrap px-3 btn-sm"
-                              @click="editRoutine(routine)">
-                        <i class="bi bi-pencil-square me-1"></i> Edit
-                      </button>
-                      <button class="btn btn-outline-danger d-inline-flex align-items-center text-nowrap px-3 btn-sm"
-                              @click="deleteRoutine(routine.routineId)">
-                        <i class="bi bi-trash me-1"></i> Delete
-                      </button>
+                    <div class="routine-meta">
+                      <span class="text-capitalize">{{ routine.goal.replace('_', ' ') }}</span>
+                      <span class="meta-separator">•</span>
+                      <span class="text-capitalize">{{ routine.intendedIntensity }}</span>
                     </div>
                   </div>
                 </div>
+
+                <div class="routine-stats mb-4">
+                  <div class="stat-item">
+                    <span class="stat-value">{{ routine.exercises.length }}</span>
+                    <span class="stat-text">exercises</span>
+                  </div>
+                  <div class="stat-item">
+                    <span class="stat-value">{{ routine.estimatedTimeMinutes }}</span>
+                    <span class="stat-text">min</span>
+                  </div>
+                </div>
+
+                <button class="btn btn-start w-100" @click="startWorkoutFromRoutine(routine)">
+                  Start Workout
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mobile List View -->
+          <div v-if="routines.length > 0" class="routines-list d-sm-none">
+            <div v-for="routine in routines" :key="routine.routineId" class="routine-card-mobile">
+              <div class="routine-card-content-mobile">
+                <div class="routine-card-header-mobile mb-3">
+                  <div class="title-section-mobile">
+                    <div class="title-row-mobile">
+                      <h3 class="routine-card-title-mobile">{{ routine.title }}</h3>
+                      <div class="dropdown">
+                        <button class="btn-menu-mobile" type="button" data-bs-toggle="dropdown">⋯</button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                          <li><a class="dropdown-item" href="#" @click.prevent="editRoutine(routine)">Edit</a></li>
+                          <li><a class="dropdown-item text-danger" href="#" @click.prevent="deleteRoutine(routine.routineId)">Delete</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="routine-meta-mobile">
+                      <span class="text-capitalize">{{ routine.goal.replace('_', ' ') }}</span>
+                      <span class="meta-separator-mobile">•</span>
+                      <span class="text-capitalize">{{ routine.intendedIntensity }}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="routine-stats-mobile mb-3">
+                  <div class="stat-item-mobile">
+                    <span class="stat-value-mobile">{{ routine.exercises.length }}</span>
+                    <span class="stat-text-mobile">exercises</span>
+                  </div>
+                  <div class="stat-item-mobile">
+                    <span class="stat-value-mobile">{{ routine.estimatedTimeMinutes }}</span>
+                    <span class="stat-text-mobile">min</span>
+                  </div>
+                </div>
+
+                <button class="btn btn-start-mobile w-100" @click="startWorkoutFromRoutine(routine)">
+                  Start Workout
+                </button>
               </div>
             </div>
           </div>
         </div>
-      </div>
     </div>
 
     <!-- popup to pick exercises -->
@@ -199,10 +231,7 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header border-0">
-            <h5 class="modal-title">
-              <i class="bi bi-exclamation-triangle text-warning me-2"></i>
-              Confirm Delete
-            </h5>
+            <h5 class="modal-title">Confirm Delete</h5>
             <button type="button" class="btn-close" @click="cancelDeleteRoutine"></button>
           </div>
           <div class="modal-body">
@@ -215,12 +244,8 @@
             </p>
           </div>
           <div class="modal-footer border-0">
-            <button type="button" class="btn btn-secondary" @click="cancelDeleteRoutine">
-              <i class="bi bi-x-circle me-1"></i>Cancel
-            </button>
-            <button type="button" class="btn btn-danger" @click="confirmDeleteRoutine">
-              <i class="bi bi-trash me-1"></i>Delete Routine
-            </button>
+            <button type="button" class="btn btn-secondary" @click="cancelDeleteRoutine">Cancel</button>
+            <button type="button" class="btn btn-danger" @click="confirmDeleteRoutine">Delete Routine</button>
           </div>
         </div>
       </div>
@@ -518,56 +543,675 @@ const resetForm = () => {
 </script>
 
 <style scoped>
+.routine-page {
+  min-height: 100vh;
+  background: #fbfbfd;
+}
+.routine-page .form-control,
+.routine-page .form-select {
+  background: var(--input-background);
+  border-color: transparent;
+  border-radius: 12px;
+  height: 48px;
+}
+
+.routine-page .form-control:focus,
+.routine-page .form-select:focus {
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.routine-page .card {
+  border-radius: 24px;
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.routine-page .form-label {
+  font-size: 13px;
+  opacity: 0.6;
+  margin-bottom: 0.5rem;
+}
+
+.exercises-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.section-title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.exercises-header-with-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-add-exercise-desktop {
+  display: block;
+  height: 40px;
+  padding: 0 1.5rem;
+  border-radius: 12px;
+}
+
+.btn-add-exercise-mobile {
+  display: none;
+}
+
+.exercise-list-container {
+  display: contents;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 991px) {
+  .content-container {
+    padding: 0 1rem;
+  }
+
+  .hero {
+    padding-top: 1.5rem;
+    padding-bottom: 1rem;
+  }
+
+  .hero-title {
+    font-size: 42px;
+  }
+
+  .hero-subtitle {
+    font-size: 18px;
+  }
+
+  .routine-page .card {
+    border-radius: 20px;
+  }
+
+  .routine-page .card-body {
+    padding: 1.5rem;
+  }
+
+  /* Make action buttons always visible on mobile */
+  .action-fade {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 767px) {
+  .content-container {
+    padding: 0 0.75rem;
+  }
+
+  .hero {
+    padding-top: 1rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .hero-title {
+    font-size: 36px;
+    margin-bottom: 0.75rem;
+  }
+
+  .hero-subtitle {
+    font-size: 16px;
+    padding: 0 1rem;
+  }
+
+  .routine-page .card {
+    border-radius: 16px;
+  }
+
+  .routine-page .card-body {
+    padding: 1.25rem;
+  }
+
+  .routine-page .card-header {
+    padding: 1rem 1.25rem;
+  }
+
+  .routine-page .form-control,
+  .routine-page .form-select {
+    height: 44px;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+
+  /* Stack buttons on mobile */
+  .routine-page .d-flex.justify-content-between {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .routine-page .d-flex.justify-content-between .btn {
+    width: 100%;
+  }
+
+  /* Exercise header left-aligned on mobile */
+  .exercises-header {
+    justify-content: flex-start;
+  }
+
+  /* Saved routine cards on mobile */
+  .routine-hover {
+    padding: 1rem;
+  }
+
+  .routine-hover .d-flex.justify-content-between {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 0.75rem;
+  }
+
+  .routine-hover .d-flex.gap-4 {
+    flex-direction: column;
+    gap: 0.5rem !important;
+    font-size: 14px;
+    align-items: flex-start !important;
+  }
+
+  .routine-hover .action-fade {
+    margin-top: 0;
+    width: 100%;
+  }
+
+  .routine-hover .action-fade .btn {
+    flex: 1;
+  }
+
+  .chip-badge {
+    font-size: 11px;
+    padding: 2px 6px;
+  }
+}
+
+@media (max-width: 575px) {
+  .content-container {
+    padding: 0 0.5rem;
+  }
+
+  .hero-title {
+    font-size: 32px;
+  }
+
+  .hero-subtitle {
+    font-size: 15px;
+  }
+
+  .routine-page .card-body {
+    padding: 1rem;
+  }
+
+  .routine-page .card-header {
+    padding: 0.875rem 1rem;
+  }
+
+  .card-title {
+    font-size: 1.125rem;
+  }
+
+  .section-title {
+    font-size: 1rem;
+  }
+
+  .btn-add-exercise-desktop {
+    display: none;
+  }
+
+  .btn-add-exercise-mobile {
+    display: block;
+  }
+
+  .empty-exercises-mobile {
+    margin-bottom: 1rem;
+  }
+
+  .routine-page .form-label {
+    font-size: 12px;
+  }
+
+  .btn-outline-dark,
+  .btn-dark {
+    font-size: 14px;
+    padding: 0.5rem 0.875rem;
+  }
+
+  /* Compact empty state on mobile */
+  .empty-state-box {
+    padding: 1.5rem 1rem;
+  }
+
+  .empty-state-box p {
+    font-size: 14px;
+  }
+
+  .empty-state-box small {
+    font-size: 12px;
+  }
+}
+
+
+.hero {
+  padding-top: 2rem;
+  padding-bottom: 1.5rem;
+}
+
+.hero-title {
+  font-size: 56px;
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+}
+
+.hero-subtitle {
+  font-size: 21px;
+  opacity: 0.6;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.content-container {
+  max-width: 64rem; /* ~1024px: similar to max-w-4xl */
+  margin: 0 auto;
+}
+.page-title {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.card-header {
+  background-color: var(--card);
+  border-bottom: 1px solid var(--border);
+}
+
+.card-title {
+  margin: 0;
+  font-weight: 600;
+}
+
 .routine-card {
-  border: 2px solid var(--bs-border-color);
-  border-radius: 1rem;
-  box-shadow: 0 0.25rem 0.75rem rgba(0,0,0,.06);
-  background-color: #fafafa;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .routine-card:hover {
-  border-color: #666;
-  box-shadow: 0 0.5rem 1rem rgba(0,0,0,.08);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-/* Keep stat tiles tidy on one line even when counts are 2–3 digits */
-.routine-card .bg-light { 
-  white-space: nowrap;
-  background-color: #f0f0f0 !important;
+.stat-chip {
+  background: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
 }
 
-/* Custom button styling for monochrome theme */
-.routine-card .btn-outline-success {
-  border-color: #28a745;
-  color: #28a745;
+.stat-value {
+  font-weight: 700;
+  color: #212529;
 }
 
-.routine-card .btn-outline-success:hover {
-  background-color: #28a745;
-  border-color: #28a745;
-  color: white;
-}
-
-.routine-card .btn-outline-primary {
-  border-color: #6c757d;
+.stat-label {
   color: #6c757d;
+  font-size: 0.875rem;
 }
 
-.routine-card .btn-outline-primary:hover {
-  background-color: #6c757d;
-  border-color: #6c757d;
-  color: white;
+.btn-dark {
+  border: none;
+  background: var(--primary);
+  color: var(--primary-foreground);
 }
 
-.routine-card .btn-outline-danger {
-  border-color: #dc3545;
-  color: #dc3545;
+/* Button group styles */
+.button-group-full {
+  width: 100%;
 }
 
-.routine-card .btn-outline-danger:hover {
-  background-color: #dc3545;
-  border-color: #dc3545;
-  color: white;
+.flex-1 {
+  flex: 1;
+}
+
+/* Saved Routines Section */
+.saved-routines-section {
+  margin-top: 3rem;
+}
+
+.routines-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.routines-title {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+/* Empty state */
+.empty-routines {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 24px;
+  padding: 5rem;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.empty-content {
+  max-width: 28rem;
+  margin: 0 auto;
+}
+
+.empty-title {
+  font-size: 21px;
+  opacity: 0.8;
+  margin-bottom: 0.5rem;
+}
+
+.empty-subtitle {
+  font-size: 15px;
+  opacity: 0.5;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Grid layout for desktop/tablet */
+.routines-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+@media (min-width: 992px) {
+  .routines-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Routine cards */
+.routine-card {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.routine-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+.routine-card-content {
+  padding: 2rem;
+}
+
+.routine-card-header {
+  display: block;
+}
+
+.title-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.routine-card-title {
+  font-size: 20px;
+  letter-spacing: -0.01em;
+  margin: 0;
+  line-height: 1.3;
+  word-wrap: break-word;
+  flex: 1;
+}
+
+.routine-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 13px;
+  opacity: 0.5;
+}
+
+.meta-separator {
+  opacity: 0.3;
+}
+
+.btn-menu {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  line-height: 1;
+  opacity: 0;
+  transition: all 0.2s ease;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.routine-card:hover .btn-menu {
+  opacity: 1;
+}
+
+.btn-menu:hover {
+  background: var(--muted);
+}
+
+.routine-stats {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  font-size: 14px;
+  opacity: 0.6;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stat-value {
+  font-weight: 600;
+}
+
+.stat-text {
+  opacity: 0.8;
+}
+
+.btn-start {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border: none;
+  border-radius: 100px;
+  height: 44px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.btn-start:hover {
+  background: #000;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Mobile list view */
+.routines-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.routine-card-mobile {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.routine-card-content-mobile {
+  padding: 1.5rem;
+}
+
+.routine-card-header-mobile {
+  display: block;
+}
+
+.title-section-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.title-row-mobile {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.routine-card-title-mobile {
+  font-size: 18px;
+  letter-spacing: -0.01em;
+  margin: 0;
+  word-wrap: break-word;
+  flex: 1;
+}
+
+.routine-meta-mobile {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 13px;
+  opacity: 0.5;
+}
+
+.meta-separator-mobile {
+  opacity: 0.5;
+}
+
+.btn-menu-mobile {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  line-height: 1;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.btn-menu-mobile:hover {
+  background: var(--muted);
+}
+
+.routine-stats-mobile {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  font-size: 13px;
+  opacity: 0.6;
+}
+
+.stat-item-mobile {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stat-value-mobile {
+  font-weight: 600;
+}
+
+.stat-text-mobile {
+  opacity: 0.8;
+}
+
+.btn-start-mobile {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border: none;
+  border-radius: 100px;
+  height: 44px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.btn-start-mobile:hover {
+  background: #000;
+}
+
+/* Dropdown menu styles */
+.dropdown-menu {
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem;
+}
+
+.dropdown-item {
+  border-radius: 12px;
+  padding: 0.625rem 1rem;
+  font-size: 14px;
+}
+
+.dropdown-item:hover {
+  background: var(--muted);
+}
+
+/* Empty exercises state */
+.empty-state-box {
+  border: 2px dashed var(--border);
+  background: var(--muted);
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* Animated list for exercise items */
+.list-fade-enter-active,
+.list-fade-leave-active {
+  transition: all 0.25s ease;
+}
+
+.list-fade-enter-from {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.list-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+
+.list-fade-move {
+  transition: transform 0.25s ease;
 }
 </style>
 

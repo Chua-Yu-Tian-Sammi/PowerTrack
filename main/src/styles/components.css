@@ -1,32 +1,4 @@
-/* navbar colors */
-.navbar-brand {
-  color: #007bff;
-}
-
-.navbar-brand:hover {
-  color: #0056b3;
-}
-
-.navbar-nav .nav-link.active {
-  color: #007bff;
-}
-
-/* Compact navbar spacing */
-.navbar {
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-  margin-bottom: 0.5rem;
-}
-
-.navbar .container-fluid {
-  padding-top: 0;
-  padding-bottom: 0;
-}
-
-.navbar .nav-link {
-  padding-top: 0.375rem;
-  padding-bottom: 0.375rem;
-}
+/* Modern navbar styling is now handled by the component's scoped styles */
 
 /* Global page styling - add bottom margin to all pages */
 .workout-generator,
@@ -38,6 +10,7 @@
 .running-routes {
   padding-bottom: 4rem;
   margin-bottom: 2rem;
+  min-height: calc(100vh - 80px);
 }
 
 /* Ensure the main container has proper spacing */
