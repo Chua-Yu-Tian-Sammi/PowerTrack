@@ -1,70 +1,57 @@
 <template>
-  <div class="workout-generator">
-    <div class="container-fluid">
-      <!-- Header -->
-      <div class="row mb-4">
-        <div class="col-12">
-          <div class="card shadow-sm border-0">
-            <div class="card-body p-3 p-md-4">
-              <div class="row align-items-center">
-                <div class="col-12 col-md-8">
-                  <h2 class="mb-2 mb-md-1 text-dark text-break">
-                    <i class="bi bi-lightning-charge me-2 text-primary"></i>Generate Your Workout
-                  </h2>
-                  <p class="text-muted mb-0 text-break">Create a personalized workout routine based on your preferences and fitness level</p>
-                </div>
-              </div>
-            </div>
-          </div>
+  <div class="workout-generator-apple">
+    <div class="generator-container">
+      <!-- Page Header -->
+      <Transition name="header-fade">
+        <div class="page-header">
+          <h1 class="page-title">Generate Your Workout</h1>
+          <p class="page-subtitle">Create a personalized workout routine tailored to your profile</p>
         </div>
-      </div>
+      </Transition>
 
-      <div class="row g-4">
-        <!-- Form -->
-        <div class="col-12 col-lg-8">
-          <div class="card shadow-sm border-0 h-100">
-            <div class="card-header bg-white border-bottom">
-              <h5 class="mb-0 text-truncate">
-                <i class="bi bi-gear me-2 text-primary"></i>Workout Preferences
-              </h5>
-            </div>
-            <div class="card-body p-3 p-md-4">
+      <!-- Preferences and Profile Grid -->
+      <div class="preferences-grid">
+        <!-- Workout Preferences Card -->
+        <Transition name="section-fade">
+          <div class="preferences-card">
+            <h2 class="preferences-title">Workout Preferences</h2>
+
               <form @submit.prevent="generateWorkout">
-                <!-- Dropdown Filters - All in one row for M/L resolutions -->
-                <div class="row g-3 mb-4">
-                  <div class="col-12 col-md-3">
-                    <label for="timeMin" class="form-label fw-semibold">
-                      <i class="bi bi-clock me-1"></i>Duration
-                    </label>
-                    <div class="input-group">
+              <!-- Duration & Intensity Row -->
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
+                <div class="group">
+                  <label for="timeMin" class="apple-label">Duration</label>
+                  <div style="position: relative;">
                       <input 
                         type="number" 
-                        class="form-control" 
                         id="timeMin" 
-                        v-model="workoutForm.timeMin"
+                      v-model.number="workoutForm.timeMin"
                         min="10" 
                         max="120" 
                         required
-                        placeholder="30"
+                      placeholder="45"
+                      class="apple-input"
+                      style="padding-right: 3rem;"
                       >
-                      <span class="input-group-text">min</span>
-                    </div>
+                    <span style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); font-size: 0.8125rem; opacity: 0.4; pointer-events: none;">min</span>
                   </div>
-                  <div class="col-12 col-md-3">
-                    <label for="intensity" class="form-label fw-semibold">
-                      <i class="bi bi-fire me-1"></i>Intensity
-                    </label>
-                    <select class="form-select" id="intensity" v-model="workoutForm.intensity" required>
+                </div>
+
+                <div class="group">
+                  <label for="intensity" class="apple-label">Intensity</label>
+                  <select id="intensity" v-model="workoutForm.intensity" required class="apple-select">
                       <option value="low">Low</option>
                       <option value="medium">Medium</option>
                       <option value="high">High</option>
                     </select>
                   </div>
-                  <div class="col-12 col-md-3">
-                    <label for="goal" class="form-label fw-semibold">
-                      <i class="bi bi-trophy me-1"></i>Goal
-                    </label>
-                    <select class="form-select" id="goal" v-model="workoutForm.goal" required>
+              </div>
+
+              <!-- Goal & Experience Row -->
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
+                <div class="group">
+                  <label for="goal" class="apple-label">Goal</label>
+                  <select id="goal" v-model="workoutForm.goal" required class="apple-select">
                       <option value="weight_loss">Weight Loss</option>
                       <option value="muscle_gain">Muscle Gain</option>
                       <option value="endurance">Endurance</option>
@@ -72,11 +59,10 @@
                       <option value="general_fitness">General Fitness</option>
                     </select>
                   </div>
-                  <div class="col-12 col-md-3">
-                    <label for="experienceLevel" class="form-label fw-semibold">
-                      <i class="bi bi-award me-1"></i>Experience Level
-                    </label>
-                    <select class="form-select" id="experienceLevel" v-model="workoutForm.experienceLevel" required>
+
+                <div class="group">
+                  <label for="experienceLevel" class="apple-label">Experience Level</label>
+                  <select id="experienceLevel" v-model="workoutForm.experienceLevel" required class="apple-select">
                       <option value="beginner">Beginner</option>
                       <option value="intermediate">Intermediate</option>
                       <option value="advanced">Advanced</option>
@@ -85,250 +71,199 @@
                 </div>
               
                 <!-- Target Muscle Groups -->
-                <div class="mb-4">
-                  <label class="form-label fw-semibold">
-                    <i class="bi bi-activity me-1"></i>Target Muscle Groups
+              <div class="muscle-groups-container">
+                <label class="muscle-groups-label">
+                  Target Muscle Groups <span>(Click to select)</span>
                   </label>
-                  <div class="card border-0 bg-light">
-                    <div class="card-body p-3">
-                      <div class="row g-3">
-                        <div class="col-6 col-sm-4 col-md-3">
-                          <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="muscle-chest" value="chest" v-model="workoutForm.muscleGroups">
-                            <label class="form-check-label" for="muscle-chest">Chest</label>
-                          </div>
-                        </div>
-                        <div class="col-6 col-sm-4 col-md-3">
-                          <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="muscle-back" value="back" v-model="workoutForm.muscleGroups">
-                            <label class="form-check-label" for="muscle-back">Back</label>
-                          </div>
-                        </div>
-                        <div class="col-6 col-sm-4 col-md-3">
-                          <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="muscle-shoulders" value="shoulders" v-model="workoutForm.muscleGroups">
-                            <label class="form-check-label" for="muscle-shoulders">Shoulders</label>
-                          </div>
-                        </div>
-                        <div class="col-6 col-sm-4 col-md-3">
-                          <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="muscle-arms" value="arms" v-model="workoutForm.muscleGroups">
-                            <label class="form-check-label" for="muscle-arms">Arms</label>
-                          </div>
-                        </div>
-                        <div class="col-6 col-sm-4 col-md-3">
-                          <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="muscle-legs" value="legs" v-model="workoutForm.muscleGroups">
-                            <label class="form-check-label" for="muscle-legs">Legs</label>
-                          </div>
-                        </div>
-                        <div class="col-6 col-sm-4 col-md-3">
-                          <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="muscle-core" value="core" v-model="workoutForm.muscleGroups">
-                            <label class="form-check-label" for="muscle-core">Core</label>
-                          </div>
-                        </div>
-                        <div class="col-6 col-sm-4 col-md-3">
-                          <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="muscle-cardio" value="cardio" v-model="workoutForm.muscleGroups">
-                            <label class="form-check-label" for="muscle-cardio">Cardio</label>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                <div class="muscle-badges">
+                  <button
+                    v-for="muscle in muscleGroups"
+                    :key="muscle.value"
+                    type="button"
+                    @click="toggleMuscle(muscle.value)"
+                    class="muscle-badge"
+                    :class="{ selected: workoutForm.muscleGroups.includes(muscle.value) }"
+                  >
+                    {{ muscle.label }}
+                  </button>
                   </div>
                 </div>
 
-                <!-- Generate -->
-                <div class="d-grid">
-              <button type="submit" class="btn btn-primary btn-lg" :disabled="loading">
-                <span v-if="loading" class="spinner-border spinner-border-sm me-2"></span>
-                    <i v-if="!loading" class="bi bi-lightning-charge me-2"></i>
-                    <span class="d-none d-sm-inline">{{ loading ? 'Generating Workout...' : 'Generate Workout' }}</span>
-                    <span class="d-inline d-sm-none">{{ loading ? 'Generating...' : 'Generate' }}</span>
+              <!-- Generate Button -->
+              <button 
+                type="submit" 
+                class="generate-button"
+                :disabled="loading"
+              >
+                <span v-if="loading" class="spinner-border spinner-border-sm" style="width: 1rem; height: 1rem; border-width: 2px;"></span>
+                <i v-else class="bi bi-stars"></i>
+                <span>{{ loading ? 'Generating...' : 'Generate Workout' }}</span>
               </button>
-                </div>
             </form>
           </div>
-        </div>
-      </div>
-      
-        <!-- Profile -->
-        <div class="col-12 col-lg-4">
-          <div class="card shadow-sm border-0 h-100">
-            <div class="card-header bg-white border-bottom">
-              <h5 class="mb-0 text-truncate">
-                <i class="bi bi-person-circle me-2 text-primary"></i>Your Profile
-              </h5>
-            </div>
-            <div class="card-body p-3 p-md-4">
+        </Transition>
+
+        <!-- Profile Summary Card -->
+        <Transition name="section-fade" style="--transition-delay: 0.1s">
+          <div class="profile-summary-card">
+            <h2 class="profile-summary-title">
+              <i class="bi bi-person-circle"></i>
+              Your Profile
+            </h2>
+
               <div v-if="userProfile">
-                <div class="stat-item">
-                  <div class="stat-icon">
+              <div class="profile-stat">
+                <div class="profile-stat-icon">
                     <i class="bi bi-award"></i>
+                </div>
+                <div class="profile-stat-content">
+                  <div class="profile-stat-label">Experience</div>
+                  <div class="profile-stat-value">
+                    {{ userProfile.experienceLevel === 'beginner' ? 'Beginner' : userProfile.experienceLevel === 'intermediate' ? 'Intermediate' : 'Advanced' }}
                   </div>
-                    <div class="stat-content">
-                      <div class="stat-label">Experience</div>
-                      <div class="stat-value text-truncate">{{ userProfile.experienceLevel === 'beginner' ? 'Beginner' : userProfile.experienceLevel === 'intermediate' ? 'Intermediate' : 'Advanced' }}</div>
                     </div>
                 </div>
                 
-                <div class="stat-item">
-                  <div class="stat-icon">
+              <div class="profile-stat">
+                <div class="profile-stat-icon">
                     <i class="bi bi-trophy"></i>
+                </div>
+                <div class="profile-stat-content">
+                  <div class="profile-stat-label">Fitness Goal</div>
+                  <div class="profile-stat-value">
+                    {{ formatGoal(userProfile.goal) }}
                   </div>
-                    <div class="stat-content">
-                      <div class="stat-label">Fitness Goal</div>
-                      <div class="stat-value text-truncate">{{ userProfile.goal === 'weight_loss' ? 'Weight Loss' : userProfile.goal === 'muscle_gain' ? 'Muscle Gain' : userProfile.goal === 'general_fitness' ? 'General Fitness' : userProfile.goal.charAt(0).toUpperCase() + userProfile.goal.slice(1) }}</div>
                     </div>
                 </div>
                 
-                <div class="stat-item">
-                  <div class="stat-icon">
+              <div class="profile-stat">
+                <div class="profile-stat-icon">
                     <i class="bi bi-clock-history"></i>
                   </div>
-                  <div class="stat-content">
-                    <div class="stat-label">Preferred Time</div>
-                    <div class="stat-value">{{ userProfile.preferredTimeMin }} min</div>
+                <div class="profile-stat-content">
+                  <div class="profile-stat-label">Preferred Time</div>
+                  <div class="profile-stat-value">{{ userProfile.preferredTimeMin }} min</div>
                   </div>
                 </div>
                 
-                <div class="stat-item mb-0">
-                  <div class="stat-icon">
+              <div class="profile-stat">
+                <div class="profile-stat-icon">
                     <i class="bi bi-fire"></i>
                   </div>
-                    <div class="stat-content">
-                      <div class="stat-label">Intensity Level</div>
-                      <div class="stat-value text-truncate">{{ userProfile.preferredIntensity === 'low' ? 'Low' : userProfile.preferredIntensity === 'medium' ? 'Medium' : 'High' }}</div>
+                <div class="profile-stat-content">
+                  <div class="profile-stat-label">Intensity Level</div>
+                  <div class="profile-stat-value">
+                    {{ userProfile.preferredIntensity === 'low' ? 'Low' : userProfile.preferredIntensity === 'medium' ? 'Medium' : 'High' }}
                     </div>
                 </div>
               </div>
-              <div v-else class="text-center py-4">
-                <i class="bi bi-person-circle display-4 text-muted mb-3"></i>
-                <p class="text-muted mb-3 text-break">
+            </div>
+
+            <div v-else style="text-align: center; padding: 2rem 0;">
+              <i class="bi bi-person-circle" style="font-size: 3rem; opacity: 0.3; margin-bottom: 1rem; display: block;"></i>
+              <p style="font-size: 0.875rem; opacity: 0.6; margin-bottom: 1rem;">
                   {{ AuthService.getCurrentUser() ? 'Create your profile to see personalized stats' : 'Sign in to see your personalized stats' }}
                 </p>
-                <router-link to="/profile" class="btn btn-outline-primary btn-sm">
-                  <i class="bi me-2" :class="AuthService.getCurrentUser() ? 'bi-person-plus' : 'bi-box-arrow-in-right'"></i>
+              <router-link 
+                to="/profile" 
+                class="apple-input"
+                style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; text-decoration: none; background: rgba(0, 0, 0, 0.05);"
+              >
+                <i class="bi" :class="AuthService.getCurrentUser() ? 'bi-person-plus' : 'bi-box-arrow-in-right'"></i>
                   {{ AuthService.getCurrentUser() ? 'Create Profile' : 'Sign In' }}
                 </router-link>
-              </div>
             </div>
           </div>
-        </div>
+        </Transition>
       </div>
 
-      <!-- Generated Workout -->
-      <div v-if="generatedWorkout" class="row mt-4">
-        <div class="col-12">
-          <div class="card shadow-sm border-0">
-            <div class="card-header bg-white border-bottom">
-              <div class="d-flex align-items-start align-items-md-center justify-content-between flex-wrap">
-                <!-- Left: title -->
-                <div class="me-3">
-                  <h2 class="h4 mb-1">Generated Workout</h2>
-                  <div class="text-muted small">Your personalized workout is ready!</div>
-                </div>
-
-                <!-- Right: actions -->
-                <div class="d-flex gap-2 ms-auto mt-2 mt-md-0 flex-shrink-0">
-                  <button class="btn btn-success btn-sm d-inline-flex align-items-center text-nowrap px-3" @click="saveRoutine" :disabled="saving" data-bs-toggle="tooltip" title="Save Routine">
-                    <span v-if="saving" class="spinner-border spinner-border-sm me-2"></span>
-                    <i v-if="!saving" class="bi bi-bookmark me-1"></i>
-                    <span class="d-none d-sm-inline">{{ saving ? 'Saving...' : 'Save Routine' }}</span>
-                  </button>
-
-                  <button class="btn btn-primary btn-sm d-inline-flex align-items-center text-nowrap px-3" @click="startWorkout" data-bs-toggle="tooltip" title="Start Workout">
-                    <i class="bi bi-play-fill me-1"></i>
-                    <span class="d-none d-sm-inline">Start Workout</span>
-                  </button>
-
-                  <button class="btn btn-danger btn-sm d-inline-flex align-items-center text-nowrap px-3" @click="clearWorkout" data-bs-toggle="tooltip" title="Clear Workout">
-                    <i class="bi bi-x-circle me-1"></i>
-                    <span class="d-none d-sm-inline">Clear Workout</span>
-                  </button>
-                </div>
-              </div>
+      <!-- Generated Workout Display -->
+      <Transition name="section-fade" style="--transition-delay: 0.2s">
+        <div v-if="generatedWorkout" class="generated-workout-card">
+          <!-- Header Section with Title, Subtitle, and Clear Button -->
+          <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.5rem;">
+            <div>
+              <h2 class="generated-workout-title">Generated Workout</h2>
+              <p class="generated-workout-summary">
+                {{ generatedWorkout.routine.items.length }} exercises • {{ generatedWorkout.routine.totalTimeMin }} minutes
+              </p>
             </div>
-            <div class="card-body p-3 p-md-4">
-              <!-- Summary -->
-              <div class="row g-2 mb-3">
-                <div class="col-6">
-                  <div class="d-flex align-items-center p-2 bg-light rounded">
-                    <i class="bi bi-clock text-primary me-2"></i>
-                    <div class="fw-bold text-primary">
-                      {{ generatedWorkout.routine.totalTimeMin }} Minutes
-                    </div>
-                  </div>
+            <button
+              class="regenerate-btn"
+              @click="clearWorkout"
+              title="Clear Workout"
+            >
+              <i class="bi bi-trash"></i>
+            </button>
                 </div>
-                <div class="col-6">
-                  <div class="d-flex align-items-center p-2 bg-light rounded">
-                    <i class="bi bi-list-ul text-primary me-2"></i>
-                    <div class="fw-bold text-primary">
-                      {{ generatedWorkout.routine.items.length }} Exercise{{ generatedWorkout.routine.items.length !== 1 ? 's' : '' }}
-                    </div>
-                  </div>
-                </div>
+
+          <!-- Action Buttons -->
+          <div style="display: flex; gap: 0.75rem; margin-bottom: 2rem;">
+            <button
+              class="workout-action-btn primary"
+              @click="startWorkout"
+              style="flex: 1;"
+            >
+              <i class="bi bi-play-fill"></i>
+              <span class="btn-text-full">Start Workout</span>
+              <span class="btn-text-short">Start</span>
+                  </button>
+            <button
+              class="workout-action-btn secondary"
+              @click="saveRoutine"
+              :disabled="saving"
+              style="flex: 1;"
+            >
+              <span v-if="saving" class="spinner-border spinner-border-sm" style="width: 0.875rem; height: 0.875rem; border-width: 2px;"></span>
+              <i v-else class="bi bi-bookmark"></i>
+              <span class="btn-text-full">{{ saving ? 'Saving...' : 'Save Routine' }}</span>
+              <span class="btn-text-short">{{ saving ? 'Saving...' : 'Save' }}</span>
+                  </button>
               </div>
           
-              <!-- Exercises -->
-              <div class="exercises-section">
-                <h5 class="mb-3">
-                  <i class="bi bi-list-check me-2"></i>Exercise Plan
-                </h5>
-          <div class="exercises-list">
+          <!-- Exercise List -->
+          <div class="exercise-list">
                   <div 
                     v-for="(item, index) in sortedExercises" 
                     :key="item.exerciseId"
-                    class="exercise-item mb-3"
-                  >
-                    <div class="card border-0 shadow-sm">
-                      <div class="card-body p-3">
-                        <div class="row align-items-center">
-                          <div class="col-12 col-md-6 mb-3 mb-md-0">
-                            <div class="d-flex align-items-center mb-2">
-                              <span class="badge bg-primary me-2">{{ index + 1 }}</span>
-                              <h6 class="mb-0 text-truncate">{{ getExerciseName(item.exerciseId) }}</h6>
+              class="exercise-list-item"
+            >
+              <div class="exercise-item-content">
+                <!-- Exercise Number Circle -->
+                <div class="exercise-number-circle">
+                  <span>{{ index + 1 }}</span>
                             </div>
-                            <p class="text-muted mb-2 text-break">{{ getExerciseDescription(item.exerciseId) }}</p>
-                            <div class="d-flex gap-2">
-                              <span class="badge bg-secondary text-capitalize">{{ getExerciseIntensity(item.exerciseId) }}</span>
-                              <span class="badge bg-info text-capitalize">{{ getExerciseDifficulty(item.exerciseId) }}</span>
+                
+                <!-- Exercise Name -->
+                <h4 class="exercise-name">{{ getExerciseName(item.exerciseId) }}</h4>
+                
+                <!-- Exercise Stats (Right Side on Desktop, Below on Mobile) -->
+                <div class="exercise-stats">
+                  <div class="exercise-stat-item">
+                    <div class="exercise-stat-value">{{ item.sets }}</div>
+                    <div class="exercise-stat-label">SETS</div>
                             </div>
+                  <div class="exercise-stat-item">
+                    <div class="exercise-stat-value">{{ item.reps }}</div>
+                    <div class="exercise-stat-label">REPS</div>
                           </div>
-                          <div class="col-12 col-md-6">
-                            <div class="row text-center g-2">
-                              <div class="col-4">
-                                <div class="fw-bold text-primary">{{ item.sets }}</div>
-                                <small class="text-muted">Sets</small>
-                              </div>
-                              <div class="col-4">
-                                <div class="fw-bold text-primary">{{ item.reps }}</div>
-                                <small class="text-muted">Reps</small>
-                              </div>
-                              <div class="col-4">
-                                <div class="fw-bold text-primary">{{ item.restTimeSec }}s</div>
-                                <small class="text-muted">Rest</small>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                  <div class="exercise-stat-item">
+                    <div class="exercise-stat-value">{{ item.restTimeSec }}s</div>
+                    <div class="exercise-stat-label">REST</div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </Transition>
       </div>
 
-    <!-- Toast -->
+    <!-- Toast Notification -->
     <div v-if="notification.show" class="notification-container">
       <div class="notification" :class="`notification-${notification.type}`">
         <i class="bi" :class="notification.type === 'success' ? 'bi-check-circle' : 'bi-exclamation-triangle'"></i>
         <span>{{ notification.message }}</span>
-        </div>
       </div>
     </div>
 
@@ -358,6 +293,16 @@ const notification = ref({ show: false, message: '', type: 'success' })
 const showActiveWorkoutModal = ref(false)
 const pendingWorkoutData = ref(null)
 
+const muscleGroups = [
+  { label: 'Chest', value: 'chest' },
+  { label: 'Back', value: 'back' },
+  { label: 'Shoulders', value: 'shoulders' },
+  { label: 'Arms', value: 'arms' },
+  { label: 'Legs', value: 'legs' },
+  { label: 'Core', value: 'core' },
+  { label: 'Cardio', value: 'cardio' }
+]
+
 const workoutForm = ref({
   timeMin: 30,
   intensity: 'medium',
@@ -365,6 +310,29 @@ const workoutForm = ref({
   experienceLevel: 'beginner',
   muscleGroups: []
 })
+
+// Format goal for display
+const formatGoal = (goal) => {
+  if (!goal) return ''
+  const goalMap = {
+    'weight_loss': 'Weight Loss',
+    'muscle_gain': 'Muscle Gain',
+    'endurance': 'Endurance',
+    'strength': 'Strength',
+    'general_fitness': 'General Fitness'
+  }
+  return goalMap[goal] || goal.charAt(0).toUpperCase() + goal.slice(1).replace('_', ' ')
+}
+
+// Toggle muscle group selection
+const toggleMuscle = (muscle) => {
+  const index = workoutForm.value.muscleGroups.indexOf(muscle)
+  if (index > -1) {
+    workoutForm.value.muscleGroups.splice(index, 1)
+  } else {
+    workoutForm.value.muscleGroups.push(muscle)
+  }
+}
 
 // Load user data
 const initializeForm = () => {
@@ -429,9 +397,9 @@ const loadDraftWorkout = () => {
       workoutForm.value = { ...workoutForm.value, ...draftState }
     }
     
-    // Load generated workout
+    // Always load generated workout if it exists - persist across page navigation
     const generatedWorkoutData = JSON.parse(localStorage.getItem(generatedKey) || 'null')
-    if (generatedWorkoutData) {
+    if (generatedWorkoutData && generatedWorkoutData.routine) {
       generatedWorkout.value = generatedWorkoutData
     }
   } catch (error) {
@@ -473,8 +441,11 @@ watch(workoutForm, () => {
 }, { deep: true })
 
 // Watch for changes in generated workout and save draft state
-watch(generatedWorkout, () => {
+watch(generatedWorkout, (newValue) => {
+  // Only save if there's actually a workout (not when clearing)
+  if (newValue && newValue.routine) {
   saveDraftWorkout()
+  }
 }, { deep: true })
 
 // Computed property for sorted exercises (most intensive/difficult first)
@@ -510,6 +481,8 @@ const generateWorkout = async () => {
   try {
     const result = await WorkoutService.generateWorkout(workoutForm.value)
     generatedWorkout.value = result
+    // Explicitly save the generated workout immediately
+    saveDraftWorkout()
     showNotification('Workout generated successfully!', 'success')
   } catch (error) {
     console.error('Error generating workout:', error)
@@ -563,7 +536,7 @@ const saveRoutine = async () => {
     
     await WorkoutService.createRoutine(routineData)
     showNotification('Routine saved successfully!', 'success')
-    clearDraftWorkout() // Clear draft state after successful save
+    // Don't clear the generated workout - let user start it later
   } catch (error) {
     console.error('Error saving routine:', error)
     showNotification('Failed to save routine. Please try again.', 'error')
@@ -664,10 +637,73 @@ const handleEndActiveWorkout = async () => {
 
 const clearWorkout = () => {
   generatedWorkout.value = null
-  clearDraftWorkout() // Clear draft state
+  // Don't clear draft state - keep it so user can regenerate or come back to it
+  // Only clear the display, not the saved state
+  localStorage.removeItem('draftGeneratedWorkout')
   showNotification('Workout cleared successfully!', 'success')
 }
-
 </script>
 
+<style scoped>
+.exercise-list {
+  display: flex;
+  flex-direction: column;
+}
 
+.group {
+  display: flex;
+  flex-direction: column;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.header-fade-enter-active {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition-delay: 0s;
+}
+
+.header-fade-enter-from {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.section-fade-enter-active {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition-delay: var(--transition-delay, 0.1s);
+}
+
+.section-fade-enter-from {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+@media (max-width: 768px) {
+  .workout-action-btn span.btn-text-full {
+    display: none;
+  }
+
+  .workout-action-btn span.btn-text-short {
+    display: inline;
+  }
+}
+
+@media (max-width: 480px) {
+  .workout-action-btn span.btn-text-short {
+    display: none;
+  }
+
+  .workout-action-btn.icon-only {
+    width: 2.5rem;
+    padding: 0;
+    justify-content: center;
+  }
+}
+</style>

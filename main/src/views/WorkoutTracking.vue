@@ -366,37 +366,14 @@ const workoutData = computed(() => {
     }
   }
   
-  if (!route.query.workoutData) {
-    const savedData = WorkoutStateService.getCurrentWorkoutData()
-    if (savedData.workoutData) {
-      return savedData.workoutData
-    }
+  // Load from saved state if there's workout data (even if not started)
+  const savedData = WorkoutStateService.getCurrentWorkoutData()
+  if (savedData && savedData.workoutData) {
+    return savedData.workoutData
   }
   
-  try {
-    const draftWorkout = localStorage.getItem('draftGeneratedWorkout')
-    if (draftWorkout) {
-      const parsed = JSON.parse(draftWorkout)
-      if (parsed && parsed.routine) {
-        const workoutData = {
-          title: parsed.routine.title,
-          goal: parsed.routine.goal,
-          estimatedTimeMinutes: parsed.routine.totalTimeMin,
-          intendedIntensity: parsed.routine.intensity,
-          exercises: parsed.routine.items.map(item => ({
-            exerciseId: item.exerciseId,
-            sets: item.sets,
-            reps: item.reps,
-            restSeconds: item.restTimeSec,
-            completed: false
-          }))
-        }
-        return workoutData
-      }
-    }
-  } catch (error) {
-    console.error('Error loading draft workout:', error)
-  }
+  // Don't auto-load draft generated workout - only load if explicitly passed via props/query
+  // This prevents loading a workout just because it was generated
   
   return null
 })
@@ -404,15 +381,19 @@ const workoutData = computed(() => {
 const sourceType = computed(() => {
   if (props.sourceType) return props.sourceType
   if (route.query.sourceType) return route.query.sourceType
-  if (!route.query.sourceType && !route.query.workoutData) {
-    const savedData = WorkoutStateService.getCurrentWorkoutData()
-    if (savedData.sourceType) return savedData.sourceType
-  }
+  // Load from saved state even if workout not started
+  const savedData = WorkoutStateService.getCurrentWorkoutData()
+  if (savedData && savedData.sourceType) return savedData.sourceType
   return 'custom'
 })
 
 const sourceId = computed(() => {
-  return props.sourceId || route.query.sourceId || null
+  if (props.sourceId) return props.sourceId
+  if (route.query.sourceId) return route.query.sourceId
+  // Load from localStorage if available (for persistence)
+  const savedData = WorkoutStateService.getCurrentWorkoutData()
+  // Note: sourceId is not stored in WorkoutStateService, so we rely on query/props
+  return null
 })
 
 const isRunningRoute = computed(() => {
@@ -430,8 +411,9 @@ const runningRouteData = computed(() => {
     }
   }
   
+  // Load from saved state (works even if workout not started)
   const savedData = WorkoutStateService.getCurrentWorkoutData()
-  if (savedData.routeData) {
+  if (savedData && savedData.routeData) {
     return savedData.routeData
   }
   
@@ -450,6 +432,18 @@ const runningRouteData = computed(() => {
   
   return {}
 })
+
+// Watch runningRouteData to save it when loaded from query
+watch(runningRouteData, (newRouteData) => {
+  if (newRouteData && Object.keys(newRouteData).length > 0 && workoutData.value && !isActive.value) {
+    WorkoutStateService.saveWorkoutData(
+      workoutData.value,
+      sourceType.value,
+      newRouteData,
+      trackedDistance.value
+    )
+  }
+}, { immediate: true })
 
 const sortedExercises = computed(() => {
   if (!localExercises.value || localExercises.value.length === 0) return []
@@ -835,7 +829,22 @@ const resetSessionState = () => {
 }
 
 // Watch for workoutData changes and sync to localExercises
-watch(workoutData, (newData) => {
+// Also save workout data to localStorage when loaded (even if not started) for persistence
+watch(workoutData, (newData, oldData) => {
+  // Save workout data when it's loaded but not started yet - persists across navigation
+  if (newData && !isActive.value) {
+    // Only save if workoutData actually changed (avoid unnecessary saves)
+    if (!oldData || JSON.stringify(oldData) !== JSON.stringify(newData)) {
+      WorkoutStateService.saveWorkoutData(
+        newData, 
+        sourceType.value, 
+        isRunningRoute.value ? runningRouteData.value : null, 
+        isRunningRoute.value ? trackedDistance.value : null
+      )
+    }
+  }
+  
+  // Sync to localExercises
   if (newData && newData.exercises) {
     // Create a deep copy with completed property
     localExercises.value = newData.exercises.map(ex => ({
@@ -847,9 +856,31 @@ watch(workoutData, (newData) => {
   }
 }, { immediate: true, deep: true })
 
+// Also watch sourceType to save when it changes
+watch(sourceType, (newType) => {
+  if (workoutData.value && !isActive.value) {
+    WorkoutStateService.saveWorkoutData(
+      workoutData.value, 
+      newType, 
+      isRunningRoute.value ? runningRouteData.value : null, 
+      isRunningRoute.value ? trackedDistance.value : null
+    )
+  }
+})
+
 onMounted(() => {
   loadExercises()
   restoreActiveSession()
+  
+  // Save workout data on mount if it exists and hasn't been started yet
+  if (workoutData.value && !isActive.value) {
+    WorkoutStateService.saveWorkoutData(
+      workoutData.value,
+      sourceType.value,
+      isRunningRoute.value ? runningRouteData.value : null,
+      isRunningRoute.value ? trackedDistance.value : null
+    )
+  }
   
   if (isRunningRoute.value) {
     setTimeout(() => {

@@ -1700,6 +1700,886 @@
   }
 }
 
+/* Apple-Inspired Workout Generator Redesign */
+.workout-generator-apple {
+  min-height: 100vh;
+  background: #fbfbfd;
+  padding-top: 2rem;
+  padding-bottom: 5rem;
+}
+
+.workout-generator-apple .generator-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.workout-generator-apple .page-header {
+  margin-bottom: 3rem;
+}
+
+.workout-generator-apple .page-title {
+  font-size: 2rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: #030213;
+  margin-bottom: 0.5rem;
+}
+
+.workout-generator-apple .page-subtitle {
+  font-size: 0.9375rem;
+  opacity: 0.5;
+  color: #030213;
+}
+
+/* Preferences and Profile Grid */
+.workout-generator-apple .preferences-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .workout-generator-apple .preferences-grid {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+/* Workout Preferences Card */
+.workout-generator-apple .preferences-card {
+  background: #ffffff;
+  border-radius: 1.5rem;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.workout-generator-apple .preferences-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.workout-generator-apple .preferences-title {
+  font-size: 1.375rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+  color: #030213;
+}
+
+.workout-generator-apple .group {
+  display: flex;
+  flex-direction: column;
+}
+
+.workout-generator-apple .apple-label {
+  font-size: 0.8125rem;
+  opacity: 0.6;
+  margin-bottom: 0.75rem;
+  color: #030213;
+}
+
+.workout-generator-apple .apple-input,
+.workout-generator-apple .apple-select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: #f3f3f5;
+  border: none;
+  border-radius: 0.75rem;
+  font-size: 0.9375rem;
+  color: #030213;
+  transition: all 0.2s ease;
+}
+
+.workout-generator-apple .apple-input:focus,
+.workout-generator-apple .apple-select:focus {
+  outline: none;
+  background: #e8e8ea;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+}
+
+.workout-generator-apple .apple-select {
+  padding-right: 2.5rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23030213' fill-opacity='0.4' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  appearance: none;
+  cursor: pointer;
+}
+
+/* Muscle Groups Badges */
+.workout-generator-apple .muscle-groups-container {
+  margin-top: 1.5rem;
+}
+
+.workout-generator-apple .muscle-groups-label {
+  font-size: 0.8125rem;
+  opacity: 0.6;
+  margin-bottom: 0.75rem;
+  color: #030213;
+}
+
+.workout-generator-apple .muscle-groups-label span {
+  opacity: 0.4;
+  font-size: 0.75rem;
+}
+
+.workout-generator-apple .muscle-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.workout-generator-apple .muscle-badge {
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  background: transparent;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #030213;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.workout-generator-apple .muscle-badge:hover {
+  border-color: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.02);
+  transform: translateY(-1px);
+}
+
+.workout-generator-apple .muscle-badge.selected {
+  background: #030213;
+  color: #ffffff;
+  border-color: #030213;
+}
+
+/* Generate Button */
+.workout-generator-apple .generate-button {
+  width: 100%;
+  height: 3.5rem;
+  border-radius: 9999px;
+  background: #030213;
+  color: #ffffff;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  cursor: pointer;
+}
+
+.workout-generator-apple .generate-button:hover:not(:disabled) {
+  background: #000000;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.workout-generator-apple .generate-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Profile Summary Card */
+.workout-generator-apple .profile-summary-card {
+  background: #ffffff;
+  border-radius: 1.5rem;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 6rem;
+  max-height: calc(100vh - 8rem);
+  overflow-y: auto;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.workout-generator-apple .profile-summary-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+@media (max-width: 1023px) {
+  .workout-generator-apple .profile-summary-card {
+    position: static;
+    max-height: none;
+  }
+
+  .workout-generator-apple .preferences-card {
+    order: 2;
+  }
+
+  .workout-generator-apple .profile-summary-card {
+    order: 1;
+  }
+}
+
+.workout-generator-apple .profile-summary-title {
+  font-size: 1.375rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
+  color: #030213;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.workout-generator-apple .profile-summary-title i {
+  opacity: 0.5;
+  font-size: 1.25rem;
+}
+
+.workout-generator-apple .profile-stat {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.workout-generator-apple .profile-stat:last-child {
+  border-bottom: none;
+}
+
+.workout-generator-apple .profile-stat-icon {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  background: rgba(0, 0, 0, 0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.workout-generator-apple .profile-stat-icon i {
+  font-size: 1rem;
+  opacity: 0.5;
+}
+
+.workout-generator-apple .profile-stat-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.workout-generator-apple .profile-stat-label {
+  font-size: 0.6875rem;
+  opacity: 0.5;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+  color: #030213;
+}
+
+.workout-generator-apple .profile-stat-value {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #030213;
+}
+
+/* Generated Workout Card */
+.workout-generator-apple .generated-workout-card {
+  background: #ffffff;
+  border-radius: 1.5rem;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  margin-top: 1.5rem;
+}
+
+.workout-generator-apple .generated-workout-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.workout-generator-apple .generated-workout-title {
+  font-size: 1.375rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: #030213;
+  margin-bottom: 0.25rem;
+}
+
+.workout-generator-apple .generated-workout-summary {
+  font-size: 0.875rem;
+  opacity: 0.5;
+  color: #030213;
+}
+
+.workout-generator-apple .generated-workout-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.workout-generator-apple .workout-action-btn {
+  height: 2.5rem;
+  padding: 0 1.5rem;
+  border-radius: 9999px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+}
+
+.workout-generator-apple .workout-action-btn span.btn-text-full {
+  display: inline;
+}
+
+.workout-generator-apple .workout-action-btn span.btn-text-short {
+  display: none;
+}
+
+.workout-generator-apple .workout-action-btn.primary {
+  background: #030213;
+  color: #ffffff;
+}
+
+.workout-generator-apple .workout-action-btn.primary:hover:not(:disabled) {
+  background: #000000;
+  transform: translateY(-1px);
+}
+
+.workout-generator-apple .workout-action-btn.secondary {
+  background: #ffffff;
+  color: #030213;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.workout-generator-apple .workout-action-btn.secondary:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 0.02);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+.workout-generator-apple .workout-action-btn.danger {
+  background: #ffffff;
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.workout-generator-apple .workout-action-btn.danger:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 0.05);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.workout-generator-apple .regenerate-btn {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.workout-generator-apple .regenerate-btn:hover {
+  background: rgba(0, 0, 0, 0.08);
+  transform: scale(1.05);
+}
+
+/* Exercise List */
+.workout-generator-apple .exercise-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.workout-generator-apple .exercise-list-item {
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 1rem;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.workout-generator-apple .exercise-list-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.workout-generator-apple .exercise-item-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.workout-generator-apple .exercise-number-circle {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.workout-generator-apple .exercise-number-circle span {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #030213;
+  opacity: 0.7;
+}
+
+.workout-generator-apple .exercise-name {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #030213;
+  flex: 1;
+  margin: 0;
+}
+
+.workout-generator-apple .exercise-stats {
+  display: flex;
+  gap: 1.5rem;
+  flex-shrink: 0;
+}
+
+.workout-generator-apple .exercise-stat-item {
+  text-align: left;
+}
+
+.workout-generator-apple .exercise-stat-value {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #030213;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.workout-generator-apple .exercise-stat-label {
+  font-size: 0.6875rem;
+  opacity: 0.5;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+/* Mobile Layout for Exercise Items */
+@media (max-width: 768px) {
+  .workout-generator-apple .exercise-item-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .workout-generator-apple .exercise-list-item {
+    padding: 1.5rem;
+  }
+
+  .workout-generator-apple .exercise-name {
+    width: 100%;
+  }
+
+  .workout-generator-apple .exercise-stats {
+    width: 100%;
+    margin-top: 0.25rem;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .workout-generator-apple {
+    padding-top: 1.5rem;
+  }
+
+  .workout-generator-apple .generator-container {
+    padding: 0 1rem;
+  }
+
+  .workout-generator-apple .page-title {
+    font-size: 1.5rem;
+  }
+
+  .workout-generator-apple .preferences-card,
+  .workout-generator-apple .profile-summary-card,
+  .workout-generator-apple .generated-workout-card {
+    padding: 1.5rem;
+  }
+
+  .workout-generator-apple .generated-workout-actions {
+    flex-direction: column;
+  }
+
+  .workout-generator-apple .workout-action-btn {
+    width: 100%;
+  }
+
+  .workout-generator-apple .workout-action-btn span.btn-text-full {
+    display: none !important;
+  }
+
+  .workout-generator-apple .workout-action-btn span.btn-text-short {
+    display: inline !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .workout-generator-apple .workout-action-btn {
+    padding: 0 1rem;
+  }
+
+  .workout-generator-apple .workout-action-btn span.btn-text-short {
+    display: none !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .workout-generator-apple .workout-action-btn span.btn-text-full {
+    display: inline !important;
+  }
+
+  .workout-generator-apple .workout-action-btn span.btn-text-short {
+    display: none !important;
+  }
+}
+
+/* Apple-Inspired Progress Dashboard Redesign */
+.progress-dashboard-apple {
+  min-height: 100vh;
+  background: #fbfbfd;
+  padding-top: 2rem;
+  padding-bottom: 5rem;
+}
+
+.progress-dashboard-apple .dashboard-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.progress-dashboard-apple .page-header {
+  margin-bottom: 2rem;
+}
+
+.progress-dashboard-apple .page-title {
+  font-size: 2rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: #030213;
+  margin-bottom: 0.5rem;
+}
+
+.progress-dashboard-apple .page-subtitle {
+  font-size: 0.9375rem;
+  opacity: 0.5;
+  color: #030213;
+  text-align: left;
+}
+
+/* Stats Overview Cards */
+.progress-dashboard-apple .stats-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.progress-dashboard-apple .stat-card {
+  background: #ffffff;
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.progress-dashboard-apple .stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.progress-dashboard-apple .stat-card-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  flex-shrink: 0;
+}
+
+.progress-dashboard-apple .stat-card-icon.blue {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+}
+
+.progress-dashboard-apple .stat-card-icon.orange {
+  background: rgba(249, 115, 22, 0.1);
+  color: #f97316;
+}
+
+.progress-dashboard-apple .stat-card-icon.green {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+}
+
+.progress-dashboard-apple .stat-card-icon i {
+  font-size: 1.25rem;
+}
+
+.progress-dashboard-apple .stat-card-value {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #030213;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.progress-dashboard-apple .stat-card-label {
+  font-size: 0.9375rem;
+  opacity: 0.5;
+  color: #030213;
+}
+
+.progress-dashboard-apple .stat-card-period {
+  font-size: 0.75rem;
+  opacity: 0.4;
+  color: #030213;
+  margin-top: 0.25rem;
+}
+
+/* Navigation Tabs */
+.progress-dashboard-apple .nav-tabs-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.progress-dashboard-apple .nav-tabs-apple {
+  display: flex;
+  gap: 0.5rem;
+  background: #ffffff;
+  border-radius: 1.25rem;
+  padding: 0.375rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.progress-dashboard-apple .nav-tab-apple {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #030213;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0.6;
+}
+
+.progress-dashboard-apple .nav-tab-apple:hover {
+  opacity: 0.8;
+}
+
+.progress-dashboard-apple .nav-tab-apple.active {
+  background: #030213;
+  color: #ffffff;
+  opacity: 1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.progress-dashboard-apple .nav-tab-apple i {
+  font-size: 1rem;
+}
+
+/* Date Filter */
+.progress-dashboard-apple .date-filter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9375rem;
+  opacity: 0.5;
+  color: #030213;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.progress-dashboard-apple .date-filter:hover {
+  opacity: 0.7;
+}
+
+.progress-dashboard-apple .date-filter i {
+  font-size: 1rem;
+}
+
+/* Chart Cards */
+.progress-dashboard-apple .charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.progress-dashboard-apple .chart-card {
+  background: #ffffff;
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.progress-dashboard-apple .chart-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.progress-dashboard-apple .chart-title {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  opacity: 0.6;
+  color: #030213;
+  margin-bottom: 1.5rem;
+}
+
+.progress-dashboard-apple .chart-container-apple {
+  position: relative;
+  height: 220px;
+}
+
+/* Section Header */
+.progress-dashboard-apple .section-header {
+  margin-bottom: 1.5rem;
+  margin-top: 3rem;
+  font-size: 1.1875rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  opacity: 0.6;
+  color: #030213;
+}
+
+.progress-dashboard-apple .section-header:first-of-type {
+  margin-top: 0;
+}
+
+/* Empty State */
+.progress-dashboard-apple .empty-state {
+  text-align: center;
+  padding: 3rem 1.5rem;
+}
+
+.progress-dashboard-apple .empty-state i {
+  font-size: 3rem;
+  opacity: 0.2;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.progress-dashboard-apple .empty-state p {
+  font-size: 0.9375rem;
+  opacity: 0.5;
+  color: #030213;
+  margin: 0;
+}
+
+/* Loading State */
+.progress-dashboard-apple .loading-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+}
+
+.progress-dashboard-apple .loading-state .spinner-border {
+  width: 2rem;
+  height: 2rem;
+  border-width: 3px;
+  color: rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .progress-dashboard-apple {
+    padding-top: 1.5rem;
+  }
+
+  .progress-dashboard-apple .dashboard-container {
+    padding: 0 1rem;
+  }
+
+  .progress-dashboard-apple .page-title {
+    font-size: 1.5rem;
+  }
+
+  .progress-dashboard-apple .page-subtitle {
+    margin-left: 0;
+    margin-top: 0.5rem;
+  }
+
+  .progress-dashboard-apple .stats-overview {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .progress-dashboard-apple .stat-card {
+    padding: 1.25rem;
+  }
+
+  .progress-dashboard-apple .stat-card-value {
+    font-size: 1.5rem;
+  }
+
+  .progress-dashboard-apple .charts-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .progress-dashboard-apple .nav-tabs-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .progress-dashboard-apple .nav-tabs-apple {
+    width: 100%;
+  }
+
+  .progress-dashboard-apple .nav-tab-apple {
+    flex: 1;
+    justify-content: center;
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .progress-dashboard-apple .stats-overview {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* workout generator */
 .workout-generator {
   min-height: 100vh;
