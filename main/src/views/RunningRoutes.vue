@@ -566,7 +566,7 @@ const initializeMapPreviews = async () => {
           // Add route polyline
           const directionsRenderer = new window.google.maps.DirectionsRenderer({
             map: map,
-            suppressMarkers: false,
+            suppressMarkers: true, // Suppress default ABC markers
             polylineOptions: {
               strokeColor: '#007bff',
               strokeWeight: 4,
@@ -577,11 +577,17 @@ const initializeMapPreviews = async () => {
           // Create directions request
           const request = {
             origin: route.coordinates.start,
-            destination: route.routeType === 'loop' ? route.coordinates.start : route.coordinates.waypoints[0],
-            waypoints: route.coordinates.waypoints.map(wp => ({
-              location: wp,
-              stopover: true
-            })),
+            destination: route.routeType === 'loop' 
+              ? route.coordinates.start 
+              : (route.coordinates.waypoints && route.coordinates.waypoints.length > 0 
+                  ? route.coordinates.waypoints[0] 
+                  : route.coordinates.start),
+            waypoints: route.coordinates.waypoints && route.coordinates.waypoints.length > 0
+              ? route.coordinates.waypoints.map(wp => ({
+                  location: wp,
+                  stopover: true
+                }))
+              : [],
             travelMode: window.google.maps.TravelMode.WALKING,
             optimizeWaypoints: true
           }
@@ -590,6 +596,9 @@ const initializeMapPreviews = async () => {
           directionsService.route(request, (result, status) => {
             if (status === 'OK') {
               directionsRenderer.setDirections(result)
+              
+              // Add custom markers with S/E labels
+              mapsService.addCustomRouteMarkers(map, route, result)
             } else {
               console.warn(`Failed to get directions for route ${index}:`, status)
             }

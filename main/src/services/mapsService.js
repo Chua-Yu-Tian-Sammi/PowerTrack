@@ -379,20 +379,30 @@ class MapsService {
       mapTypeId: window.google.maps.MapTypeId.ROADMAP
     })
 
+    // Determine destination based on route type
+    const isLoop = route.routeType === 'loop'
+    const destination = isLoop 
+      ? route.coordinates.start 
+      : (route.coordinates.waypoints && route.coordinates.waypoints.length > 0 
+          ? route.coordinates.waypoints[0] 
+          : route.coordinates.start)
+
     // Add route polyline
     const directionsRenderer = new window.google.maps.DirectionsRenderer({
       map: map,
-      suppressMarkers: false
+      suppressMarkers: true // Suppress default ABC markers
     })
 
     // Create directions request
     const request = {
       origin: route.coordinates.start,
-      destination: route.coordinates.start,
-      waypoints: route.coordinates.waypoints.map(wp => ({
-        location: wp,
-        stopover: true
-      })),
+      destination: destination,
+      waypoints: route.coordinates.waypoints && route.coordinates.waypoints.length > 0
+        ? route.coordinates.waypoints.map(wp => ({
+            location: wp,
+            stopover: true
+          }))
+        : [],
       travelMode: window.google.maps.TravelMode.WALKING,
       optimizeWaypoints: true
     }
@@ -401,10 +411,103 @@ class MapsService {
     directionsService.route(request, (result, status) => {
       if (status === 'OK') {
         directionsRenderer.setDirections(result)
+        
+        // Add custom markers with S/E labels
+        this.addCustomRouteMarkers(map, route, result)
       }
     })
 
     return map
+  }
+
+  // Add custom markers for route start and end
+  addCustomRouteMarkers(map, route, directionsResult) {
+    if (!window.google || !window.google.maps) return
+
+    const isLoop = route.routeType === 'loop'
+    
+    // Get the actual route path to determine start and end points
+    const routePath = directionsResult.routes[0]
+    if (!routePath || !routePath.legs || routePath.legs.length === 0) return
+
+    const startLocation = routePath.legs[0].start_location
+    const endLocation = routePath.legs[routePath.legs.length - 1].end_location
+
+    // Create start marker
+    if (isLoop) {
+      // For loops, show "S/E" at start/end location
+      new window.google.maps.Marker({
+        position: startLocation,
+        map: map,
+        label: {
+          text: 'S/E',
+          color: '#ffffff',
+          fontSize: '14px',
+          fontWeight: 'bold'
+        },
+        icon: {
+          path: window.google.maps.SymbolPath.CIRCLE,
+          scale: 12,
+          fillColor: '#007bff',
+          fillOpacity: 1,
+          strokeColor: '#ffffff',
+          strokeWeight: 3
+        }
+      })
+    } else {
+      // For point-to-point, show "S" at start
+      new window.google.maps.Marker({
+        position: startLocation,
+        map: map,
+        label: {
+          text: 'S',
+          color: '#ffffff',
+          fontSize: '14px',
+          fontWeight: 'bold'
+        },
+        icon: {
+          path: window.google.maps.SymbolPath.CIRCLE,
+          scale: 12,
+          fillColor: '#28a745',
+          fillOpacity: 1,
+          strokeColor: '#ffffff',
+          strokeWeight: 3
+        }
+      })
+
+      // Show "E" at end (if start and end are different)
+      const startLat = startLocation.lat()
+      const startLng = startLocation.lng()
+      const endLat = endLocation.lat()
+      const endLng = endLocation.lng()
+      
+      // Check if start and end are significantly different (more than ~10 meters)
+      const distance = Math.sqrt(
+        Math.pow((endLat - startLat) * 111000, 2) + 
+        Math.pow((endLng - startLng) * 111000 * Math.cos(startLat * Math.PI / 180), 2)
+      )
+      
+      if (distance > 10) {
+        new window.google.maps.Marker({
+          position: endLocation,
+          map: map,
+          label: {
+            text: 'E',
+            color: '#ffffff',
+            fontSize: '14px',
+            fontWeight: 'bold'
+          },
+          icon: {
+            path: window.google.maps.SymbolPath.CIRCLE,
+            scale: 12,
+            fillColor: '#dc3545',
+            fillOpacity: 1,
+            strokeColor: '#ffffff',
+            strokeWeight: 3
+          }
+        })
+      }
+    }
   }
 }
 
