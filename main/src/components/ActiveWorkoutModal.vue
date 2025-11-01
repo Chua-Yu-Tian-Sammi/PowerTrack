@@ -1,68 +1,72 @@
 <template>
   <!-- Active Workout Confirmation Modal -->
-  <div 
-    v-if="show" 
-    class="modal fade show d-block" 
-    tabindex="-1" 
-    style="background-color: rgba(0,0,0,0.5);"
-    @click.self="handleCancel"
-  >
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header border-0 pb-0">
-          <h5 class="modal-title">
-            <i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>
-            Active Workout Detected
-          </h5>
-        </div>
-        <div class="modal-body pt-0">
-          <p class="mb-3">
-            You currently have an active workout in progress. Starting a new workout will end your current session.
-          </p>
-          <div class="alert alert-info d-flex align-items-center">
-            <i class="bi bi-info-circle me-2"></i>
-            <div class="flex-grow-1">
-              <strong>Current Workout:</strong><br>
-              <div class="mt-2">
-                <div class="fw-bold text-dark mb-1">
-                  {{ activeWorkoutData?.workoutName || 'Active Workout' }}
-                </div>
-                <div class="d-flex align-items-center gap-2">
-                  <span class="badge bg-secondary">{{ getSourceTypeLabel(activeWorkoutData?.sourceType) }}</span>
-                  <small class="text-muted">
-                    <i class="bi bi-clock me-1"></i>{{ formatDuration(activeWorkoutData?.elapsedTime || 0) }}
-                  </small>
-                </div>
+  <Transition name="fade">
+    <div 
+      v-if="show" 
+      class="user-profile-apple"
+    >
+      <div class="apple-modal-backdrop" @click.self="handleCancel">
+        <div class="apple-modal">
+          <div class="apple-modal-header">
+            <h5 class="apple-modal-title">
+              <i class="bi bi-exclamation-triangle-fill me-2" style="color: #f59e0b;"></i>
+              Active Workout Detected
+            </h5>
+            <button class="apple-modal-close" @click="handleCancel">
+              <i class="bi bi-x-lg" style="font-size: 0.875rem;"></i>
+            </button>
+          </div>
+          <div class="apple-modal-body">
+            <p style="margin-bottom: 1.5rem; opacity: 0.8;">
+              You currently have an active workout in progress. Starting a new workout will end your current session.
+            </p>
+            
+            <div style="background: rgba(0, 123, 255, 0.08); border-left: 3px solid #007bff; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
+              <div style="font-weight: 600; margin-bottom: 0.75rem; color: #030213;">Current Workout</div>
+              <div style="font-size: 1rem; font-weight: 500; margin-bottom: 0.5rem; color: #030213;">
+                {{ activeWorkoutData?.workoutName || 'Active Workout' }}
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+                <span style="background: rgba(0,0,0,0.08); padding: 0.25rem 0.625rem; border-radius: 0.375rem; font-size: 0.8125rem; font-weight: 500;">
+                  {{ getSourceTypeLabel(activeWorkoutData?.sourceType) }}
+                </span>
+                <span style="font-size: 0.875rem; opacity: 0.6;">
+                  <i class="bi bi-clock me-1"></i>{{ formatDuration(activeWorkoutData?.elapsedTime || 0) }}
+                </span>
               </div>
             </div>
+            
+            <p style="margin-bottom: 1.5rem; font-size: 0.875rem; opacity: 0.6;">
+              What would you like to do?
+            </p>
+
+            <div style="display: flex; gap: 0.75rem;">
+              <button 
+                type="button" 
+                class="apple-input"
+                style="flex: 1; height: 3rem; border: 1px solid rgba(0,0,0,0.1); cursor: pointer; font-weight: 500;"
+                @click="handleCancel"
+              >
+                <i class="bi bi-x-circle me-2"></i>
+                Cancel
+              </button>
+              <button 
+                type="button" 
+                class="apple-input"
+                style="flex: 1; height: 3rem; background: #ef4444; color: white; cursor: pointer; font-weight: 500; border: none;"
+                @click="handleEndWorkout"
+                :disabled="ending"
+              >
+                <span v-if="ending" class="spinner-border spinner-border-sm me-2"></span>
+                <i v-else class="bi bi-stop-fill me-2"></i>
+                End Current Workout
+              </button>
+            </div>
           </div>
-          <p class="mb-0 text-muted small">
-            What would you like to do?
-          </p>
-        </div>
-        <div class="modal-footer border-0 pt-0">
-          <button 
-            type="button" 
-            class="btn btn-outline-secondary" 
-            @click="handleCancel"
-          >
-            <i class="bi bi-x-circle me-1"></i>
-            Cancel
-          </button>
-          <button 
-            type="button" 
-            class="btn btn-danger" 
-            @click="handleEndWorkout"
-            :disabled="ending"
-          >
-            <span v-if="ending" class="spinner-border spinner-border-sm me-2"></span>
-            <i v-else class="bi bi-stop-fill me-1"></i>
-            End Current Workout
-          </button>
         </div>
       </div>
     </div>
-  </div>
+  </Transition>
 </template>
 
 <script setup>
@@ -91,12 +95,10 @@ const router = useRouter()
 const ending = ref(false)
 const activeWorkoutData = ref(null)
 
-// Load active workout data when modal shows
 const loadActiveWorkoutData = () => {
   activeWorkoutData.value = WorkoutStateService.getActiveWorkoutData()
 }
 
-// Watch for show prop changes
 watch(() => props.show, (newShow) => {
   if (newShow) {
     loadActiveWorkoutData()
@@ -137,7 +139,6 @@ const handleCancel = () => {
 const handleEndWorkout = async () => {
   ending.value = true
   try {
-    // Emit the end workout event - let parent handle state clearing and navigation
     emit('end-workout')
     if (props.onEndWorkout) {
       await props.onEndWorkout()
@@ -151,15 +152,11 @@ const handleEndWorkout = async () => {
 </script>
 
 <style scoped>
-.modal.show {
-  display: block !important;
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s ease;
 }
 
-.modal-dialog {
-  max-width: 500px;
-}
-
-.alert {
-  border-left: 4px solid var(--bs-info);
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
 }
 </style>

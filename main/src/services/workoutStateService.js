@@ -38,12 +38,15 @@ export class WorkoutStateService {
   }
 
   // Save current workout data
-  static saveWorkoutData(workoutData, sourceType, routeData = null) {
+  static saveWorkoutData(workoutData, sourceType, routeData = null, trackedDistance = null) {
     try {
       localStorage.setItem(this.WORKOUT_DATA_KEY, JSON.stringify(workoutData))
       localStorage.setItem('activeWorkoutSourceType', sourceType)
       if (routeData) {
         localStorage.setItem(this.ROUTE_DATA_KEY, JSON.stringify(routeData))
+      }
+      if (trackedDistance !== null) {
+        localStorage.setItem('trackedDistance', trackedDistance.toString())
       }
     } catch (error) {
       console.error('Error saving workout data:', error)
@@ -51,13 +54,16 @@ export class WorkoutStateService {
   }
 
   // Save active session data
-  static saveActiveSession(sessionId, startTime, isActive, elapsedTime = 0) {
+  static saveActiveSession(sessionId, startTime, isActive, elapsedTime = 0, isPaused = false, pausedElapsedTime = 0, resumeTime = null) {
     try {
       const sessionData = {
         sessionId,
         startTime: startTime.toISOString(),
         isActive,
         elapsedTime,
+        isPaused,
+        pausedElapsedTime,
+        resumeTime: resumeTime ? resumeTime.toISOString() : null,
         savedAt: new Date().toISOString()
       }
       localStorage.setItem(this.ACTIVE_SESSION_KEY, JSON.stringify(sessionData))
@@ -72,18 +78,21 @@ export class WorkoutStateService {
       const workoutData = localStorage.getItem(this.WORKOUT_DATA_KEY)
       const sourceType = localStorage.getItem('activeWorkoutSourceType')
       const routeData = localStorage.getItem(this.ROUTE_DATA_KEY)
+      const trackedDistance = localStorage.getItem('trackedDistance')
       
       return {
         workoutData: workoutData ? JSON.parse(workoutData) : null,
         sourceType: sourceType || 'custom',
-        routeData: routeData ? JSON.parse(routeData) : null
+        routeData: routeData ? JSON.parse(routeData) : null,
+        trackedDistance: trackedDistance ? parseFloat(trackedDistance) : 0
       }
     } catch (error) {
       console.error('Error getting current workout data:', error)
       return {
         workoutData: null,
         sourceType: 'custom',
-        routeData: null
+        routeData: null,
+        trackedDistance: 0
       }
     }
   }
@@ -103,6 +112,9 @@ export class WorkoutStateService {
             startTime: new Date(parsed.startTime),
             elapsedTime: parsed.elapsedTime || 0,
             isActive: parsed.isActive,
+            isPaused: parsed.isPaused || false,
+            pausedElapsedTime: parsed.pausedElapsedTime || 0,
+            resumeTime: parsed.resumeTime ? new Date(parsed.resumeTime) : null,
             routeCompleted: parsed.routeCompleted || false
           }
           
@@ -150,6 +162,7 @@ export class WorkoutStateService {
       localStorage.removeItem(this.ACTIVE_SESSION_KEY)
       localStorage.removeItem(this.WORKOUT_DATA_KEY)
       localStorage.removeItem(this.ROUTE_DATA_KEY)
+      localStorage.removeItem('trackedDistance')
       
       // Also clear any draft workout data that might interfere
       localStorage.removeItem('draftGeneratedWorkout')
