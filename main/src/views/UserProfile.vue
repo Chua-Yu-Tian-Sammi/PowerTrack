@@ -1,181 +1,356 @@
 <template>
-  <div class="user-profile">
-    <!-- no profile yet -->
-    <div v-if="!userProfile && !AuthService.getCurrentUser()" class="empty-state">
-      <div class="row justify-content-center">
-        <div class="col-lg-6">
-          <div class="card shadow-sm border-0">
-            <div class="card-body text-center py-5">
-              <div class="empty-icon mb-4">
+  <div class="user-profile-apple">
+    <!-- Not authenticated -->
+    <div v-if="!userProfile && !AuthService.getCurrentUser()" class="empty-state" style="min-height: 80vh; display: flex; align-items: center; justify-content: center;">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-6">
+            <div class="apple-card text-center" style="padding: 3rem;">
+              <div style="font-size: 4rem; opacity: 0.3; margin-bottom: 1.5rem;">
                 <i class="bi bi-person-circle"></i>
-          </div>
-              <h2 class="mb-3">Welcome to PowerTrack</h2>
-              <p class="text-muted mb-4">Sign in to access your personalized fitness profile and start tracking your progress.</p>
-              <div class="d-flex gap-3 justify-content-center flex-wrap">
-                <button class="btn btn-primary btn-lg px-5" @click="showSignIn = true">
-                  <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
-                </button>
               </div>
+              <h2 style="font-size: 1.75rem; font-weight: 500; margin-bottom: 1rem;">Welcome to PowerTrack</h2>
+              <p style="color: rgba(0,0,0,0.5); margin-bottom: 2rem;">Sign in to access your personalized fitness profile and start tracking your progress.</p>
+              <button class="apple-save-btn" @click="showSignIn = true">
+                <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+              </button>
             </div>
           </div>
         </div>
-              </div>
-            </div>
+      </div>
+    </div>
 
-    <!-- authenticated but profile loading or missing -->
-    <div v-else-if="AuthService.getCurrentUser() && !userProfile" class="empty-state">
-      <div class="row justify-content-center">
-        <div class="col-lg-6">
-          <div class="card shadow-sm border-0">
-            <div class="card-body text-center py-5">
-              <div class="empty-icon mb-4">
+    <!-- Authenticated but loading -->
+    <div v-else-if="AuthService.getCurrentUser() && !userProfile" class="empty-state" style="min-height: 80vh; display: flex; align-items: center; justify-content: center;">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-6">
+            <div class="apple-card text-center" style="padding: 3rem;">
+              <div style="font-size: 4rem; opacity: 0.3; margin-bottom: 1.5rem;">
                 <i class="bi bi-person-circle"></i>
-          </div>
-              <h2 class="mb-3">Setting up your profile...</h2>
-              <p class="text-muted mb-4">Please wait while we load your profile information.</p>
-              <div class="d-flex justify-content-center">
-                <div class="spinner-border text-primary" role="status">
-                  <span class="visually-hidden">Loading...</span>
-                </div>
+              </div>
+              <h2 style="font-size: 1.75rem; font-weight: 500; margin-bottom: 1rem;">Setting up your profile...</h2>
+              <p style="color: rgba(0,0,0,0.5); margin-bottom: 2rem;">Please wait while we load your profile information.</p>
+              <div class="spinner-border" role="status" style="color: #030213;">
+                <span class="visually-hidden">Loading...</span>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-            
-    <!-- show profile -->
-            <div v-else>
-      <!-- header with avatar and sign out -->
-      <div class="profile-header mb-4">
-        <div class="card shadow-sm">
-          <div class="card-body p-4">
-            <div class="row align-items-center">
-              <div class="col-auto">
-                <div class="profile-avatar">
-                  <i class="bi bi-person-circle"></i>
+
+    <!-- Profile loaded -->
+    <div v-else>
+      <div class="profile-container">
+        <!-- Header -->
+        <Transition name="header-fade" appear>
+          <div class="apple-header">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+              <div class="d-flex align-items-center gap-3">
+                <div class="apple-avatar">
+                  <i class="bi bi-person"></i>
+                </div>
+                <div>
+                  <h1 class="apple-username mb-0">{{ profileForm.username }}</h1>
+                  <p class="apple-email mb-0">{{ profileForm.email }}</p>
                 </div>
               </div>
-              <div class="col">
-                <h2 class="mb-1 text-dark">{{ profileForm.username }}</h2>
-                <p class="text-muted mb-0">
-                  <i class="bi bi-envelope me-2"></i>{{ profileForm.email }}
-                </p>
-              </div>
-              <div class="col-auto">
-                <button type="button" class="btn btn-outline-danger" @click="signOut">
-                  <i class="bi bi-box-arrow-right me-2"></i>Sign Out
-                </button>
+              <button class="apple-signout-btn d-flex align-items-center" @click="signOut">
+                <i class="bi bi-box-arrow-right me-2"></i>
+                <span>Sign Out</span>
+              </button>
+            </div>
+          </div>
+        </Transition>
+
+        <form @submit.prevent="updateProfile">
+          <!-- Personal Information -->
+          <Transition name="section-fade" appear>
+            <div class="apple-card" style="transition-delay: 0.1s;">
+              <h3 class="apple-card-title">Personal Information</h3>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="apple-label">Username</label>
+                  <input
+                    type="text"
+                    class="apple-input"
+                    v-model="profileForm.username"
+                    placeholder="Enter your username"
+                    required
+                  />
+                </div>
+                <div class="col-md-6">
+                  <label class="apple-label">Experience Level</label>
+                  <select class="apple-select" v-model="profileForm.experienceLevel" required>
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                  </select>
+                </div>
               </div>
             </div>
+          </Transition>
+
+          <!-- Body Metrics -->
+          <Transition name="section-fade" appear>
+            <div class="apple-card" style="transition-delay: 0.15s;">
+              <h3 class="apple-card-title">Body Metrics</h3>
+              
+              <!-- Height & Weight Inputs -->
+              <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                  <label class="apple-label">Height</label>
+                  <div class="apple-input-group">
+                    <input
+                      type="number"
+                      class="apple-input"
+                      v-model="profileForm.heightCm"
+                      placeholder="160"
+                      min="100"
+                      max="250"
+                      required
+                    />
+                    <span class="apple-input-suffix">cm</span>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label class="apple-label">Weight</label>
+                  <div class="apple-input-group">
+                    <input
+                      type="number"
+                      class="apple-input"
+                      v-model="profileForm.weightKg"
+                      placeholder="45"
+                      min="30"
+                      max="300"
+                      step="0.1"
+                      required
+                    />
+                    <span class="apple-input-suffix">kg</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- BMI Display -->
+              <div class="bmi-card">
+                <div class="bmi-header-label">
+                  <i class="bi bi-heart-pulse"></i>
+                  <span>BODY MASS INDEX</span>
+                </div>
+
+                <div v-if="bmiData.value">
+                  <div class="bmi-display">
+                    <div class="bmi-value">{{ bmiData.value }}</div>
+                    <span class="bmi-badge" :class="bmiData.categoryClass">
+                      {{ bmiData.category }}
+                    </span>
+                  </div>
+
+                  <!-- BMI Range Indicator -->
+                  <div class="bmi-range">
+                    <div class="bmi-bar">
+                      <div class="bmi-bar-segment blue"></div>
+                      <div class="bmi-bar-segment green"></div>
+                      <div class="bmi-bar-segment orange"></div>
+                      <div class="bmi-bar-segment red"></div>
+                    </div>
+                    <div class="bmi-pointer-container">
+                      <div class="bmi-pointer" :style="{ left: bmiData.position + '%' }"></div>
+                    </div>
+                    <div class="bmi-labels">
+                      <span>18.5</span>
+                      <span>25</span>
+                      <span>30</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div v-else class="bmi-placeholder">
+                  <p>Enter your height and weight to calculate BMI</p>
+                </div>
+              </div>
+            </div>
+          </Transition>
+
+          <!-- Fitness Preferences -->
+          <Transition name="section-fade" appear>
+            <div class="apple-card" style="transition-delay: 0.2s;">
+              <h3 class="apple-card-title">Fitness Preferences</h3>
+              
+              <div class="mb-3">
+                <label class="apple-label">Primary Goal</label>
+                <select class="apple-select" v-model="profileForm.goal" required>
+                  <option value="general_fitness">General Fitness</option>
+                  <option value="strength">Strength</option>
+                  <option value="muscle_gain">Muscle Gain</option>
+                  <option value="weight_loss">Weight Loss</option>
+                  <option value="endurance">Endurance</option>
+                </select>
+              </div>
+
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="apple-label">Preferred Intensity</label>
+                  <select class="apple-select" v-model="profileForm.preferredIntensity" required>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label class="apple-label">Workout Duration</label>
+                  <div class="apple-input-group">
+                    <input
+                      type="number"
+                      class="apple-input"
+                      v-model="profileForm.preferredTimeMin"
+                      placeholder="45"
+                      min="10"
+                      max="180"
+                      required
+                    />
+                    <span class="apple-input-suffix">min</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Transition>
+
+          <!-- Save Button -->
+          <Transition name="section-fade" appear>
+            <div style="transition-delay: 0.3s;">
+              <button type="submit" class="apple-save-btn" :disabled="saving">
+                <span v-if="saving" class="spinner-border spinner-border-sm me-2"></span>
+                {{ saving ? 'Saving Changes...' : 'Save Changes' }}
+              </button>
+            </div>
+          </Transition>
+        </form>
+      </div>
+    </div>
+
+    <!-- Sign In Modal -->
+    <Transition name="fade">
+      <div v-if="showSignIn" class="apple-modal-backdrop" @click.self="showSignIn = false">
+        <div class="apple-modal">
+          <div class="apple-modal-header">
+            <h5 class="apple-modal-title">Sign In</h5>
+            <button class="apple-modal-close" @click="showSignIn = false">
+              <i class="bi bi-x-lg" style="font-size: 0.875rem;"></i>
+            </button>
+          </div>
+          <div class="apple-modal-body">
+            <form @submit.prevent="signIn">
+              <div class="form-group">
+                <label class="apple-label">Email</label>
+                <input
+                  type="email"
+                  class="apple-input"
+                  v-model="signInForm.email"
+                  placeholder="your@email.com"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label class="apple-label">Password</label>
+                <input
+                  type="password"
+                  class="apple-input"
+                  v-model="signInForm.password"
+                  placeholder="Enter your password"
+                  required
+                />
+              </div>
+              <button type="submit" class="apple-modal-submit" :disabled="signingIn">
+                <span v-if="signingIn" class="spinner-border spinner-border-sm me-2"></span>
+                {{ signingIn ? 'Signing In...' : 'Sign In' }}
+              </button>
+              <div class="apple-modal-footer">
+                <p>
+                  Don't have an account? 
+                  <a href="#" @click.prevent="showSignUp = true; showSignIn = false">Sign up</a>
+                </p>
+              </div>
+            </form>
           </div>
         </div>
       </div>
+    </Transition>
 
-      <div class="row g-4">
-                <!-- form on the left -->
-        <div class="col-lg-8">
-              <form @submit.prevent="updateProfile">
-                    <!-- username and experience -->
-            <div class="card shadow-sm border-0 mb-4">
-              <div class="card-header bg-white border-bottom">
-                <h5 class="mb-0">
-                  <i class="bi bi-person-badge me-2 text-primary"></i>Personal Information
-                </h5>
+    <!-- Sign Up Modal -->
+    <Transition name="fade">
+      <div v-if="showSignUp" class="apple-modal-backdrop" @click.self="showSignUp = false">
+        <div class="apple-modal">
+          <div class="apple-modal-header">
+            <h5 class="apple-modal-title">Sign Up</h5>
+            <button class="apple-modal-close" @click="showSignUp = false">
+              <i class="bi bi-x-lg" style="font-size: 0.875rem;"></i>
+            </button>
+          </div>
+          <div class="apple-modal-body">
+            <form @submit.prevent="signUp">
+              <div class="form-group">
+                <label class="apple-label">Email</label>
+                <input
+                  type="email"
+                  class="apple-input"
+                  v-model="signUpForm.email"
+                  placeholder="your@email.com"
+                  required
+                />
               </div>
-              <div class="card-body p-4">
-                <div class="row g-3">
-                  <div class="col-md-6">
-                    <label for="username" class="form-label fw-semibold">
-                      <i class="bi bi-person me-1"></i>Username
-                    </label>
-                    <input 
-                      type="text" 
-                      class="form-control form-control-lg" 
-                      id="username" 
-                      v-model="profileForm.username"
+              <div class="form-group">
+                <label class="apple-label">Password</label>
+                <input
+                  type="password"
+                  class="apple-input"
+                  v-model="signUpForm.password"
+                  placeholder="Choose a password"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label class="apple-label">Username</label>
+                <input
+                  type="text"
+                  class="apple-input"
+                  v-model="signUpForm.username"
+                  placeholder="Your name"
+                  required
+                />
+              </div>
+              <div class="row g-3">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label class="apple-label">Height (cm)</label>
+                    <input
+                      type="number"
+                      class="apple-input"
+                      v-model="signUpForm.heightCm"
+                      placeholder="175"
                       required
-                      placeholder="Enter your username"
-                    >
+                    />
                   </div>
-                  <div class="col-md-6">
-                    <label for="experienceLevel" class="form-label fw-semibold">
-                      <i class="bi bi-award me-1"></i>Experience Level
-                    </label>
-                    <select class="form-select form-select-lg" id="experienceLevel" v-model="profileForm.experienceLevel" required>
-                      <option value="beginner">Beginner</option>
-                      <option value="intermediate">Intermediate</option>
-                      <option value="advanced">Advanced</option>
-                    </select>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label class="apple-label">Weight (kg)</label>
+                    <input
+                      type="number"
+                      class="apple-input"
+                      v-model="signUpForm.weightKg"
+                      placeholder="70"
+                      required
+                    />
                   </div>
                 </div>
               </div>
-            </div>
-
-                    <!-- height and weight -->
-            <div class="card shadow-sm border-0 mb-4">
-              <div class="card-header bg-white border-bottom">
-                <h5 class="mb-0">
-                  <i class="bi bi-clipboard-data me-2 text-primary"></i>Body Metrics
-                </h5>
-              </div>
-              <div class="card-body p-4">
-                <div class="row g-3">
-                  <div class="col-md-6">
-                    <label for="heightCm" class="form-label fw-semibold">
-                      <i class="bi bi-arrows-vertical me-1"></i>Height
-                    </label>
-                    <div class="input-group input-group-lg">
-                    <input 
-                      type="number" 
-                      class="form-control" 
-                      id="heightCm" 
-                      v-model="profileForm.heightCm"
-                      min="100" 
-                      max="250" 
-                      required
-                        placeholder="175"
-                    >
-                      <span class="input-group-text">cm</span>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <label for="weightKg" class="form-label fw-semibold">
-                      <i class="bi bi-speedometer2 me-1"></i>Weight
-                    </label>
-                    <div class="input-group input-group-lg">
-                    <input 
-                      type="number" 
-                      class="form-control" 
-                      id="weightKg" 
-                      v-model="profileForm.weightKg"
-                      min="30" 
-                      max="300" 
-                      step="0.1" 
-                      required
-                        placeholder="70"
-                    >
-                      <span class="input-group-text">kg</span>
-                    </div>
-                  </div>
-                </div>
-                  </div>
-                </div>
-
-                    <!-- goals and workout prefs -->
-            <div class="card shadow-sm border-0 mb-4">
-              <div class="card-header bg-white border-bottom">
-                <h5 class="mb-0">
-                  <i class="bi bi-bullseye me-2 text-primary"></i>Fitness Preferences
-                </h5>
-              </div>
-              <div class="card-body p-4">
-                <div class="row g-3">
-                  <div class="col-md-12">
-                    <label for="goal" class="form-label fw-semibold">
-                      <i class="bi bi-trophy me-1"></i>Primary Goal
-                    </label>
-                    <select class="form-select form-select-lg" id="goal" v-model="profileForm.goal" required>
+              <div class="row g-3">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label class="apple-label">Goal</label>
+                    <select class="apple-select" v-model="signUpForm.goal" required>
                       <option value="weight_loss">Weight Loss</option>
                       <option value="muscle_gain">Muscle Gain</option>
                       <option value="endurance">Endurance</option>
@@ -183,241 +358,48 @@
                       <option value="general_fitness">General Fitness</option>
                     </select>
                   </div>
-                  <div class="col-md-6">
-                    <label for="preferredIntensity" class="form-label fw-semibold">
-                      <i class="bi bi-fire me-1"></i>Preferred Intensity
-                    </label>
-                    <select class="form-select form-select-lg" id="preferredIntensity" v-model="profileForm.preferredIntensity" required>
-                      <option value="low">Low</option>
-                      <option value="medium">Medium</option>
-                      <option value="high">High</option>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label class="apple-label">Experience</label>
+                    <select class="apple-select" v-model="signUpForm.experienceLevel" required>
+                      <option value="beginner">Beginner</option>
+                      <option value="intermediate">Intermediate</option>
+                      <option value="advanced">Advanced</option>
                     </select>
                   </div>
-                  <div class="col-md-6">
-                    <label for="preferredTimeMin" class="form-label fw-semibold">
-                      <i class="bi bi-clock me-1"></i>Workout Duration
-                    </label>
-                    <div class="input-group input-group-lg">
-                    <input 
-                      type="number" 
-                      class="form-control" 
-                      id="preferredTimeMin" 
-                      v-model="profileForm.preferredTimeMin"
-                      min="10" 
-                      max="180" 
-                      required
-                        placeholder="45"
-                    >
-                      <span class="input-group-text">min</span>
-                    </div>
-                  </div>
-                </div>
-                  </div>
-                </div>
-
-                    <!-- save changes -->
-            <div class="d-grid">
-              <button type="submit" class="btn btn-primary btn-lg" :disabled="saving">
-                    <span v-if="saving" class="spinner-border spinner-border-sm me-2"></span>
-                <i v-if="!saving" class="bi bi-check-circle me-2"></i>
-                {{ saving ? 'Saving Profile...' : 'Save Profile' }}
-                  </button>
-                </div>
-              </form>
-            </div>
-
-                <!-- sidebar with bmi and stats -->
-        <div class="col-lg-4">
-                  <!-- bmi calculator -->
-          <div class="card shadow-sm mb-4">
-            <div class="card-header" :class="getBMIClass()">
-              <h5 class="mb-0 bmi-header-text">
-                <i class="bi bi-heart-pulse me-2"></i>Body Mass Index
-              </h5>
-            </div>
-            <div class="card-body p-4 text-center">
-              <div class="bmi-display mb-3">
-                <div class="bmi-value">{{ calculateBMI() }}</div>
-                <div class="bmi-label text-muted">BMI</div>
-              </div>
-              <div class="bmi-category">
-                <span class="badge" :class="getBMICategoryBadge()">
-                  {{ getBMICategory() }}
-                </span>
-              </div>
-              <div class="bmi-info mt-3">
-                <small class="text-muted">
-                  Based on your height ({{ profileForm.heightCm }}cm) and weight ({{ profileForm.weightKg }}kg)
-                </small>
-          </div>
-        </div>
-      </div>
-      
-                  <!-- your current stats -->
-          <div class="card shadow-sm border-0 mb-4">
-            <div class="card-header bg-white border-bottom">
-              <h5 class="mb-0">
-                <i class="bi bi-graph-up me-2 text-primary"></i>Your Stats
-              </h5>
-            </div>
-            <div class="card-body p-4">
-              <div class="stat-item">
-                <div class="stat-icon">
-                  <i class="bi bi-award"></i>
-                </div>
-                <div class="stat-content">
-                  <div class="stat-label">Experience</div>
-                  <div class="stat-value">{{ formatText(userProfile.experienceLevel) }}</div>
-          </div>
-              </div>
-              
-              <div class="stat-item">
-                <div class="stat-icon">
-                  <i class="bi bi-trophy"></i>
-                </div>
-                <div class="stat-content">
-                  <div class="stat-label">Fitness Goal</div>
-                  <div class="stat-value">{{ formatGoal(userProfile.goal) }}</div>
                 </div>
               </div>
-              
-              <div class="stat-item">
-                <div class="stat-icon">
-                  <i class="bi bi-clock-history"></i>
-                </div>
-                <div class="stat-content">
-                  <div class="stat-label">Workout Time</div>
-                  <div class="stat-value">{{ userProfile.preferredTimeMin }} min</div>
-                </div>
-              </div>
-              
-              <div class="stat-item mb-0">
-                <div class="stat-icon">
-                  <i class="bi bi-fire"></i>
-                </div>
-                <div class="stat-content">
-                  <div class="stat-label">Intensity Level</div>
-                  <div class="stat-value">{{ formatText(userProfile.preferredIntensity) }}</div>
-              </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- login popup -->
-    <div v-if="showSignIn" class="modal show d-block" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Sign In</h5>
-            <button type="button" class="btn-close" @click="showSignIn = false"></button>
-          </div>
-          <div class="modal-body">
-            <form @submit.prevent="signIn">
-              <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" v-model="signInForm.email" required>
-              </div>
-              <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" v-model="signInForm.password" required>
-              </div>
-              <button type="submit" class="btn btn-primary w-100" :disabled="signingIn">
-                <span v-if="signingIn" class="spinner-border spinner-border-sm me-2"></span>
-                {{ signingIn ? 'Signing In...' : 'Sign In' }}
-              </button>
-            </form>
-            <div class="text-center mt-3">
-              <p class="text-muted">Don't have an account? 
-                <a href="#" @click="showSignUp = true; showSignIn = false">Sign up</a>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- signup popup -->
-    <div v-if="showSignUp" class="modal show d-block" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Sign Up</h5>
-            <button type="button" class="btn-close" @click="showSignUp = false"></button>
-          </div>
-          <div class="modal-body">
-            <form @submit.prevent="signUp">
-              <div class="mb-3">
-                <label for="signupEmail" class="form-label">Email</label>
-                <input type="email" class="form-control" id="signupEmail" v-model="signUpForm.email" required>
-              </div>
-              <div class="mb-3">
-                <label for="signupPassword" class="form-label">Password</label>
-                <input type="password" class="form-control" id="signupPassword" v-model="signUpForm.password" required>
-              </div>
-              <div class="mb-3">
-                <label for="signupUsername" class="form-label">Username</label>
-                <input type="text" class="form-control" id="signupUsername" v-model="signUpForm.username" required>
-              </div>
-              <div class="row mb-3">
-                <div class="col-md-6">
-                  <label for="signupHeight" class="form-label">Height (cm)</label>
-                  <input type="number" class="form-control" id="signupHeight" v-model="signUpForm.heightCm" required>
-                </div>
-                <div class="col-md-6">
-                  <label for="signupWeight" class="form-label">Weight (kg)</label>
-                  <input type="number" class="form-control" id="signupWeight" v-model="signUpForm.weightKg" required>
-                </div>
-              </div>
-              <div class="row mb-3">
-                <div class="col-md-6">
-                  <label for="signupGoal" class="form-label">Fitness Goal</label>
-                  <select class="form-select" id="signupGoal" v-model="signUpForm.goal" required>
-                    <option value="weight_loss">Weight Loss</option>
-                    <option value="muscle_gain">Muscle Gain</option>
-                    <option value="endurance">Endurance</option>
-                    <option value="strength">Strength</option>
-                    <option value="general_fitness">General Fitness</option>
-                  </select>
-                </div>
-                <div class="col-md-6">
-                  <label for="signupExperience" class="form-label">Experience Level</label>
-                  <select class="form-select" id="signupExperience" v-model="signUpForm.experienceLevel" required>
-                    <option value="beginner">Beginner</option>
-                    <option value="intermediate">Intermediate</option>
-                    <option value="advanced">Advanced</option>
-                  </select>
-                </div>
-              </div>
-              <button type="submit" class="btn btn-primary w-100" :disabled="signingUp">
+              <button type="submit" class="apple-modal-submit" :disabled="signingUp">
                 <span v-if="signingUp" class="spinner-border spinner-border-sm me-2"></span>
                 {{ signingUp ? 'Creating Account...' : 'Sign Up' }}
               </button>
+              <div class="apple-modal-footer">
+                <p>
+                  Already have an account? 
+                  <a href="#" @click.prevent="showSignIn = true; showSignUp = false">Sign in</a>
+                </p>
+              </div>
             </form>
-            <div class="text-center mt-3">
-              <p class="text-muted">Already have an account? 
-                <a href="#" @click="showSignIn = true; showSignUp = false">Sign in</a>
-              </p>
-            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
+    </Transition>
 
-  <!-- Toast Notification -->
-  <div v-if="notification.show" class="notification-container">
-    <div class="notification" :class="`notification-${notification.type}`">
-      <i class="bi" :class="notification.type === 'success' ? 'bi-check-circle' : 'bi-exclamation-triangle'"></i>
-      <span>{{ notification.message }}</span>
-    </div>
+    <!-- Toast Notification -->
+    <Transition name="fade">
+      <div v-if="notification.show" class="notification-container">
+        <div class="notification" :class="`notification-${notification.type}`">
+          <i class="bi" :class="notification.type === 'success' ? 'bi-check-circle' : 'bi-exclamation-triangle'"></i>
+          <span>{{ notification.message }}</span>
+        </div>
+      </div>
+    </Transition>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted} from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import { AuthService } from '../services/authService.js'
 import { WorkoutService } from '../services/workoutService.js'
 
@@ -463,10 +445,52 @@ const signUpForm = ref({
   preferredTimeMin: 45
 })
 
+// BMI Calculation
+const bmiData = computed(() => {
+  const h = parseFloat(profileForm.value.heightCm)
+  const w = parseFloat(profileForm.value.weightKg)
+  
+  if (!h || !w || h <= 0 || w <= 0) {
+    return { value: null, category: '', categoryClass: '', position: 0 }
+  }
+  
+  const heightInMeters = h / 100
+  const bmi = w / (heightInMeters * heightInMeters)
+  const bmiValue = bmi.toFixed(1)
+  
+  let category = ''
+  let categoryClass = ''
+  let position = 0
+  
+  if (bmi < 18.5) {
+    category = 'Underweight'
+    categoryClass = 'underweight'
+    position = (bmi / 18.5) * 25 // 0-25% range
+  } else if (bmi < 25) {
+    category = 'Normal'
+    categoryClass = 'normal'
+    position = 25 + ((bmi - 18.5) / (25 - 18.5)) * 25 // 25-50% range
+  } else if (bmi < 30) {
+    category = 'Overweight'
+    categoryClass = 'overweight'
+    position = 50 + ((bmi - 25) / (30 - 25)) * 25 // 50-75% range
+  } else {
+    category = 'Obese'
+    categoryClass = 'obese'
+    position = Math.min(75 + ((bmi - 30) / 10) * 25, 100) // 75-100% range
+  }
+  
+  return {
+    value: bmiValue,
+    category,
+    categoryClass,
+    position
+  }
+})
+
 onMounted(async () => {
   AuthService.onAuthStateChanged(async (user) => {
     if (user) {
-      // Add a small delay to ensure profile is created in Firestore
       await new Promise(resolve => setTimeout(resolve, 500))
       await loadUserProfile()
     } else {
@@ -509,7 +533,6 @@ const loadUserProfile = async () => {
     if (userProfile.value) {
       profileForm.value = { ...userProfile.value }
     } else {
-      // User is authenticated but has no profile - create one automatically
       await createProfileForCurrentUser()
     }
   } catch (error) {
@@ -523,10 +546,10 @@ const updateProfile = async () => {
   try {
     await AuthService.updateProfile(profileForm.value)
     await loadUserProfile()
-    showNotification('Profile Saved!', 'success')
+    showNotification('Profile saved successfully!', 'success')
   } catch (error) {
     console.error('Error updating profile:', error)
-    showNotification('Error in saving profile, try again.', 'error')
+    showNotification('Error saving profile. Please try again.', 'error')
   } finally {
     saving.value = false
   }
@@ -542,18 +565,18 @@ const signIn = async () => {
     await loadUserProfile()
     showSignIn.value = false
     signInForm.value = { email: '', password: '' }
+    showNotification('Welcome back!', 'success')
   } catch (error) {
     console.error('Error signing in:', error)
     
-    // Handle specific Firebase auth errors
     if (error.code === 'auth/user-not-found') {
-      showNotification('No account found with this email. Please check your email or sign up.', 'error')
+      showNotification('No account found with this email.', 'error')
     } else if (error.code === 'auth/wrong-password') {
-      showNotification('Incorrect password. Please try again.', 'error')
+      showNotification('Incorrect password.', 'error')
     } else if (error.code === 'auth/invalid-email') {
-      showNotification('Invalid email address. Please check your email format.', 'error')
+      showNotification('Invalid email address.', 'error')
     } else if (error.code === 'auth/too-many-requests') {
-      showNotification('Too many failed attempts. Please try again later.', 'error')
+      showNotification('Too many attempts. Try again later.', 'error')
     } else {
       showNotification('Error signing in. Please try again.', 'error')
     }
@@ -577,13 +600,10 @@ const signUp = async () => {
     
     await AuthService.signUp(signUpForm.value.email, signUpForm.value.password, userData)
     
-    
     await new Promise(resolve => setTimeout(resolve, 1500))
-    
     
     await loadUserProfile()
     
-    // Only hide signup form if profile loaded successfully
     if (userProfile.value) {
       showSignUp.value = false
       signUpForm.value = {
@@ -597,19 +617,19 @@ const signUp = async () => {
         preferredIntensity: 'medium',
         preferredTimeMin: 45
       }
+      showNotification('Account created successfully!', 'success')
     }
   } catch (error) {
     console.error('Error signing up:', error)
     
-    // Handle specific Firebase auth errors
     if (error.code === 'auth/email-already-in-use') {
-      showNotification('Email is already in use. Please try a different email or sign in.', 'error')
+      showNotification('Email already in use.', 'error')
     } else if (error.code === 'auth/weak-password') {
-      showNotification('Password is too weak. Please choose a stronger password.', 'error')
+      showNotification('Password is too weak.', 'error')
     } else if (error.code === 'auth/invalid-email') {
-      showNotification('Invalid email address. Please check your email format.', 'error')
+      showNotification('Invalid email address.', 'error')
     } else {
-      showNotification('Error creating account. Please try again.', 'error')
+      showNotification('Error creating account.', 'error')
     }
   } finally {
     signingUp.value = false
@@ -630,48 +650,11 @@ const signOut = async () => {
       preferredIntensity: 'medium',
       preferredTimeMin: 45
     }
+    showNotification('Signed out successfully.', 'success')
   } catch (error) {
     console.error('Error signing out:', error)
+    showNotification('Error signing out.', 'error')
   }
-}
-
-const calculateBMI = () => {
-  if (!userProfile.value) return 0
-  const heightM = userProfile.value.heightCm / 100
-  const bmi = userProfile.value.weightKg / (heightM * heightM)
-  return Math.round(bmi * 10) / 10
-}
-
-const formatGoal = (goal) => {
-  return goal.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())
-}
-
-const formatText = (text) => {
-  return text.charAt(0).toUpperCase() + text.slice(1)
-}
-
-const getBMICategory = () => {
-  const bmi = calculateBMI()
-  if (bmi < 18.5) return 'Underweight'
-  if (bmi < 25) return 'Normal Weight'
-  if (bmi < 30) return 'Overweight'
-  return 'Obese'
-}
-
-const getBMIClass = () => {
-  const bmi = calculateBMI()
-  if (bmi < 18.5) return 'bg-info'
-  if (bmi < 25) return 'bg-success'
-  if (bmi < 30) return 'bg-warning'
-  return 'bg-danger'
-}
-
-const getBMICategoryBadge = () => {
-  const bmi = calculateBMI()
-  if (bmi < 18.5) return 'bg-info'
-  if (bmi < 25) return 'bg-success'
-  if (bmi < 30) return 'bg-warning'
-  return 'bg-danger'
 }
 
 const createProfileForCurrentUser = async () => {
@@ -700,3 +683,14 @@ const createProfileForCurrentUser = async () => {
   }
 }
 </script>
+
+<style scoped>
+/* Fade transition for modals and notifications */
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+</style>

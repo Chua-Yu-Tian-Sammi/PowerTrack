@@ -719,6 +719,545 @@
   }
 }
 
+/* Apple-Inspired Profile Redesign */
+.user-profile-apple {
+  min-height: 100vh;
+  background: #fbfbfd;
+  padding-top: 2rem;
+  padding-bottom: 5rem;
+}
+
+.user-profile-apple .profile-container {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Header Animation */
+.header-fade-enter-active {
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.header-fade-enter-from {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.header-fade-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Section Animations with Delays */
+.section-fade-enter-active {
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.section-fade-enter-from {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.section-fade-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Compact Header */
+.user-profile-apple .apple-header {
+  margin-bottom: 3rem;
+}
+
+.user-profile-apple .apple-avatar {
+  width: 3.5rem;
+  height: 3.5rem;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-profile-apple .apple-avatar i {
+  font-size: 1.5rem;
+  opacity: 0.5;
+}
+
+.user-profile-apple .apple-username {
+  font-size: 1.75rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: #030213;
+}
+
+.user-profile-apple .apple-email {
+  font-size: 0.875rem;
+  opacity: 0.5;
+  margin-top: 0.125rem;
+}
+
+.user-profile-apple .apple-signout-btn {
+  height: 2.25rem;
+  padding: 0 1rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: transparent;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.user-profile-apple .apple-signout-btn:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+/* Apple Cards */
+.user-profile-apple .apple-card {
+  background: #ffffff;
+  border-radius: 1.5rem;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.user-profile-apple .apple-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.user-profile-apple .apple-card-title {
+  font-size: 1.1875rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
+  color: #030213;
+}
+
+/* Form Elements */
+.user-profile-apple .apple-label {
+  display: block;
+  font-size: 0.8125rem;
+  opacity: 0.6;
+  margin-bottom: 0.5rem;
+  font-weight: 400;
+}
+
+.user-profile-apple .apple-input,
+.user-profile-apple .apple-select {
+  background: #f3f3f5;
+  border: 1px solid transparent;
+  border-radius: 0.75rem;
+  height: 3rem;
+  padding: 0 1rem;
+  font-size: 0.9375rem;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.user-profile-apple .apple-select {
+  padding-right: 2rem;
+}
+
+.user-profile-apple .apple-input[type="number"] {
+  padding-right: 3rem;
+}
+
+.user-profile-apple .apple-input-group .apple-input[type="number"] {
+  padding-right: 2.2rem;
+}
+
+.user-profile-apple .apple-input:focus,
+.user-profile-apple .apple-select:focus {
+  outline: none;
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.02);
+  background: #f3f3f5;
+}
+
+.user-profile-apple .apple-input-group {
+  position: relative;
+}
+
+.user-profile-apple .apple-input-suffix {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.8125rem;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* BMI Section */
+.user-profile-apple .bmi-card {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.04) 100%);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  margin-top: 2rem;
+}
+
+.user-profile-apple .bmi-header-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  opacity: 0.6;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+
+.user-profile-apple .bmi-header-label i {
+  opacity: 0.5;
+  font-size: 1rem;
+}
+
+.user-profile-apple .bmi-display {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.user-profile-apple .bmi-value {
+  font-size: 3.5rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: #030213;
+}
+
+.user-profile-apple .bmi-badge {
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: none;
+  margin-top: 0.25rem;
+}
+
+.user-profile-apple .bmi-badge.underweight {
+  background: rgba(59, 130, 246, 0.1);
+  color: rgb(37, 99, 235);
+}
+
+.user-profile-apple .bmi-badge.normal {
+  background: rgba(34, 197, 94, 0.1);
+  color: rgb(22, 163, 74);
+}
+
+.user-profile-apple .bmi-badge.overweight {
+  background: rgba(249, 115, 22, 0.1);
+  color: rgb(234, 88, 12);
+}
+
+.user-profile-apple .bmi-badge.obese {
+  background: rgba(239, 68, 68, 0.1);
+  color: rgb(220, 38, 38);
+}
+
+/* BMI Range Indicator */
+.user-profile-apple .bmi-range {
+  margin-top: 1.5rem;
+}
+
+.user-profile-apple .bmi-bar {
+  height: 0.375rem;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 9999px;
+  overflow: hidden;
+  display: flex;
+}
+
+.user-profile-apple .bmi-bar-segment {
+  flex: 1;
+}
+
+.user-profile-apple .bmi-bar-segment.blue {
+  background: rgba(59, 130, 246, 0.3);
+}
+
+.user-profile-apple .bmi-bar-segment.green {
+  background: rgba(34, 197, 94, 0.3);
+}
+
+.user-profile-apple .bmi-bar-segment.orange {
+  background: rgba(249, 115, 22, 0.3);
+}
+
+.user-profile-apple .bmi-bar-segment.red {
+  background: rgba(239, 68, 68, 0.3);
+}
+
+.user-profile-apple .bmi-pointer-container {
+  position: relative;
+  height: 0.5rem;
+}
+
+.user-profile-apple .bmi-pointer {
+  position: absolute;
+  top: 0;
+  width: 0.125rem;
+  height: 0.5rem;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 9999px;
+  transform: translateX(-50%);
+  transition: left 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.user-profile-apple .bmi-labels {
+  position: relative;
+  margin-top: 0.25rem;
+  height: 1rem;
+}
+
+.user-profile-apple .bmi-labels span {
+  position: absolute;
+  font-size: 0.6875rem;
+  opacity: 0.4;
+  transform: translateX(-50%);
+}
+
+.user-profile-apple .bmi-labels span:nth-child(1) {
+  left: 25%;
+}
+
+.user-profile-apple .bmi-labels span:nth-child(2) {
+  left: 50%;
+}
+
+.user-profile-apple .bmi-labels span:nth-child(3) {
+  left: 75%;
+}
+
+.user-profile-apple .bmi-placeholder {
+  padding: 1.5rem 0;
+  text-align: center;
+}
+
+.user-profile-apple .bmi-placeholder p {
+  font-size: 0.875rem;
+  opacity: 0.3;
+}
+
+/* Save Button */
+.user-profile-apple .apple-save-btn {
+  width: 100%;
+  height: 3rem;
+  border-radius: 9999px;
+  background: #030213;
+  color: #ffffff;
+  border: none;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.user-profile-apple .apple-save-btn:hover {
+  background: #000000;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.user-profile-apple .apple-save-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Apple Modals */
+.user-profile-apple .apple-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 1050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.user-profile-apple .apple-modal {
+  background: #ffffff;
+  border-radius: 1.5rem;
+  max-width: 440px;
+  width: 100%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.user-profile-apple .apple-modal-header {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.user-profile-apple .apple-modal-title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: #030213;
+}
+
+.user-profile-apple .apple-modal-close {
+  background: rgba(0, 0, 0, 0.05);
+  border: none;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+  padding: 0;
+}
+
+.user-profile-apple .apple-modal-close:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.user-profile-apple .apple-modal-body {
+  padding: 2rem;
+}
+
+.user-profile-apple .apple-modal .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.user-profile-apple .apple-modal .form-group:last-of-type {
+  margin-bottom: 2rem;
+}
+
+.user-profile-apple .apple-modal-submit {
+  width: 100%;
+  height: 3rem;
+  border-radius: 0.75rem;
+  background: #030213;
+  color: #ffffff;
+  border: none;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.user-profile-apple .apple-modal-submit:hover:not(:disabled) {
+  background: #000000;
+  transform: translateY(-1px);
+}
+
+.user-profile-apple .apple-modal-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.user-profile-apple .apple-modal-footer {
+  text-align: center;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.user-profile-apple .apple-modal-footer p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.user-profile-apple .apple-modal-footer a {
+  color: #030213;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.user-profile-apple .apple-modal-footer a:hover {
+  opacity: 0.7;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .user-profile-apple {
+    padding-top: 1.5rem;
+  }
+
+  .user-profile-apple .profile-container {
+    padding: 0 1rem;
+  }
+
+  .user-profile-apple .apple-card {
+    padding: 1.5rem;
+  }
+
+  .user-profile-apple .apple-header {
+    margin-bottom: 2rem;
+  }
+
+  .user-profile-apple .apple-avatar {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .user-profile-apple .apple-avatar i {
+    font-size: 1.25rem;
+  }
+
+  .user-profile-apple .apple-signout-btn {
+    font-size: 0.75rem;
+    padding: 0 0.75rem;
+    height: 2rem;
+  }
+
+  .user-profile-apple .apple-signout-btn span {
+    display: none;
+  }
+
+  .user-profile-apple .bmi-value {
+    font-size: 2.5rem;
+  }
+  
+  .user-profile-apple .apple-username {
+    font-size: 1.5rem;
+  }
+
+  .user-profile-apple .bmi-badge {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.75rem;
+  }
+
+  .user-profile-apple .bmi-display {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-profile-apple .apple-signout-btn i {
+    margin-right: 0 !important;
+  }
+}
+
 /* workout tracking */
 .exercise-item .card:hover {
   transform: translateY(-2px);
