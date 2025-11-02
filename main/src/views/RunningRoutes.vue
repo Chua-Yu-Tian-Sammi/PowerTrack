@@ -1,56 +1,44 @@
 <template>
-  <div class="running-routes">
-    <div class="container-fluid">
-      <!-- Header -->
-      <div class="row mb-4">
-        <div class="col-12">
-          <div class="card shadow-sm border-0">
-            <div class="card-body p-2 p-md-3">
-              <div class="row align-items-center">
-                <div class="col-12 col-md-8">
-                  <h2 class="mb-2 mb-md-1 text-dark text-break">
-                    <i class="bi bi-geo-alt me-2 text-primary"></i>Running Routes
-                  </h2>
-                  <p class="text-muted mb-0 text-break">Find the perfect running route based on your distance and location</p>
-                </div>
-              </div>
-            </div>
-          </div>
+  <div class="running-routes-apple">
+    <div class="routes-container">
+      <!-- Page Header -->
+      <Transition name="header-fade">
+        <div class="page-header">
+          <h1 class="page-title">Running Routes</h1>
+          <p class="page-subtitle">Find the perfect running route based on your distance and location</p>
         </div>
-      </div>
+      </Transition>
 
-      <!-- Form -->
-      <div class="row mb-4">
-        <div class="col-12">
-          <div class="card shadow-sm border-0">
-            <div class="card-header bg-white border-bottom">
-              <h5 class="mb-0 text-truncate">
-                <i class="bi bi-gear me-2 text-primary"></i>Route Preferences
-              </h5>
-            </div>
-            <div class="card-body p-3 p-md-4">
+      <!-- Route Preferences -->
+      <Transition name="section-fade" style="--transition-delay: 0.1s">
+        <div class="preferences-card">
+          <h2 class="preferences-title">Route Preferences</h2>
+          
               <form @submit.prevent="findRoutes">
-                <div class="row g-3 mb-4">
-                  <div class="col-12 col-sm-6 col-lg-4">
-                    <label for="postalCode" class="form-label fw-semibold text-truncate">
-                      <i class="bi bi-geo-alt me-1"></i>Postal Code
+            <div class="preferences-grid">
+              <!-- Postal Code -->
+              <div class="preference-group">
+                <label for="postalCode" class="preference-label">
+                  Postal Code
                     </label>
                     <input 
                       type="text" 
-                      class="form-control" 
+                  class="preference-input" 
                       id="postalCode"
-                      placeholder="Enter your postal code"
+                  placeholder="120462"
                       v-model="searchForm.postalCode"
                       @keyup.enter="findRoutes"
                       required
                     >
-                    <div class="form-text">We'll find routes starting from this location</div>
+                <p class="preference-helper">We'll find routes starting from this location</p>
                   </div>
-                  <div class="col-12 col-sm-6 col-lg-4">
-                    <label for="distance" class="form-label fw-semibold text-truncate">
-                      <i class="bi bi-signpost-split"></i> Distance
+
+              <!-- Distance -->
+              <div class="preference-group">
+                <label for="distance" class="preference-label">
+                  Distance
                     </label>
-                    <select class="form-select" id="distance" v-model="searchForm.distance">
+                <select class="preference-select" id="distance" v-model="searchForm.distance">
                       <option value="1">1 km</option>
                       <option value="2">2 km</option>
                       <option value="3">3 km</option>
@@ -60,11 +48,13 @@
                       <option value="20">20 km</option>
                     </select>
                   </div>
-                  <div class="col-12 col-sm-6 col-lg-4">
-                    <label for="routeType" class="form-label fw-semibold text-truncate">
-                      <i class="bi bi-diagram-3 me-1"></i>Route Type
+
+              <!-- Route Type -->
+              <div class="preference-group">
+                <label for="routeType" class="preference-label">
+                  Route Type
                     </label>
-                    <select class="form-select" id="routeType" v-model="searchForm.routeType">
+                <select class="preference-select" id="routeType" v-model="searchForm.routeType">
                       <option value="all">All</option>
                       <option value="loop">Loop</option>
                       <option value="point-to-point">Point to Point</option>
@@ -72,144 +62,169 @@
                   </div>
                 </div>
                 
-                <div class="d-flex justify-content-start">
                   <button 
-                    class="btn btn-primary btn-lg" 
+              class="search-button" 
                     type="submit"
                     :disabled="loading || !searchForm.postalCode"
                   >
-                    <i class="bi bi-search me-2"></i>
-                    {{ loading ? 'Finding Routes...' : 'Find Running Routes' }}
+              <i class="bi bi-search"></i>
+              {{ loading ? 'Searching...' : 'Find Running Routes' }}
                   </button>
-                </div>
               </form>
             </div>
-          </div>
-        </div>
+      </Transition>
+
+      <!-- Route Results -->
+      <Transition name="section-fade" style="--transition-delay: 0.2s">
+        <div v-if="routes.length > 0 || searchPerformed || loading">
+          <div class="results-header">
+            <h2 class="results-title">Route Results</h2>
+            <p v-if="routes.length > 0" class="results-subtitle">Found {{ routes.length }} Route{{ routes.length !== 1 ? 's' : '' }}</p>
       </div>
 
-      <!-- Results -->
-      <div class="row">
-        <div class="col-12">
-          <div class="card shadow-sm border-0">
-            <div class="card-header bg-white border-bottom">
-              <h5 class="mb-0 text-truncate">
-                <i class="bi bi-list-ul me-2 text-primary"></i>Route Results
-              </h5>
-            </div>
-            <div class="card-body p-3 p-md-4">
               <!-- Loading State -->
-              <div v-if="loading" class="text-center py-5">
-                <div class="spinner-border text-primary" role="status">
-                  <span class="visually-hidden">Loading...</span>
-                </div>
-                <p class="mt-3 mb-0">Finding the best running routes for you...</p>
+          <div v-if="loading" class="loading-state">
+            <div class="spinner-border" role="status"></div>
+            <p>Finding the best running routes for you...</p>
               </div>
 
               <!-- Error State -->
-              <div v-else-if="error" class="alert alert-danger" role="alert">
-                <i class="bi bi-exclamation-triangle me-2"></i>
-                {{ error }}
+          <div v-else-if="error" class="error-state">
+            <i class="bi bi-exclamation-triangle"></i>
+            <span>{{ error }}</span>
               </div>
 
-              <!-- Routes Results -->
-              <div v-else-if="routes.length > 0" class="row g-4">
-                <div class="col-12">
-                  <h6 class="text-muted mb-3">Found {{ routes.length }} Route{{ routes.length !== 1 ? 's' : '' }}</h6>
+          <!-- Routes Grid -->
+          <div v-else-if="routes.length > 0" class="routes-grid">
+            <TransitionGroup name="route-card">
+              <div 
+                v-for="(route, index) in routes" 
+                :key="index" 
+                class="route-card"
+                :style="{ '--transition-delay': (0.1 * (index + 2)) + 's' }"
+              >
+                <!-- Map Preview -->
+                <div class="route-map-preview">
+                  <!-- Loading Placeholder (shown when map not loaded) -->
+                  <div v-if="!getMapLoadedState(index)" class="map-placeholder" style="z-index: 1;">
+                    <div class="spinner-border spinner-border-sm" role="status" style="width: 1.5rem; height: 1.5rem; border-width: 2px; color: rgba(0, 0, 0, 0.3); margin-bottom: 0.5rem;">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p style="font-size: 0.8125rem; opacity: 0.5; color: #030213; margin: 0;">Loading map...</p>
                 </div>
                 
-                <div v-for="(route, index) in routes" :key="index" class="col-lg-6">
-                  <div class="card border-0 bg-light h-100">
-                    <div class="card-body p-3">
-                      <div class="d-flex justify-content-between align-items-start mb-3">
-                        <h6 class="card-title mb-0 fw-bold">Route {{ index + 1 }}</h6>
-                        <div class="d-flex gap-2">
-                          <span class="badge bg-primary">{{ route.distance }} km</span>
-                          <span class="badge" :class="getRouteTypeBadgeClass(route.routeType)">
-                            {{ getRouteTypeLabel(route.routeType) }}
-                          </span>
-                        </div>
+                  <!-- Google Maps Container (shown when loaded) -->
+                  <div 
+                    :id="`map-preview-${index}`" 
+                    class="map-container"
+                    v-show="getMapLoadedState(index)"
+                  ></div>
                       </div>
                       
-                      <div class="mb-3">
-                        <div class="row g-2">
-                          <div class="col-6">
-                            <div class="d-flex align-items-center text-muted">
-                              <i class="bi bi-geo-alt me-2"></i>
-                              <small class="text-truncate">{{ route.startLocation }}</small>
+                <!-- Route Content -->
+                <div class="route-content">
+                  <!-- Route Name -->
+                  <h3 class="route-name">{{ getRouteName(route, index) }}</h3>
+
+                  <!-- Badges -->
+                  <div class="route-badges">
+                    <span class="route-badge distance">{{ formatDistance(route.distance || 0) }}</span>
+                    <span class="route-badge type" :class="(route.routeType || 'loop').replace('_', '-')">{{ getRouteTypeLabel(route.routeType || 'loop') }}</span>
+                    <span class="route-badge elevation">
+                      <i class="bi bi-graph-up-arrow"></i>
+                      <span>{{ getRouteElevation(route) }}</span>
+                    </span>
+                      </div>
+
+                  <!-- Meta Info -->
+                  <div class="route-meta">
+                    <div class="route-meta-item">
+                      <i class="bi bi-geo-alt"></i>
+                      <span>{{ route.startLocation }}</span>
                             </div>
-                          </div>
-                          <div class="col-6">
-                            <div class="d-flex align-items-center text-muted">
-                              <i class="bi bi-clock me-2"></i>
-                              <small>{{ calculateTiming(route.distance) }}</small>
-                            </div>
-                          </div>
+                    <div class="route-meta-item">
+                      <i class="bi bi-clock"></i>
+                      <span>{{ calculateTiming(route.distance) }}</span>
                         </div>
                       </div>
 
-                      <!-- Map Preview -->
-                      <div class="mb-3">
-                        <div class="map-preview" :id="`map-preview-${index}`" style="height: 150px; width: 100%; border-radius: 8px; background-color: #f8f9fa; border: 1px solid #dee2e6;">
-                          <div class="d-flex align-items-center justify-content-center h-100 text-muted">
-                            <div class="text-center">
-                              <i class="bi bi-map display-6"></i>
-                              <p class="mt-2 mb-0 small">Map Preview</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="d-flex gap-2">
-                        <button class="btn btn-outline-primary btn-sm" @click="viewOnMap(route)">
-                          <i class="bi bi-map me-1"></i>Full View
+                  <!-- Action Buttons -->
+                  <div class="route-actions">
+                    <button 
+                      class="route-action-btn outline"
+                      @click="viewOnMap(route)"
+                    >
+                      <i class="bi bi-arrows-fullscreen"></i>
+                      Full View
                         </button>
-                        <button class="btn btn-outline-success btn-sm" @click="startRoute(route)">
-                          <i class="bi bi-play-fill me-1"></i>Start Route
+                    <button 
+                      class="route-action-btn primary"
+                      @click="startRoute(route)"
+                    >
+                      <i class="bi bi-play-fill"></i>
+                      Start Route
                         </button>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
+            </TransitionGroup>
+              </div>
 
               <!-- No Results -->
-              <div v-else-if="!loading && searchPerformed" class="text-center py-5">
-                <i class="bi bi-geo-alt display-1 text-muted"></i>
-                <h4 class="mt-3">No routes found</h4>
-                <p class="text-muted">Try adjusting your distance or postal code</p>
-              </div>
+          <div v-else-if="!loading && searchPerformed" class="empty-state">
+            <i class="bi bi-geo-alt"></i>
+            <h4>No routes found</h4>
+            <p>Try adjusting your distance or postal code</p>
+          </div>
+        </div>
+      </Transition>
 
-              <!-- Initial State -->
-              <div v-else class="text-center py-5">
-                <i class="bi bi-geo-alt display-1 text-muted"></i>
-                <h4 class="mt-3">Ready to find your perfect route?</h4>
-                <p class="text-muted">Enter your postal code and desired distance to get started</p>
-              </div>
+      <!-- Initial State -->
+      <Transition name="section-fade" style="--transition-delay: 0.2s">
+        <div v-if="!loading && !searchPerformed && routes.length === 0" class="empty-state">
+          <i class="bi bi-geo-alt"></i>
+          <h4>Ready to find your perfect route?</h4>
+          <p>Enter your postal code and desired distance to get started</p>
+      </div>
+      </Transition>
+    </div>
+
+    <!-- Google Maps Modal (Apple-styled) -->
+    <Transition name="fade">
+      <div v-if="selectedRoute" class="user-profile-apple">
+        <div class="apple-modal-backdrop" @click.self="closeMapModal">
+          <div class="apple-modal" style="max-width: 90vw; width: 1200px;">
+            <div class="apple-modal-header">
+              <h5 class="apple-modal-title">Route Map</h5>
+              <button class="apple-modal-close" @click="closeMapModal">
+                <i class="bi bi-x-lg" style="font-size: 0.875rem;"></i>
+              </button>
             </div>
+            <div class="apple-modal-body" style="padding: 0;">
+              <div id="map" style="height: 500px; width: 100%; border-radius: 0 0 1rem 1rem; overflow: hidden;"></div>
+          </div>
+            <div class="apple-modal-footer" style="display: flex; gap: 0.75rem; padding: 1rem 1.5rem;">
+              <button 
+                type="button" 
+                class="apple-input" 
+                style="flex: 1; height: 3rem; border: 1px solid rgba(0,0,0,0.1); cursor: pointer; font-weight: 500;"
+                @click="closeMapModal"
+              >
+                Close
+              </button>
+              <button 
+                type="button" 
+                class="apple-input"
+                style="flex: 1; height: 3rem; background: #030213; color: white; cursor: pointer; font-weight: 500; border: none;"
+                @click="startRouteFromModal"
+              >
+                Start This Route
+              </button>
+          </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- Google Maps Modal -->
-    <div v-if="selectedRoute" class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="mapModalLabel">Route Map</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body p-0">
-            <div id="map" style="height: 500px; width: 100%;"></div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" @click="startRoute(selectedRoute)">Start This Route</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    </Transition>
 
     <!-- Active Workout Confirmation Modal -->
     <ActiveWorkoutModal 
@@ -222,7 +237,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, watch } from 'vue'
+import { ref, reactive, onMounted, watch, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { mapsService } from '../services/mapsService.js'
 import { WorkoutStateService } from '../services/workoutStateService.js'
@@ -281,6 +296,43 @@ const calculateTiming = (distance) => {
   } else {
     return `${minutes} minutes`
   }
+}
+
+const formatDistance = (distance) => {
+  // Format distance with space between number and unit
+  if (distance === null || distance === undefined) return '0 km'
+  const numDistance = typeof distance === 'number' ? distance : parseFloat(distance)
+  if (isNaN(numDistance)) return '0 km'
+  return `${numDistance.toFixed(1)} km`
+}
+
+const getRouteName = (route, index) => {
+  // Simple naming: Route 1, Route 2, etc.
+  return `Route ${index + 1}`
+}
+
+const getRouteElevation = (route) => {
+  // Calculate or get elevation from route data
+  if (route.elevation) {
+    return `${route.elevation}m`
+  }
+  
+  // Estimate elevation based on distance and route type
+  // Simple estimation: longer routes typically have more elevation
+  const baseElevation = Math.round((route.distance || 5) * 2.4)
+  const variation = Math.floor(Math.random() * 20) - 10 // Add some variation
+  const elevation = Math.max(5, baseElevation + variation)
+  return `${elevation}m`
+}
+
+const mapLoadedStates = ref({})
+
+const getMapLoadedState = (index) => {
+  return mapLoadedStates.value[`map-${index}`] === true
+}
+
+const markMapAsLoaded = (index) => {
+  mapLoadedStates.value[`map-${index}`] = true
 }
 
 // State management functions
@@ -347,10 +399,14 @@ const findRoutes = async () => {
     // Save state after successful search
     saveDraftState()
     
-    // Initialize map previews after routes are loaded
+    // Reset map states for new routes
+    mapLoadedStates.value = {}
+    
+    // Wait for DOM to update, then initialize map previews
+    await nextTick()
     setTimeout(() => {
       initializeMapPreviews()
-    }, 100)
+    }, 500)
   } catch (err) {
     error.value = 'Failed to find routes. Please check your postal code and try again.'
     console.error('Error finding routes:', err)
@@ -363,16 +419,20 @@ const findRoutes = async () => {
 
 const viewOnMap = (route) => {
   selectedRoute.value = route
-  // Initialize Google Maps modal
-  const mapModalElement = document.getElementById('mapModal')
-  if (mapModalElement) {
-    const mapModal = new bootstrap.Modal(mapModalElement)
-    mapModal.show()
-    
-    // Initialize map after modal is shown
+  // Initialize map after a short delay to ensure modal is rendered
     setTimeout(() => {
       initializeMap(route)
-    }, 500)
+  }, 100)
+}
+
+const closeMapModal = () => {
+  selectedRoute.value = null
+}
+
+const startRouteFromModal = () => {
+  if (selectedRoute.value) {
+    startRoute(selectedRoute.value)
+    closeMapModal()
   }
 }
 
@@ -406,13 +466,7 @@ const initializeMap = async (route) => {
 
 const startRoute = (route) => {
   // Close modal if open
-  const mapModalElement = document.getElementById('mapModal')
-  if (mapModalElement) {
-    const mapModal = bootstrap.Modal.getInstance(mapModalElement)
-    if (mapModal) {
-      mapModal.hide()
-    }
-  }
+  closeMapModal()
   
   // Check if there's an active workout
   if (WorkoutStateService.checkActiveWorkout()) {
@@ -527,12 +581,19 @@ watch(searchPerformed, () => {
 })
 
 // Watch for routes changes to reinitialize map previews
-watch(routes, (newRoutes) => {
+watch(routes, async (newRoutes) => {
   if (newRoutes && newRoutes.length > 0) {
-    // Use nextTick to ensure DOM is updated
+    // Reset map loaded states when routes change
+    mapLoadedStates.value = {}
+    
+    // Wait for DOM to be fully updated
+    await nextTick()
     setTimeout(() => {
       initializeMapPreviews()
-    }, 100)
+    }, 500)
+  } else {
+    // Clear map states when routes are cleared
+    mapLoadedStates.value = {}
   }
 }, { deep: true })
 
@@ -541,21 +602,33 @@ const initializeMapPreviews = async () => {
     await mapsService.loadGoogleMaps()
     
     // Wait a bit more to ensure DOM elements are ready
-    await new Promise(resolve => setTimeout(resolve, 200))
+    await new Promise(resolve => setTimeout(resolve, 500))
     
     routes.value.forEach((route, index) => {
       const mapElement = document.getElementById(`map-preview-${index}`)
-      if (mapElement && window.google && window.google.maps) {
-        // Clear any existing content
-        mapElement.innerHTML = ''
+      if (!mapElement) {
+        console.warn(`Map element not found for route ${index}`)
+        return
+      }
+      
+      if (!window.google || !window.google.maps) {
+        console.warn('Google Maps not loaded')
+        return
+      }
+      
+      try {
+        // Clear placeholder content if it exists
+        const placeholder = mapElement.parentElement.querySelector('.map-placeholder')
+        if (placeholder) {
+          placeholder.style.display = 'none'
+        }
         
-        try {
           const map = new window.google.maps.Map(mapElement, {
             zoom: 13,
             center: route.coordinates.start,
             mapTypeId: window.google.maps.MapTypeId.ROADMAP,
             disableDefaultUI: true,
-            zoomControl: true,
+          zoomControl: false,
             mapTypeControl: false,
             scaleControl: false,
             streetViewControl: false,
@@ -563,12 +636,12 @@ const initializeMapPreviews = async () => {
             fullscreenControl: false
           })
 
-          // Add route polyline
+        // Add route polyline with default Google Maps styling
           const directionsRenderer = new window.google.maps.DirectionsRenderer({
             map: map,
-            suppressMarkers: true, // Suppress default ABC markers
+          suppressMarkers: true, // We'll add custom markers
             polylineOptions: {
-              strokeColor: '#007bff',
+            strokeColor: '#4285F4',
               strokeWeight: 4,
               strokeOpacity: 0.8
             }
@@ -580,16 +653,17 @@ const initializeMapPreviews = async () => {
             destination: route.routeType === 'loop' 
               ? route.coordinates.start 
               : (route.coordinates.waypoints && route.coordinates.waypoints.length > 0 
-                  ? route.coordinates.waypoints[0] 
+                ? route.coordinates.waypoints[route.coordinates.waypoints.length - 1]
                   : route.coordinates.start),
-            waypoints: route.coordinates.waypoints && route.coordinates.waypoints.length > 0
-              ? route.coordinates.waypoints.map(wp => ({
-                  location: wp,
-                  stopover: true
-                }))
-              : [],
+          waypoints: route.routeType === 'loop' 
+            ? (route.coordinates.waypoints && route.coordinates.waypoints.length > 0
+                ? route.coordinates.waypoints.map(wp => ({ location: wp, stopover: true }))
+                : [])
+            : (route.coordinates.waypoints && route.coordinates.waypoints.length > 0
+                ? route.coordinates.waypoints.slice(0, -1).map(wp => ({ location: wp, stopover: true }))
+                : []),
             travelMode: window.google.maps.TravelMode.WALKING,
-            optimizeWaypoints: true
+          optimizeWaypoints: route.routeType === 'loop'
           }
 
           const directionsService = new window.google.maps.DirectionsService()
@@ -597,26 +671,119 @@ const initializeMapPreviews = async () => {
             if (status === 'OK') {
               directionsRenderer.setDirections(result)
               
-              // Add custom markers with S/E labels
-              mapsService.addCustomRouteMarkers(map, route, result)
+            // Create custom markers with S/E labels (matching full map modal)
+            const routeResult = result.routes[0]
+            const isLoop = route.routeType === 'loop'
+            
+            const startLocation = routeResult.legs[0].start_location
+            const endLocation = routeResult.legs[routeResult.legs.length - 1].end_location
+            
+            // Create start marker
+            if (isLoop) {
+              // For loops, show "S/E" at start/end location (blue)
+              new window.google.maps.Marker({
+                position: startLocation,
+                map: map,
+                label: {
+                  text: 'S/E',
+                  color: '#ffffff',
+                  fontSize: '14px',
+                  fontWeight: 'bold'
+                },
+                icon: {
+                  path: window.google.maps.SymbolPath.CIRCLE,
+                  scale: 12,
+                  fillColor: '#007bff',
+                  fillOpacity: 1,
+                  strokeColor: '#ffffff',
+                  strokeWeight: 3
+                }
+              })
+            } else {
+              // For point-to-point, show "S" at start (green)
+              new window.google.maps.Marker({
+                position: startLocation,
+                map: map,
+                label: {
+                  text: 'S',
+                  color: '#ffffff',
+                  fontSize: '14px',
+                  fontWeight: 'bold'
+                },
+                icon: {
+                  path: window.google.maps.SymbolPath.CIRCLE,
+                  scale: 12,
+                  fillColor: '#28a745',
+                  fillOpacity: 1,
+                  strokeColor: '#ffffff',
+                  strokeWeight: 3
+                }
+              })
+              
+              // Show "E" at end (if start and end are different, red)
+              const startLat = startLocation.lat()
+              const startLng = startLocation.lng()
+              const endLat = endLocation.lat()
+              const endLng = endLocation.lng()
+              
+              // Check if start and end are significantly different (more than ~10 meters)
+              const distance = Math.sqrt(
+                Math.pow((endLat - startLat) * 111000, 2) + 
+                Math.pow((endLng - startLng) * 111000 * Math.cos(startLat * Math.PI / 180), 2)
+              )
+              
+              if (distance > 10) {
+                new window.google.maps.Marker({
+                  position: endLocation,
+                  map: map,
+                  label: {
+                    text: 'E',
+                    color: '#ffffff',
+                    fontSize: '14px',
+                    fontWeight: 'bold'
+                  },
+                  icon: {
+                    path: window.google.maps.SymbolPath.CIRCLE,
+                    scale: 12,
+                    fillColor: '#dc3545',
+                    fillOpacity: 1,
+                    strokeColor: '#ffffff',
+                    strokeWeight: 3
+                  }
+                })
+              }
+            }
+            
+            // Automatically fit the map to show the entire route with padding
+            const bounds = new window.google.maps.LatLngBounds()
+            
+            // Add all points from the route to bounds
+            routeResult.legs.forEach(leg => {
+              bounds.extend(leg.start_location)
+              bounds.extend(leg.end_location)
+              leg.steps.forEach(step => {
+                bounds.extend(step.start_location)
+                bounds.extend(step.end_location)
+              })
+            })
+            
+            // Fit map to route bounds with padding for card view
+            map.fitBounds(bounds, {
+              top: 20,
+              right: 20,
+              bottom: 20,
+              left: 20
+            })
+            
+            markMapAsLoaded(index)
+            
+            // Placeholder will automatically hide when mapLoadedState changes
             } else {
               console.warn(`Failed to get directions for route ${index}:`, status)
             }
           })
         } catch (error) {
           console.warn(`Failed to initialize map preview ${index}:`, error)
-          // Show fallback content
-          mapElement.innerHTML = `
-            <div class="d-flex align-items-center justify-content-center h-100 text-muted">
-              <div class="text-center">
-                <i class="bi bi-map display-6"></i>
-                <p class="mt-2 mb-0 small">Map Preview</p>
-              </div>
-            </div>
-          `
-        }
-      } else {
-        console.warn(`Map element not found for route ${index}`)
       }
     })
   } catch (error) {
@@ -630,35 +797,52 @@ onMounted(() => {
   
   // Initialize map previews if routes exist
   if (routes.value.length > 0) {
+    // Reset map states
+    mapLoadedStates.value = {}
+    
+    // Wait for DOM to be fully rendered
     setTimeout(() => {
       initializeMapPreviews()
-    }, 100)
+    }, 500)
   }
 })
 </script>
 
 <style scoped>
-.running-routes {
-  padding: 1rem 0;
+.header-fade-enter-active {
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-.map-preview {
-  position: relative;
-  overflow: hidden;
+.header-fade-enter-from {
+  opacity: 0;
+  transform: translateY(-10px);
 }
 
-.map-preview .gm-style {
-  border-radius: 6px;
+.section-fade-enter-active {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition-delay: var(--transition-delay, 0.1s);
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .running-routes {
-    padding: 0.5rem 0;
-  }
-  
-  .card-body {
-    padding: 1.5rem;
-  }
+.section-fade-enter-from {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.route-card-enter-active {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition-delay: var(--transition-delay, 0.1s);
+}
+
+.route-card-enter-from {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.fade-enter-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from {
+  opacity: 0;
 }
 </style>

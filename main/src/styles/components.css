@@ -2580,6 +2580,522 @@
   }
 }
 
+/* Apple-Inspired Running Routes Redesign */
+.running-routes-apple {
+  min-height: 100vh;
+  background: #fbfbfd;
+  padding-top: 2rem;
+  padding-bottom: 5rem;
+}
+
+.running-routes-apple .routes-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.running-routes-apple .page-header {
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.running-routes-apple .page-header::before {
+  content: '';
+  position: absolute;
+  top: -5rem;
+  left: -5rem;
+  width: 16rem;
+  height: 16rem;
+  background: rgba(59, 130, 246, 0.05);
+  border-radius: 50%;
+  filter: blur(3rem);
+  pointer-events: none;
+}
+
+.running-routes-apple .page-header::after {
+  content: '';
+  position: absolute;
+  top: -2.5rem;
+  right: 5rem;
+  width: 12rem;
+  height: 12rem;
+  background: rgba(6, 182, 212, 0.05);
+  border-radius: 50%;
+  filter: blur(3rem);
+  pointer-events: none;
+}
+
+.running-routes-apple .page-title {
+  font-size: 2rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: #030213;
+  margin-bottom: 0.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.running-routes-apple .page-subtitle {
+  font-size: 0.9375rem;
+  opacity: 0.5;
+  color: #030213;
+  position: relative;
+  z-index: 1;
+}
+
+/* Route Preferences Card */
+.running-routes-apple .preferences-card {
+  background: #ffffff;
+  border-radius: 1.5rem;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-bottom: 2rem;
+}
+
+.running-routes-apple .preferences-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.running-routes-apple .preferences-title {
+  font-size: 1.375rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+  color: #030213;
+}
+
+.running-routes-apple .preferences-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.running-routes-apple .preference-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.running-routes-apple .preference-label {
+  font-size: 0.8125rem;
+  opacity: 0.6;
+  margin-bottom: 0.75rem;
+  color: #030213;
+}
+
+.running-routes-apple .preference-input,
+.running-routes-apple .preference-select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: #f3f3f5;
+  border: none;
+  border-radius: 0.75rem;
+  font-size: 0.9375rem;
+  color: #030213;
+  transition: all 0.2s ease;
+}
+
+.running-routes-apple .preference-input:focus,
+.running-routes-apple .preference-select:focus {
+  outline: none;
+  background: #e8e8ea;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+}
+
+.running-routes-apple .preference-select {
+  padding-right: 2.5rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23030213' fill-opacity='0.4' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  appearance: none;
+  cursor: pointer;
+}
+
+.running-routes-apple .preference-helper {
+  font-size: 0.6875rem;
+  opacity: 0.4;
+  margin-top: 0.5rem;
+  color: #030213;
+}
+
+.running-routes-apple .search-button {
+  width: 100%;
+  height: 3rem;
+  border-radius: 9999px;
+  background: #030213;
+  color: #ffffff;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.running-routes-apple .search-button:hover:not(:disabled) {
+  background: #000000;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.running-routes-apple .search-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Route Results Section */
+.running-routes-apple .results-header {
+  margin-bottom: 1.5rem;
+}
+
+.running-routes-apple .results-title {
+  font-size: 1.375rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: #030213;
+  margin-bottom: 0.5rem;
+}
+
+.running-routes-apple .results-subtitle {
+  font-size: 0.8125rem;
+  opacity: 0.5;
+  color: #030213;
+}
+
+.running-routes-apple .routes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Route Card */
+.running-routes-apple .route-card {
+  background: #ffffff;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.running-routes-apple .route-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.running-routes-apple .route-map-preview {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #e5e5e5;
+  overflow: hidden;
+  border-radius: 1.5rem 1.5rem 0 0;
+  transition: opacity 0.3s ease;
+}
+
+.running-routes-apple .route-map-preview .map-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: opacity 0.3s ease;
+}
+
+.running-routes-apple .route-map-preview .map-placeholder i {
+  font-size: 3rem;
+  opacity: 0.2;
+  color: #030213;
+}
+
+.running-routes-apple .route-map-preview .map-placeholder p {
+  font-size: 0.8125rem;
+  opacity: 0.5;
+  color: #030213;
+  margin: 0;
+}
+
+.running-routes-apple .route-map-preview .map-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  border-radius: 1.5rem 1.5rem 0 0;
+  overflow: hidden;
+  transition: opacity 0.3s ease;
+}
+
+.running-routes-apple .route-elevation-badge {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
+  border-radius: 9999px;
+  padding: 0.375rem 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.running-routes-apple .route-elevation-badge i {
+  font-size: 0.875rem;
+  color: #f97316;
+}
+
+.running-routes-apple .route-elevation-badge span {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #f97316;
+}
+
+.running-routes-apple .route-content {
+  padding: 1.5rem;
+}
+
+.running-routes-apple .route-name {
+  font-size: 1.1875rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: #030213;
+  margin-bottom: 1rem;
+}
+
+.running-routes-apple .route-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.running-routes-apple .route-badge {
+  padding: 0.375rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  border: 1px solid;
+}
+
+.running-routes-apple .route-badge.distance {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
+.running-routes-apple .route-badge.type.loop {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+  border-color: rgba(34, 197, 94, 0.2);
+}
+
+.running-routes-apple .route-badge.type.point-to-point {
+  background: rgba(168, 85, 247, 0.1);
+  color: #a855f7;
+  border-color: rgba(168, 85, 247, 0.2);
+}
+
+.running-routes-apple .route-badge.elevation {
+  background: rgba(249, 115, 22, 0.1);
+  color: #f97316;
+  border-color: rgba(249, 115, 22, 0.2);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.running-routes-apple .route-badge.elevation i {
+  font-size: 0.875rem;
+}
+
+.running-routes-apple .route-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.8125rem;
+  opacity: 0.5;
+  color: #030213;
+}
+
+.running-routes-apple .route-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.running-routes-apple .route-meta-item i {
+  font-size: 0.875rem;
+}
+
+.running-routes-apple .route-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.running-routes-apple .route-action-btn {
+  flex: 1;
+  height: 2.75rem;
+  padding: 0 1.5rem;
+  border-radius: 9999px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: none;
+  cursor: pointer;
+}
+
+.running-routes-apple .route-action-btn.outline {
+  background: #ffffff;
+  color: #030213;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.running-routes-apple .route-action-btn.outline:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 0.02);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+.running-routes-apple .route-action-btn.primary {
+  background: #030213;
+  color: #ffffff;
+}
+
+.running-routes-apple .route-action-btn.primary:hover:not(:disabled) {
+  background: #000000;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.running-routes-apple .route-action-btn i {
+  font-size: 1rem;
+}
+
+/* Empty States */
+.running-routes-apple .empty-state {
+  text-align: center;
+  padding: 4rem 1.5rem;
+}
+
+.running-routes-apple .empty-state i {
+  font-size: 3rem;
+  opacity: 0.2;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.running-routes-apple .empty-state h4 {
+  font-size: 1.1875rem;
+  font-weight: 500;
+  color: #030213;
+  margin-bottom: 0.5rem;
+}
+
+.running-routes-apple .empty-state p {
+  font-size: 0.9375rem;
+  opacity: 0.5;
+  color: #030213;
+  margin: 0;
+}
+
+/* Loading State */
+.running-routes-apple .loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1.5rem;
+}
+
+.running-routes-apple .loading-state .spinner-border {
+  width: 2rem;
+  height: 2rem;
+  border-width: 3px;
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.running-routes-apple .loading-state p {
+  font-size: 0.9375rem;
+  opacity: 0.5;
+  color: #030213;
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+
+/* Error State */
+.running-routes-apple .error-state {
+  background: rgba(239, 68, 68, 0.05);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 0.75rem;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #ef4444;
+  font-size: 0.9375rem;
+}
+
+.running-routes-apple .error-state i {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .running-routes-apple {
+    padding-top: 1.5rem;
+  }
+
+  .running-routes-apple .routes-container {
+    padding: 0 1rem;
+  }
+
+  .running-routes-apple .page-title {
+    font-size: 1.5rem;
+  }
+
+  .running-routes-apple .preferences-card {
+    padding: 1.5rem;
+  }
+
+  .running-routes-apple .preferences-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .running-routes-apple .routes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .running-routes-apple .route-content {
+    padding: 1.25rem;
+  }
+
+  .running-routes-apple .route-actions {
+    flex-direction: column;
+  }
+
+  .running-routes-apple .route-action-btn {
+    width: 100%;
+  }
+}
+
 /* workout generator */
 .workout-generator {
   min-height: 100vh;
