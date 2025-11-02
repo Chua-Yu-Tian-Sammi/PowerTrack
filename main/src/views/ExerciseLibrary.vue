@@ -1,125 +1,174 @@
 <template>
-  <div class="exercise-library">
-    <div class="row align-items-center mb-4">
-      <div class="col-lg-8 mb-3 mb-lg-0">
-        <h2 class="mb-1"><i class="bi bi-book me-2"></i>Exercise Library</h2>
-        <p class="text-muted mb-0">Browse and explore exercises for your workouts</p>
-      </div>
-      <div class="col-lg-4">
-        <div class="input-group">
-          <input 
-            type="text" 
-            class="form-control" 
-            placeholder="Search exercises..." 
-            v-model="searchQuery"
-            @input="filterExercises"
-          >
-          <button class="btn btn-outline-secondary" type="button">
-            <i class="bi bi-search"></i>
-          </button>
+  <div class="exercise-library-apple">
+    <div class="library-container">
+      <!-- Page Header -->
+      <Transition name="header-fade" appear>
+        <div class="page-header">
+          <h1 class="page-title">Exercise Library</h1>
+          <p class="page-subtitle">Browse and explore exercises for your workouts</p>
         </div>
-      </div>
-    </div>
+      </Transition>
 
-    <!-- filter options -->
-    <div class="row mb-4">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-body p-4">
-            <div class="row">
-              <div class="col-md-3">
-                <label class="form-label">Muscle Group</label>
-                <select class="form-select" v-model="filters.muscle" @change="filterExercises">
-                  <option value="">All</option>
-                  <option value="chest">Chest</option>
-                  <option value="back">Back</option>
-                  <option value="shoulders">Shoulders</option>
-                  <option value="arms">Arms</option>
-                  <option value="legs">Legs</option>
-                  <option value="core">Core</option>
-                  <option value="cardio">Cardio</option>
-                </select>
-              </div>
-              <div class="col-md-3">
-                <label class="form-label">Equipment</label>
-                <select class="form-select" v-model="filters.equipment" @change="filterExercises">
-                  <option value="">All</option>
-                  <option value="bodyweight">Bodyweight</option>
-                  <option value="dumbbells">Dumbbells</option>
-                  <option value="barbell">Barbell</option>
-                  <option value="bench">Bench</option>
-                  <option value="pullup_bar">Pull-up Bar</option>
-                </select>
-              </div>
-              <div class="col-md-3">
-                <label class="form-label">Intensity</label>
-                <select class="form-select" v-model="filters.intensity" @change="filterExercises">
-                  <option v-for="intensity in INTENSITIES" :key="intensity.value" :value="intensity.value">
-                    {{ intensity.label }}
-                  </option>
-                </select>
-              </div>
-              <div class="col-md-3">
-                <label class="form-label">Difficulty</label>
-                <select class="form-select" v-model="filters.difficulty" @change="filterExercises">
-                  <option value="">All</option>
-                  <option value="beginner">Beginner</option>
-                  <option value="intermediate">Intermediate</option>
-                  <option value="advanced">Advanced</option>
-                </select>
-              </div>
+      <!-- Filters Card -->
+      <Transition name="section-fade" style="--transition-delay: 0.1s" appear>
+        <div class="filters-card">
+          <!-- Search Bar -->
+          <div class="search-container">
+            <div class="search-input-wrapper">
+              <i class="bi bi-search search-icon"></i>
+              <input 
+                type="text" 
+                class="search-input"
+                placeholder="Search exercises..."
+                v-model="searchQuery"
+                @input="filterExercises"
+              >
+            </div>
+          </div>
+
+          <!-- Filter Dropdowns -->
+          <div class="filters-grid">
+            <!-- Muscle Group -->
+            <div class="filter-group">
+              <label for="muscle" class="filter-label">MUSCLE GROUP</label>
+              <select 
+                id="muscle"
+                class="filter-select" 
+                v-model="filters.muscle" 
+                @change="filterExercises"
+              >
+                <option value="">All</option>
+                <option value="chest">Chest</option>
+                <option value="back">Back</option>
+                <option value="shoulders">Shoulders</option>
+                <option value="arms">Arms</option>
+                <option value="legs">Legs</option>
+                <option value="core">Core</option>
+                <option value="cardio">Cardio</option>
+              </select>
+            </div>
+
+            <!-- Equipment -->
+            <div class="filter-group">
+              <label for="equipment" class="filter-label">EQUIPMENT</label>
+              <select 
+                id="equipment"
+                class="filter-select" 
+                v-model="filters.equipment" 
+                @change="filterExercises"
+              >
+                <option value="">All</option>
+                <option value="bodyweight">Bodyweight</option>
+                <option value="dumbbells">Dumbbells</option>
+                <option value="barbell">Barbell</option>
+                <option value="bench">Bench</option>
+                <option value="pullup_bar">Pull-up Bar</option>
+              </select>
+            </div>
+
+            <!-- Intensity -->
+            <div class="filter-group">
+              <label for="intensity" class="filter-label">INTENSITY</label>
+              <select 
+                id="intensity"
+                class="filter-select" 
+                v-model="filters.intensity" 
+                @change="filterExercises"
+              >
+                <option v-for="intensity in INTENSITIES" :key="intensity.value" :value="intensity.value">
+                  {{ intensity.label }}
+                </option>
+              </select>
+            </div>
+
+            <!-- Difficulty -->
+            <div class="filter-group">
+              <label for="difficulty" class="filter-label">DIFFICULTY</label>
+              <select 
+                id="difficulty"
+                class="filter-select" 
+                v-model="filters.difficulty" 
+                @change="filterExercises"
+              >
+                <option value="">All</option>
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="advanced">Advanced</option>
+              </select>
             </div>
           </div>
         </div>
+      </Transition>
+
+      <!-- Results Section -->
+      <Transition name="section-fade" style="--transition-delay: 0.15s" appear>
+        <div v-if="!loading">
+          <!-- Results Count -->
+          <div class="results-count">
+            <p>{{ filteredExercises.length }} {{ filteredExercises.length === 1 ? 'exercise' : 'exercises' }} found</p>
+          </div>
+
+          <!-- Exercise Grid -->
+          <div class="exercises-grid">
+            <TransitionGroup name="exercise-card" appear>
+              <ExerciseCard 
+                v-for="(exercise, index) in paginatedExercises" 
+                :key="exercise.exerciseId"
+                :exercise="exercise"
+                :delay="0.05 * (index + 1)"
+                @addToRoutine="addToRoutine"
+              />
+            </TransitionGroup>
+          </div>
+
+          <!-- Pagination -->
+          <div v-if="totalPages > 1" class="pagination-wrapper">
+            <ExerciseLibraryPagination
+              :current-page="currentPage"
+              :total-pages="totalPages"
+              @page-change="handlePageChange"
+            />
+          </div>
+
+          <!-- Empty State -->
+          <div v-if="filteredExercises.length === 0" class="empty-state">
+            <p>No exercises found matching your criteria</p>
+          </div>
+        </div>
+      </Transition>
+
+      <!-- Loading State -->
+      <Transition name="fade" appear>
+        <div v-if="loading" class="loading-state">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <p>Loading exercises...</p>
+        </div>
+      </Transition>
+    </div>
+
+    <!-- Toast Notification -->
+    <div v-if="notification.show" class="notification-container">
+      <div class="notification" :class="`notification-${notification.type}`">
+        <i class="bi" :class="notification.type === 'success' ? 'bi-check-circle' : 'bi-exclamation-triangle'"></i>
+        <span>{{ notification.message }}</span>
       </div>
-    </div>
-
-    <!-- loading spinner -->
-    <div v-if="loading" class="text-center">
-      <div class="spinner-border" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-      <p class="mt-2">Loading exercises...</p>
-    </div>
-
-    
-
-    <!-- exercise cards -->
-    <div v-if="!loading" class="row g-4">
-      <div v-for="exercise in filteredExercises" :key="exercise.exerciseId" class="col-lg-4 col-md-6">
-        <ExerciseCard 
-          :exercise="exercise"
-          @addToRoutine="addToRoutine"
-        />
-      </div>
-    </div>
-
-    <!-- nothing found -->
-    <div v-if="!loading && filteredExercises.length === 0" class="text-center py-5">
-      <i class="bi bi-search display-1 text-muted"></i>
-      <h4 class="mt-3">No exercises found</h4>
-      <p class="text-muted">Try adjusting your filters or search terms</p>
-    </div>
-  </div>
-
-  <!-- Toast Notification -->
-  <div v-if="notification.show" class="notification-container">
-    <div class="notification" :class="`notification-${notification.type}`">
-      <i class="bi" :class="notification.type === 'success' ? 'bi-check-circle' : 'bi-exclamation-triangle'"></i>
-      <span>{{ notification.message }}</span>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, computed, reactive } from 'vue'
+import { ref, onMounted, computed, reactive, watch } from 'vue'
 import { WorkoutService } from '../services/workoutService.js'
 import ExerciseCard from '../components/ExerciseCard.vue'
+import ExerciseLibraryPagination from '../components/ExerciseLibraryPagination.vue'
 
 const loading = ref(false)
 const exercises = ref([])
 const searchQuery = ref('')
-// no additional loading state needed for images; placeholders are synchronous
+const currentPage = ref(1)
+const exercisesPerPage = 12 // 4 rows × 3 columns (typical desktop layout)
 
 // Toast notification
 const notification = ref({
@@ -130,9 +179,9 @@ const notification = ref({
 
 const INTENSITIES = [
   { value: '',        label: 'All' },
-  { value: 'low',     label: 'Low 🔥 ' },
-  { value: 'medium',  label: 'Medium 🔥🔥' },
-  { value: 'high',    label: 'High 🔥🔥🔥' }
+  { value: 'low',     label: 'Low' },
+  { value: 'medium',  label: 'Medium' },
+  { value: 'high',    label: 'High' }
 ]
 
 const filters = reactive({
@@ -183,6 +232,28 @@ const filteredExercises = computed(() => {
   return filtered
 })
 
+// Pagination logic
+const totalPages = computed(() => {
+  return Math.ceil(filteredExercises.value.length / exercisesPerPage)
+})
+
+const paginatedExercises = computed(() => {
+  const start = (currentPage.value - 1) * exercisesPerPage
+  const end = start + exercisesPerPage
+  return filteredExercises.value.slice(start, end)
+})
+
+// Reset to page 1 when filters change
+watch([searchQuery, filters], () => {
+  currentPage.value = 1
+}, { deep: true })
+
+const handlePageChange = (page) => {
+  currentPage.value = page
+  // Scroll to top of results
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
 onMounted(async () => {
   await loadExercises()
 })
@@ -207,10 +278,10 @@ const loadExercises = async () => {
   }
 }
 
-// No async image loading needed
-
-
-
+const filterExercises = () => {
+  // This is just to trigger reactivity if needed
+  // The actual filtering is done in computed property
+}
 
 const addToRoutine = (exercise) => {
   try {
@@ -236,8 +307,40 @@ const addToRoutine = (exercise) => {
   }
 }
 
-
 </script>
 
+<style scoped>
+/* Transitions */
+.header-fade-enter-active,
+.section-fade-enter-active {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition-delay: var(--transition-delay, 0s);
+}
 
+.header-fade-enter-from {
+  opacity: 0;
+  transform: translateY(-10px);
+}
 
+.section-fade-enter-from {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.exercise-card-enter-active {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.exercise-card-enter-from {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.fade-enter-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from {
+  opacity: 0;
+}
+</style>
