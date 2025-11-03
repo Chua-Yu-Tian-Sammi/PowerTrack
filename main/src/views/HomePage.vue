@@ -1,7 +1,15 @@
 <template>
   <div class="home">
     <section class="hero-section">
-      <div class="container">
+      <BackgroundRippleEffect 
+        :rows="8" 
+        :cols="27" 
+        :cell-size="56"
+        border-color="rgba(255, 255, 255, 0.15)"
+        fill-color="rgba(255, 255, 255, 0.04)"
+        :interactive="true"
+      />
+      <div class="container hero-content">
         <div class="row align-items-center">
           <div class="col-lg-6 mb-4 mb-lg-0">
             <div class="hero-badge mb-3">
@@ -195,5 +203,6 @@
   </div>
 </template>
 
-
-
+<script setup>
+import BackgroundRippleEffect from '../components/BackgroundRippleEffect.vue'
+</script>

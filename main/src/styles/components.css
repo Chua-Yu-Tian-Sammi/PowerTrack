@@ -59,36 +59,43 @@
 
 .home .hero-section {
   padding: 5rem 0;
-  background: #ffffff;
-  border-bottom: 1px solid #dee2e6;
+  background: #000000;
+  border-bottom: 1px solid #333333;
+  position: relative;
+  overflow: hidden;
+}
+
+.home .hero-content {
+  position: relative;
+  z-index: 1;
 }
 
 .home .hero-badge {
   display: inline-flex;
   align-items: center;
   padding: 0.5rem 1rem;
-  background: #f8f9fa;
-  border: 1px solid #dee2e6;
+  background: #1a1a1a;
+  border: 1px solid #333333;
   border-radius: 50px;
   font-size: 0.875rem;
   font-weight: 600;
-  color: #495057;
+  color: #cccccc;
 }
 
 .home .hero-badge i {
-  color: #212529;
+  color: #ffffff;
 }
 
 .home .hero-title {
   font-size: 3rem;
   font-weight: 700;
-  color: #212529;
+  color: #ffffff;
   line-height: 1.2;
 }
 
 .home .hero-description {
   font-size: 1.125rem;
-  color: #6c757d;
+  color: #cccccc;
   line-height: 1.7;
   max-width: 600px;
 }
@@ -103,7 +110,7 @@
   display: flex;
   gap: 3rem;
   padding-top: 2rem;
-  border-top: 1px solid #dee2e6;
+  border-top: 1px solid #333333;
 }
 
 .home .hero-stats .stat-item {
@@ -113,14 +120,14 @@
 .home .hero-stats .stat-number {
   font-size: 2rem;
   font-weight: 700;
-  color: #212529;
+  color: #ffffff;
   line-height: 1;
   margin-bottom: 0.5rem;
 }
 
 .home .hero-stats .stat-label {
   font-size: 0.875rem;
-  color: #6c757d;
+  color: #cccccc;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -130,11 +137,11 @@
 }
 
 .home .visual-card {
-  background: #ffffff;
-  border: 2px solid #dee2e6;
+  background: #1a1a1a;
+  border: 2px solid #333333;
   border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .home .visual-header {
@@ -143,17 +150,17 @@
   gap: 0.75rem;
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid #dee2e6;
+  border-bottom: 1px solid #333333;
 }
 
 .home .visual-header i {
   font-size: 1.25rem;
-  color: #495057;
+  color: #cccccc;
 }
 
 .home .visual-header span {
   font-weight: 600;
-  color: #212529;
+  color: #ffffff;
 }
 
 .home .visual-content {
@@ -167,14 +174,14 @@
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  background: #f8f9fa;
+  background: #0f0f0f;
   border-radius: 8px;
-  border: 1px solid #e9ecef;
+  border: 1px solid #333333;
 }
 
 .home .workout-icon i {
   font-size: 0.75rem;
-  color: #212529;
+  color: #ffffff;
 }
 
 .home .workout-details {
@@ -183,13 +190,13 @@
 
 .home .workout-name {
   font-weight: 600;
-  color: #212529;
+  color: #ffffff;
   margin-bottom: 0.25rem;
 }
 
 .home .workout-meta {
   font-size: 0.875rem;
-  color: #6c757d;
+  color: #aaaaaa;
 }
 
 .home .features-section {
@@ -369,15 +376,16 @@
 }
 
 .home .btn-outline-dark {
-  border: 2px solid #212529;
-  color: #212529;
+  border: 2px solid #ffffff;
+  color: #ffffff;
   font-weight: 600;
   padding: 0.875rem 2rem;
+  background: transparent;
 }
 
 .home .btn-outline-dark:hover {
-  background: #212529;
-  color: white;
+  background: #ffffff;
+  color: #000000;
 }
 
 /* exercise library */
@@ -3906,18 +3914,11 @@
   margin: 0;
 }
 
-/* Pagination Wrapper */
-.exercise-library-apple .pagination-wrapper {
-  margin-top: 3rem;
-  margin-bottom: 2rem;
-}
-
 /* Exercises Grid */
 .exercise-library-apple .exercises-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 1.5rem;
-  align-items: stretch;
 }
 
 /* Empty State */

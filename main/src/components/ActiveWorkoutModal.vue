@@ -1,65 +1,75 @@
 <template>
-  <!-- Active Workout Confirmation Modal -->
-  <Transition name="fade">
+  <!-- Active Workout Confirmation Modal (Workouts Only) -->
+  <Transition name="modal-fade">
     <div 
-      v-if="show" 
-      class="user-profile-apple"
+      v-if="show && isWorkout" 
+      class="active-workout-modal"
     >
-      <div class="apple-modal-backdrop" @click.self="handleCancel">
-        <div class="apple-modal">
-          <div class="apple-modal-header">
-            <h5 class="apple-modal-title">
-              <i class="bi bi-exclamation-triangle-fill me-2" style="color: #f59e0b;"></i>
-              Active Workout Detected
-            </h5>
-            <button class="apple-modal-close" @click="handleCancel">
-              <i class="bi bi-x-lg" style="font-size: 0.875rem;"></i>
+      <div class="modal-backdrop" @click.self="handleCancel">
+        <div class="modal-content">
+          <!-- Header -->
+          <div class="modal-header-section">
+            <div class="header-content">
+              <div class="alert-icon-container">
+                <i class="bi bi-exclamation-triangle"></i>
+              </div>
+              <h2 class="modal-title">Active Workout Detected</h2>
+            </div>
+            <button class="modal-close-button" @click="handleCancel">
+              <i class="bi bi-x"></i>
             </button>
           </div>
-          <div class="apple-modal-body">
-            <p style="margin-bottom: 1.5rem; opacity: 0.8;">
+
+          <!-- Content -->
+          <div class="modal-body-section">
+            <!-- Description -->
+            <p class="modal-description">
               You currently have an active workout in progress. Starting a new workout will end your current session.
             </p>
-            
-            <div style="background: rgba(0, 123, 255, 0.08); border-left: 3px solid #007bff; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
-              <div style="font-weight: 600; margin-bottom: 0.75rem; color: #030213;">Current Workout</div>
-              <div style="font-size: 1rem; font-weight: 500; margin-bottom: 0.5rem; color: #030213;">
-                {{ activeWorkoutData?.workoutName || 'Active Workout' }}
-              </div>
-              <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
-                <span style="background: rgba(0,0,0,0.08); padding: 0.25rem 0.625rem; border-radius: 0.375rem; font-size: 0.8125rem; font-weight: 500;">
-                  {{ getSourceTypeLabel(activeWorkoutData?.sourceType) }}
-                </span>
-                <span style="font-size: 0.875rem; opacity: 0.6;">
-                  <i class="bi bi-clock me-1"></i>{{ formatDuration(activeWorkoutData?.elapsedTime || 0) }}
-                </span>
-              </div>
-            </div>
-            
-            <p style="margin-bottom: 1.5rem; font-size: 0.875rem; opacity: 0.6;">
-              What would you like to do?
-            </p>
 
-            <div style="display: flex; gap: 0.75rem;">
+            <!-- Current Workout Card -->
+            <Transition name="card-fade">
+              <div class="current-workout-card">
+                <!-- Subtle background pattern -->
+                <div class="card-background-pattern"></div>
+                
+                <div class="card-content">
+                  <div class="card-label">CURRENT WORKOUT</div>
+                  <h4 class="card-workout-name">{{ activeWorkoutData?.workoutName || 'Active Workout' }}</h4>
+
+                  <div class="card-meta">
+                    <div class="workout-type-badge">
+                      <span>{{ getSourceTypeLabel(activeWorkoutData?.sourceType) }}</span>
+                    </div>
+                    <div class="elapsed-time">
+                      <i class="bi bi-clock"></i>
+                      <span>{{ formatDuration(activeWorkoutData?.elapsedTime || 0) }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Transition>
+
+            <!-- Question -->
+            <p class="modal-question">What would you like to do?</p>
+
+            <!-- Action Buttons -->
+            <div class="modal-actions">
               <button 
                 type="button" 
-                class="apple-input"
-                style="flex: 1; height: 3rem; border: 1px solid rgba(0,0,0,0.1); cursor: pointer; font-weight: 500;"
+                class="action-button cancel-button"
                 @click="handleCancel"
               >
-                <i class="bi bi-x-circle me-2"></i>
                 Cancel
               </button>
               <button 
                 type="button" 
-                class="apple-input"
-                style="flex: 1; height: 3rem; background: #ef4444; color: white; cursor: pointer; font-weight: 500; border: none;"
+                class="action-button end-button"
                 @click="handleEndWorkout"
                 :disabled="ending"
               >
                 <span v-if="ending" class="spinner-border spinner-border-sm me-2"></span>
-                <i v-else class="bi bi-stop-fill me-2"></i>
-                End Current Workout
+                <span v-else>End Current Workout</span>
               </button>
             </div>
           </div>
@@ -70,7 +80,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { WorkoutStateService } from '../services/workoutStateService.js'
 
@@ -94,6 +104,12 @@ const emit = defineEmits(['cancel', 'end-workout'])
 const router = useRouter()
 const ending = ref(false)
 const activeWorkoutData = ref(null)
+
+// Check if active workout is a workout (not a run)
+const isWorkout = computed(() => {
+  if (!activeWorkoutData.value) return false
+  return activeWorkoutData.value.sourceType !== 'running-route'
+})
 
 const loadActiveWorkoutData = () => {
   activeWorkoutData.value = WorkoutStateService.getActiveWorkoutData()
@@ -152,11 +168,281 @@ const handleEndWorkout = async () => {
 </script>
 
 <style scoped>
-.fade-enter-active, .fade-leave-active {
+/* Modal Fade Transition */
+.modal-fade-enter-active,
+.modal-fade-leave-active {
   transition: opacity 0.3s ease;
 }
 
-.fade-enter-from, .fade-leave-to {
+.modal-fade-enter-from,
+.modal-fade-leave-to {
   opacity: 0;
+}
+
+.card-fade-enter-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition-delay: 0.1s;
+}
+
+.card-fade-enter-from {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+/* Modal Styles */
+.active-workout-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1050;
+}
+
+.modal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.modal-content {
+  background: #ffffff;
+  border-radius: 1.5rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 28rem;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Header Section */
+.modal-header-section {
+  padding: 2rem 2rem 1.5rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.header-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.alert-icon-container {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: rgba(249, 115, 22, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.alert-icon-container i {
+  font-size: 1.25rem;
+  color: #f97316;
+}
+
+.modal-title {
+  font-size: 1.375rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #030213;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.modal-close-button {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.05);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  flex-shrink: 0;
+}
+
+.modal-close-button:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.modal-close-button i {
+  font-size: 1rem;
+  color: #030213;
+}
+
+/* Body Section */
+.modal-body-section {
+  padding: 0 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.modal-description {
+  font-size: 0.9375rem;
+  opacity: 0.6;
+  color: #030213;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Current Workout Card */
+.current-workout-card {
+  position: relative;
+  background: linear-gradient(to bottom right, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.05));
+  border-left: 4px solid #3b82f6;
+  border-radius: 1rem;
+  padding: 1.25rem;
+  overflow: hidden;
+}
+
+.card-background-pattern {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 8rem;
+  height: 8rem;
+  background: rgba(59, 130, 246, 0.05);
+  border-radius: 50%;
+  filter: blur(3rem);
+  pointer-events: none;
+}
+
+.card-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.card-label {
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.5;
+  color: #030213;
+  font-weight: 500;
+}
+
+.card-workout-name {
+  font-size: 1.0625rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: #030213;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.workout-type-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.75rem;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 9999px;
+}
+
+.workout-type-badge span {
+  font-size: 0.8125rem;
+  opacity: 0.7;
+  color: #030213;
+}
+
+.elapsed-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.8125rem;
+  opacity: 0.7;
+  color: #030213;
+}
+
+.elapsed-time i {
+  font-size: 0.875rem;
+}
+
+/* Question */
+.modal-question {
+  font-size: 0.8125rem;
+  opacity: 0.5;
+  color: #030213;
+  margin: 0;
+  padding-top: 0.5rem;
+}
+
+/* Action Buttons */
+.modal-actions {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  .modal-actions {
+    flex-direction: row;
+  }
+}
+
+.action-button {
+  flex: 1;
+  height: 3rem;
+  border-radius: 9999px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cancel-button {
+  background: #ffffff;
+  color: #030213;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.cancel-button:hover {
+  border-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.end-button {
+  background: #ef4444;
+  color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.end-button:hover:not(:disabled) {
+  background: #dc2626;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.end-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 </style>
