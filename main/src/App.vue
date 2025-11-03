@@ -15,6 +15,10 @@
 
 <script setup>
 import AppNavbar from './components/AppNavbar.vue'
+import { useTheme } from './composables/useTheme'
+
+// Initialize theme - the composable handles initialization
+useTheme()
 </script>
 
 <style>
@@ -22,6 +26,12 @@ import AppNavbar from './components/AppNavbar.vue'
 
 #app {
   min-height: 100vh;
+  background: #ffffff;
+  transition: background 0.3s ease;
+}
+
+.dark #app {
+  background: #000000;
 }
 
 .main-content {
@@ -30,6 +40,8 @@ import AppNavbar from './components/AppNavbar.vue'
   margin: 0 auto;
   padding-left: 2rem;
   padding-right: 2rem;
+  background: transparent;
+  transition: background 0.3s ease;
 }
 
 @media (max-width: 991px) {

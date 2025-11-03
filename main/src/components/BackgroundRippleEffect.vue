@@ -85,7 +85,7 @@ const gridStyles = computed(() => ({
   top: 0,
   left: '50%',
   transform: 'translateX(-50%)',
-  minHeight: '100%'
+  minHeight: '100vh'
 }))
 
 const getCellStyle = (idx) => {

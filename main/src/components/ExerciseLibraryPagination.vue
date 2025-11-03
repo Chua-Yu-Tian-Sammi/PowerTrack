@@ -108,7 +108,8 @@ const handleNext = () => {
 }
 </script>
 
-<style scoped>
+<style>
+/* Global styles - not scoped so dark mode works */
 .exercise-pagination {
   margin-top: 3rem;
   margin-bottom: 2rem;
@@ -131,7 +132,7 @@ const handleNext = () => {
   color: #030213;
   font-size: 0.9375rem;
   font-weight: 500;
-  transition: all 0.2s ease;
+  transition: all 0.2s ease, background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
   cursor: pointer;
   outline: none;
 }
@@ -181,6 +182,7 @@ const handleNext = () => {
   color: rgba(3, 2, 19, 0.4);
   padding: 0 0.5rem;
   font-size: 0.9375rem;
+  transition: color 0.3s ease;
 }
 </style>
 

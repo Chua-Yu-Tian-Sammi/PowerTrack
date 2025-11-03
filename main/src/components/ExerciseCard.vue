@@ -165,14 +165,15 @@ const getDifficultyBadgeClass = (difficulty) => {
 
 </script>
 
-<style scoped>
+<style>
+/* Global styles - not scoped so dark mode works */
 .exercise-card-apple {
   background: #ffffff;
   border-radius: 1.5rem;
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(0, 0, 0, 0.05);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease;
   animation: cardEnter 0.5s ease forwards;
   animation-delay: var(--transition-delay, 0s);
   opacity: 0;
@@ -207,6 +208,7 @@ const getDifficultyBadgeClass = (difficulty) => {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background 0.3s ease;
 }
 
 .image-content {
@@ -265,6 +267,7 @@ const getDifficultyBadgeClass = (difficulty) => {
   color: #030213;
   margin: 0;
   line-height: 1.3;
+  transition: color 0.3s ease;
 }
 
 .exercise-description {
@@ -278,6 +281,7 @@ const getDifficultyBadgeClass = (difficulty) => {
   line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  transition: color 0.3s ease;
 }
 
 /* Badges Grid */
@@ -300,6 +304,7 @@ const getDifficultyBadgeClass = (difficulty) => {
   opacity: 0.4;
   color: #030213;
   font-weight: 500;
+  transition: color 0.3s ease;
 }
 
 .exercise-badge {
@@ -379,6 +384,7 @@ const getDifficultyBadgeClass = (difficulty) => {
   opacity: 0.4;
   color: #030213;
   font-weight: 500;
+  transition: color 0.3s ease;
 }
 
 .info-pills {
@@ -393,6 +399,7 @@ const getDifficultyBadgeClass = (difficulty) => {
   background: rgba(0, 0, 0, 0.05);
   border-radius: 9999px;
   color: #030213;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 /* Button Container - pushes button to bottom */

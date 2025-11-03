@@ -2,9 +2,10 @@
   <div class="home">
     <section class="hero-section">
       <BackgroundRippleEffect 
-        :rows="8" 
-        :cols="27" 
-        :cell-size="56"
+        v-if="isDark"
+        :rows="20" 
+        :cols="40" 
+        :cell-size="48"
         border-color="rgba(255, 255, 255, 0.15)"
         fill-color="rgba(255, 255, 255, 0.04)"
         :interactive="true"
@@ -204,5 +205,10 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import BackgroundRippleEffect from '../components/BackgroundRippleEffect.vue'
+import { useTheme } from '@/composables/useTheme'
+
+const { theme } = useTheme()
+const isDark = computed(() => theme.value === 'dark')
 </script>

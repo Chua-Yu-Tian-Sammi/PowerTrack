@@ -62,7 +62,8 @@
   --radius: 10px;
 }
 
-.dark {
+.dark,
+html.dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.145 0 0);
@@ -84,5 +85,128 @@
   --ring: oklch(0.439 0 0);
 }
 
-html { font-size: var(--font-size); }
-body { background: var(--background); color: var(--foreground); }
+html { 
+  font-size: var(--font-size); 
+}
+
+body { 
+  background: var(--background); 
+  color: var(--foreground);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Apple-inspired dark mode base styles */
+.dark body,
+body.dark,
+html.dark body {
+  background: #000000;
+  color: #ffffff;
+}
+
+.dark,
+html.dark {
+  color-scheme: dark;
+}
+
+/* Card styling for dark mode */
+.dark .card {
+  background: #1a1a1a;
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.dark .card-header {
+  background: #1a1a1a;
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+/* Form elements dark mode */
+.dark .form-control,
+.dark .form-select {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+
+.dark .form-control:not(:focus),
+.dark .form-select:not(:focus) {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+
+.dark .form-control:focus,
+.dark .form-select:focus {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+}
+
+.dark .form-control::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Text colors for dark mode */
+.dark .text-muted {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+
+.dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.dark p {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Links in dark mode */
+.dark a {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.dark a:hover {
+  color: #ffffff;
+}
+
+/* Buttons in dark mode - Apple style */
+.dark .btn-primary {
+  background: #ffffff;
+  color: #000000;
+  border: none;
+}
+
+.dark .btn-primary:hover {
+  background: rgba(255, 255, 255, 0.9);
+  color: #000000;
+}
+
+.dark .btn-outline-primary {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+}
+
+.dark .btn-outline-primary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #ffffff;
+}
+
+.dark .btn-outline-dark {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+}
+
+.dark .btn-outline-dark:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+/* Background adjustments */
+.dark .bg-light {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.dark .bg-white {
+  background: #1a1a1a !important;
+}

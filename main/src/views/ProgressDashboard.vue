@@ -298,11 +298,12 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, toRaw } from 'vue'
+import { ref, onMounted, computed, toRaw, watch } from 'vue'
 import { Line } from 'vue-chartjs'
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from 'chart.js'
 import { WorkoutService } from '../services/workoutService.js'
 import { AuthService } from '../services/authService.js'
+import { useTheme } from '../composables/useTheme.js'
 
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler)
@@ -679,7 +680,7 @@ const workoutChartData = computed(() => {
       backgroundColor: gradient,
       tension: 0.4,
       fill: true,
-      borderWidth: 2
+      borderWidth: isDark.value ? 1.5 : 2
     }]
   }
 })
@@ -704,7 +705,7 @@ const workoutYearChartData = computed(() => {
       backgroundColor: gradient,
       tension: 0.4,
       fill: true,
-      borderWidth: 2
+      borderWidth: isDark.value ? 1.5 : 2
     }]
   }
 })
@@ -724,7 +725,7 @@ const exerciseYearChartData = computed(() => {
       backgroundColor: gradient,
       tension: 0.4,
       fill: true,
-      borderWidth: 2
+      borderWidth: isDark.value ? 1.5 : 2
     }]
   }
 })
@@ -744,7 +745,7 @@ const durationYearChartData = computed(() => {
       backgroundColor: gradient,
       tension: 0.4,
       fill: true,
-      borderWidth: 2
+      borderWidth: isDark.value ? 1.5 : 2
     }]
   }
 })
@@ -764,7 +765,7 @@ const exerciseChartData = computed(() => {
       backgroundColor: gradient,
       tension: 0.4,
       fill: true,
-      borderWidth: 2
+      borderWidth: isDark.value ? 1.5 : 2
     }]
   }
 })
@@ -784,7 +785,7 @@ const durationChartData = computed(() => {
       backgroundColor: gradient,
       tension: 0.4,
       fill: true,
-      borderWidth: 2
+      borderWidth: isDark.value ? 1.5 : 2
     }]
   }
 })
@@ -804,7 +805,7 @@ const runningRunsChartData = computed(() => {
       backgroundColor: gradient,
       tension: 0.4,
       fill: true,
-      borderWidth: 2
+      borderWidth: isDark.value ? 1.5 : 2
     }]
   }
 })
@@ -824,7 +825,7 @@ const runningDurationChartData = computed(() => {
       backgroundColor: gradient,
       tension: 0.4,
       fill: true,
-      borderWidth: 2
+      borderWidth: isDark.value ? 1.5 : 2
     }]
   }
 })
@@ -844,7 +845,7 @@ const runningDistanceChartData = computed(() => {
       backgroundColor: gradient,
       tension: 0.4,
       fill: true,
-      borderWidth: 2
+      borderWidth: isDark.value ? 1.5 : 2
     }]
   }
 })
@@ -869,7 +870,7 @@ const runningYearRunsChartData = computed(() => {
       backgroundColor: gradient,
       tension: 0.4,
       fill: true,
-      borderWidth: 2
+      borderWidth: isDark.value ? 1.5 : 2
     }]
   }
 })
@@ -889,7 +890,7 @@ const runningYearDurationChartData = computed(() => {
       backgroundColor: gradient,
       tension: 0.4,
       fill: true,
-      borderWidth: 2
+      borderWidth: isDark.value ? 1.5 : 2
     }]
   }
 })
@@ -909,7 +910,7 @@ const runningYearDistanceChartData = computed(() => {
       backgroundColor: gradient,
       tension: 0.4,
       fill: true,
-      borderWidth: 2
+      borderWidth: isDark.value ? 1.5 : 2
     }]
   }
 })
@@ -994,92 +995,105 @@ const totalExercisesAllTime = computed(() => {
 // Active tab state
 const activeTab = ref('workout')
 
-const chartOptions = computed(() => ({
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      display: false
-    },
-    tooltip: {
-      mode: 'index',
-      intersect: false,
-      backgroundColor: 'white',
-      borderColor: 'rgba(0,0,0,0.05)',
-      borderWidth: 1,
-      borderRadius: 12,
-      padding: 12,
-      titleFont: {
-        size: 13,
-        weight: '500'
+// Get theme for chart colors
+const { theme } = useTheme()
+const isDark = computed(() => theme.value === 'dark')
+
+const chartOptions = computed(() => {
+  const textColor = isDark.value ? 'rgba(255, 255, 255, 0.6)' : '#999'
+  const gridColor = isDark.value ? 'rgba(255, 255, 255, 0.08)' : '#f0f0f0'
+  const tooltipBg = isDark.value ? '#1a1a1a' : 'white'
+  const tooltipBorder = isDark.value ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0,0,0,0.05)'
+  const tooltipTextColor = isDark.value ? '#ffffff' : '#030213'
+  
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false
       },
-      bodyFont: {
-        size: 13
-      },
-      boxPadding: 6,
-      enabled: true,
-      callbacks: {
-        title: function() {
-          // Return empty to show everything in label
-          return ''
+      tooltip: {
+        mode: 'index',
+        intersect: false,
+        backgroundColor: tooltipBg,
+        borderColor: tooltipBorder,
+        borderWidth: 1,
+        borderRadius: 12,
+        padding: 12,
+        titleFont: {
+          size: 13,
+          weight: '500',
+          color: tooltipTextColor
         },
-        label: function(context) {
-          // Show format: "date/month: value" (e.g., "Oct 9: 50" or "Jun: 50")
-          if (!context) return ''
-          const label = context.label || ''
-          const value = context.parsed?.y ?? context.raw ?? 0
-          return `${label}: ${value}`
+        bodyFont: {
+          size: 13,
+          color: tooltipTextColor
         },
-        labelTextColor: function() {
-          return '#030213'
+        boxPadding: 6,
+        enabled: true,
+        callbacks: {
+          title: function() {
+            return ''
+          },
+          label: function(context) {
+            if (!context) return ''
+            const label = context.label || ''
+            const value = context.parsed?.y ?? context.raw ?? 0
+            return `${label}: ${value}`
+          },
+          labelTextColor: function() {
+            return tooltipTextColor
+          }
         }
       }
-    }
-  },
-  scales: {
-    x: {
-      grid: {
-        display: false
-      },
-      ticks: {
-        color: '#999',
-        font: {
-          size: 11
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false
+        },
+        ticks: {
+          color: textColor,
+          font: {
+            size: 11
+          }
+        },
+        border: {
+          display: false
         }
       },
-      border: {
-        display: false
-      }
-    },
-    y: {
-      beginAtZero: true,
-      grid: {
-        color: '#f0f0f0',
-        lineWidth: 1,
-        drawBorder: false
-      },
-      ticks: {
-        color: '#999',
-        font: {
-          size: 11
+      y: {
+        beginAtZero: true,
+        grid: {
+          color: gridColor,
+          lineWidth: 1,
+          drawBorder: false
         },
-        precision: 0
-      },
-      border: {
-        display: false
+        ticks: {
+          color: textColor,
+          font: {
+            size: 11
+          },
+          precision: 0
+        },
+        border: {
+          display: false
+        }
       }
-    }
-  },
-  elements: {
-    point: {
-      radius: 0,
-      hoverRadius: 4
     },
-    line: {
-      tension: 0.4
+    elements: {
+      point: {
+        radius: 0,
+        hoverRadius: 4
+      },
+      line: {
+        tension: 0.4,
+        borderWidth: isDark.value ? 1.5 : 2
+      }
     }
   }
-}))
+})
 </script>
 
 <style scoped>

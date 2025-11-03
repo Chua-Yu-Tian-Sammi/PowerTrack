@@ -546,6 +546,7 @@ const resetForm = () => {
 .routine-page {
   min-height: 100vh;
   background: #fbfbfd;
+  transition: background 0.3s ease;
 }
 .routine-page .form-control,
 .routine-page .form-select {

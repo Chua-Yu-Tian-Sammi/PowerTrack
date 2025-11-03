@@ -74,6 +74,14 @@
           </div>
         </div>
         <div class="nav-actions">
+          <button 
+            class="theme-toggle" 
+            @click="toggleTheme"
+            :aria-label="theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
+            title="Toggle theme"
+          >
+            <i :class="theme === 'dark' ? 'bi bi-sun' : 'bi bi-moon'"></i>
+          </button>
           <router-link class="user-avatar" to="/profile" @click="closeMenu">
             <div class="avatar-circle">
               {{ initials }}
@@ -84,22 +92,24 @@
     </nav>
   </template>
   
-  <script setup>
-  import { ref, computed, onMounted } from 'vue'
-  import { getCurrentUser, getCurrentUserProfile } from '@/services/authService'
+<script setup>
+import { ref, computed, onMounted } from 'vue'
+import { getCurrentUser, getCurrentUserProfile } from '@/services/authService'
+import { useTheme } from '@/composables/useTheme'
 
-  const isMenuOpen = ref(false)
-  const userProfile = ref(null)
+const isMenuOpen = ref(false)
+const userProfile = ref(null)
+const { theme, toggleTheme } = useTheme()
 
-  const toggleMenu = () => {
-    isMenuOpen.value = !isMenuOpen.value
-  }
+const toggleMenu = () => {
+  isMenuOpen.value = !isMenuOpen.value
+}
 
-  const closeMenu = () => {
-    isMenuOpen.value = false
-  }
+const closeMenu = () => {
+  isMenuOpen.value = false
+}
 
-  const currentUser = ref(null)
+const currentUser = ref(null)
 
   const initials = computed(() => {
     // Prefer explicit username, then name, then auth displayName, then email
@@ -133,6 +143,13 @@
     z-index: 1000;
     border-bottom: 1px solid #f0f0f0;
     backdrop-filter: blur(10px);
+    transition: background 0.3s ease, border-color 0.3s ease;
+  }
+
+  .dark .modern-navbar {
+    background: rgba(0, 0, 0, 0.8);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.2);
   }
 
   .navbar-container {
@@ -158,6 +175,10 @@
     letter-spacing: -0.02em;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: inline-block;
+  }
+
+  .dark .navbar-logo {
+    color: #ffffff !important;
   }
 
   @media (min-width: 992px) {
@@ -200,6 +221,19 @@
     letter-spacing: 0.01em;
   }
 
+  .dark .nav-link {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .dark .nav-link:hover {
+    color: #ffffff;
+  }
+
+  .dark .nav-link.active {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.15);
+  }
+
   .nav-link::before {
     content: '';
     position: absolute;
@@ -208,7 +242,7 @@
     transform: translate(-50%, -50%) scale(0);
     width: 100%;
     height: 100%;
-    background: #f0f7ff;
+    background: rgba(0, 0, 0, 0.05);
     border-radius: 8px;
     transition: transform 0.2s ease;
     z-index: -1;
@@ -221,6 +255,14 @@
 
   .nav-link:hover::before {
     transform: translate(-50%, -50%) scale(1);
+  }
+
+  .dark .nav-link::before {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .dark .nav-link:hover::before {
+    background: rgba(255, 255, 255, 0.15);
   }
 
   .nav-link.active {
@@ -245,6 +287,42 @@
   .nav-actions {
     display: flex;
     align-items: center;
+    gap: 0.75rem;
+  }
+
+  .theme-toggle {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: transparent;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    color: #495057;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.125rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .dark .theme-toggle {
+    border-color: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .theme-toggle:hover {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.2);
+    transform: translateY(-1px);
+  }
+
+  .dark .theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .theme-toggle:active {
+    transform: scale(0.95);
   }
 
   .user-avatar {
@@ -289,6 +367,11 @@
     height: 2px;
     background: #212529;
     border-radius: 2px;
+    transition: background 0.3s ease;
+  }
+
+  .dark .mobile-menu-toggle span {
+    background: #ffffff;
   }
 
   @media (max-width: 991px) {
@@ -322,10 +405,15 @@
       gap: 0;
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.3s ease;
+      transition: max-height 0.3s ease, background 0.3s ease;
       z-index: 999;
       visibility: hidden;
       pointer-events: none;
+    }
+
+    .dark .navbar-menu {
+      background: rgba(0, 0, 0, 0.95);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     }
 
     .navbar-menu.show {
@@ -357,6 +445,13 @@
 
     .nav-actions {
       display: flex;
+      gap: 0.5rem;
+    }
+
+    .theme-toggle {
+      width: 36px;
+      height: 36px;
+      font-size: 1rem;
     }
   }
 
