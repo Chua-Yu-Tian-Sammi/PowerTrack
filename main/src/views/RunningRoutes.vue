@@ -173,8 +173,8 @@
               <!-- No Results -->
           <div v-else-if="!loading && searchPerformed" class="empty-state">
             <i class="bi bi-geo-alt"></i>
-            <h4>No routes found</h4>
-            <p>Try adjusting your distance or postal code</p>
+            <h4>No routes available</h4>
+            <p>No routes found within ±30% of your selected distance. Try adjusting your distance or postal code.</p>
           </div>
         </div>
       </Transition>
@@ -393,7 +393,7 @@ const findRoutes = async () => {
     )
     
     if (routes.value.length === 0) {
-      error.value = 'No routes found for this location and distance. Try a different postal code or distance.'
+      error.value = 'No routes available within ±30% of your selected distance. Try adjusting your distance or postal code.'
     }
     
     // Save state after successful search

@@ -2992,7 +2992,7 @@
 
 .running-routes-apple .routes-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(350px, 450px));
   gap: 1.5rem;
 }
 
@@ -4275,6 +4275,7 @@ html.dark .workout-generator-apple .apple-select {
   background: rgba(255, 255, 255, 0.05) !important;
   border-color: rgba(255, 255, 255, 0.1) !important;
   color: #ffffff !important;
+  color-scheme: dark !important;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' fill-opacity='0.6' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
   background-repeat: no-repeat !important;
   background-position: right 1rem center !important;
@@ -4286,6 +4287,12 @@ html.dark .workout-generator-apple .apple-select {
 .dark .workout-generator-apple .apple-select::-ms-expand,
 html.dark .workout-generator-apple .apple-select::-ms-expand {
   display: none !important;
+}
+
+.dark .workout-generator-apple .apple-select option,
+html.dark .workout-generator-apple .apple-select option {
+  background: #1a1a1a !important;
+  color: #ffffff !important;
 }
 
 .dark .workout-generator-apple .apple-input:focus,
@@ -4408,6 +4415,7 @@ html.dark .exercise-library-apple .filter-select {
   background: rgba(255, 255, 255, 0.05) !important;
   border-color: rgba(255, 255, 255, 0.2) !important;
   color: #ffffff !important;
+  color-scheme: dark !important;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' fill-opacity='0.6' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
   background-repeat: no-repeat !important;
   background-position: right 1rem center !important;
@@ -4421,6 +4429,12 @@ html.dark .exercise-library-apple .filter-select {
 .dark .exercise-library-apple .filter-select::-ms-expand,
 html.dark .exercise-library-apple .filter-select::-ms-expand {
   display: none !important;
+}
+
+.dark .exercise-library-apple .filter-select option,
+html.dark .exercise-library-apple .filter-select option {
+  background: #1a1a1a !important;
+  color: #ffffff !important;
 }
 
 .dark .exercise-library-apple .filter-select:focus,
@@ -4585,6 +4599,7 @@ html.dark .user-profile-apple .apple-select {
   background: rgba(255, 255, 255, 0.05) !important;
   border-color: rgba(255, 255, 255, 0.1) !important;
   color: #ffffff !important;
+  color-scheme: dark !important;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' fill-opacity='0.6' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
   background-repeat: no-repeat !important;
   background-position: right 1rem center !important;
@@ -4611,6 +4626,12 @@ html.dark .user-profile-apple .apple-select {
 .dark .user-profile-apple .apple-select::-ms-expand,
 html.dark .user-profile-apple .apple-select::-ms-expand {
   display: none !important;
+}
+
+.dark .user-profile-apple .apple-select option,
+html.dark .user-profile-apple .apple-select option {
+  background: #1a1a1a !important;
+  color: #ffffff !important;
 }
 
 .dark .user-profile-apple .apple-input:focus,
@@ -4895,11 +4916,19 @@ html.dark .dropdown-menu[data-bs-popper] {
   border-color: rgba(255, 255, 255, 0.1);
 }
 
+.dark .running-routes-apple .preference-input,
+html.dark .running-routes-apple .preference-input {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+
 .dark .running-routes-apple .preference-select,
 html.dark .running-routes-apple .preference-select {
   background: rgba(255, 255, 255, 0.05) !important;
   border-color: rgba(255, 255, 255, 0.1) !important;
   color: #ffffff !important;
+  color-scheme: dark !important;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' fill-opacity='0.6' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
   background-repeat: no-repeat !important;
   background-position: right 1rem center !important;
@@ -4911,6 +4940,12 @@ html.dark .running-routes-apple .preference-select {
 .dark .running-routes-apple .preference-select::-ms-expand,
 html.dark .running-routes-apple .preference-select::-ms-expand {
   display: none !important;
+}
+
+.dark .running-routes-apple .preference-select option,
+html.dark .running-routes-apple .preference-select option {
+  background: #1a1a1a !important;
+  color: #ffffff !important;
 }
 
 .dark .running-routes-apple .preference-input:focus,
@@ -4984,6 +5019,12 @@ html.dark .running-routes-apple .preference-select:focus {
 .dark .routine-page .form-select {
   background: rgba(255, 255, 255, 0.05) !important;
   border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+  color-scheme: dark !important;
+}
+
+.dark .routine-page .form-select option {
+  background: #1a1a1a !important;
   color: #ffffff !important;
 }
 
@@ -5061,6 +5102,7 @@ html.dark .workout-generator .form-select {
   background: rgba(255, 255, 255, 0.05) !important;
   border-color: rgba(255, 255, 255, 0.1) !important;
   color: #ffffff !important;
+  color-scheme: dark !important;
   appearance: none !important;
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
@@ -5075,6 +5117,14 @@ html.dark .workout-generator .form-select {
 html.dark .user-profile .form-select::-ms-expand,
 html.dark .workout-generator .form-select::-ms-expand {
   display: none !important;
+}
+
+.dark .user-profile .form-select option,
+.dark .workout-generator .form-select option,
+html.dark .user-profile .form-select option,
+html.dark .workout-generator .form-select option {
+  background: #1a1a1a !important;
+  color: #ffffff !important;
 }
 
 .dark .user-profile .form-select:focus,

@@ -146,25 +146,32 @@ class MapsService {
     const routes = []
     const variations = this.getRouteVariations(distance, routeType, parks, startLocation)
 
+    // Calculate the acceptable distance range (±30% of target distance)
+    const minDistance = distance * 0.7  // -30%
+    const maxDistance = distance * 1.3   // +30%
+
     for (let i = 0; i < variations.length; i++) {
       const variation = variations[i]
       try {
         const route = await this.calculateRoute(startLocation, variation)
         if (route) {
-          // Determine the actual route type for this specific route
-          const actualRouteType = variation.type
-          
-          routes.push({
-            id: `route_${i + 1}`,
-            distance: route.distance,
-            duration: route.duration,
-            startLocation: startLocation.formattedAddress,
-            description: this.generateRouteDescription(actualRouteType, distance, variation, i),
-            highlights: this.generateRouteHighlights(actualRouteType),
-            coordinates: route.coordinates,
-            routeType: actualRouteType,
-            estimatedTime: this.formatDuration(route.duration)
-          })
+          // Check if route distance is within ±30% of target distance
+          if (route.distance >= minDistance && route.distance <= maxDistance) {
+            // Determine the actual route type for this specific route
+            const actualRouteType = variation.type
+            
+            routes.push({
+              id: `route_${i + 1}`,
+              distance: route.distance,
+              duration: route.duration,
+              startLocation: startLocation.formattedAddress,
+              description: this.generateRouteDescription(actualRouteType, distance, variation, i),
+              highlights: this.generateRouteHighlights(actualRouteType),
+              coordinates: route.coordinates,
+              routeType: actualRouteType,
+              estimatedTime: this.formatDuration(route.duration)
+            })
+          }
         }
       } catch (error) {
         console.warn(`Failed to generate route variation ${i + 1}:`, error)

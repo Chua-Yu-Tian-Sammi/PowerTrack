@@ -9,8 +9,10 @@ const initializeTheme = () => {
   const html = document.documentElement
   if (savedTheme === 'dark') {
     html.classList.add('dark')
+    html.style.colorScheme = 'dark'
   } else {
     html.classList.remove('dark')
+    html.style.colorScheme = 'light'
   }
 }
 
@@ -33,8 +35,10 @@ export function useTheme() {
     const html = document.documentElement
     if (newTheme === 'dark') {
       html.classList.add('dark')
+      html.style.colorScheme = 'dark'
     } else {
       html.classList.remove('dark')
+      html.style.colorScheme = 'light'
     }
   }
 

@@ -13,7 +13,7 @@
           <span></span>
           <span></span>
         </button>
-        <router-link class="navbar-logo" to="/">
+        <router-link class="navbar-logo" to="/" @click="closeMenu">
           PowerTrack
         </router-link>
         <div 
@@ -147,7 +147,7 @@ const currentUser = ref(null)
   }
 
   .dark .modern-navbar {
-    background: rgba(0, 0, 0, 0.8);
+    background: #000000;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.2);
   }
@@ -183,9 +183,13 @@ const currentUser = ref(null)
 
   @media (min-width: 992px) {
     .navbar-logo:hover {
-      color: #667eea !important;
+      color: #212529 !important;
       transform: translateY(-2px);
       text-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+    }
+
+    .dark .navbar-logo:hover {
+      color: #ffffff !important;
     }
 
     .navbar-logo:active {
@@ -195,6 +199,10 @@ const currentUser = ref(null)
 
   .navbar-logo:focus {
     color: #212529 !important;
+  }
+
+  .dark .navbar-logo:focus {
+    color: #ffffff !important;
   }
 
   .navbar-menu {
@@ -397,7 +405,7 @@ const currentUser = ref(null)
       top: 100%;
       left: 0;
       right: 0;
-      background: white;
+      background: #ffffff;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       flex-direction: column;
       align-items: stretch;
@@ -412,7 +420,7 @@ const currentUser = ref(null)
     }
 
     .dark .navbar-menu {
-      background: rgba(0, 0, 0, 0.95);
+      background: #000000;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     }
 
