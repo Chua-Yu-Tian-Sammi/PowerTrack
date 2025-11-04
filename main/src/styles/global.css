@@ -123,27 +123,50 @@ html.dark {
 
 /* Form elements dark mode */
 .dark .form-control,
-.dark .form-select {
+.dark .form-select,
+html.dark .form-control,
+html.dark .form-select {
   background: rgba(255, 255, 255, 0.05) !important;
   border-color: rgba(255, 255, 255, 0.1) !important;
   color: #ffffff !important;
 }
 
+.dark .form-select,
+html.dark .form-select {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  padding-right: 2.5rem !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' fill-opacity='0.6' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 1rem center !important;
+}
+
+.dark .form-select::-ms-expand,
+html.dark .form-select::-ms-expand {
+  display: none !important;
+}
+
 .dark .form-control:not(:focus),
-.dark .form-select:not(:focus) {
+.dark .form-select:not(:focus),
+html.dark .form-control:not(:focus),
+html.dark .form-select:not(:focus) {
   background: rgba(255, 255, 255, 0.05) !important;
   border-color: rgba(255, 255, 255, 0.1) !important;
   color: #ffffff !important;
 }
 
 .dark .form-control:focus,
-.dark .form-select:focus {
+.dark .form-select:focus,
+html.dark .form-control:focus,
+html.dark .form-select:focus {
   background: rgba(255, 255, 255, 0.08) !important;
   border-color: rgba(255, 255, 255, 0.2) !important;
   color: #ffffff !important;
 }
 
-.dark .form-control::placeholder {
+.dark .form-control::placeholder,
+html.dark .form-control::placeholder {
   color: rgba(255, 255, 255, 0.5) !important;
 }
 

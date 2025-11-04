@@ -42,6 +42,7 @@ useTheme()
   padding-right: 2rem;
   background: transparent;
   transition: background 0.3s ease;
+  overflow-x: hidden;
 }
 
 @media (max-width: 991px) {

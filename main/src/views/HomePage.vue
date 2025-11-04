@@ -1,6 +1,14 @@
 <template>
-  <div class="home">
+  <div class="home-page-apple">
+    <!-- Hero Section -->
     <section class="hero-section">
+      <!-- Background Gradient -->
+      <div class="hero-background">
+        <div class="gradient-blob blob-1"></div>
+        <div class="gradient-blob blob-2"></div>
+      </div>
+
+      <!-- Grid Ripple Effect (only in dark mode) -->
       <BackgroundRippleEffect 
         v-if="isDark"
         :rows="20" 
@@ -10,205 +18,435 @@
         fill-color="rgba(255, 255, 255, 0.04)"
         :interactive="true"
       />
-      <div class="container hero-content">
-        <div class="row align-items-center">
-          <div class="col-lg-6 mb-4 mb-lg-0">
-            <div class="hero-badge mb-3">
-              <i class="bi bi-lightning-charge-fill me-2"></i>
-              <span>Smart Fitness Platform</span>
-            </div>
-            <h1 class="hero-title mb-4">Track Your Fitness Journey with PowerTrack</h1>
-            <p class="hero-description mb-4">
-              PowerTrack is your intelligent fitness companion that helps you create personalized workout routines, 
-              track your progress, and achieve your fitness goals faster. Whether you're a beginner or an advanced 
-              athlete, we've got you covered.
-            </p>
-            <div class="hero-actions">
-              <router-link to="/workout" class="btn btn-primary btn-lg">
-                <i class="bi bi-lightning-charge me-2"></i>Get Started
-              </router-link>
-              <router-link to="/profile" class="btn btn-outline-dark btn-lg">
-                <i class="bi bi-person me-2"></i>Create Profile
-              </router-link>
-            </div>
-            <div class="hero-stats mt-5">
-              <div class="stat-item">
-                <div class="stat-number">50+</div>
-                <div class="stat-label">Exercises</div>
+
+      <!-- Hero Content -->
+      <div class="hero-container">
+        <Transition name="hero-fade">
+          <div class="hero-content">
+            <!-- Badge -->
+            <Transition name="fade-up" appear>
+              <div class="hero-badge">
+                <i class="bi bi-heart-pulse"></i>
+                <span>Your Personal Fitness Journey</span>
               </div>
-              <div class="stat-item">
-                <div class="stat-number">Progress</div>
-                <div class="stat-label">Analytics</div>
+            </Transition>
+
+            <!-- Title -->
+            <Transition name="fade-up" appear :style="{ 'transition-delay': '0.1s' }">
+              <h1 class="hero-title">
+                Train Smarter.
+                <br />
+                Reach Your Goals.
+              </h1>
+            </Transition>
+
+            <!-- Description -->
+            <Transition name="fade-up" appear :style="{ 'transition-delay': '0.2s' }">
+              <p class="hero-description">
+                Personalized workout plans and running routes designed for your fitness level. 
+                Track your progress and stay motivated every step of the way.
+              </p>
+            </Transition>
+
+            <!-- CTA Buttons -->
+            <Transition name="fade-up" appear :style="{ 'transition-delay': '0.3s' }">
+              <div class="hero-actions">
+                <router-link to="/workout" class="btn-primary">
+                  Get Started 
+                </router-link>
+                <a href="#personalized-workout" class="btn-secondary" @click.prevent="scrollToPersonalizedWorkout">
+                  See How It Works
+                </a>
               </div>
-              <div class="stat-item">
-                <div class="stat-number">100%</div>
-                <div class="stat-label">Customizable</div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="hero-visual">
-              <div class="visual-card">
-                <div class="visual-header">
-                  <i class="bi bi-calendar-check"></i>
-                  <span>Your Workout Plan</span>
+            </Transition>
+
+            <!-- Trust Indicators -->
+            <Transition name="fade-up" appear :style="{ 'transition-delay': '0.5s' }">
+              <div class="trust-indicators">
+                <div class="trust-item">
+                  <i class="bi bi-check-circle"></i>
+                  <span>Free to Start</span>
                 </div>
-                <div class="visual-content">
-                  <div class="workout-item">
-                    <div class="workout-icon"><i class="bi bi-circle-fill"></i></div>
-                    <div class="workout-details">
-                      <div class="workout-name">Full Body Strength</div>
-                      <div class="workout-meta">45 min | 8 exercises</div>
-                    </div>
-                  </div>
-                  <div class="workout-item">
-                    <div class="workout-icon"><i class="bi bi-circle-fill"></i></div>
-                    <div class="workout-details">
-                      <div class="workout-name">Cardio & Endurance</div>
-                      <div class="workout-meta">30 min | 6 exercises</div>
-                    </div>
-                  </div>
-                  <div class="workout-item">
-                    <div class="workout-icon"><i class="bi bi-circle"></i></div>
-                    <div class="workout-details">
-                      <div class="workout-name">Core & Flexibility</div>
-                      <div class="workout-meta">20 min | 5 exercises</div>
-                    </div>
-                  </div>
+                <div class="trust-item">
+                  <i class="bi bi-bullseye"></i>
+                  <span>Track Your Progress</span>
                 </div>
               </div>
-            </div>
+            </Transition>
           </div>
-        </div>
+        </Transition>
       </div>
     </section>
 
+    <!-- Features Grid Section -->
     <section class="features-section">
-      <div class="container">
-        <div class="section-header text-center mb-5">
-          <h2 class="section-title">Everything You Need to Succeed</h2>
-          <p class="section-description">Powerful features designed to help you reach your fitness goals</p>
-        </div>
-        
-        <div class="row g-4">
-          <div class="col-md-6 col-lg-3">
-            <div class="feature-card">
-              <div class="feature-icon">
-                <i class="bi bi-lightning-charge"></i>
-              </div>
-              <h5 class="feature-title">Smart Generation</h5>
-              <p class="feature-description">Personalized workout routines tailored to your goals, experience level, and available time.</p>
-            </div>
+      <div class="features-container">
+        <Transition name="fade-up" appear>
+          <div class="section-header">
+            <h2 class="section-title">Everything You Need</h2>
+            <p class="section-subtitle">
+              Powerful features designed to help you reach your fitness goals.
+            </p>
           </div>
-          
-          <div class="col-md-6 col-lg-3">
-            <div class="feature-card">
-              <div class="feature-icon">
-                <i class="bi bi-graph-up"></i>
+        </Transition>
+
+        <div class="features-grid">
+          <Transition
+            v-for="(feature, index) in features"
+            :key="feature.title"
+            name="fade-up"
+            appear
+            :style="{ 'transition-delay': `${index * 0.1}s` }"
+          >
+            <div 
+              class="feature-card"
+              :class="feature.bgClass"
+              @mouseenter="handleFeatureHover(index)"
+            >
+              <div class="feature-icon" :class="feature.iconClass">
+                <i :class="feature.icon"></i>
               </div>
-              <h5 class="feature-title">Progress Tracking</h5>
-              <p class="feature-description">Monitor your performance with detailed analytics and visual progress charts.</p>
+              <h3 class="feature-title">{{ feature.title }}</h3>
+              <p class="feature-description">{{ feature.description }}</p>
             </div>
-          </div>
-          
-          <div class="col-md-6 col-lg-3">
-            <div class="feature-card">
-              <div class="feature-icon">
-                <i class="bi bi-book"></i>
-              </div>
-              <h5 class="feature-title">Exercise Library</h5>
-              <p class="feature-description">Access a comprehensive database of exercises with detailed instructions.</p>
-            </div>
-          </div>
-          
-          <div class="col-md-6 col-lg-3">
-            <div class="feature-card">
-              <div class="feature-icon">
-                <i class="bi bi-sliders"></i>
-              </div>
-              <h5 class="feature-title">Custom Routines</h5>
-              <p class="feature-description">Build and save your own workout routines with full control over every detail.</p>
-            </div>
-          </div>
+          </Transition>
         </div>
       </div>
     </section>
 
-    <section class="how-it-works-section">
-      <div class="container">
-        <div class="section-header text-center mb-5">
-          <h2 class="section-title">How It Works</h2>
-          <p class="section-description">Get started with PowerTrack in three simple steps</p>
+    <!-- Product Showcase Section -->
+    <section id="personalized-workout" class="showcase-section">
+      <div class="showcase-container">
+        <!-- Workout Plans Showcase -->
+        <div class="showcase-item">
+          <Transition name="fade-up" appear>
+            <div class="showcase-content">
+              <div class="showcase-badge">
+                <i class="bi bi-heart-pulse"></i>
+                <span>Custom Workouts</span>
+              </div>
+              <h2 class="showcase-title">Personalized Workout Plans</h2>
+              <p class="showcase-description">
+                Get workout routines matched to your fitness level, goals, and available equipment. 
+                Every exercise is carefully selected to help you progress safely and effectively.
+              </p>
+              <div class="showcase-features">
+                <div 
+                  v-for="(item, index) in workoutFeatures"
+                  :key="index"
+                  class="showcase-feature-item"
+                >
+                  <div class="feature-check">
+                    <i class="bi bi-check-circle"></i>
+                  </div>
+                  <span>{{ item }}</span>
+                </div>
+              </div>
+            </div>
+          </Transition>
+
+          <Transition name="fade-up" appear :style="{ 'transition-delay': '0.2s' }">
+            <div class="showcase-image">
+              <div class="image-card">
+                <div class="image-placeholder workout-image">
+                  <div class="image-overlay"></div>
+                  <div class="floating-card">
+                    <div class="floating-card-header">
+                      <span>Today's Workout</span>
+                      <span class="floating-badge beginner">Beginner</span>
+                    </div>
+                    <h4>Full Body Strength</h4>
+                    <div class="floating-card-meta">
+                      <div class="meta-item">
+                        <i class="bi bi-clock"></i>
+                        <span>45 min</span>
+                      </div>
+                      <div class="meta-item">
+                        <i class="bi bi-dumbbell"></i>
+                        <span>8 exercises</span>
+                      </div>
+                      <div class="meta-item">
+                        <i class="bi bi-graph-up"></i>
+                        <span>Medium</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Transition>
         </div>
-        
-        <div class="row g-4">
-          <div class="col-lg-4">
-            <div class="step-card">
-              <div class="step-number">1</div>
-              <div class="step-content">
-                <h5 class="step-title">Create Your Profile</h5>
-                <p class="step-description">Tell us about your fitness level, goals, and preferences to get personalized recommendations.</p>
-                <router-link to="/profile" class="step-link">
-                  Set up profile <i class="bi bi-arrow-right ms-1"></i>
-                </router-link>
+
+        <!-- Route Discovery Showcase -->
+        <div class="showcase-item reverse">
+          <Transition name="fade-up" appear>
+            <div class="showcase-image">
+              <div class="image-card">
+                <div class="image-placeholder route-image">
+                  <div class="image-overlay"></div>
+                  <div class="floating-card">
+                    <div class="floating-card-header">
+                      <span>Recommended Route</span>
+                      <span class="floating-badge scenic">Scenic</span>
+                    </div>
+                    <h4>Lakeside Morning Run</h4>
+                    <div class="floating-card-meta">
+                      <div class="meta-item">
+                        <i class="bi bi-geo-alt"></i>
+                        <span>2.3 km</span>
+                      </div>
+                      <div class="meta-item">
+                        <i class="bi bi-graph-up"></i>
+                        <span>Moderate</span>
+                      </div>
+                      <div class="meta-item">
+                        <i class="bi bi-calendar"></i>
+                        <span>Best: Morning</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          
-          <div class="col-lg-4">
-            <div class="step-card">
-              <div class="step-number">2</div>
-              <div class="step-content">
-                <h5 class="step-title">Generate Workouts</h5>
-                <p class="step-description">Generate custom workout routines or build your own from our exercise library.</p>
-                <router-link to="/workout" class="step-link">
-                  Generate workout <i class="bi bi-arrow-right ms-1"></i>
-                </router-link>
+          </Transition>
+
+          <Transition name="fade-up" appear :style="{ 'transition-delay': '0.2s' }">
+            <div class="showcase-content">
+              <div class="showcase-badge">
+                <i class="bi bi-signpost-split"></i>
+                <span>Running Routes</span>
+              </div>
+              <h2 class="showcase-title">Discover Perfect Routes</h2>
+              <p class="showcase-description">
+                Find the best running and cycling routes near you. Get detailed information 
+                about distance, terrain, and difficulty to match your fitness level.
+              </p>
+              <div class="showcase-features">
+                <div 
+                  v-for="(item, index) in routeFeatures"
+                  :key="index"
+                  class="showcase-feature-item"
+                >
+                  <div class="feature-check">
+                    <i class="bi bi-check-circle"></i>
+                  </div>
+                  <span>{{ item }}</span>
+                </div>
               </div>
             </div>
-          </div>
-          
-          <div class="col-lg-4">
-            <div class="step-card">
-              <div class="step-number">3</div>
-              <div class="step-content">
-                <h5 class="step-title">Track Progress</h5>
-                <p class="step-description">Log your workouts, monitor your performance, and watch your progress grow over time.</p>
-                <router-link to="/progress" class="step-link">
-                  View progress <i class="bi bi-arrow-right ms-1"></i>
-                </router-link>
-              </div>
-            </div>
-          </div>
+          </Transition>
         </div>
       </div>
     </section>
 
-    <section class="cta-section">
-      <div class="container">
-        <div class="cta-card">
-          <div class="row align-items-center">
-            <div class="col-lg-8 mb-4 mb-lg-0">
-              <h3 class="cta-title">Ready to Transform Your Fitness?</h3>
-              <p class="cta-description">Join PowerTrack today and start your journey to a healthier, stronger you.</p>
+    <!-- Stats Section -->
+    <section id="stats-section" class="stats-section">
+      <div class="stats-container">
+        <Transition name="fade-up" appear>
+          <div class="stats-header">
+            <h2 class="stats-title">Join Thousands of Athletes</h2>
+            <p class="stats-subtitle">
+              A growing community of fitness enthusiasts achieving their goals every day.
+            </p>
+          </div>
+        </Transition>
+
+        <div class="stats-grid">
+          <Transition
+            v-for="(stat, index) in stats"
+            :key="stat.label"
+            name="fade-up"
+            appear
+            :style="{ 'transition-delay': `${index * 0.1}s` }"
+          >
+            <div class="stat-card">
+              <div class="stat-value">{{ formatStatValue(stat.value, index) }}</div>
+              <div class="stat-label">{{ stat.label }}</div>
             </div>
-            <div class="col-lg-4 text-lg-end">
-              <router-link to="/workout" class="btn btn-primary btn-lg">
-                <i class="bi bi-lightning-charge me-2"></i>Start Now
+          </Transition>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+      <div class="testimonials-container">
+        <Transition name="fade-up" appear>
+          <div class="section-header">
+            <h2 class="section-title">What People Say</h2>
+            <p class="section-subtitle">
+              Real stories from users transforming their fitness journey.
+            </p>
+          </div>
+        </Transition>
+
+        <Transition name="fade-up" appear :style="{ 'transition-delay': '0.2s' }">
+          <TestimonialCarousel :testimonials="testimonials" />
+        </Transition>
+      </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="final-cta-section">
+      <div class="cta-container">
+        <Transition name="fade-up" appear>
+          <div class="cta-content">
+            <h2 class="cta-title">Start Your Fitness Journey</h2>
+            <p class="cta-description">
+              Join thousands of users achieving their fitness goals with personalized 
+              workouts and curated route recommendations.
+            </p>
+            <div class="cta-actions">
+              <router-link to="/profile" class="btn-primary">
+                Start Your Journey
+                <i class="bi bi-arrow-right"></i>
               </router-link>
             </div>
           </div>
-        </div>
+        </Transition>
       </div>
     </section>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import BackgroundRippleEffect from '../components/BackgroundRippleEffect.vue'
-import { useTheme } from '@/composables/useTheme'
+import TestimonialCarousel from '../components/TestimonialCarousel.vue'
+import { useTheme } from '../composables/useTheme'
 
 const { theme } = useTheme()
 const isDark = computed(() => theme.value === 'dark')
+
+const features = [
+  {
+    icon: 'bi bi-heart-pulse',
+    title: 'Personalized Workouts',
+    description: 'Get workout plans tailored to your fitness level, goals, and available equipment.',
+    bgClass: 'feature-blue',
+    iconClass: 'icon-blue'
+  },
+  {
+    icon: 'bi bi-signpost-split',
+    title: 'Route Discovery',
+    description: 'Find running and cycling routes near you with detailed distance and terrain information.',
+    bgClass: 'feature-indigo',
+    iconClass: 'icon-indigo'
+  },
+  {
+    icon: 'bi bi-bullseye',
+    title: 'Progress Tracking',
+    description: 'Monitor your workouts with detailed analytics and celebrate your achievements.',
+    bgClass: 'feature-green',
+    iconClass: 'icon-green'
+  },
+  {
+    icon: 'bi bi-lightning-charge',
+    title: 'Quick Sessions',
+    description: 'Short on time? Access efficient workouts that fit into your busy schedule.',
+    bgClass: 'feature-orange',
+    iconClass: 'icon-orange'
+  }
+]
+
+const workoutFeatures = [
+  'Adapts to your fitness level',
+  'Preference-based recommendations',
+  'Progressive difficulty scaling',
+  'Track every workout session'
+]
+
+const routeFeatures = [
+  'Location-based recommendations',
+  'Route type selections',
+  'Distance and elevation data',
+  'Variety of choices'
+]
+
+const stats = [
+  { value: '15K+', label: 'Calories Burned Weekly' },
+  { value: '63', label: 'Exercises Available' },
+  { value: '1000', label: 'Routes Discovered' },
+  { value: '50.0', label: 'Average Rating' }
+]
+
+const testimonials = [
+  {
+    name: 'Ong Jianyong',
+    role: 'Beginner Fitness Enthusiast',
+    image: 'https://images.unsplash.com/photo-1607286908165-b8b6a2874fc4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
+    quote: 'Finally, an app that understands my fitness level. The personalized workouts are perfect for my goals.',
+    rating: 5
+  },
+  {
+    name: 'Dr Keith Fwa',
+    role: 'WAD2 Professor',
+    image: 'https://images.unsplash.com/photo-1678875524808-78e1d24b6597?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
+    quote: 'The route recommendations are incredible. I\'ve discovered so many great running paths I never knew existed.',
+    rating: 5
+  },
+  {
+    name: 'Alvin Tay',
+    role: 'WAD2 Instructor',
+    image: 'https://images.unsplash.com/photo-1554885730-e5d7a39e0d50?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
+    quote: 'The app adapts to my changing fitness journey. It\'s like having a personal trainer in my pocket.',
+    rating: 5
+  }
+]
+
+const countUpStats = ref([0, 0, 0, 0])
+
+const formatStatValue = (value, index) => {
+  if (value.includes('K') || value.includes('M')) {
+    const num = countUpStats.value[index]
+    return `${num}${value.replace(/[0-9.]/g, '')}`
+  } else if (value.includes('.')) {
+    return (countUpStats.value[index] / 10).toFixed(1)
+  }
+  return countUpStats.value[index]
+}
+
+const handleFeatureHover = (index) => {
+  // Feature hover animation handled by CSS
+}
+
+const scrollToPersonalizedWorkout = () => {
+  const element = document.getElementById('personalized-workout')
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+}
+
+// Count up animation for stats
+onMounted(() => {
+  const statsElement = document.getElementById('stats-section')
+  if (statsElement) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            stats.forEach((stat, index) => {
+              const target = parseInt(stat.value.replace(/[^0-9.]/g, ''))
+              let current = 0
+              const increment = target / 50
+              const timer = setInterval(() => {
+                current += increment
+                if (current >= target) {
+                  current = target
+                  clearInterval(timer)
+                }
+                countUpStats.value[index] = Math.floor(current)
+              }, 30)
+            })
+            observer.disconnect()
+          }
+        })
+      },
+      { threshold: 0.5 }
+    )
+    observer.observe(statsElement)
+  }
+})
 </script>
+
+

@@ -445,4 +445,85 @@ const handleEndWorkout = async () => {
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+/* Dark Mode Styles */
+.dark .modal-content,
+html.dark .modal-content {
+  background: #1a1a1a !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark .modal-title,
+html.dark .modal-title {
+  color: #ffffff !important;
+}
+
+.dark .modal-description,
+html.dark .modal-description {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+
+.dark .modal-question,
+html.dark .modal-question {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.dark .modal-close-button,
+html.dark .modal-close-button {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark .modal-close-button:hover,
+html.dark .modal-close-button:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+}
+
+.dark .modal-close-button i,
+html.dark .modal-close-button i {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.dark .current-workout-card,
+html.dark .current-workout-card {
+  background: linear-gradient(to bottom right, rgba(59, 130, 246, 0.15), rgba(59, 130, 246, 0.1)) !important;
+  border-left-color: #3b82f6 !important;
+}
+
+.dark .card-label,
+html.dark .card-label {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.dark .card-workout-name,
+html.dark .card-workout-name {
+  color: #ffffff !important;
+}
+
+.dark .workout-type-badge,
+html.dark .workout-type-badge {
+  background: rgba(255, 255, 255, 0.15) !important;
+}
+
+.dark .workout-type-badge span,
+html.dark .workout-type-badge span {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.dark .elapsed-time,
+html.dark .elapsed-time {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.dark .cancel-button,
+html.dark .cancel-button {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.dark .cancel-button:hover,
+html.dark .cancel-button:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
 </style>
