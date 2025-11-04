@@ -84,7 +84,7 @@
           </button>
           <router-link class="user-avatar" to="/profile" @click="closeMenu">
             <div class="avatar-circle">
-              {{ initials }}
+              <i class="bi bi-person"></i>
             </div>
           </router-link>
         </div>
@@ -93,7 +93,7 @@
   </template>
   
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { getCurrentUser, getCurrentUserProfile } from '@/services/authService'
 import { useTheme } from '@/composables/useTheme'
 
@@ -109,24 +109,8 @@ const closeMenu = () => {
   isMenuOpen.value = false
 }
 
-const currentUser = ref(null)
-
-  const initials = computed(() => {
-    // Prefer explicit username, then name, then auth displayName, then email
-    const source = (userProfile.value && (userProfile.value.username || userProfile.value.name))
-      || (currentUser.value && (currentUser.value.displayName || currentUser.value.email))
-      || ''
-    if (!source) return 'U'
-    const cleaned = String(source).trim()
-    if (!cleaned) return 'U'
-    const parts = cleaned.split(' ')
-    const first = parts[0]
-    return first ? first[0].toUpperCase() : 'U'
-  })
-
-  onMounted(async () => {
+onMounted(async () => {
     const user = getCurrentUser()
-    currentUser.value = user
     if (user) {
       const profile = await getCurrentUserProfile()
       userProfile.value = profile
@@ -341,15 +325,24 @@ const currentUser = ref(null)
     width: 42px;
     height: 42px;
     border-radius: 10px;
-    background: #212529; /* solid black */
-    color: #ffffff;
+    background: transparent;
+    color: #495057 !important; /* same as theme toggle in light mode */
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 700;
-    font-size: 0.875rem;
+    font-size: 1.25rem;
     transition: transform 0.2s ease;
-    border: 2px solid #212529;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .dark .avatar-circle {
+    background: transparent;
+    color: rgba(255, 255, 255, 0.8) !important; /* same as theme toggle in dark mode */
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .avatar-circle i {
+    color: inherit;
   }
 
   .user-avatar:hover .avatar-circle {
