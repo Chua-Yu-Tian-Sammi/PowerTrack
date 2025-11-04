@@ -292,7 +292,7 @@ onMounted(async () => {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.125rem;
+    font-size: 1.25rem;
     cursor: pointer;
     transition: all 0.2s ease;
   }
@@ -452,7 +452,13 @@ onMounted(async () => {
     .theme-toggle {
       width: 36px;
       height: 36px;
-      font-size: 1rem;
+      font-size: 1.125rem;
+    }
+
+    .avatar-circle {
+      width: 36px;
+      height: 36px;
+      font-size: 1.125rem;
     }
   }
 
