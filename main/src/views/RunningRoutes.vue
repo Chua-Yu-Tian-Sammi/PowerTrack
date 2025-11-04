@@ -25,7 +25,7 @@
                       type="text" 
                   class="preference-input" 
                       id="postalCode"
-                  placeholder="120462"
+                  placeholder="123456"
                       v-model="searchForm.postalCode"
                       @keyup.enter="findRoutes"
                       required

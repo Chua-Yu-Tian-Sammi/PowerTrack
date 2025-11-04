@@ -16,77 +16,6 @@
 
     <!-- Workout available -->
     <div v-else class="tracking-container">
-      <!-- Workout Header -->
-      <Transition name="fade" appear>
-        <div class="workout-header-card">
-          <!-- Title -->
-          <div class="mb-3">
-            <h1 class="workout-title">{{ workoutName }}</h1>
-          </div>
-          
-          <!-- Progress Bar -->
-          <div 
-            class="progress-bar-container" 
-            :class="{ 'progress-bar-clickable': isRunningRoute && isActive }"
-            @click="handleProgressBarClick"
-            :title="isRunningRoute && isActive ? 'Click to set distance completed' : ''"
-            style="margin-bottom: 0.75rem;"
-          >
-            <div 
-              class="progress-bar-fill" 
-              :style="{ width: progressPercentage + '%' }"
-            ></div>
-          </div>
-
-          <!-- Distance and Timer (inline) -->
-          <div class="d-flex align-items-center justify-content-between">
-            <!-- Running Route: Distance Input -->
-            <div v-if="isRunningRoute && isActive" style="display: flex; align-items: center; gap: 0.5rem;">
-              <input
-                type="number"
-                v-model.number="trackedDistance"
-                min="0"
-                :max="runningRouteData?.distance || 0"
-                step="0.01"
-                style="width: 100px; padding: 0.375rem 0.5rem; border: 1px solid rgba(0,0,0,0.1); border-radius: 0.5rem; background: #f3f3f5; font-size: 0.875rem;"
-              />
-              <span style="font-size: 0.875rem; opacity: 0.6;">km / {{ formatDistance(runningRouteData?.distance || 0) }}</span>
-            </div>
-            
-            <!-- Regular Workout: Exercise Count -->
-            <div v-else-if="!isRunningRoute" style="font-size: 0.875rem; opacity: 0.6;">
-              {{ completedExercisesCount }} of {{ totalExercisesCount }} completed
-            </div>
-            
-            <!-- Timer and Pause Button (always shown when active) -->
-            <div v-if="isActive" class="d-flex align-items-center gap-2 timer-container">
-              <div class="text-end">
-                <div class="workout-timer" style="font-size: 1.5rem;">{{ formatTime(elapsedTime) }}</div>
-                <div class="workout-timer-label">ELAPSED</div>
-              </div>
-              <button
-                v-if="!isPaused"
-                class="play-button"
-                style="width: 2rem; height: 2rem; font-size: 0.875rem; background: rgba(0,0,0,0.1);"
-                @click="pauseWorkout"
-                title="Pause"
-              >
-                <i class="bi bi-pause-fill"></i>
-              </button>
-              <button
-                v-else
-                class="play-button"
-                style="width: 2rem; height: 2rem; font-size: 0.875rem; background: #22c55e;"
-                @click="resumeWorkout"
-                title="Resume"
-              >
-                <i class="bi bi-play-fill"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-      </Transition>
-
       <!-- Start/End Workout Card -->
       <Transition name="fade" appear>
         <div class="start-workout-card">
@@ -113,6 +42,76 @@
               <i class="bi bi-stop-fill"></i>
               End {{ isRunningRoute ? 'Run' : 'Workout' }}
               </button>
+          </div>
+        </div>
+      </Transition>
+
+      <!-- Workout Header -->
+      <Transition name="fade" appear>
+        <div class="workout-header-card">
+          <!-- Title -->
+          <div class="mb-3">
+            <h1 class="workout-title">{{ workoutName }}</h1>
+          </div>
+          
+          <!-- Progress Bar -->
+          <div 
+            class="progress-bar-container" 
+            :class="{ 'progress-bar-clickable': isRunningRoute && isActive }"
+            @click="handleProgressBarClick"
+            :title="isRunningRoute && isActive ? 'Click to set distance completed' : ''"
+            style="margin-bottom: 0.75rem;"
+          >
+            <div 
+              class="progress-bar-fill" 
+              :style="{ width: progressPercentage + '%' }"
+            ></div>
+          </div>
+
+          <!-- Distance and Timer (inline) -->
+          <div class="d-flex align-items-center justify-content-between">
+            <!-- Running Route: Distance Input -->
+            <div v-if="isRunningRoute && isActive" class="distance-input-group">
+              <input
+                type="number"
+                v-model.number="trackedDistance"
+                min="0"
+                :max="runningRouteData?.distance || 0"
+                step="0.01"
+                class="distance-input"
+              />
+              <span class="distance-label">km / {{ formatDistance(runningRouteData?.distance || 0) }}</span>
+            </div>
+            
+            <!-- Regular Workout: Exercise Count -->
+            <div v-else-if="!isRunningRoute" style="font-size: 0.875rem; opacity: 0.6;">
+              {{ completedExercisesCount }} of {{ totalExercisesCount }} completed
+            </div>
+            
+            <!-- Timer and Pause Button (always shown when active) -->
+            <div v-if="isActive" class="d-flex align-items-center gap-2 timer-container">
+              <div class="text-end">
+                <div class="workout-timer" style="font-size: 1.5rem;">{{ formatTime(elapsedTime) }}</div>
+                <div class="workout-timer-label">ELAPSED</div>
+              </div>
+              <button
+                v-if="!isPaused"
+                class="play-button pause-button"
+                @click="pauseWorkout"
+                title="Pause"
+              >
+                <i class="bi bi-pause-fill"></i>
+              </button>
+              <button
+                v-else
+                class="play-button"
+                style="width: 2rem; height: 2rem; font-size: 0.875rem; background: #22c55e;"
+                @click="resumeWorkout"
+                title="Resume"
+              >
+                <i class="bi bi-play-fill"></i>
+              </button>
+            </div>
           </div>
         </div>
       </Transition>
@@ -205,22 +204,22 @@
               </button>
           </div>
             <div class="apple-modal-body">
-              <div style="background: rgba(0, 123, 255, 0.08); border-left: 3px solid #007bff; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
-                <div style="font-weight: 600; margin-bottom: 0.5rem; color: #030213;">Workout Summary</div>
-                <div style="font-size: 0.875rem; opacity: 0.7;">
+              <div class="workout-summary-box">
+                <div class="workout-summary-title">Workout Summary</div>
+                <div class="workout-summary-content">
                   {{ workoutName }} • {{ formatTime(elapsedTime) }} • {{ completedExercisesCount }}/{{ totalExercisesCount }} exercises completed
               </div>
             </div>
 
               <div class="form-group mb-3">
-                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                <div class="checkbox-group">
                   <input 
                     type="checkbox" 
                     id="endSaveAsRoutine" 
                     v-model="saveAsRoutine"
-                    style="width: 1.25rem; height: 1.25rem; cursor: pointer;"
+                    class="workout-checkbox"
                   >
-                  <label for="endSaveAsRoutine" style="margin: 0; cursor: pointer; user-select: none;">
+                  <label for="endSaveAsRoutine" class="workout-checkbox-label">
                 Save this workout as a routine
               </label>
             </div>
@@ -235,19 +234,17 @@
             </div>
           </div>
 
-              <div style="display: flex; gap: 0.75rem;">
+              <div class="workout-modal-actions">
                 <button 
                   type="button" 
-                  class="apple-input" 
-                  style="flex: 1; height: 3rem; border: 1px solid rgba(0,0,0,0.1); cursor: pointer; font-weight: 500;"
+                  class="apple-modal-cancel-btn"
                   @click="showEndWorkoutModal = false"
                 >
               Cancel
             </button>
             <button 
               type="button" 
-                  class="apple-input"
-                  style="flex: 1; height: 3rem; background: #ef4444; color: white; cursor: pointer; font-weight: 500; border: none;"
+                  class="apple-modal-end-btn"
               @click="endWorkout"
               :disabled="ending"
             >
@@ -273,26 +270,24 @@
               </button>
             </div>
             <div class="apple-modal-body">
-              <div style="background: rgba(0, 123, 255, 0.08); border-left: 3px solid #007bff; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
-                <div style="font-weight: 600; margin-bottom: 0.5rem; color: #030213;">Run Summary</div>
-                <div style="font-size: 0.875rem; opacity: 0.7;">
+              <div class="workout-summary-box">
+                <div class="workout-summary-title">Run Summary</div>
+                <div class="workout-summary-content">
                   {{ formatDistance(trackedDistance) }} • {{ formatTime(elapsedTime) }}
                 </div>
               </div>
 
-              <div style="display: flex; gap: 0.75rem;">
+              <div class="workout-modal-actions">
                 <button 
                   type="button" 
-                  class="apple-input" 
-                  style="flex: 1; height: 3rem; border: 1px solid rgba(0,0,0,0.1); cursor: pointer; font-weight: 500;"
+                  class="apple-modal-cancel-btn"
                   @click="showEndWorkoutModal = false"
                 >
                   Cancel
                 </button>
                 <button 
                   type="button" 
-                  class="apple-input"
-                  style="flex: 1; height: 3rem; background: #ef4444; color: white; cursor: pointer; font-weight: 500; border: none;"
+                  class="apple-modal-end-btn"
                   @click="endWorkout"
                   :disabled="ending"
                 >

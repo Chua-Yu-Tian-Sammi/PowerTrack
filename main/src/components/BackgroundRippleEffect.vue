@@ -2,6 +2,7 @@
   <div 
     class="background-ripple-effect" 
     :style="containerStyles"
+    @click.stop
   >
     <div 
       class="ripple-grid"
@@ -14,8 +15,8 @@
         :class="{ 'ripple-active': clickedCell !== null }"
         :style="getCellStyle(idx)"
         @click.stop="handleCellClick(idx)"
-        @mousedown.stop
-        @mouseup.stop
+        @mousedown.stop="handleCellClick(idx)"
+        @touchstart.stop="handleCellClick(idx)"
       ></div>
     </div>
   </div>
@@ -66,7 +67,7 @@ const containerStyles = computed(() => ({
   bottom: 0,
   width: '100%',
   height: '100%',
-  pointerEvents: 'none',
+  pointerEvents: props.interactive ? 'auto' : 'none',
   zIndex: 0,
   overflow: 'hidden'
 }))
@@ -112,7 +113,9 @@ const getCellStyle = (idx) => {
     transition: 'opacity 0.15s',
     minWidth: '0',
     minHeight: '0',
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    position: 'relative',
+    zIndex: 1
   }
 
   // Add CSS custom properties for animation

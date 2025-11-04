@@ -3,7 +3,7 @@
     <div class="generator-container">
       <!-- Page Header -->
       <Transition name="header-fade">
-        <div class="page-header">
+        <div v-if="true" class="page-header">
           <h1 class="page-title">Generate Your Workout</h1>
           <p class="page-subtitle">Create a personalized workout routine tailored to your profile</p>
         </div>
@@ -13,7 +13,7 @@
       <div class="preferences-grid">
         <!-- Workout Preferences Card -->
         <Transition name="section-fade">
-          <div class="preferences-card">
+          <div v-if="true" class="preferences-card">
             <h2 class="preferences-title">Workout Preferences</h2>
 
               <form @submit.prevent="generateWorkout">
@@ -105,7 +105,7 @@
 
         <!-- Profile Summary Card -->
         <Transition name="section-fade" style="--transition-delay: 0.1s">
-          <div class="profile-summary-card">
+          <div v-if="true" class="profile-summary-card">
             <h2 class="profile-summary-title">
               <i class="bi bi-person-circle"></i>
               Your Profile
@@ -496,24 +496,6 @@ const getExerciseName = (exerciseId) => {
   if (!generatedWorkout.value) return 'Unknown'
   const exercise = generatedWorkout.value.exercises.find(ex => ex.exerciseId === exerciseId)
   return exercise ? exercise.name : 'Unknown Exercise'
-}
-
-const getExerciseDescription = (exerciseId) => {
-  if (!generatedWorkout.value) return ''
-  const exercise = generatedWorkout.value.exercises.find(ex => ex.exerciseId === exerciseId)
-  return exercise ? exercise.description : ''
-}
-
-const getExerciseIntensity = (exerciseId) => {
-  if (!generatedWorkout.value) return 'Unknown'
-  const exercise = generatedWorkout.value.exercises.find(ex => ex.exerciseId === exerciseId)
-  return exercise ? exercise.intensity : 'Unknown'
-}
-
-const getExerciseDifficulty = (exerciseId) => {
-  if (!generatedWorkout.value) return 'Unknown'
-  const exercise = generatedWorkout.value.exercises.find(ex => ex.exerciseId === exerciseId)
-  return exercise ? exercise.difficulty : 'Unknown'
 }
 
 const saveRoutine = async () => {

@@ -150,24 +150,30 @@
               <div class="image-card">
                 <div class="image-placeholder workout-image">
                   <div class="image-overlay"></div>
-                  <div class="floating-card">
-                    <div class="floating-card-header">
-                      <span>Today's Workout</span>
-                      <span class="floating-badge beginner">Beginner</span>
+                  <div class="profile-summary-card">
+                    <div class="apple-header-profile">
+                      <div class="d-flex align-items-center gap-3">
+                        <div class="apple-avatar-profile">
+                          <i class="bi bi-person"></i>
+                        </div>
+                        <div>
+                          <h1 class="apple-username-profile mb-0">Ah Gong</h1>
+                          <p class="apple-email-profile mb-0">ahgong@gmail.com</p>
+                        </div>
+                      </div>
                     </div>
-                    <h4>Full Body Strength</h4>
-                    <div class="floating-card-meta">
-                      <div class="meta-item">
-                        <i class="bi bi-clock"></i>
-                        <span>45 min</span>
+                    <div class="profile-stats">
+                      <div class="stat-item">
+                        <div class="stat-value">22.5</div>
+                        <div class="stat-label">BMI</div>
                       </div>
-                      <div class="meta-item">
-                        <i class="bi bi-dumbbell"></i>
-                        <span>8 exercises</span>
+                      <div class="stat-item">
+                        <div class="stat-value">Intermediate</div>
+                        <div class="stat-label">Experience</div>
                       </div>
-                      <div class="meta-item">
-                        <i class="bi bi-graph-up"></i>
-                        <span>Medium</span>
+                      <div class="stat-item">
+                        <div class="stat-value">Strength</div>
+                        <div class="stat-label">Goal</div>
                       </div>
                     </div>
                   </div>
@@ -184,24 +190,26 @@
               <div class="image-card">
                 <div class="image-placeholder route-image">
                   <div class="image-overlay"></div>
-                  <div class="floating-card">
-                    <div class="floating-card-header">
-                      <span>Recommended Route</span>
-                      <span class="floating-badge scenic">Scenic</span>
-                    </div>
-                    <h4>Lakeside Morning Run</h4>
-                    <div class="floating-card-meta">
-                      <div class="meta-item">
-                        <i class="bi bi-geo-alt"></i>
-                        <span>2.3 km</span>
+                  <div class="route-card-example">
+                    <div class="route-content-example">
+                      <h3 class="route-name-example">Route 1</h3>
+                      <div class="route-badges-example">
+                        <span class="route-badge-example distance">5.0 km</span>
+                        <span class="route-badge-example type loop">Loop</span>
+                        <span class="route-badge-example elevation">
+                          <i class="bi bi-graph-up-arrow"></i>
+                          <span>12m</span>
+                        </span>
                       </div>
-                      <div class="meta-item">
-                        <i class="bi bi-graph-up"></i>
-                        <span>Moderate</span>
-                      </div>
-                      <div class="meta-item">
-                        <i class="bi bi-calendar"></i>
-                        <span>Best: Morning</span>
+                      <div class="route-meta-example">
+                        <div class="route-meta-item-example">
+                          <i class="bi bi-geo-alt"></i>
+                          <span>178902</span>
+                        </div>
+                        <div class="route-meta-item-example">
+                          <i class="bi bi-clock"></i>
+                          <span>30 minutes</span>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -244,7 +252,7 @@
       <div class="stats-container">
         <Transition name="fade-up" appear>
           <div class="stats-header">
-            <h2 class="stats-title">Join Thousands of Athletes</h2>
+            <h2 class="stats-title">Where Everyday Athletes Level Up</h2>
             <p class="stats-subtitle">
               A growing community of fitness enthusiasts achieving their goals every day.
             </p>

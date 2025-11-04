@@ -10,7 +10,7 @@
                 <i class="bi bi-person-circle"></i>
               </div>
               <h2 style="font-size: 1.75rem; font-weight: 500; margin-bottom: 1rem;">Welcome to PowerTrack</h2>
-              <p style="color: rgba(0,0,0,0.5); margin-bottom: 2rem;">Sign in to access your personalized fitness profile and start tracking your progress.</p>
+              <p class="welcome-text" style="margin-bottom: 2rem;">Sign in to access your personalized fitness profile and start tracking your progress.</p>
               <button class="apple-save-btn" @click="showSignIn = true">
                 <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
               </button>
@@ -30,7 +30,7 @@
                 <i class="bi bi-person-circle"></i>
               </div>
               <h2 style="font-size: 1.75rem; font-weight: 500; margin-bottom: 1rem;">Setting up your profile...</h2>
-              <p style="color: rgba(0,0,0,0.5); margin-bottom: 2rem;">Please wait while we load your profile information.</p>
+              <p class="welcome-text" style="margin-bottom: 2rem;">Please wait while we load your profile information.</p>
               <div class="spinner-border" role="status" style="color: #030213;">
                 <span class="visually-hidden">Loading...</span>
               </div>
