@@ -1044,6 +1044,7 @@
   font-size: 0.9375rem;
   transition: all 0.2s ease;
   width: 100%;
+  color: #030213 !important;
 }
 
 .user-profile-apple .apple-select {
@@ -1052,9 +1053,15 @@
   -webkit-appearance: none;
   -moz-appearance: none;
   cursor: pointer;
+  color: #030213 !important;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23030213' fill-opacity='0.4' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 1rem center;
+}
+
+.user-profile-apple .apple-select option {
+  color: #030213 !important;
+  background: #ffffff !important;
 }
 
 .user-profile-apple .apple-select::-ms-expand {
@@ -2184,6 +2191,26 @@
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
+}
+
+.workout-generator-apple .apple-input {
+  cursor: text;
+}
+
+/* Hide number input spinners */
+.workout-generator-apple .apple-input[type="number"]::-webkit-inner-spin-button,
+.workout-generator-apple .apple-input[type="number"]::-webkit-outer-spin-button {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.workout-generator-apple .apple-input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.workout-generator-apple .apple-select {
   cursor: pointer;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23030213' fill-opacity='0.4' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
