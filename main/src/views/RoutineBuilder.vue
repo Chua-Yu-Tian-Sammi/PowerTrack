@@ -1214,6 +1214,90 @@ const resetForm = () => {
 .list-fade-move {
   transition: transform 0.25s ease;
 }
+
+/* Dark mode styles for routine cards */
+.dark .routine-page {
+  background: #000000;
+}
+
+.dark .routine-card {
+  background: #1a1a1a !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark .routine-card:hover {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
+}
+
+.dark .routines-title {
+  color: #ffffff;
+}
+
+.dark .routine-card-title,
+.dark .routine-card-title-mobile {
+  color: #ffffff;
+}
+
+.dark .routine-meta,
+.dark .routine-meta-mobile {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.dark .stat-value,
+.dark .stat-value-mobile {
+  color: #ffffff;
+}
+
+.dark .stat-text,
+.dark .stat-text-mobile {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.dark .routine-card-mobile {
+  background: #1a1a1a !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark .empty-routines {
+  background: #1a1a1a;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .empty-title {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.dark .empty-subtitle {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.dark .btn-menu:hover,
+.dark .btn-menu-mobile:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.dark .dropdown-menu {
+  background: #1a1a1a;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .dropdown-item {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.dark .dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.dark .dropdown-item.text-danger {
+  color: #ff6b6b;
+}
+
+.dark .dropdown-item.text-danger:hover {
+  background: rgba(255, 107, 107, 0.1);
+  color: #ff6b6b;
+}
 </style>
 
 
