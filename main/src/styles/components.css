@@ -3208,8 +3208,9 @@
 
 .running-routes-apple .routes-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 450px));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.5rem;
+  justify-items: start; /* Align cards to start, maintaining consistent size */
 }
 
 /* Route Card */
@@ -3220,6 +3221,8 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(0, 0, 0, 0.05);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: 100%; /* Take full width of grid cell */
+  max-width: 100%; /* Prevent overflow */
 }
 
 .running-routes-apple .route-card:hover {

@@ -109,17 +109,17 @@
           </div>
 
           <!-- Exercise Grid -->
-          <div class="exercises-grid">
-            <TransitionGroup name="exercise-card" appear>
+          <Transition name="page-fade" mode="out-in">
+            <div :key="currentPage" class="exercises-grid">
               <ExerciseCard 
                 v-for="(exercise, index) in paginatedExercises" 
-                :key="exercise.exerciseId"
+                :key="`${currentPage}-${exercise.exerciseId}`"
                 :exercise="exercise"
-                :delay="0.05 * (index + 1)"
+                :delay="0"
                 @addToRoutine="addToRoutine"
               />
-            </TransitionGroup>
-          </div>
+            </div>
+          </Transition>
 
           <!-- Pagination -->
           <div v-if="totalPages > 1" class="pagination-wrapper">
@@ -249,9 +249,17 @@ watch([searchQuery, filters], () => {
 }, { deep: true })
 
 const handlePageChange = (page) => {
-  currentPage.value = page
-  // Scroll to top of results
-  window.scrollTo({ top: 0, behavior: 'smooth' })
+  // Small delay to ensure smooth transition
+  setTimeout(() => {
+    currentPage.value = page
+    // Scroll to top of results after transition starts
+    setTimeout(() => {
+      const resultsSection = document.querySelector('.results-count')
+      if (resultsSection) {
+        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }
+    }, 100)
+  }, 50)
 }
 
 onMounted(async () => {
@@ -327,13 +335,35 @@ const addToRoutine = (exercise) => {
   transform: translateY(20px);
 }
 
+/* Smooth pagination transition */
+.page-fade-enter-active {
+  transition: opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.page-fade-leave-active {
+  transition: opacity 0.2s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+}
+
+.page-fade-enter-from {
+  opacity: 0;
+}
+
+.page-fade-leave-to {
+  opacity: 0;
+}
+
 .exercise-card-enter-active {
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+              transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .exercise-card-enter-from {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(10px) scale(0.98);
+}
+
+.exercise-card-move {
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .fade-enter-active {
@@ -342,5 +372,11 @@ const addToRoutine = (exercise) => {
 
 .fade-enter-from {
   opacity: 0;
+}
+
+/* Ensure smooth transitions without layout shift */
+.exercises-grid {
+  position: relative;
+  min-height: 400px; /* Prevent layout shift during transitions */
 }
 </style>

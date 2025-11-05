@@ -16,7 +16,10 @@
         :src="imageSrc" 
         :alt="exercise.name"
         class="exercise-image"
+        :class="{ 'image-loaded': imageLoaded }"
         @error="handleImageError"
+        @load="handleImageLoad"
+        loading="lazy"
       />
     </div>
 
@@ -76,7 +79,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { resolveExerciseImage, UNAVAILABLE_DATA_URI } from '../services/imageResolver.js'
 
 const props = defineProps({
@@ -93,9 +96,20 @@ const props = defineProps({
 defineEmits(['addToRoutine'])
 
 const unavailableUri = UNAVAILABLE_DATA_URI
-const initialSrc = resolveExerciseImage(props.exercise?.exerciseId, props.exercise)
-const imageSrcRef = ref(initialSrc)
-const imageSrc = computed(() => imageSrcRef.value)
+const imageSrcRef = ref(null)
+const imageSrc = computed(() => {
+  if (!imageSrcRef.value) {
+    imageSrcRef.value = resolveExerciseImage(props.exercise?.exerciseId, props.exercise)
+  }
+  return imageSrcRef.value
+})
+const imageLoaded = ref(false)
+
+// Update image source when exercise changes
+watch(() => props.exercise?.exerciseId, () => {
+  imageLoaded.value = false
+  imageSrcRef.value = resolveExerciseImage(props.exercise?.exerciseId, props.exercise)
+}, { immediate: true })
 
 const handleImageError = (e) => {
   if (!e || !e.target) return
@@ -103,6 +117,11 @@ const handleImageError = (e) => {
     imageSrcRef.value = UNAVAILABLE_DATA_URI
     e.target.src = UNAVAILABLE_DATA_URI
   }
+}
+
+const handleImageLoad = (e) => {
+  if (!e || !e.target) return
+  imageLoaded.value = true
 }
 
 const capitalizeFirst = (str) => {
@@ -241,6 +260,15 @@ const getDifficultyBadgeClass = (difficulty) => {
   height: 100%;
   object-fit: cover;
   z-index: 2;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  will-change: opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.exercise-image.image-loaded {
+  opacity: 1;
 }
 
 /* Content */
