@@ -41,7 +41,8 @@
                 <option value="chest">Chest</option>
                 <option value="back">Back</option>
                 <option value="shoulders">Shoulders</option>
-                <option value="arms">Arms</option>
+                <option value="biceps">Biceps</option>
+                <option value="triceps">Triceps</option>
                 <option value="legs">Legs</option>
                 <option value="core">Core</option>
                 <option value="cardio">Cardio</option>
@@ -206,9 +207,38 @@ const filteredExercises = computed(() => {
 
   // apply other filters
   if (filters.muscle) {
-    filtered = filtered.filter(exercise => 
-      exercise.muscle.includes(filters.muscle)
-    )
+    if (filters.muscle === 'biceps') {
+      // Match exercises that target biceps - check exerciseId, name, or muscle array
+      filtered = filtered.filter(exercise => {
+        const exerciseIdLower = exercise.exerciseId?.toLowerCase() || ''
+        const nameLower = exercise.name?.toLowerCase() || ''
+        const hasBicepInName = exerciseIdLower.includes('bicep') || exerciseIdLower.includes('curl') || 
+                               nameLower.includes('bicep') || nameLower.includes('curl')
+        const hasArmsInMuscle = exercise.muscle.includes('arms')
+        // Include if it's specifically a bicep exercise or has arms (but not tricep-specific)
+        const isTricepExercise = exerciseIdLower.includes('tricep') || nameLower.includes('tricep') || 
+                                exerciseIdLower.includes('dip') || nameLower.includes('dip')
+        return hasBicepInName || (hasArmsInMuscle && !isTricepExercise)
+      })
+    } else if (filters.muscle === 'triceps') {
+      // Match exercises that target triceps - check exerciseId, name, or muscle array
+      filtered = filtered.filter(exercise => {
+        const exerciseIdLower = exercise.exerciseId?.toLowerCase() || ''
+        const nameLower = exercise.name?.toLowerCase() || ''
+        const hasTricepInName = exerciseIdLower.includes('tricep') || exerciseIdLower.includes('dip') ||
+                                nameLower.includes('tricep') || nameLower.includes('dip')
+        const hasArmsInMuscle = exercise.muscle.includes('arms')
+        // Include if it's specifically a tricep exercise or has arms (but not bicep-specific)
+        const isBicepExercise = exerciseIdLower.includes('bicep') || exerciseIdLower.includes('curl') ||
+                                nameLower.includes('bicep') || nameLower.includes('curl')
+        return hasTricepInName || (hasArmsInMuscle && !isBicepExercise)
+      })
+    } else {
+      // Standard muscle group matching
+      filtered = filtered.filter(exercise => 
+        exercise.muscle.includes(filters.muscle)
+      )
+    }
   }
 
   if (filters.equipment) {

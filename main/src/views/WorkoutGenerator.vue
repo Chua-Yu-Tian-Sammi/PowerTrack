@@ -298,7 +298,8 @@ const muscleGroups = [
   { label: 'Chest', value: 'chest' },
   { label: 'Back', value: 'back' },
   { label: 'Shoulders', value: 'shoulders' },
-  { label: 'Arms', value: 'arms' },
+  { label: 'Bicep', value: 'biceps' },
+  { label: 'Tricep', value: 'triceps' },
   { label: 'Legs', value: 'legs' },
   { label: 'Core', value: 'core' },
   { label: 'Cardio', value: 'cardio' }

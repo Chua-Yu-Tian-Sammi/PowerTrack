@@ -1112,9 +1112,31 @@ function filterExercises({ intensity, muscleGroups, equipment, difficulty }) {
 
     // Filter by muscle groups
     if (muscleGroups && muscleGroups.length > 0) {
-      const hasMatchingMuscle = muscleGroups.some(muscle =>
-        exercise.muscle.some(exMuscle => exMuscle.includes(muscle))
-      );
+      const hasMatchingMuscle = muscleGroups.some(muscle => {
+        // Handle biceps and triceps specially
+        if (muscle === 'biceps') {
+          const exerciseIdLower = exercise.exerciseId?.toLowerCase() || '';
+          const nameLower = exercise.name?.toLowerCase() || '';
+          const hasBicepInName = exerciseIdLower.includes('bicep') || exerciseIdLower.includes('curl') || 
+                                 nameLower.includes('bicep') || nameLower.includes('curl');
+          const hasArmsInMuscle = exercise.muscle.includes('arms');
+          const isTricepExercise = exerciseIdLower.includes('tricep') || nameLower.includes('tricep') || 
+                                  exerciseIdLower.includes('dip') || nameLower.includes('dip');
+          return hasBicepInName || (hasArmsInMuscle && !isTricepExercise);
+        } else if (muscle === 'triceps') {
+          const exerciseIdLower = exercise.exerciseId?.toLowerCase() || '';
+          const nameLower = exercise.name?.toLowerCase() || '';
+          const hasTricepInName = exerciseIdLower.includes('tricep') || exerciseIdLower.includes('dip') ||
+                                  nameLower.includes('tricep') || nameLower.includes('dip');
+          const hasArmsInMuscle = exercise.muscle.includes('arms');
+          const isBicepExercise = exerciseIdLower.includes('bicep') || exerciseIdLower.includes('curl') ||
+                                 nameLower.includes('bicep') || nameLower.includes('curl');
+          return hasTricepInName || (hasArmsInMuscle && !isBicepExercise);
+        } else {
+          // Standard muscle group matching
+          return exercise.muscle.some(exMuscle => exMuscle.includes(muscle));
+        }
+      });
       if (!hasMatchingMuscle) return false;
     }
 

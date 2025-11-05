@@ -44,6 +44,16 @@ function getMuscleGroupFolder(muscleGroups, exerciseId = null) {
     'cardio': 'Cardio'
   };
   
+  // Check for cardio-specific exercises first (even if they have other muscle groups)
+  if (exerciseId) {
+    const cardioExercises = ['jump_squats', 'box_jumps', 'burpees', 'mountain_climbers', 
+                            'jumping_jacks', 'high_knees', 'battle_ropes', 'rowing_machine',
+                            'kettlebell_swings', 'thrusters'];
+    if (cardioExercises.includes(exerciseId)) {
+      return 'Cardio';
+    }
+  }
+  
   // Check for tricep-specific exercises first (even if they have 'arms' as muscle group)
   if (exerciseId) {
     const tricepExercises = ['tricep_dips', 'tricep_pushdown', 'overhead_tricep_extension', 
@@ -54,6 +64,11 @@ function getMuscleGroupFolder(muscleGroups, exerciseId = null) {
   }
   
   // Check for specific muscle groups
+  // Prioritize cardio if it's in the muscle groups
+  if (muscleGroups.some(mg => mg.toLowerCase() === 'cardio' || mg.toLowerCase() === 'full_body')) {
+    return 'Cardio';
+  }
+  
   for (const mg of muscleGroups) {
     const mgLower = mg.toLowerCase();
     if (muscleMap[mgLower]) {
