@@ -1338,9 +1338,11 @@
   backdrop-filter: blur(4px);
   z-index: 1050;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   padding: 1rem;
+  padding-top: 3rem;
+  overflow-y: auto;
 }
 
 .user-profile-apple .apple-modal {
@@ -1566,6 +1568,19 @@
   opacity: 0.5;
   cursor: not-allowed;
   transform: none;
+}
+
+/* Responsive Modal Styles */
+@media (max-width: 768px) {
+  .user-profile-apple .apple-modal-backdrop {
+    padding-top: 2rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .user-profile-apple .apple-modal {
+    max-width: 100%;
+  }
 }
 
 /* Responsive */
