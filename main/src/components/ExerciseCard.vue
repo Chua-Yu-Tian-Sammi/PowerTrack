@@ -93,7 +93,7 @@ const props = defineProps({
 defineEmits(['addToRoutine'])
 
 const unavailableUri = UNAVAILABLE_DATA_URI
-const initialSrc = resolveExerciseImage(props.exercise?.exerciseId)
+const initialSrc = resolveExerciseImage(props.exercise?.exerciseId, props.exercise)
 const imageSrcRef = ref(initialSrc)
 const imageSrc = computed(() => imageSrcRef.value)
 

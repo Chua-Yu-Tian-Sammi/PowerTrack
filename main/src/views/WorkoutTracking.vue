@@ -309,6 +309,7 @@ import { useRouter, useRoute } from 'vue-router'
 import { WorkoutService } from '../services/workoutService.js'
 import { mapsService } from '../services/mapsService.js'
 import { WorkoutStateService } from '../services/workoutStateService.js'
+import { getErrorMessage } from '../utils/errorHandler.js'
 
 const router = useRouter()
 const route = useRoute()
@@ -653,6 +654,7 @@ const startWorkout = async () => {
     
   } catch (error) {
     console.error('Error starting workout:', error)
+    alert(getErrorMessage(error, 'Failed to start workout. Please try again.'))
     sessionId.value = null
     isActive.value = false
     startTime.value = null
@@ -737,7 +739,7 @@ const endWorkout = async () => {
     router.push('/progress')
   } catch (error) {
     console.error('Error ending workout:', error)
-    alert('Failed to save workout.')
+    alert(getErrorMessage(error, 'Failed to save workout.'))
   } finally {
     ending.value = false
     showEndWorkoutModal.value = false

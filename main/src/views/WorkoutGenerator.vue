@@ -283,6 +283,7 @@ import { WorkoutService } from '../services/workoutService.js'
 import { AuthService } from '../services/authService.js'
 import { WorkoutStateService } from '../services/workoutStateService.js'
 import ActiveWorkoutModal from '../components/ActiveWorkoutModal.vue'
+import { getErrorMessage } from '../utils/errorHandler.js'
 
 const router = useRouter()
 const loading = ref(false)
@@ -486,7 +487,7 @@ const generateWorkout = async () => {
     showNotification('Workout generated successfully!', 'success')
   } catch (error) {
     console.error('Error generating workout:', error)
-    showNotification('Failed to generate workout. Please try again.', 'error')
+    showNotification(getErrorMessage(error, 'Failed to generate workout. Please try again.'), 'error')
   } finally {
     loading.value = false
   }
@@ -521,7 +522,7 @@ const saveRoutine = async () => {
     // Don't clear the generated workout - let user start it later
   } catch (error) {
     console.error('Error saving routine:', error)
-    showNotification('Failed to save routine. Please try again.', 'error')
+    showNotification(getErrorMessage(error, 'Failed to save routine. Please try again.'), 'error')
   } finally {
     saving.value = false
   }

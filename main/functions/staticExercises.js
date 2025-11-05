@@ -8,7 +8,7 @@ const EXERCISES = [
   {
     exerciseId: 'pushup',
     name: 'Push-up',
-    muscle: ['chest', 'shoulders', 'triceps'],
+    muscle: ['chest', 'shoulders', 'arms'],
     equipment: ['bodyweight'],
     intensity: 'medium',
     timePerSetSec: 60,
@@ -25,7 +25,7 @@ const EXERCISES = [
   {
     exerciseId: 'bench_press',
     name: 'Bench Press',
-    muscle: ['chest', 'shoulders', 'triceps'],
+    muscle: ['chest', 'shoulders', 'arms'],
     equipment: ['barbell', 'bench'],
     intensity: 'high',
     timePerSetSec: 90,
@@ -42,7 +42,7 @@ const EXERCISES = [
   {
     exerciseId: 'incline_bench_press',
     name: 'Incline Bench Press',
-    muscle: ['chest', 'shoulders', 'triceps'],
+    muscle: ['chest', 'shoulders', 'arms'],
     equipment: ['barbell', 'bench'],
     intensity: 'high',
     timePerSetSec: 90,
@@ -59,7 +59,7 @@ const EXERCISES = [
   {
     exerciseId: 'dumbbell_bench_press',
     name: 'Dumbbell Bench Press',
-    muscle: ['chest', 'shoulders', 'triceps'],
+    muscle: ['chest', 'shoulders', 'arms'],
     equipment: ['dumbbells', 'bench'],
     intensity: 'high',
     timePerSetSec: 90,
@@ -110,7 +110,7 @@ const EXERCISES = [
   {
     exerciseId: 'dips_chest',
     name: 'Chest Dips',
-    muscle: ['chest', 'triceps', 'shoulders'],
+    muscle: ['chest', 'arms', 'shoulders'],
     equipment: ['dip_bars'],
     intensity: 'high',
     timePerSetSec: 60,
@@ -129,7 +129,7 @@ const EXERCISES = [
   {
     exerciseId: 'pullup',
     name: 'Pull-up',
-    muscle: ['back', 'biceps'],
+    muscle: ['back', 'arms'],
     equipment: ['pullup_bar'],
     intensity: 'high',
     timePerSetSec: 60,
@@ -146,7 +146,7 @@ const EXERCISES = [
   {
     exerciseId: 'chinup',
     name: 'Chin-up',
-    muscle: ['back', 'biceps'],
+    muscle: ['back', 'arms'],
     equipment: ['pullup_bar'],
     intensity: 'high',
     timePerSetSec: 60,
@@ -163,7 +163,7 @@ const EXERCISES = [
   {
     exerciseId: 'bent_over_row',
     name: 'Bent-Over Row',
-    muscle: ['back', 'biceps'],
+    muscle: ['back', 'arms'],
     equipment: ['barbell'],
     intensity: 'high',
     timePerSetSec: 90,
@@ -180,7 +180,7 @@ const EXERCISES = [
   {
     exerciseId: 'dumbbell_row',
     name: 'Dumbbell Row',
-    muscle: ['back', 'biceps'],
+    muscle: ['back', 'arms'],
     equipment: ['dumbbells', 'bench'],
     intensity: 'medium',
     timePerSetSec: 75,
@@ -197,7 +197,7 @@ const EXERCISES = [
   {
     exerciseId: 'lat_pulldown',
     name: 'Lat Pulldown',
-    muscle: ['back', 'biceps'],
+    muscle: ['back', 'arms'],
     equipment: ['cable_machine'],
     intensity: 'medium',
     timePerSetSec: 75,
@@ -214,7 +214,7 @@ const EXERCISES = [
   {
     exerciseId: 'seated_cable_row',
     name: 'Seated Cable Row',
-    muscle: ['back', 'biceps'],
+    muscle: ['back', 'arms'],
     equipment: ['cable_machine'],
     intensity: 'medium',
     timePerSetSec: 75,
@@ -231,7 +231,7 @@ const EXERCISES = [
   {
     exerciseId: 't_bar_row',
     name: 'T-Bar Row',
-    muscle: ['back', 'biceps'],
+    muscle: ['back', 'arms'],
     equipment: ['barbell'],
     intensity: 'high',
     timePerSetSec: 90,
@@ -248,7 +248,7 @@ const EXERCISES = [
   {
     exerciseId: 'inverted_row',
     name: 'Inverted Row',
-    muscle: ['back', 'biceps'],
+    muscle: ['back', 'arms'],
     equipment: ['bodyweight'],
     intensity: 'medium',
     timePerSetSec: 60,
@@ -473,7 +473,7 @@ const EXERCISES = [
   {
     exerciseId: 'overhead_press',
     name: 'Overhead Press',
-    muscle: ['shoulders', 'triceps', 'core'],
+    muscle: ['shoulders', 'arms', 'core'],
     equipment: ['barbell'],
     intensity: 'high',
     timePerSetSec: 90,
@@ -490,7 +490,7 @@ const EXERCISES = [
   {
     exerciseId: 'dumbbell_shoulder_press',
     name: 'Dumbbell Shoulder Press',
-    muscle: ['shoulders', 'triceps'],
+    muscle: ['shoulders', 'arms'],
     equipment: ['dumbbells'],
     intensity: 'medium',
     timePerSetSec: 75,
@@ -507,7 +507,7 @@ const EXERCISES = [
   {
     exerciseId: 'arnold_press',
     name: 'Arnold Press',
-    muscle: ['shoulders', 'triceps'],
+    muscle: ['shoulders', 'arms'],
     equipment: ['dumbbells'],
     intensity: 'medium',
     timePerSetSec: 75,
@@ -611,7 +611,7 @@ const EXERCISES = [
   {
     exerciseId: 'barbell_curl',
     name: 'Barbell Curl',
-    muscle: ['biceps'],
+    muscle: ['arms'],
     equipment: ['barbell'],
     intensity: 'medium',
     timePerSetSec: 60,
@@ -628,7 +628,7 @@ const EXERCISES = [
   {
     exerciseId: 'dumbbell_curl',
     name: 'Dumbbell Curl',
-    muscle: ['biceps'],
+    muscle: ['arms'],
     equipment: ['dumbbells'],
     intensity: 'medium',
     timePerSetSec: 60,
@@ -645,7 +645,7 @@ const EXERCISES = [
   {
     exerciseId: 'hammer_curl',
     name: 'Hammer Curl',
-    muscle: ['biceps', 'forearms'],
+    muscle: ['arms', 'forearms'],
     equipment: ['dumbbells'],
     intensity: 'medium',
     timePerSetSec: 60,
@@ -662,7 +662,7 @@ const EXERCISES = [
   {
     exerciseId: 'preacher_curl',
     name: 'Preacher Curl',
-    muscle: ['biceps'],
+    muscle: ['arms'],
     equipment: ['dumbbells', 'bench'],
     intensity: 'low',
     timePerSetSec: 60,
@@ -679,7 +679,7 @@ const EXERCISES = [
   {
     exerciseId: 'tricep_dips',
     name: 'Tricep Dips',
-    muscle: ['triceps', 'chest'],
+    muscle: ['arms', 'chest'],
     equipment: ['dip_bars'],
     intensity: 'high',
     timePerSetSec: 60,
@@ -696,7 +696,7 @@ const EXERCISES = [
   {
     exerciseId: 'close_grip_bench',
     name: 'Close-Grip Bench Press',
-    muscle: ['triceps', 'chest'],
+    muscle: ['arms', 'chest'],
     equipment: ['barbell', 'bench'],
     intensity: 'high',
     timePerSetSec: 90,
@@ -713,7 +713,7 @@ const EXERCISES = [
   {
     exerciseId: 'tricep_pushdown',
     name: 'Tricep Pushdown',
-    muscle: ['triceps'],
+    muscle: ['arms'],
     equipment: ['cable_machine'],
     intensity: 'low',
     timePerSetSec: 60,
@@ -730,7 +730,7 @@ const EXERCISES = [
   {
     exerciseId: 'overhead_tricep_extension',
     name: 'Overhead Tricep Extension',
-    muscle: ['triceps'],
+    muscle: ['arms'],
     equipment: ['dumbbells'],
     intensity: 'medium',
     timePerSetSec: 60,
@@ -747,7 +747,7 @@ const EXERCISES = [
   {
     exerciseId: 'skull_crushers',
     name: 'Skull Crushers',
-    muscle: ['triceps'],
+    muscle: ['arms'],
     equipment: ['barbell', 'bench'],
     intensity: 'medium',
     timePerSetSec: 75,

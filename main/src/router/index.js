@@ -74,7 +74,7 @@ const router = createRouter({
             behavior: 'smooth'
           })
         }
-      }, 500) // Match transition duration (400ms + 100ms delay)
+      }, 350) // Match transition duration (350ms for enter)
     })
   }
 })

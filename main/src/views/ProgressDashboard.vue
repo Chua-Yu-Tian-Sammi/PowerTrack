@@ -304,6 +304,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 import { WorkoutService } from '../services/workoutService.js'
 import { AuthService } from '../services/authService.js'
 import { useTheme } from '../composables/useTheme.js'
+import { getErrorMessage } from '../utils/errorHandler.js'
 
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler)
@@ -400,6 +401,10 @@ const loadWorkoutLogs = async () => {
     workoutLogs.value = allLogs.filter(log => !log.workoutType || log.workoutType === 'routine')
   } catch (error) {
     console.error('Error loading workout logs:', error)
+    // Only show error if it's not an authentication error (silent fail for auth errors)
+    if (!getErrorMessage(error, '').includes('Please sign in')) {
+      console.warn(getErrorMessage(error, 'Failed to load workout logs'))
+    }
     workoutLogs.value = []
   }
 }
@@ -410,6 +415,10 @@ const loadRunningLogs = async () => {
     runningLogs.value = allLogs.filter(log => log.workoutType === 'runs')
   } catch (error) {
     console.error('Error loading running logs:', error)
+    // Only show error if it's not an authentication error (silent fail for auth errors)
+    if (!getErrorMessage(error, '').includes('Please sign in')) {
+      console.warn(getErrorMessage(error, 'Failed to load running logs'))
+    }
     runningLogs.value = []
   }
 }

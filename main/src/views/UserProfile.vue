@@ -402,6 +402,7 @@
 import { ref, onMounted, computed, watch } from 'vue'
 import { AuthService } from '../services/authService.js'
 import { WorkoutService } from '../services/workoutService.js'
+import { getErrorMessage } from '../utils/errorHandler.js'
 
 const userProfile = ref(null)
 const saving = ref(false)
@@ -549,7 +550,7 @@ const updateProfile = async () => {
     showNotification('Profile saved successfully!', 'success')
   } catch (error) {
     console.error('Error updating profile:', error)
-    showNotification('Error saving profile. Please try again.', 'error')
+    showNotification(getErrorMessage(error, 'Error saving profile. Please try again.'), 'error')
   } finally {
     saving.value = false
   }

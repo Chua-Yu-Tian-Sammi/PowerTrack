@@ -259,6 +259,7 @@ import { useRouter } from 'vue-router'
 import { WorkoutService } from '../services/workoutService.js'
 import ExerciseForm from '../components/ExerciseForm.vue'
 import ExerciseSelector from '../components/ExerciseSelector.vue'
+import { getErrorMessage } from '../utils/errorHandler.js'
 
 const router = useRouter()
 
@@ -387,7 +388,7 @@ const loadRoutines = async () => {
     routines.value = await WorkoutService.getUserRoutines()
   } catch (error) {
     console.error('Error loading routines:', error)
-    showNotification('Failed to load routines. Please try again.', 'error')
+    showNotification(getErrorMessage(error, 'Failed to load routines. Please try again.'), 'error')
   } finally {
     loading.value = false
   }
@@ -447,7 +448,7 @@ const saveRoutine = async () => {
     clearDraftRoutine() // Clear draft state after successful save
   } catch (error) {
     console.error('Error saving routine:', error)
-    showNotification('Failed to save routine. Please try again.', 'error')
+    showNotification(getErrorMessage(error, 'Failed to save routine. Please try again.'), 'error')
   } finally {
     saving.value = false
   }
@@ -488,7 +489,7 @@ const confirmDeleteRoutine = async () => {
     await loadRoutines()
   } catch (error) {
     console.error('Error deleting routine:', error)
-    showNotification('Failed to delete routine. Please try again.', 'error')
+    showNotification(getErrorMessage(error, 'Failed to delete routine. Please try again.'), 'error')
   } finally {
     deleteConfirmation.value.show = false
   }

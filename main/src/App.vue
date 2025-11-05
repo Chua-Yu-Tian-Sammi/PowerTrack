@@ -4,7 +4,7 @@
     <main class="main-content">
       <router-view v-slot="{ Component, route }">
         <transition name="fade" mode="out-in" appear>
-          <div :key="route.path" v-if="Component">
+          <div :key="route.path" v-if="Component" class="page-wrapper">
             <component :is="Component" />
           </div>
         </transition>
@@ -43,6 +43,7 @@ useTheme()
   background: transparent;
   transition: background 0.3s ease;
   overflow-x: hidden;
+  position: relative;
 }
 
 @media (max-width: 991px) {

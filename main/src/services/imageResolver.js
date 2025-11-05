@@ -1,5 +1,5 @@
-// Resolves static exercise images bundled with the app.
-// Place images under /src/assets/exercises/<exerciseId>.jpg|png|webp
+// Resolves static exercise images from the assets folder organized by muscle group
+// Images are located in /assets/<MuscleGroup>/<exerciseName>.jpg|png|webp
 
 const SUPPORTED_EXTENSIONS = ['webp', 'png', 'jpg', 'jpeg'];
 
@@ -18,20 +18,172 @@ export const UNAVAILABLE_DATA_URI =
     </svg>`
   );
 
-export function resolveExerciseImage(exerciseId) {
-  if (!exerciseId) return UNAVAILABLE_DATA_URI;
-  for (const ext of SUPPORTED_EXTENSIONS) {
-    try {
-      // Vite will transform this import into a URL at build time
-      // eslint-disable-next-line import/no-dynamic-require
-      const url = new URL(`../assets/exercises/${exerciseId}.${ext}`, import.meta.url).href;
-      return url;
-    } catch (_) {
-      // continue trying next extension
+// Map muscle groups to folder names
+function getMuscleGroupFolder(muscleGroups, exerciseId = null) {
+  if (!muscleGroups || !Array.isArray(muscleGroups)) return null;
+  
+  const muscle = muscleGroups[0]?.toLowerCase();
+  
+  // Map primary muscle groups to folder names
+  const muscleMap = {
+    'back': 'Back',
+    'chest': 'Chest',
+    'legs': 'Leg',
+    'leg': 'Leg',
+    'glutes': 'Leg',
+    'shoulders': 'Shoulder',
+    'shoulder': 'Shoulder',
+    'arms': 'Bicep', // Default to Bicep for arms, but we'll check for tricep-specific exercises
+    'bicep': 'Bicep',
+    'biceps': 'Bicep',
+    'tricep': 'Tricep',
+    'triceps': 'Tricep',
+    'core': 'Core',
+    'obliques': 'Core',
+    'full_body': 'Cardio',
+    'cardio': 'Cardio'
+  };
+  
+  // Check for tricep-specific exercises first (even if they have 'arms' as muscle group)
+  if (exerciseId) {
+    const tricepExercises = ['tricep_dips', 'tricep_pushdown', 'overhead_tricep_extension', 
+                             'skull_crushers', 'close_grip_bench', 'close_grip_bench_press'];
+    if (tricepExercises.includes(exerciseId)) {
+      return 'Tricep';
     }
   }
-  // Fall back to inline SVG placeholder
-  return UNAVAILABLE_DATA_URI;
+  
+  // Check for specific muscle groups
+  for (const mg of muscleGroups) {
+    const mgLower = mg.toLowerCase();
+    if (muscleMap[mgLower]) {
+      return muscleMap[mgLower];
+    }
+  }
+  
+  // Fallback to first muscle group
+  return muscleMap[muscle] || null;
+}
+
+// Map exercise IDs to image file names (handles naming variations)
+function getImageFileName(exerciseId) {
+  if (!exerciseId) return null;
+  
+  // Map exercise IDs to image file names (handling variations)
+  const imageNameMap = {
+    // Back exercises
+    'bent_over_row': 'bent-over_row',
+    'pullup': 'pull_up',
+    'chinup': 'chin_up',
+    'dumbbell_row': 'dumbbell_row',
+    'lat_pulldown': 'lat_pulldown',
+    'seated_cable_row': 'seated_cable_row',
+    't_bar_row': 't-bar_row',
+    'inverted_row': 'inverted_row',
+    
+    // Chest exercises
+    'pushup': 'push_up',
+    'bench_press': 'bench_press',
+    'incline_bench_press': 'incline_bench_press',
+    'dumbbell_bench_press': 'dumbbell_bench_press',
+    'dumbbell_flyes': 'dumbbell_flyes',
+    'cable_crossover': 'cable_crossover',
+    'dips_chest': 'chest_dips',
+    
+    // Leg exercises
+    'squat': 'bodyweight_squat',
+    'barbell_squat': 'barbell_squat',
+    'front_squat': 'front_squat',
+    'deadlift': 'deadlift',
+    'romanian_deadlift': 'Romanian_Deadlift',
+    'lunges': 'lunges',
+    'walking_lunges': 'walking_lunges',
+    'bulgarian_split_squat': 'Bulgarian_Split_Squat',
+    'leg_press': 'leg_press',
+    'leg_curl': 'leg_curl',
+    'leg_extension': 'leg_extension',
+    'calf_raises': 'calf_raises',
+    
+    // Shoulder exercises
+    'overhead_press': 'overhead_press',
+    'dumbbell_shoulder_press': 'dumbell_shoulder_press', // Note: typo in filename
+    'arnold_press': 'arnold_press',
+    'lateral_raises': 'lateral_raise',
+    'front_raises': 'front_raise',
+    'rear_delt_flyes': 'rear_delt_flyes',
+    'face_pulls': 'face_pull',
+    'upright_row': 'upright_row',
+    
+    // Bicep exercises
+    'barbell_curl': 'barbell_curl',
+    'dumbbell_curl': 'Dumbbell_Curl',
+    'hammer_curl': 'hammer_curl',
+    'preacher_curl': 'Preacher_Curl',
+    
+    // Tricep exercises
+    'tricep_dips': 'tricep_dips',
+    'close_grip_bench': 'close_grip_bench_press',
+    'close_grip_bench_press': 'close_grip_bench_press',
+    'tricep_pushdown': 'tricep_pushdown',
+    'overhead_tricep_extension': 'overhead_tricep_extension',
+    'skull_crushers': 'skullcrusher',
+    
+    // Core exercises
+    'plank': 'plank',
+    'side_plank': 'side_plank',
+    'crunches': 'Crunches',
+    'bicycle_crunches': 'bicycle_crunch',
+    'russian_twists': 'Russian_Twists',
+    'leg_raises': 'leg_raises',
+    'hanging_leg_raises': 'Hanging_Leg_Raises',
+    'ab_wheel_rollout': 'Ab_Wheel_Rollout',
+    'dead_bug': 'Dead_Bug',
+    
+    // Cardio exercises
+    'burpees': 'burpees',
+    'mountain_climbers': 'mountain_climbers',
+    'jumping_jacks': 'jumping_jacks',
+    'high_knees': 'high_knees',
+    'jump_squats': 'jump_squats',
+    'box_jumps': 'box_jump',
+    'battle_ropes': 'battling_ropes',
+    'rowing_machine': 'rowing_machine',
+    'kettlebell_swings': 'kettlebell_swings',
+    'thrusters': 'thrusters'
+  };
+  
+  return imageNameMap[exerciseId] || exerciseId;
+}
+
+export function resolveExerciseImage(exerciseId, exercise = null) {
+  if (!exerciseId) return UNAVAILABLE_DATA_URI;
+  
+  // Determine muscle group folder
+  const muscleGroups = exercise?.muscle || [];
+  const folder = getMuscleGroupFolder(muscleGroups, exerciseId);
+  
+  if (!folder) {
+    return UNAVAILABLE_DATA_URI;
+  }
+  
+  // Get the image file name
+  const imageName = getImageFileName(exerciseId);
+  
+  // Construct the path relative to the assets folder
+  // Assets are in public/assets/ so they're served at /assets/
+  const basePath = '/assets';
+  
+  // Special cases for different file extensions
+  const extensionMap = {
+    'overhead_press': 'png',  // Shoulder/overhead_press.png
+    'high_knees': 'webp'      // Cardio/high_knees.webp
+  };
+  
+  // Check if this exercise has a specific extension
+  const ext = extensionMap[exerciseId] || 'jpg';
+  
+  const imagePath = `${basePath}/${folder}/${imageName}.${ext}`;
+  return imagePath;
 }
 
 export default { resolveExerciseImage, UNAVAILABLE_DATA_URI };
