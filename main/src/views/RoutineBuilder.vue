@@ -227,29 +227,46 @@
     </div>
 
     <!-- Delete Confirmation Modal -->
-    <div v-if="deleteConfirmation.show" class="modal show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header border-0">
-            <h5 class="modal-title">Confirm Delete</h5>
-            <button type="button" class="btn-close" @click="cancelDeleteRoutine"></button>
-          </div>
-          <div class="modal-body">
-            <p class="mb-3">Are you sure you want to delete this routine?</p>
-            <div class="alert alert-warning mb-0">
-              <strong>{{ deleteConfirmation.routineTitle }}</strong>
+    <Transition name="fade">
+      <div v-if="deleteConfirmation.show" class="user-profile-apple">
+        <div class="apple-modal-backdrop apple-modal-backdrop-centered" @click.self="cancelDeleteRoutine">
+          <div class="apple-modal">
+            <div class="apple-modal-header">
+              <h5 class="apple-modal-title">Confirm Delete</h5>
+              <button class="apple-modal-close" @click="cancelDeleteRoutine">
+                <i class="bi bi-x-lg" style="font-size: 0.875rem;"></i>
+              </button>
             </div>
-            <p class="text-muted mt-2 mb-0">
-              <small>This action cannot be undone.</small>
-            </p>
-          </div>
-          <div class="modal-footer border-0">
-            <button type="button" class="btn btn-secondary" @click="cancelDeleteRoutine">Cancel</button>
-            <button type="button" class="btn btn-danger" @click="confirmDeleteRoutine">Delete Routine</button>
+            <div class="apple-modal-body">
+              <p class="mb-3">Are you sure you want to delete this routine?</p>
+              <div class="workout-summary-box">
+                <strong>{{ deleteConfirmation.routineTitle }}</strong>
+              </div>
+              <p class="text-muted mt-2 mb-0">
+                <small>This action cannot be undone.</small>
+              </p>
+
+              <div class="workout-modal-actions">
+                <button 
+                  type="button" 
+                  class="apple-modal-cancel-btn"
+                  @click="cancelDeleteRoutine"
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="button" 
+                  class="apple-modal-end-btn"
+                  @click="confirmDeleteRoutine"
+                >
+                  Delete Routine
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Transition>
   </div>
 </template>
 
@@ -1298,6 +1315,15 @@ const resetForm = () => {
 .dark .dropdown-item.text-danger:hover {
   background: rgba(255, 107, 107, 0.1);
   color: #ff6b6b;
+}
+
+/* Fade transition for delete modal */
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
 }
 </style>
 

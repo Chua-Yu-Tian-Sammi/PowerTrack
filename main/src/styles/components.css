@@ -1570,10 +1570,24 @@
   transform: none;
 }
 
+/* Centered Modal (appears at current viewport position) */
+.user-profile-apple .apple-modal-backdrop-centered {
+  align-items: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
 /* Responsive Modal Styles */
 @media (max-width: 768px) {
   .user-profile-apple .apple-modal-backdrop {
     padding-top: 2rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .user-profile-apple .apple-modal-backdrop-centered {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
     padding-left: 0.75rem;
     padding-right: 0.75rem;
   }
