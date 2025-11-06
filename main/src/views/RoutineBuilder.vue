@@ -1,15 +1,14 @@
 <template>
   <div class="routine-page">
-    <div class="content-container">
-      <Transition name="header-fade" appear>
-        <div v-if="true" class="page-header">
-          <h1 class="page-title">Routine Builder</h1>
-          <p class="page-subtitle">Create and manage your custom workout routines</p>
-        </div>
-      </Transition>
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1 class="page-title">Routine Builder</h1>
+      <p class="page-subtitle">Create and manage your custom workout routines</p>
+    </div>
 
-      <Transition name="section-fade" style="--transition-delay: 0.1s" appear>
-      <div v-if="true" class="card mb-4">
+    <!-- Main Content stacked -->
+    <div class="content-container">
+      <div class="card mb-4">
           <div class="card-header">
             <h4 class="card-title">{{ editingRoutine ? 'Edit Routine' : 'Create New Routine' }}</h4>
           </div>
@@ -105,10 +104,9 @@
             </form>
           </div>
         </div>
-      </Transition>
 
-      <Transition name="section-fade" style="--transition-delay: 0.15s" appear>
-        <div v-if="true" class="saved-routines-section">
+        <!-- saved routines -->
+        <div class="saved-routines-section">
           <div class="routines-header mb-4">
             <h2 class="routines-title">My Routines</h2>
           </div>
@@ -210,7 +208,6 @@
             </div>
           </div>
         </div>
-      </Transition>
     </div>
 
     <!-- popup to pick exercises -->
@@ -587,7 +584,6 @@ const resetForm = () => {
 }
 
 .routine-page .card {
-  background: #ffffff;
   border-radius: 24px;
   border: 1px solid var(--border);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
@@ -638,6 +634,19 @@ const resetForm = () => {
     padding: 0 1rem;
   }
 
+  .page-header {
+    padding-top: 1.5rem;
+    padding-bottom: 1rem;
+  }
+
+  .page-title {
+    font-size: 42px;
+  }
+
+  .page-subtitle {
+    font-size: 18px;
+  }
+
   .routine-page .card {
     border-radius: 20px;
   }
@@ -655,6 +664,21 @@ const resetForm = () => {
 @media (max-width: 767px) {
   .content-container {
     padding: 0 0.75rem;
+  }
+
+  .page-header {
+    padding-top: 1rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .page-title {
+    font-size: 36px;
+    margin-bottom: 0.75rem;
+  }
+
+  .page-subtitle {
+    font-size: 16px;
+    padding: 0 1rem;
   }
 
   .routine-page .card {
@@ -728,6 +752,14 @@ const resetForm = () => {
     padding: 0 0.5rem;
   }
 
+  .page-title {
+    font-size: 32px;
+  }
+
+  .page-subtitle {
+    font-size: 15px;
+  }
+
   .routine-page .card-body {
     padding: 1rem;
   }
@@ -781,9 +813,34 @@ const resetForm = () => {
 }
 
 
+.page-header {
+  padding-top: 2rem;
+  padding-bottom: 1.5rem;
+  text-align: center;
+}
+
+.page-title {
+  font-size: 56px;
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+}
+
+.page-subtitle {
+  font-size: 21px;
+  opacity: 0.6;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
 .content-container {
   max-width: 64rem; /* ~1024px: similar to max-w-4xl */
   margin: 0 auto;
+}
+.page-title {
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .card-header {
@@ -1179,23 +1236,6 @@ const resetForm = () => {
 
 .list-fade-move {
   transition: transform 0.25s ease;
-}
-
-/* Transitions */
-.header-fade-enter-active,
-.section-fade-enter-active {
-  transition: opacity 0.5s ease, transform 0.5s ease;
-  transition-delay: var(--transition-delay, 0s);
-}
-
-.header-fade-enter-from {
-  opacity: 0;
-  transform: translateY(-10px);
-}
-
-.section-fade-enter-from {
-  opacity: 0;
-  transform: translateY(20px);
 }
 
 /* Dark mode styles for routine cards */

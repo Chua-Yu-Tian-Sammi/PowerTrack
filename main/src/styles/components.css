@@ -1,4 +1,6 @@
+/* Modern navbar styling is now handled by the component's scoped styles */
 
+/* Global page styling - add bottom margin to all pages */
 .workout-generator,
 .exercise-library,
 .progress-dashboard,
@@ -5233,25 +5235,6 @@ html.dark .running-routes-view .preference-select:focus {
   color: #ef4444;
 }
 
-/* Routine Builder - Light Mode */
-.routine-page .page-header {
-  margin-bottom: 3rem;
-}
-
-.routine-page .page-title {
-  font-size: 2rem;
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  color: #030213;
-  margin-bottom: 0.5rem;
-}
-
-.routine-page .page-subtitle {
-  font-size: 0.9375rem;
-  opacity: 0.5;
-  color: #030213;
-}
-
 /* Routine Builder - Dark Mode */
 .dark .routine-page {
   background: #000000;
@@ -5455,8 +5438,8 @@ html.dark .workout-generator .form-select:focus {
   background: #000000 !important;
 }
 
-.dark .routine-page .page-title,
-.dark .routine-page .page-subtitle,
+.dark .routine-page .hero-title,
+.dark .routine-page .hero-subtitle,
 .dark .routine-page .card-title,
 .dark .routine-page .routines-title,
 .dark .routine-page .routine-card-title,
@@ -5465,7 +5448,7 @@ html.dark .workout-generator .form-select:focus {
   color: rgba(255, 255, 255, 0.95);
 }
 
-.dark .routine-page .page-subtitle,
+.dark .routine-page .hero-subtitle,
 .dark .routine-page .text-muted,
 .dark .routine-page .empty-title,
 .dark .routine-page .empty-subtitle,
@@ -5473,18 +5456,18 @@ html.dark .workout-generator .form-select:focus {
   color: rgba(255, 255, 255, 0.75);
 }
 
-.dark .routine-page .page-header {
+.dark .routine-page .hero {
   background: #000000;
   transition: background 0.3s ease;
 }
 
-.dark .routine-page .page-title,
-.dark .routine-page .page-subtitle {
+.dark .routine-page .hero-title,
+.dark .routine-page .hero-subtitle {
   color: #ffffff;
   transition: color 0.3s ease;
 }
 
-.dark .routine-page .page-subtitle {
+.dark .routine-page .hero-subtitle {
   color: rgba(255, 255, 255, 0.7);
 }
 
@@ -5493,12 +5476,12 @@ html.dark .workout-generator .form-select:focus {
   transition: background 0.3s ease;
 }
 
-.routine-page .page-header {
+.routine-page .hero {
   transition: background 0.3s ease;
 }
 
-.routine-page .page-title,
-.routine-page .page-subtitle {
+.routine-page .hero-title,
+.routine-page .hero-subtitle {
   transition: color 0.3s ease;
 }
 
