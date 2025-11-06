@@ -1,13 +1,12 @@
 <template>
   <div class="routine-page">
-    <!-- Page Header -->
-    <div class="page-header">
-      <h1 class="page-title">Routine Builder</h1>
-      <p class="page-subtitle">Create and manage your custom workout routines</p>
-    </div>
-
     <!-- Main Content stacked -->
     <div class="content-container">
+      <!-- Page Header -->
+      <div class="page-header">
+        <h1 class="page-title">Routine Builder</h1>
+        <p class="page-subtitle">Create and manage your custom workout routines</p>
+      </div>
       <div class="card mb-4">
           <div class="card-header">
             <h4 class="card-title">{{ editingRoutine ? 'Edit Routine' : 'Create New Routine' }}</h4>
@@ -634,18 +633,7 @@ const resetForm = () => {
     padding: 0 1rem;
   }
 
-  .page-header {
-    padding-top: 1.5rem;
-    padding-bottom: 1rem;
-  }
-
-  .page-title {
-    font-size: 42px;
-  }
-
-  .page-subtitle {
-    font-size: 18px;
-  }
+  /* Page header responsive styles are handled in components.css */
 
   .routine-page .card {
     border-radius: 20px;
@@ -666,20 +654,7 @@ const resetForm = () => {
     padding: 0 0.75rem;
   }
 
-  .page-header {
-    padding-top: 1rem;
-    padding-bottom: 0.75rem;
-  }
-
-  .page-title {
-    font-size: 36px;
-    margin-bottom: 0.75rem;
-  }
-
-  .page-subtitle {
-    font-size: 16px;
-    padding: 0 1rem;
-  }
+  /* Page header responsive styles are handled in components.css */
 
   .routine-page .card {
     border-radius: 16px;
@@ -752,13 +727,7 @@ const resetForm = () => {
     padding: 0 0.5rem;
   }
 
-  .page-title {
-    font-size: 32px;
-  }
-
-  .page-subtitle {
-    font-size: 15px;
-  }
+  /* Page header responsive styles are handled in components.css */
 
   .routine-page .card-body {
     padding: 1rem;
@@ -813,30 +782,12 @@ const resetForm = () => {
 }
 
 
-.page-header {
-  padding-top: 2rem;
-  padding-bottom: 1.5rem;
-  text-align: center;
-}
-
-.page-title {
-  font-size: 56px;
-  line-height: 1.1;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  margin-bottom: 0.5rem;
-}
-
-.page-subtitle {
-  font-size: 21px;
-  opacity: 0.6;
-  max-width: 640px;
-  margin: 0 auto;
-}
+/* Page header styles are handled in components.css */
 
 .content-container {
   max-width: 64rem; /* ~1024px: similar to max-w-4xl */
   margin: 0 auto;
+  padding: 0 1.5rem;
 }
 .page-title {
   font-weight: 700;

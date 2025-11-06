@@ -102,7 +102,6 @@
               v-if="true"
               class="feature-card"
               :class="feature.bgClass"
-              @mouseenter="handleFeatureHover(index)"
             >
               <div class="feature-icon" :class="feature.iconClass">
                 <i :class="feature.icon"></i>

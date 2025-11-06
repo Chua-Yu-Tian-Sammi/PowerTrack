@@ -5438,6 +5438,7 @@ html.dark .workout-generator .form-select:focus {
   background: #000000 !important;
 }
 
+.dark .routine-page .page-title,
 .dark .routine-page .hero-title,
 .dark .routine-page .hero-subtitle,
 .dark .routine-page .card-title,
@@ -5448,6 +5449,7 @@ html.dark .workout-generator .form-select:focus {
   color: rgba(255, 255, 255, 0.95);
 }
 
+.dark .routine-page .page-subtitle,
 .dark .routine-page .hero-subtitle,
 .dark .routine-page .text-muted,
 .dark .routine-page .empty-title,
@@ -5474,6 +5476,30 @@ html.dark .workout-generator .form-select:focus {
 .dark .routine-page .content-container {
   background: #000000;
   transition: background 0.3s ease;
+}
+
+.routine-page .page-header {
+  margin-bottom: 3rem;
+}
+
+.routine-page .page-title {
+  font-size: 2rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: #030213;
+  margin-bottom: 0.5rem;
+}
+
+.routine-page .page-subtitle {
+  font-size: 0.9375rem;
+  opacity: 0.5;
+  color: #030213;
+}
+
+@media (max-width: 768px) {
+  .routine-page .page-title {
+    font-size: 1.5rem;
+  }
 }
 
 .routine-page .hero {
@@ -6262,6 +6288,17 @@ body,
 
 .home-page-view .showcase-item:last-child {
   margin-bottom: 0;
+}
+
+/* Mobile: Reverse showcase - content above image */
+@media (max-width: 1023px) {
+  .home-page-view .showcase-item.reverse .showcase-image {
+    order: 2;
+  }
+
+  .home-page-view .showcase-item.reverse .showcase-content {
+    order: 1;
+  }
 }
 
 @media (min-width: 1024px) {
