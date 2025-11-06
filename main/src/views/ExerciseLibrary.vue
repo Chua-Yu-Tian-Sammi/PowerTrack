@@ -1,9 +1,9 @@
 <template>
-  <div class="exercise-library-apple">
+  <div class="exercise-library-view">
     <div class="library-container">
       <!-- Page Header -->
       <Transition name="header-fade" appear>
-        <div class="page-header">
+        <div v-if="true" class="page-header">
           <h1 class="page-title">Exercise Library</h1>
           <p class="page-subtitle">Browse and explore exercises for your workouts</p>
         </div>
@@ -11,7 +11,7 @@
 
       <!-- Filters Card -->
       <Transition name="section-fade" style="--transition-delay: 0.1s" appear>
-        <div class="filters-card">
+        <div v-if="true" class="filters-card">
           <!-- Search Bar -->
           <div class="search-container">
             <div class="search-input-wrapper">
@@ -113,7 +113,7 @@
           <Transition name="page-fade" mode="out-in">
             <div :key="currentPage" class="exercises-grid">
               <ExerciseCard 
-                v-for="(exercise, index) in paginatedExercises" 
+                v-for="exercise in paginatedExercises" 
                 :key="`${currentPage}-${exercise.exerciseId}`"
                 :exercise="exercise"
                 :delay="0"
@@ -150,12 +150,16 @@
     </div>
 
     <!-- Toast Notification -->
-    <div v-if="notification.show" class="notification-container">
-      <div class="notification" :class="`notification-${notification.type}`">
-        <i class="bi" :class="notification.type === 'success' ? 'bi-check-circle' : 'bi-exclamation-triangle'"></i>
-        <span>{{ notification.message }}</span>
-      </div>
-    </div>
+    <Teleport to="body">
+      <Transition name="fade">
+        <div v-if="notification.show" class="notification-container">
+          <div class="notification" :class="`notification-${notification.type}`">
+            <i class="bi" :class="notification.type === 'success' ? 'bi-check-circle' : 'bi-exclamation-triangle'"></i>
+            <span>{{ notification.message }}</span>
+          </div>
+        </div>
+      </Transition>
+    </Teleport>
   </div>
 </template>
 

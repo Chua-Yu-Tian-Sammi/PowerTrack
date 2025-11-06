@@ -1,5 +1,4 @@
-// Google Maps API Service for Running Routes
-// This service handles all Google Maps related functionality
+// google maps api service for running routes
 
 class MapsService {
   constructor() {
@@ -9,13 +8,11 @@ class MapsService {
     this.directionsService = null
     this.directionsRenderer = null
     
-    // Validate API key
     if (!this.apiKey) {
       console.warn('Google Maps API key not found. Please set VITE_GOOGLE_MAPS_API_KEY in your environment variables.')
     }
   }
 
-  // Load Google Maps API
   async loadGoogleMaps() {
     if (this.isLoaded) return Promise.resolve()
     
@@ -50,7 +47,6 @@ class MapsService {
     })
   }
 
-  // Initialize Google Maps services
   initializeServices() {
     if (window.google && window.google.maps) {
       this.geocoder = new window.google.maps.Geocoder()
@@ -59,7 +55,6 @@ class MapsService {
     }
   }
 
-  // Geocode postal code to coordinates
   async geocodePostalCode(postalCode) {
     if (!this.geocoder) {
       throw new Error('Geocoder not initialized')
@@ -84,7 +79,6 @@ class MapsService {
     })
   }
 
-  // Find nearby parks using Places API
   async findNearbyParks(center, radius = 2000) {
     if (!window.google || !window.google.maps) {
       throw new Error('Google Maps not loaded')
@@ -119,19 +113,15 @@ class MapsService {
     })
   }
 
-  // Generate running route based on parameters
   async generateRunningRoute(postalCode, distance, routeType) {
     try {
-      // Geocode the postal code
       const startLocation = await this.geocodePostalCode(postalCode)
       
-      // Find nearby parks if route type includes parks
       let parks = []
       if (routeType === 'park' || routeType === 'mixed') {
         parks = await this.findNearbyParks(startLocation, distance * 1000)
       }
 
-      // Generate route based on type
       const routes = await this.createRouteVariations(startLocation, distance, routeType, parks)
       
       return routes
@@ -141,12 +131,10 @@ class MapsService {
     }
   }
 
-  // Create different route variations
   async createRouteVariations(startLocation, distance, routeType, parks) {
     const routes = []
     const variations = this.getRouteVariations(distance, routeType, parks, startLocation)
 
-    // Calculate the acceptable distance range (±30% of target distance)
     const minDistance = distance * 0.7  // -30%
     const maxDistance = distance * 1.3   // +30%
 
@@ -155,9 +143,7 @@ class MapsService {
       try {
         const route = await this.calculateRoute(startLocation, variation)
         if (route) {
-          // Check if route distance is within ±30% of target distance
           if (route.distance >= minDistance && route.distance <= maxDistance) {
-            // Determine the actual route type for this specific route
             const actualRouteType = variation.type
             
             routes.push({
@@ -181,14 +167,12 @@ class MapsService {
     return routes
   }
 
-  // Get route variations based on type and available parks
   getRouteVariations(distance, routeType, parks, startLocation) {
     const variations = []
-    const baseRadius = (distance * 1000) / 2 // Convert km to meters, divide by 2 for radius
+    const baseRadius = (distance * 1000) / 2
 
     switch (routeType) {
       case 'loop':
-        // Create loop routes (start and end at same point)
         for (let i = 0; i < 3; i++) {
           variations.push({
             type: 'loop',
@@ -202,7 +186,6 @@ class MapsService {
         break
 
       case 'point-to-point':
-        // Create point-to-point routes
         for (let i = 0; i < 3; i++) {
           variations.push({
             type: 'point-to-point',
@@ -216,8 +199,6 @@ class MapsService {
         break
 
       case 'all':
-        // Mix of loop and point-to-point routes
-        // Add loop variations
         for (let i = 0; i < 2; i++) {
           variations.push({
             type: 'loop',
@@ -229,7 +210,6 @@ class MapsService {
           })
         }
         
-        // Add point-to-point variations
         for (let i = 0; i < 2; i++) {
           variations.push({
             type: 'point-to-point',
@@ -246,12 +226,10 @@ class MapsService {
     return variations
   }
 
-  // Generate loop waypoints (circular route back to start)
   generateLoopWaypoints(radius, variation, startLocation) {
-    const angle = (variation * 120) * (Math.PI / 180) // 120 degrees apart
-    const distance = radius * 0.8 // 80% of radius for waypoint
+    const angle = (variation * 120) * (Math.PI / 180)
+    const distance = radius * 0.8
     
-    // Convert meters to degrees (rough approximation: 1 degree ≈ 111,000 meters)
     const latOffset = Math.cos(angle) * (distance / 111000)
     const lngOffset = Math.sin(angle) * (distance / 111000)
     
@@ -261,12 +239,10 @@ class MapsService {
     }]
   }
 
-  // Generate point-to-point waypoints (different end point)
   generatePointToPointWaypoints(radius, variation, startLocation) {
-    const angle = (variation * 120) * (Math.PI / 180) // 120 degrees apart
-    const distance = radius * 1.2 // 120% of radius for end point
+    const angle = (variation * 120) * (Math.PI / 180)
+    const distance = radius * 1.2
     
-    // Convert meters to degrees (rough approximation: 1 degree ≈ 111,000 meters)
     const latOffset = Math.cos(angle) * (distance / 111000)
     const lngOffset = Math.sin(angle) * (distance / 111000)
     
@@ -276,20 +252,16 @@ class MapsService {
     }]
   }
 
-  // Calculate actual route using Directions API
   async calculateRoute(startLocation, variation) {
     if (!this.directionsService) {
       throw new Error('Directions service not initialized')
     }
 
     return new Promise((resolve, reject) => {
-      // Determine destination based on route type
       let destination
       if (variation.isLoop) {
-        // Loop route: end at start location
         destination = new window.google.maps.LatLng(startLocation.lat, startLocation.lng)
       } else {
-        // Point-to-point route: end at waypoint
         destination = new window.google.maps.LatLng(variation.waypoints[0].lat, variation.waypoints[0].lng)
       }
 
@@ -311,8 +283,8 @@ class MapsService {
           const route = result.routes[0]
           
           resolve({
-            distance: Math.round(route.legs.reduce((total, leg) => total + leg.distance.value, 0) / 1000 * 10) / 10, // Convert to km
-            duration: route.legs.reduce((total, leg) => total + leg.duration.value, 0), // In seconds
+            distance: Math.round(route.legs.reduce((total, leg) => total + leg.distance.value, 0) / 1000 * 10) / 10,
+            duration: route.legs.reduce((total, leg) => total + leg.duration.value, 0),
             coordinates: {
               start: { lat: startLocation.lat, lng: startLocation.lng },
               waypoints: variation.waypoints,
@@ -326,7 +298,6 @@ class MapsService {
     })
   }
 
-  // Generate route description
   generateRouteDescription(routeType, distance, variation, index) {
     const descriptions = {
       loop: [
@@ -349,7 +320,6 @@ class MapsService {
     return descriptions[routeType][index % descriptions[routeType].length]
   }
 
-  // Generate route highlights
   generateRouteHighlights(routeType) {
     const highlights = {
       loop: ['Circular Route', 'Return to Start', 'Complete Circuit', 'Familiar Endpoint', 'Easy Navigation'],
@@ -361,7 +331,6 @@ class MapsService {
     return routeHighlights.slice(0, Math.floor(Math.random() * 3) + 2)
   }
 
-  // Format duration from seconds to readable format
   formatDuration(seconds) {
     const minutes = Math.floor(seconds / 60)
     const hours = Math.floor(minutes / 60)
@@ -374,7 +343,6 @@ class MapsService {
     }
   }
 
-  // Initialize map with route
   initializeMapWithRoute(mapElement, route) {
     if (!window.google || !window.google.maps) {
       throw new Error('Google Maps not loaded')
@@ -386,7 +354,6 @@ class MapsService {
       mapTypeId: window.google.maps.MapTypeId.ROADMAP
     })
 
-    // Determine destination based on route type
     const isLoop = route.routeType === 'loop'
     const destination = isLoop 
       ? route.coordinates.start 
@@ -394,13 +361,11 @@ class MapsService {
           ? route.coordinates.waypoints[0] 
           : route.coordinates.start)
 
-    // Add route polyline
     const directionsRenderer = new window.google.maps.DirectionsRenderer({
       map: map,
-      suppressMarkers: true // Suppress default ABC markers
+      suppressMarkers: true
     })
 
-    // Create directions request
     const request = {
       origin: route.coordinates.start,
       destination: destination,
@@ -418,8 +383,6 @@ class MapsService {
     directionsService.route(request, (result, status) => {
       if (status === 'OK') {
         directionsRenderer.setDirections(result)
-        
-        // Add custom markers with S/E labels
         this.addCustomRouteMarkers(map, route, result)
       }
     })
@@ -427,22 +390,18 @@ class MapsService {
     return map
   }
 
-  // Add custom markers for route start and end
   addCustomRouteMarkers(map, route, directionsResult) {
     if (!window.google || !window.google.maps) return
 
     const isLoop = route.routeType === 'loop'
     
-    // Get the actual route path to determine start and end points
     const routePath = directionsResult.routes[0]
     if (!routePath || !routePath.legs || routePath.legs.length === 0) return
 
     const startLocation = routePath.legs[0].start_location
     const endLocation = routePath.legs[routePath.legs.length - 1].end_location
 
-    // Create start marker
     if (isLoop) {
-      // For loops, show "S/E" at start/end location
       new window.google.maps.Marker({
         position: startLocation,
         map: map,
@@ -462,7 +421,6 @@ class MapsService {
         }
       })
     } else {
-      // For point-to-point, show "S" at start
       new window.google.maps.Marker({
         position: startLocation,
         map: map,
@@ -482,13 +440,11 @@ class MapsService {
         }
       })
 
-      // Show "E" at end (if start and end are different)
       const startLat = startLocation.lat()
       const startLng = startLocation.lng()
       const endLat = endLocation.lat()
       const endLng = endLocation.lng()
       
-      // Check if start and end are significantly different (more than ~10 meters)
       const distance = Math.sqrt(
         Math.pow((endLat - startLat) * 111000, 2) + 
         Math.pow((endLng - startLng) * 111000 * Math.cos(startLat * Math.PI / 180), 2)

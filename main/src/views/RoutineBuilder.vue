@@ -1,14 +1,15 @@
 <template>
   <div class="routine-page">
-    <!-- Hero Section -->
-    <section class="hero text-center">
-      <h1 class="hero-title">Routine Builder</h1>
-      <p class="hero-subtitle">Create and manage your custom workout routines</p>
-    </section>
-
-    <!-- Main Content stacked -->
     <div class="content-container">
-      <div class="card mb-4">
+      <Transition name="header-fade" appear>
+        <div v-if="true" class="page-header">
+          <h1 class="page-title">Routine Builder</h1>
+          <p class="page-subtitle">Create and manage your custom workout routines</p>
+        </div>
+      </Transition>
+
+      <Transition name="section-fade" style="--transition-delay: 0.1s" appear>
+      <div v-if="true" class="card mb-4">
           <div class="card-header">
             <h4 class="card-title">{{ editingRoutine ? 'Edit Routine' : 'Create New Routine' }}</h4>
           </div>
@@ -104,9 +105,10 @@
             </form>
           </div>
         </div>
+      </Transition>
 
-        <!-- saved routines -->
-        <div class="saved-routines-section">
+      <Transition name="section-fade" style="--transition-delay: 0.15s" appear>
+        <div v-if="true" class="saved-routines-section">
           <div class="routines-header mb-4">
             <h2 class="routines-title">My Routines</h2>
           </div>
@@ -208,6 +210,7 @@
             </div>
           </div>
         </div>
+      </Transition>
     </div>
 
     <!-- popup to pick exercises -->
@@ -219,25 +222,29 @@
     />
 
     <!-- Toast Notification -->
-    <div v-if="notification.show" class="notification-container">
-      <div class="notification" :class="`notification-${notification.type}`">
-        <i class="bi" :class="notification.type === 'success' ? 'bi-check-circle' : 'bi-exclamation-triangle'"></i>
-        <span>{{ notification.message }}</span>
-      </div>
-    </div>
+    <Teleport to="body">
+      <Transition name="fade">
+        <div v-if="notification.show" class="notification-container">
+          <div class="notification" :class="`notification-${notification.type}`">
+            <i class="bi" :class="notification.type === 'success' ? 'bi-check-circle' : 'bi-exclamation-triangle'"></i>
+            <span>{{ notification.message }}</span>
+          </div>
+        </div>
+      </Transition>
+    </Teleport>
 
     <!-- Delete Confirmation Modal -->
     <Transition name="fade">
-      <div v-if="deleteConfirmation.show" class="user-profile-apple">
-        <div class="apple-modal-backdrop apple-modal-backdrop-centered" @click.self="cancelDeleteRoutine">
-          <div class="apple-modal">
-            <div class="apple-modal-header">
-              <h5 class="apple-modal-title">Confirm Delete</h5>
-              <button class="apple-modal-close" @click="cancelDeleteRoutine">
+      <div v-if="deleteConfirmation.show" class="user-profile-view">
+        <div class="app-modal-backdrop app-modal-backdrop-centered" @click.self="cancelDeleteRoutine">
+          <div class="app-modal">
+            <div class="app-modal-header">
+              <h5 class="app-modal-title">Confirm Delete</h5>
+              <button class="app-modal-close" @click="cancelDeleteRoutine">
                 <i class="bi bi-x-lg" style="font-size: 0.875rem;"></i>
               </button>
             </div>
-            <div class="apple-modal-body">
+            <div class="app-modal-body">
               <p class="mb-3">Are you sure you want to delete this routine?</p>
               <div class="workout-summary-box">
                 <strong>{{ deleteConfirmation.routineTitle }}</strong>
@@ -249,14 +256,14 @@
               <div class="workout-modal-actions">
                 <button 
                   type="button" 
-                  class="apple-modal-cancel-btn"
+                  class="app-modal-cancel-btn"
                   @click="cancelDeleteRoutine"
                 >
                   Cancel
                 </button>
                 <button 
                   type="button" 
-                  class="apple-modal-end-btn"
+                  class="app-modal-end-btn"
                   @click="confirmDeleteRoutine"
                 >
                   Delete Routine
@@ -580,6 +587,7 @@ const resetForm = () => {
 }
 
 .routine-page .card {
+  background: #ffffff;
   border-radius: 24px;
   border: 1px solid var(--border);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
@@ -630,19 +638,6 @@ const resetForm = () => {
     padding: 0 1rem;
   }
 
-  .hero {
-    padding-top: 1.5rem;
-    padding-bottom: 1rem;
-  }
-
-  .hero-title {
-    font-size: 42px;
-  }
-
-  .hero-subtitle {
-    font-size: 18px;
-  }
-
   .routine-page .card {
     border-radius: 20px;
   }
@@ -660,21 +655,6 @@ const resetForm = () => {
 @media (max-width: 767px) {
   .content-container {
     padding: 0 0.75rem;
-  }
-
-  .hero {
-    padding-top: 1rem;
-    padding-bottom: 0.75rem;
-  }
-
-  .hero-title {
-    font-size: 36px;
-    margin-bottom: 0.75rem;
-  }
-
-  .hero-subtitle {
-    font-size: 16px;
-    padding: 0 1rem;
   }
 
   .routine-page .card {
@@ -748,14 +728,6 @@ const resetForm = () => {
     padding: 0 0.5rem;
   }
 
-  .hero-title {
-    font-size: 32px;
-  }
-
-  .hero-subtitle {
-    font-size: 15px;
-  }
-
   .routine-page .card-body {
     padding: 1rem;
   }
@@ -809,33 +781,9 @@ const resetForm = () => {
 }
 
 
-.hero {
-  padding-top: 2rem;
-  padding-bottom: 1.5rem;
-}
-
-.hero-title {
-  font-size: 56px;
-  line-height: 1.1;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  margin-bottom: 0.5rem;
-}
-
-.hero-subtitle {
-  font-size: 21px;
-  opacity: 0.6;
-  max-width: 640px;
-  margin: 0 auto;
-}
-
 .content-container {
   max-width: 64rem; /* ~1024px: similar to max-w-4xl */
   margin: 0 auto;
-}
-.page-title {
-  font-weight: 700;
-  letter-spacing: -0.02em;
 }
 
 .card-header {
@@ -1231,6 +1179,23 @@ const resetForm = () => {
 
 .list-fade-move {
   transition: transform 0.25s ease;
+}
+
+/* Transitions */
+.header-fade-enter-active,
+.section-fade-enter-active {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition-delay: var(--transition-delay, 0s);
+}
+
+.header-fade-enter-from {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.section-fade-enter-from {
+  opacity: 0;
+  transform: translateY(20px);
 }
 
 /* Dark mode styles for routine cards */

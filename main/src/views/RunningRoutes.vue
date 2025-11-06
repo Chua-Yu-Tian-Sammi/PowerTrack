@@ -1,22 +1,22 @@
 <template>
-  <div class="running-routes-apple">
+  <div class="running-routes-view">
     <div class="routes-container">
-      <!-- Page Header -->
+      
       <Transition name="header-fade">
-        <div class="page-header">
+        <div v-if="true" class="page-header">
           <h1 class="page-title">Running Routes</h1>
           <p class="page-subtitle">Find the perfect running route based on your distance and location</p>
         </div>
       </Transition>
 
-      <!-- Route Preferences -->
+      
       <Transition name="section-fade" style="--transition-delay: 0.1s">
-        <div class="preferences-card">
+        <div v-if="true" class="preferences-card">
           <h2 class="preferences-title">Route Preferences</h2>
           
               <form @submit.prevent="findRoutes">
             <div class="preferences-grid">
-              <!-- Postal Code -->
+              
               <div class="preference-group">
                 <label for="postalCode" class="preference-label">
                   Postal Code
@@ -33,7 +33,7 @@
                 <p class="preference-helper">We'll find routes starting from this location</p>
                   </div>
 
-              <!-- Distance -->
+              
               <div class="preference-group">
                 <label for="distance" class="preference-label">
                   Distance
@@ -49,7 +49,7 @@
                     </select>
                   </div>
 
-              <!-- Route Type -->
+              
               <div class="preference-group">
                 <label for="routeType" class="preference-label">
                   Route Type
@@ -74,7 +74,7 @@
             </div>
       </Transition>
 
-      <!-- Route Results -->
+      
       <Transition name="section-fade" style="--transition-delay: 0.2s">
         <div v-if="routes.length > 0 || searchPerformed || loading">
           <div class="results-header">
@@ -82,19 +82,19 @@
             <p v-if="routes.length > 0" class="results-subtitle">Found {{ routes.length }} Route{{ routes.length !== 1 ? 's' : '' }}</p>
       </div>
 
-              <!-- Loading State -->
+              
           <div v-if="loading" class="loading-state">
             <div class="spinner-border" role="status"></div>
             <p>Finding the best running routes for you...</p>
               </div>
 
-              <!-- Error State -->
+              
           <div v-else-if="error" class="error-state">
             <i class="bi bi-exclamation-triangle"></i>
             <span>{{ error }}</span>
               </div>
 
-          <!-- Routes Grid -->
+          
           <div v-else-if="routes.length > 0" class="routes-grid">
             <TransitionGroup name="route-card">
               <div 
@@ -103,9 +103,9 @@
                 class="route-card"
                 :style="{ '--transition-delay': (0.1 * (index + 2)) + 's' }"
               >
-                <!-- Map Preview -->
+                
                 <div class="route-map-preview">
-                  <!-- Loading Placeholder (shown when map not loaded) -->
+                  
                   <div v-if="!getMapLoadedState(index)" class="map-placeholder" style="z-index: 1;">
                     <div class="spinner-border spinner-border-sm" role="status" style="width: 1.5rem; height: 1.5rem; border-width: 2px; color: rgba(0, 0, 0, 0.3); margin-bottom: 0.5rem;">
                       <span class="visually-hidden">Loading...</span>
@@ -113,7 +113,7 @@
                     <p style="font-size: 0.8125rem; opacity: 0.5; color: #030213; margin: 0;">Loading map...</p>
                 </div>
                 
-                  <!-- Google Maps Container (shown when loaded) -->
+                  
                   <div 
                     :id="`map-preview-${index}`" 
                     class="map-container"
@@ -121,12 +121,12 @@
                   ></div>
                       </div>
                       
-                <!-- Route Content -->
+                
                 <div class="route-content">
-                  <!-- Route Name -->
+                  
                   <h3 class="route-name">{{ getRouteName(route, index) }}</h3>
 
-                  <!-- Badges -->
+                  
                   <div class="route-badges">
                     <span class="route-badge distance">{{ formatDistance(route.distance || 0) }}</span>
                     <span class="route-badge type" :class="(route.routeType || 'loop').replace('_', '-')">{{ getRouteTypeLabel(route.routeType || 'loop') }}</span>
@@ -136,7 +136,7 @@
                     </span>
                       </div>
 
-                  <!-- Meta Info -->
+                  
                   <div class="route-meta">
                     <div class="route-meta-item">
                       <i class="bi bi-geo-alt"></i>
@@ -148,7 +148,7 @@
                         </div>
                       </div>
 
-                  <!-- Action Buttons -->
+                  
                   <div class="route-actions">
                     <button 
                       class="route-action-btn outline"
@@ -170,7 +170,7 @@
             </TransitionGroup>
               </div>
 
-              <!-- No Results -->
+              
           <div v-else-if="!loading && searchPerformed" class="empty-state">
             <i class="bi bi-geo-alt"></i>
             <h4>No routes available</h4>
@@ -179,7 +179,7 @@
         </div>
       </Transition>
 
-      <!-- Initial State -->
+      
       <Transition name="section-fade" style="--transition-delay: 0.2s">
         <div v-if="!loading && !searchPerformed && routes.length === 0" class="empty-state">
           <i class="bi bi-geo-alt"></i>
@@ -189,24 +189,24 @@
       </Transition>
     </div>
 
-    <!-- Google Maps Modal (Apple-styled) -->
+    
     <Transition name="fade">
-      <div v-if="selectedRoute" class="user-profile-apple">
-        <div class="apple-modal-backdrop" @click.self="closeMapModal">
-          <div class="apple-modal" style="max-width: 90vw; width: 1200px;">
-            <div class="apple-modal-header">
-              <h5 class="apple-modal-title">Route Map</h5>
-              <button class="apple-modal-close" @click="closeMapModal">
+      <div v-if="selectedRoute" class="user-profile-view">
+        <div class="app-modal-backdrop" @click.self="closeMapModal">
+          <div class="app-modal" style="max-width: 90vw; width: 1200px;">
+            <div class="app-modal-header">
+              <h5 class="app-modal-title">Route Map</h5>
+              <button class="app-modal-close" @click="closeMapModal">
                 <i class="bi bi-x-lg" style="font-size: 0.875rem;"></i>
               </button>
             </div>
-            <div class="apple-modal-body" style="padding: 0;">
+            <div class="app-modal-body" style="padding: 0;">
               <div id="map" style="height: 500px; width: 100%; border-radius: 0 0 1rem 1rem; overflow: hidden;"></div>
           </div>
-            <div class="apple-modal-footer" style="display: flex; gap: 0.75rem; padding: 1rem 1.5rem;">
+            <div class="app-modal-footer" style="display: flex; gap: 0.75rem; padding: 1rem 1.5rem;">
               <button 
                 type="button" 
-                class="apple-input" 
+                class="app-input" 
                 style="flex: 1; height: 3rem; border: 1px solid rgba(0,0,0,0.1); cursor: pointer; font-weight: 500;"
                 @click="closeMapModal"
               >
@@ -214,7 +214,7 @@
               </button>
               <button 
                 type="button" 
-                class="apple-input"
+                class="app-input"
                 style="flex: 1; height: 3rem; background: #030213; color: white; cursor: pointer; font-weight: 500; border: none;"
                 @click="startRouteFromModal"
               >
@@ -226,7 +226,7 @@
       </div>
     </Transition>
 
-    <!-- Active Workout Confirmation Modal -->
+    
     <ActiveWorkoutModal 
       :show="showActiveWorkoutModal" 
       @cancel="handleCancelActiveWorkout"
@@ -242,18 +242,16 @@ import { useRouter } from 'vue-router'
 import { mapsService } from '../services/mapsService.js'
 import { WorkoutStateService } from '../services/workoutStateService.js'
 import ActiveWorkoutModal from '../components/ActiveWorkoutModal.vue'
-import * as bootstrap from 'bootstrap'
+
 
 const router = useRouter()
 
-// Form data
 const searchForm = reactive({
   postalCode: '',
   distance: '5',
   routeType: 'all'
 })
 
-// State
 const loading = ref(false)
 const error = ref('')
 const searchPerformed = ref(false)
@@ -262,13 +260,10 @@ const selectedRoute = ref(null)
 const showActiveWorkoutModal = ref(false)
 const pendingRouteData = ref(null)
 
-// State management keys
 const DRAFT_SEARCH_KEY = 'draftRunningRoutesSearch'
 const DRAFT_ROUTES_KEY = 'draftRunningRoutesResults'
 
-// Google Maps will be loaded via the mapsService
-
-// Helper functions for route type display
+// helper labels
 const getRouteTypeLabel = (routeType) => {
   const labels = {
     'loop': 'Loop',
@@ -277,16 +272,8 @@ const getRouteTypeLabel = (routeType) => {
   return labels[routeType] || 'Loop'
 }
 
-const getRouteTypeBadgeClass = (routeType) => {
-  const classes = {
-    'loop': 'bg-success',
-    'point-to-point': 'bg-info'
-  }
-  return classes[routeType] || 'bg-success'
-}
-
 const calculateTiming = (distance) => {
-  const pacePerKm = 6 // 6 minutes per kilometer
+  const pacePerKm = 6
   const totalMinutes = Math.round(distance * pacePerKm)
   const hours = Math.floor(totalMinutes / 60)
   const minutes = totalMinutes % 60
@@ -299,7 +286,6 @@ const calculateTiming = (distance) => {
 }
 
 const formatDistance = (distance) => {
-  // Format distance with space between number and unit
   if (distance === null || distance === undefined) return '0 km'
   const numDistance = typeof distance === 'number' ? distance : parseFloat(distance)
   if (isNaN(numDistance)) return '0 km'
@@ -307,20 +293,17 @@ const formatDistance = (distance) => {
 }
 
 const getRouteName = (route, index) => {
-  // Simple naming: Route 1, Route 2, etc.
   return `Route ${index + 1}`
 }
 
 const getRouteElevation = (route) => {
-  // Calculate or get elevation from route data
   if (route.elevation) {
     return `${route.elevation}m`
   }
   
-  // Estimate elevation based on distance and route type
-  // Simple estimation: longer routes typically have more elevation
+  
   const baseElevation = Math.round((route.distance || 5) * 2.4)
-  const variation = Math.floor(Math.random() * 20) - 10 // Add some variation
+  const variation = Math.floor(Math.random() * 20) - 10
   const elevation = Math.max(5, baseElevation + variation)
   return `${elevation}m`
 }
@@ -335,17 +318,14 @@ const markMapAsLoaded = (index) => {
   mapLoadedStates.value[`map-${index}`] = true
 }
 
-// State management functions
 const loadDraftState = () => {
   try {
-    // Load search form
     const savedSearch = localStorage.getItem(DRAFT_SEARCH_KEY)
     if (savedSearch) {
       const searchData = JSON.parse(savedSearch)
       Object.assign(searchForm, searchData)
     }
 
-    // Load routes results
     const savedRoutes = localStorage.getItem(DRAFT_ROUTES_KEY)
     if (savedRoutes) {
       const routesData = JSON.parse(savedRoutes)
@@ -382,10 +362,8 @@ const findRoutes = async () => {
   searchPerformed.value = true
 
   try {
-    // Load Google Maps API if not already loaded
     await mapsService.loadGoogleMaps()
     
-    // Generate routes using Google Maps API
     routes.value = await mapsService.generateRunningRoute(
       searchForm.postalCode,
       parseInt(searchForm.distance),
@@ -396,13 +374,10 @@ const findRoutes = async () => {
       error.value = 'No routes available within ±30% of your selected distance. Try adjusting your distance or postal code.'
     }
     
-    // Save state after successful search
     saveDraftState()
     
-    // Reset map states for new routes
     mapLoadedStates.value = {}
     
-    // Wait for DOM to update, then initialize map previews
     await nextTick()
     setTimeout(() => {
       initializeMapPreviews()
@@ -419,7 +394,6 @@ const findRoutes = async () => {
 
 const viewOnMap = (route) => {
   selectedRoute.value = route
-  // Initialize map after a short delay to ensure modal is rendered
     setTimeout(() => {
       initializeMap(route)
   }, 100)
@@ -438,17 +412,14 @@ const startRouteFromModal = () => {
 
 const initializeMap = async (route) => {
   try {
-    // Load Google Maps API if not already loaded
     await mapsService.loadGoogleMaps()
     
-    // Initialize map with route
     const mapElement = document.getElementById('map')
     if (mapElement) {
       mapsService.initializeMapWithRoute(mapElement, route)
     }
   } catch (error) {
     console.error('Error initializing map:', error)
-    // Fallback to placeholder
     const mapElement = document.getElementById('map')
     if (mapElement) {
       mapElement.innerHTML = `
@@ -465,12 +436,9 @@ const initializeMap = async (route) => {
 }
 
 const startRoute = (route) => {
-  // Close modal if open
   closeMapModal()
   
-  // Check if there's an active workout
   if (WorkoutStateService.checkActiveWorkout()) {
-    // Store the route data to start after confirmation
     pendingRouteData.value = {
       workoutData: {
         title: `${route.distance}km Running Route`,
@@ -478,11 +446,11 @@ const startRoute = (route) => {
           name: 'Running',
           description: route.description,
           duration: route.estimatedTime,
-          distance: route.distance * 1000, // Convert km to meters for backend
-          distanceKm: route.distance, // Also keep km for reference
+          distance: route.distance * 1000,
+          distanceKm: route.distance,
           routeType: route.routeType
         }],
-        totalTimeMin: Math.floor(route.distance * 7), // Average 7 min/km
+        totalTimeMin: Math.floor(route.distance * 7),
         sourceType: 'running-route'
       },
       routeData: {
@@ -496,12 +464,10 @@ const startRoute = (route) => {
       }
     }
     
-    // Show confirmation modal
     showActiveWorkoutModal.value = true
     return
   }
   
-  // No active workout, proceed normally
   proceedWithRoute(route)
 }
 
@@ -512,11 +478,11 @@ const proceedWithRoute = (route) => {
       name: 'Running',
       description: route.description,
       duration: route.estimatedTime,
-      distance: route.distance * 1000, // Convert km to meters for backend
-      distanceKm: route.distance, // Also keep km for reference
+      distance: route.distance * 1000,
+      distanceKm: route.distance,
       routeType: route.routeType
     }],
-    totalTimeMin: Math.floor(route.distance * 7), // Average 7 min/km
+    totalTimeMin: Math.floor(route.distance * 7),
     sourceType: 'running-route'
   }
   
@@ -530,7 +496,6 @@ const proceedWithRoute = (route) => {
     highlights: route.highlights
   }
   
-  // Navigate to workout tracking with route data
   router.push({
     path: '/workout-tracking',
     query: {
@@ -549,10 +514,8 @@ const handleCancelActiveWorkout = () => {
 const handleEndActiveWorkout = async () => {
   showActiveWorkoutModal.value = false
   
-  // Clear the active workout state
   WorkoutStateService.clearActiveWorkout()
   
-  // Proceed with the new route
   if (pendingRouteData.value) {
     router.push({
       path: '/workout-tracking',
@@ -567,7 +530,6 @@ const handleEndActiveWorkout = async () => {
   }
 }
 
-// Watchers for state persistence
 watch(searchForm, () => {
   saveDraftState()
 }, { deep: true })
@@ -580,19 +542,15 @@ watch(searchPerformed, () => {
   saveDraftState()
 })
 
-// Watch for routes changes to reinitialize map previews
 watch(routes, async (newRoutes) => {
   if (newRoutes && newRoutes.length > 0) {
-    // Reset map loaded states when routes change
     mapLoadedStates.value = {}
     
-    // Wait for DOM to be fully updated
     await nextTick()
     setTimeout(() => {
       initializeMapPreviews()
     }, 500)
   } else {
-    // Clear map states when routes are cleared
     mapLoadedStates.value = {}
   }
 }, { deep: true })
@@ -601,7 +559,6 @@ const initializeMapPreviews = async () => {
   try {
     await mapsService.loadGoogleMaps()
     
-    // Wait a bit more to ensure DOM elements are ready
     await new Promise(resolve => setTimeout(resolve, 500))
     
     routes.value.forEach((route, index) => {
@@ -617,7 +574,6 @@ const initializeMapPreviews = async () => {
       }
       
       try {
-        // Clear placeholder content if it exists
         const placeholder = mapElement.parentElement.querySelector('.map-placeholder')
         if (placeholder) {
           placeholder.style.display = 'none'
@@ -636,10 +592,9 @@ const initializeMapPreviews = async () => {
             fullscreenControl: false
           })
 
-        // Add route polyline with default Google Maps styling
           const directionsRenderer = new window.google.maps.DirectionsRenderer({
             map: map,
-          suppressMarkers: true, // We'll add custom markers
+          suppressMarkers: true,
             polylineOptions: {
             strokeColor: '#4285F4',
               strokeWeight: 4,
@@ -647,7 +602,6 @@ const initializeMapPreviews = async () => {
             }
           })
 
-          // Create directions request
           const request = {
             origin: route.coordinates.start,
             destination: route.routeType === 'loop' 
@@ -671,16 +625,13 @@ const initializeMapPreviews = async () => {
             if (status === 'OK') {
               directionsRenderer.setDirections(result)
               
-            // Create custom markers with S/E labels (matching full map modal)
             const routeResult = result.routes[0]
             const isLoop = route.routeType === 'loop'
             
             const startLocation = routeResult.legs[0].start_location
             const endLocation = routeResult.legs[routeResult.legs.length - 1].end_location
             
-            // Create start marker
             if (isLoop) {
-              // For loops, show "S/E" at start/end location (blue)
               new window.google.maps.Marker({
                 position: startLocation,
                 map: map,
@@ -700,7 +651,6 @@ const initializeMapPreviews = async () => {
                 }
               })
             } else {
-              // For point-to-point, show "S" at start (green)
               new window.google.maps.Marker({
                 position: startLocation,
                 map: map,
@@ -720,13 +670,11 @@ const initializeMapPreviews = async () => {
                 }
               })
               
-              // Show "E" at end (if start and end are different, red)
               const startLat = startLocation.lat()
               const startLng = startLocation.lng()
               const endLat = endLocation.lat()
               const endLng = endLocation.lng()
               
-              // Check if start and end are significantly different (more than ~10 meters)
               const distance = Math.sqrt(
                 Math.pow((endLat - startLat) * 111000, 2) + 
                 Math.pow((endLng - startLng) * 111000 * Math.cos(startLat * Math.PI / 180), 2)
@@ -754,10 +702,8 @@ const initializeMapPreviews = async () => {
               }
             }
             
-            // Automatically fit the map to show the entire route with padding
             const bounds = new window.google.maps.LatLngBounds()
             
-            // Add all points from the route to bounds
             routeResult.legs.forEach(leg => {
               bounds.extend(leg.start_location)
               bounds.extend(leg.end_location)
@@ -767,7 +713,6 @@ const initializeMapPreviews = async () => {
               })
             })
             
-            // Fit map to route bounds with padding for card view
             map.fitBounds(bounds, {
               top: 20,
               right: 20,
@@ -777,7 +722,6 @@ const initializeMapPreviews = async () => {
             
             markMapAsLoaded(index)
             
-            // Placeholder will automatically hide when mapLoadedState changes
             } else {
               console.warn(`Failed to get directions for route ${index}:`, status)
             }
@@ -792,15 +736,9 @@ const initializeMapPreviews = async () => {
 }
 
 onMounted(() => {
-  // Load draft state on component mount
   loadDraftState()
-  
-  // Initialize map previews if routes exist
   if (routes.value.length > 0) {
-    // Reset map states
     mapLoadedStates.value = {}
-    
-    // Wait for DOM to be fully rendered
     setTimeout(() => {
       initializeMapPreviews()
     }, 500)

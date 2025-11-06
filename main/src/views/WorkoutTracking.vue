@@ -1,6 +1,6 @@
 <template>
-  <div class="workout-tracking-apple">
-    <!-- No workout available -->
+  <div class="workout-tracking-view">
+    
     <div v-if="!workoutData" class="tracking-container">
       <div class="empty-state-card">
         <div class="empty-state-icon">
@@ -14,9 +14,9 @@
       </div>
     </div>
 
-    <!-- Workout available -->
+    
     <div v-else class="tracking-container">
-      <!-- Start/End Workout Card -->
+      
       <Transition name="fade" appear>
         <div class="start-workout-card">
           <div v-if="!isActive">
@@ -46,15 +46,15 @@
         </div>
       </Transition>
 
-      <!-- Workout Header -->
+      
       <Transition name="fade" appear>
         <div class="workout-header-card">
-          <!-- Title -->
+          
           <div class="mb-3">
             <h1 class="workout-title">{{ workoutName }}</h1>
           </div>
           
-          <!-- Progress Bar -->
+          
           <div 
             class="progress-bar-container" 
             :class="{ 'progress-bar-clickable': isRunningRoute && isActive }"
@@ -68,9 +68,9 @@
             ></div>
           </div>
 
-          <!-- Distance and Timer (inline) -->
+          
           <div class="d-flex align-items-center justify-content-between">
-            <!-- Running Route: Distance Input -->
+            
             <div v-if="isRunningRoute && isActive" class="distance-input-group">
               <input
                 type="number"
@@ -83,12 +83,12 @@
               <span class="distance-label">km / {{ formatDistance(runningRouteData?.distance || 0) }}</span>
             </div>
             
-            <!-- Regular Workout: Exercise Count -->
+            
             <div v-else-if="!isRunningRoute" style="font-size: 0.875rem; opacity: 0.6;">
               {{ completedExercisesCount }} of {{ totalExercisesCount }} completed
             </div>
             
-            <!-- Timer and Pause Button (always shown when active) -->
+            
             <div v-if="isActive" class="d-flex align-items-center gap-2 timer-container">
               <div class="text-end">
                 <div class="workout-timer" style="font-size: 1.5rem;">{{ formatTime(elapsedTime) }}</div>
@@ -116,7 +116,7 @@
         </div>
       </Transition>
 
-      <!-- Running Route Map -->
+      
       <Transition name="fade" appear v-if="isRunningRoute">
         <div class="map-card">
           <div class="map-header">
@@ -146,7 +146,7 @@
         </div>
       </Transition>
 
-      <!-- Exercise List -->
+      
       <div v-if="!isRunningRoute">
         <TransitionGroup name="list" tag="div">
           <div 
@@ -192,18 +192,18 @@
       </div>
     </div>
 
-    <!-- End Workout Modal (for regular workouts) -->
+    
     <Transition name="fade">
-      <div v-if="showEndWorkoutModal && !isRunningRoute" class="user-profile-apple">
-        <div class="apple-modal-backdrop" @click.self="showEndWorkoutModal = false">
-          <div class="apple-modal">
-            <div class="apple-modal-header">
-              <h5 class="apple-modal-title">End Workout</h5>
-              <button class="apple-modal-close" @click="showEndWorkoutModal = false">
+      <div v-if="showEndWorkoutModal && !isRunningRoute" class="user-profile-view">
+        <div class="app-modal-backdrop" @click.self="showEndWorkoutModal = false">
+          <div class="app-modal">
+            <div class="app-modal-header">
+              <h5 class="app-modal-title">End Workout</h5>
+              <button class="app-modal-close" @click="showEndWorkoutModal = false">
                 <i class="bi bi-x-lg" style="font-size: 0.875rem;"></i>
               </button>
           </div>
-            <div class="apple-modal-body">
+            <div class="app-modal-body">
               <div class="workout-summary-box">
                 <div class="workout-summary-title">Workout Summary</div>
                 <div class="workout-summary-content">
@@ -224,10 +224,10 @@
               </label>
             </div>
                 <div v-if="saveAsRoutine">
-                  <label class="apple-label">Routine Title</label>
+                  <label class="app-label">Routine Title</label>
                   <input 
                     type="text" 
-                    class="apple-input" 
+                    class="app-input" 
                     v-model="routineTitle" 
                     placeholder="e.g., My Upper Body Workout"
                   >
@@ -237,14 +237,14 @@
               <div class="workout-modal-actions">
                 <button 
                   type="button" 
-                  class="apple-modal-cancel-btn"
+                  class="app-modal-cancel-btn"
                   @click="showEndWorkoutModal = false"
                 >
               Cancel
             </button>
             <button 
               type="button" 
-                  class="apple-modal-end-btn"
+                  class="app-modal-end-btn"
               @click="endWorkout"
               :disabled="ending"
             >
@@ -258,18 +258,18 @@
     </div>
     </Transition>
 
-    <!-- End Run Modal (for running routes) -->
+    
     <Transition name="fade">
-      <div v-if="showEndWorkoutModal && isRunningRoute" class="user-profile-apple">
-        <div class="apple-modal-backdrop" @click.self="showEndWorkoutModal = false">
-          <div class="apple-modal">
-            <div class="apple-modal-header">
-              <h5 class="apple-modal-title">End Run</h5>
-              <button class="apple-modal-close" @click="showEndWorkoutModal = false">
+      <div v-if="showEndWorkoutModal && isRunningRoute" class="user-profile-view">
+        <div class="app-modal-backdrop" @click.self="showEndWorkoutModal = false">
+          <div class="app-modal">
+            <div class="app-modal-header">
+              <h5 class="app-modal-title">End Run</h5>
+              <button class="app-modal-close" @click="showEndWorkoutModal = false">
                 <i class="bi bi-x-lg" style="font-size: 0.875rem;"></i>
               </button>
             </div>
-            <div class="apple-modal-body">
+            <div class="app-modal-body">
               <div class="workout-summary-box">
                 <div class="workout-summary-title">Run Summary</div>
                 <div class="workout-summary-content">
@@ -280,14 +280,14 @@
               <div class="workout-modal-actions">
                 <button 
                   type="button" 
-                  class="apple-modal-cancel-btn"
+                  class="app-modal-cancel-btn"
                   @click="showEndWorkoutModal = false"
                 >
                   Cancel
                 </button>
                 <button 
                   type="button" 
-                  class="apple-modal-end-btn"
+                  class="app-modal-end-btn"
                   @click="endWorkout"
                   :disabled="ending"
                 >
@@ -335,19 +335,17 @@ const starting = ref(false)
 const ending = ref(false)
 const sessionId = ref(null)
 const startTime = ref(null)
-const resumeTime = ref(null) // Time when resumed (for pause/resume)
-const pausedElapsedTime = ref(0) // Accumulated elapsed time when paused
+const resumeTime = ref(null)
+const pausedElapsedTime = ref(0)
 const elapsedTime = ref(0)
 const showEndWorkoutModal = ref(false)
 const exercises = ref([])
 const localExercises = ref([])
 const trackedDistance = ref(0) // Distance tracked for running routes
 
-// Running route specific variables
 const mapLoading = ref(false)
 const mapError = ref('')
 
-// grab workout from props, url, or localStorage
 const workoutData = computed(() => {
   if (props.workoutData) {
     return props.workoutData
@@ -362,14 +360,10 @@ const workoutData = computed(() => {
     }
   }
   
-  // Load from saved state if there's workout data (even if not started)
   const savedData = WorkoutStateService.getCurrentWorkoutData()
   if (savedData && savedData.workoutData) {
     return savedData.workoutData
   }
-  
-  // Don't auto-load draft generated workout - only load if explicitly passed via props/query
-  // This prevents loading a workout just because it was generated
   
   return null
 })
@@ -386,9 +380,8 @@ const sourceType = computed(() => {
 const sourceId = computed(() => {
   if (props.sourceId) return props.sourceId
   if (route.query.sourceId) return route.query.sourceId
-  // Load from localStorage if available (for persistence)
   const savedData = WorkoutStateService.getCurrentWorkoutData()
-  // Note: sourceId is not stored in WorkoutStateService, so we rely on query/props
+  if (savedData && savedData.sourceId) return savedData.sourceId
   return null
 })
 
@@ -407,7 +400,6 @@ const runningRouteData = computed(() => {
     }
   }
   
-  // Load from saved state (works even if workout not started)
   const savedData = WorkoutStateService.getCurrentWorkoutData()
   if (savedData && savedData.routeData) {
     return savedData.routeData
@@ -429,7 +421,6 @@ const runningRouteData = computed(() => {
   return {}
 })
 
-// Watch runningRouteData to save it when loaded from query
 watch(runningRouteData, (newRouteData) => {
   if (newRouteData && Object.keys(newRouteData).length > 0 && workoutData.value && !isActive.value) {
     WorkoutStateService.saveWorkoutData(
@@ -472,7 +463,6 @@ const formatDistance = (distance) => {
   }
 }
 
-// Watch trackedDistance to ensure it doesn't exceed max distance
 watch(trackedDistance, (newValue) => {
   if (isRunningRoute.value && runningRouteData.value.distance) {
     const maxDistance = runningRouteData.value.distance
@@ -543,11 +533,9 @@ const getExerciseName = (exerciseId) => {
 }
 
 const toggleExercise = (index) => {
-  // Get the exercise from sortedExercises
   const sortedExercise = sortedExercises.value[index]
   if (!sortedExercise) return
   
-  // Find the actual exercise in localExercises and toggle it
   const actualExercise = localExercises.value.find(ex => ex.exerciseId === sortedExercise.exerciseId)
   if (actualExercise) {
     actualExercise.completed = !actualExercise.completed
@@ -693,10 +681,8 @@ const endWorkout = async () => {
     let distance = undefined
     
     if (isRunningRoute.value) {
-      // For running routes, use tracked distance
       distance = trackedDistance.value
     } else {
-      // For regular workouts, use exercise completion
       performedExercises = localExercises.value.map((exercise) => ({
       exerciseId: exercise.exerciseId,
       targetSets: exercise.sets || 0,
@@ -775,17 +761,14 @@ const restoreActiveSession = () => {
       isActive.value = activeSessionData.isActive
       startTime.value = sessionStartTime
       
-      // Restore pause state
       isPaused.value = activeSessionData.isPaused || false
       pausedElapsedTime.value = activeSessionData.pausedElapsedTime || 0
       resumeTime.value = activeSessionData.resumeTime ? new Date(activeSessionData.resumeTime) : null
       
-      // Restore tracked distance
       if (workoutData && workoutData.trackedDistance !== undefined) {
         trackedDistance.value = workoutData.trackedDistance
       }
       
-      // Calculate elapsed time based on pause state
       if (isPaused.value) {
         elapsedTime.value = pausedElapsedTime.value
       } else if (resumeTime.value) {
@@ -825,12 +808,8 @@ const resetSessionState = () => {
   }
 }
 
-// Watch for workoutData changes and sync to localExercises
-// Also save workout data to localStorage when loaded (even if not started) for persistence
 watch(workoutData, (newData, oldData) => {
-  // Save workout data when it's loaded but not started yet - persists across navigation
   if (newData && !isActive.value) {
-    // Only save if workoutData actually changed (avoid unnecessary saves)
     if (!oldData || JSON.stringify(oldData) !== JSON.stringify(newData)) {
       WorkoutStateService.saveWorkoutData(
         newData, 
@@ -841,9 +820,7 @@ watch(workoutData, (newData, oldData) => {
     }
   }
   
-  // Sync to localExercises
   if (newData && newData.exercises) {
-    // Create a deep copy with completed property
     localExercises.value = newData.exercises.map(ex => ({
       ...ex,
       completed: ex.completed || false
@@ -853,7 +830,6 @@ watch(workoutData, (newData, oldData) => {
   }
 }, { immediate: true, deep: true })
 
-// Also watch sourceType to save when it changes
 watch(sourceType, (newType) => {
   if (workoutData.value && !isActive.value) {
     WorkoutStateService.saveWorkoutData(
@@ -869,7 +845,6 @@ onMounted(() => {
   loadExercises()
   restoreActiveSession()
   
-  // Save workout data on mount if it exists and hasn't been started yet
   if (workoutData.value && !isActive.value) {
     WorkoutStateService.saveWorkoutData(
       workoutData.value,
@@ -912,7 +887,6 @@ onUnmounted(() => {
   }
 })
 
-// Watch for local exercise changes and sync to state
 watch(localExercises, () => {
   if (workoutData.value && isActive.value) {
     const updatedWorkoutData = {

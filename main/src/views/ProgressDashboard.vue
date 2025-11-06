@@ -1,9 +1,9 @@
 <template>
-  <div class="progress-dashboard-apple">
+  <div class="progress-dashboard-view">
     <div class="dashboard-container">
-      <!-- Page Header -->
+      
       <Transition name="header-fade">
-        <div class="page-header">
+        <div v-if="true" class="page-header">
           <h1 class="page-title">
             Progress Dashboard
           </h1>
@@ -11,9 +11,9 @@
         </div>
       </Transition>
 
-      <!-- Stats Overview -->
+      
       <Transition name="section-fade" style="--transition-delay: 0.1s">
-        <div class="stats-overview">
+        <div v-if="true" class="stats-overview">
           <div class="stat-card">
             <div class="stat-card-icon blue">
               <i class="bi bi-calendar-check"></i>
@@ -52,12 +52,12 @@
         </div>
       </Transition>
 
-      <!-- Navigation Tabs -->
+      
       <Transition name="section-fade" style="--transition-delay: 0.2s">
-        <div class="nav-tabs-container">
-          <div class="nav-tabs-apple">
+        <div v-if="true" class="nav-tabs-container">
+          <div class="nav-tabs-view">
             <button
-              class="nav-tab-apple"
+              class="nav-tab-view"
               :class="{ active: activeTab === 'workout' }"
               @click="activeTab = 'workout'"
             >
@@ -65,7 +65,7 @@
               Workout Statistics
             </button>
             <button
-              class="nav-tab-apple"
+              class="nav-tab-view"
               :class="{ active: activeTab === 'running' }"
               @click="activeTab = 'running'"
             >
@@ -76,16 +76,16 @@
         </div>
       </Transition>
 
-      <!-- Workout Statistics Tab Content -->
+      
       <Transition name="section-fade" style="--transition-delay: 0.3s">
         <div v-show="activeTab === 'workout'">
-          <!-- Last 8 Weeks Section -->
+          
           <div class="section-header">
             Last 8 Weeks
           </div>
           
           <div class="charts-grid">
-            <!-- Workouts Completed Chart -->
+            
             <div class="chart-card">
               <h3 class="chart-title">Workouts Completed</h3>
               <div v-if="loading" class="loading-state">
@@ -95,12 +95,12 @@
                 <i class="bi bi-graph-up"></i>
                 <p>No workout data available yet</p>
               </div>
-              <div v-else class="chart-container-apple">
+              <div v-else class="chart-container-view">
                 <Line :data="workoutChartData" :options="chartOptions" />
               </div>
             </div>
 
-            <!-- Exercises Completed Chart -->
+            
             <div class="chart-card">
               <h3 class="chart-title">Exercises Completed</h3>
               <div v-if="loading" class="loading-state">
@@ -110,12 +110,12 @@
                 <i class="bi bi-list-ul"></i>
                 <p>No exercise data available yet</p>
               </div>
-              <div v-else class="chart-container-apple">
+              <div v-else class="chart-container-view">
                 <Line :data="exerciseChartData" :options="chartOptions" />
               </div>
             </div>
 
-            <!-- Workout Duration Chart -->
+            
             <div class="chart-card">
               <h3 class="chart-title">Workout Duration (Minutes)</h3>
               <div v-if="loading" class="loading-state">
@@ -125,19 +125,19 @@
                 <i class="bi bi-clock"></i>
                 <p>No duration data available yet</p>
               </div>
-              <div v-else class="chart-container-apple">
+              <div v-else class="chart-container-view">
                 <Line :data="durationChartData" :options="chartOptions" />
               </div>
             </div>
           </div>
 
-          <!-- Year Section -->
+          
           <div class="section-header">
             {{ currentYear }}
           </div>
           
           <div class="charts-grid">
-            <!-- Workouts per Month Chart -->
+            
             <div class="chart-card">
               <h3 class="chart-title">Workouts per Month</h3>
               <div v-if="loading" class="loading-state">
@@ -147,12 +147,12 @@
                 <i class="bi bi-graph-up"></i>
                 <p>No workout data available yet</p>
               </div>
-              <div v-else class="chart-container-apple">
+              <div v-else class="chart-container-view">
                 <Line :data="workoutYearChartData" :options="chartOptions" :key="'workoutYear_'+currentYear" />
               </div>
             </div>
 
-            <!-- Exercises per Month Chart -->
+            
             <div class="chart-card">
               <h3 class="chart-title">Exercises per Month</h3>
               <div v-if="loading" class="loading-state">
@@ -162,12 +162,12 @@
                 <i class="bi bi-list-ul"></i>
                 <p>No exercise data available yet</p>
               </div>
-              <div v-else class="chart-container-apple">
+              <div v-else class="chart-container-view">
                 <Line :data="exerciseYearChartData" :options="chartOptions" :key="'exerciseYear_'+currentYear" />
               </div>
             </div>
 
-            <!-- Duration per Month Chart -->
+            
             <div class="chart-card">
               <h3 class="chart-title">Duration per Month (Minutes)</h3>
               <div v-if="loading" class="loading-state">
@@ -177,7 +177,7 @@
                 <i class="bi bi-clock"></i>
                 <p>No duration data available yet</p>
               </div>
-              <div v-else class="chart-container-apple">
+              <div v-else class="chart-container-view">
                 <Line :data="durationYearChartData" :options="chartOptions" :key="'durationYear_'+currentYear" />
               </div>
             </div>
@@ -185,16 +185,16 @@
         </div>
       </Transition>
 
-      <!-- Running Statistics Tab Content -->
+      
       <Transition name="section-fade" style="--transition-delay: 0.3s">
         <div v-show="activeTab === 'running'">
-          <!-- Last 8 Weeks Section -->
+          
           <div class="section-header">
             Last 8 Weeks
           </div>
           
           <div class="charts-grid">
-            <!-- Runs Completed Chart -->
+            
             <div class="chart-card">
               <h3 class="chart-title">Runs Completed</h3>
               <div v-if="loading" class="loading-state">
@@ -204,12 +204,12 @@
                 <i class="bi bi-geo-alt"></i>
                 <p>No running data available yet</p>
               </div>
-              <div v-else class="chart-container-apple">
+              <div v-else class="chart-container-view">
                 <Line :data="runningRunsChartData" :options="chartOptions" />
               </div>
             </div>
 
-            <!-- Distance Ran Chart -->
+            
             <div class="chart-card">
               <h3 class="chart-title">Distance Ran (km)</h3>
               <div v-if="loading" class="loading-state">
@@ -219,12 +219,12 @@
                 <i class="bi bi-signpost-split"></i>
                 <p>No running distance data yet</p>
               </div>
-              <div v-else class="chart-container-apple">
+              <div v-else class="chart-container-view">
                 <Line :data="runningDistanceChartData" :options="chartOptions" />
               </div>
             </div>
 
-            <!-- Running Duration Chart -->
+            
             <div class="chart-card">
               <h3 class="chart-title">Running Duration (Minutes)</h3>
               <div v-if="loading" class="loading-state">
@@ -234,19 +234,19 @@
                 <i class="bi bi-clock-history"></i>
                 <p>No running duration data yet</p>
               </div>
-              <div v-else class="chart-container-apple">
+              <div v-else class="chart-container-view">
                 <Line :data="runningDurationChartData" :options="chartOptions" />
               </div>
             </div>
           </div>
 
-          <!-- Year Section -->
+          
           <div class="section-header">
             {{ currentYear }}
           </div>
           
           <div class="charts-grid">
-            <!-- Runs per Month Chart -->
+            
             <div class="chart-card">
               <h3 class="chart-title">Runs per Month</h3>
               <div v-if="loading" class="loading-state">
@@ -256,12 +256,12 @@
                 <i class="bi bi-geo-alt"></i>
                 <p>No running data available yet</p>
               </div>
-              <div v-else class="chart-container-apple">
+              <div v-else class="chart-container-view">
                 <Line :data="runningYearRunsChartData" :options="chartOptions" :key="'runningYearRuns_'+currentYear" />
               </div>
             </div>
 
-            <!-- Distance per Month Chart -->
+            
             <div class="chart-card">
               <h3 class="chart-title">Distance per Month (km)</h3>
               <div v-if="loading" class="loading-state">
@@ -271,12 +271,12 @@
                 <i class="bi bi-signpost-split"></i>
                 <p>No running distance data yet</p>
               </div>
-              <div v-else class="chart-container-apple">
+              <div v-else class="chart-container-view">
                 <Line :data="runningYearDistanceChartData" :options="chartOptions" :key="'runningYearDistance_'+currentYear" />
               </div>
             </div>
 
-            <!-- Duration per Month Chart -->
+            
             <div class="chart-card">
               <h3 class="chart-title">Duration per Month (Minutes)</h3>
               <div v-if="loading" class="loading-state">
@@ -286,7 +286,7 @@
                 <i class="bi bi-clock-history"></i>
                 <p>No running duration data yet</p>
               </div>
-              <div v-else class="chart-container-apple">
+              <div v-else class="chart-container-view">
                 <Line :data="runningYearDurationChartData" :options="chartOptions" :key="'runningYearDuration_'+currentYear" />
               </div>
             </div>
@@ -298,7 +298,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, toRaw, watch } from 'vue'
+import { ref, onMounted, computed, toRaw} from 'vue'
 import { Line } from 'vue-chartjs'
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from 'chart.js'
 import { WorkoutService } from '../services/workoutService.js'
@@ -306,38 +306,32 @@ import { AuthService } from '../services/authService.js'
 import { useTheme } from '../composables/useTheme.js'
 import { getErrorMessage } from '../utils/errorHandler.js'
 
-// Register Chart.js components
+// chart.js setup
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler)
 
 const loading = ref(false)
 const workoutLogs = ref([])
 const runningLogs = ref([])
 
-// Chart data (8-week)
 const workoutData = ref([])
 const exerciseData = ref([])
 const durationData = ref([])
 
-// Chart data (calendar year)
 const workoutYearData = ref([])
 const exerciseYearData = ref([])
 const durationYearData = ref([])
 
-// Running routes chart data (8-week)
 const runningRunsData = ref([])
 const runningDurationData = ref([])
 const runningDistanceData = ref([])
 
-// Running routes chart data (calendar year)
 const runningYearRunsData = ref([])
 const runningYearDurationData = ref([])
 const runningYearDistanceData = ref([])
 
-// Days worked out
 const daysWorkedOut = ref(0)
 const currentYear = new Date().getFullYear()
 
-// Check if workout data has any actual values
 const hasWorkoutData = computed(() => {
   return workoutData.value.some(d => d.workouts > 0)
 })
@@ -350,7 +344,6 @@ const hasDurationData = computed(() => {
   return durationData.value.some(d => d.duration > 0)
 })
 
-// Check if running data has any actual values
 const hasRunningRunsData = computed(() => {
   return runningRunsData.value.some(d => d.runs > 0)
 })
@@ -401,7 +394,7 @@ const loadWorkoutLogs = async () => {
     workoutLogs.value = allLogs.filter(log => !log.workoutType || log.workoutType === 'routine')
   } catch (error) {
     console.error('Error loading workout logs:', error)
-    // Only show error if it's not an authentication error (silent fail for auth errors)
+    // ignore silent auth errors
     if (!getErrorMessage(error, '').includes('Please sign in')) {
       console.warn(getErrorMessage(error, 'Failed to load workout logs'))
     }
@@ -415,7 +408,7 @@ const loadRunningLogs = async () => {
     runningLogs.value = allLogs.filter(log => log.workoutType === 'runs')
   } catch (error) {
     console.error('Error loading running logs:', error)
-    // Only show error if it's not an authentication error (silent fail for auth errors)
+    // ignore silent auth errors
     if (!getErrorMessage(error, '').includes('Please sign in')) {
       console.warn(getErrorMessage(error, 'Failed to load running logs'))
     }
@@ -427,7 +420,7 @@ const calculateDaysWorkedOut = () => {
   try {
     const uniqueDays = new Set()
     
-    // Convert timestamps to dates
+    // convert timestamps
     const convertTimestamp = (timestamp) => {
       if (!timestamp) return new Date()
       if (timestamp instanceof Date) return timestamp
@@ -461,7 +454,7 @@ const processChartData = (logs) => {
   const weeks = []
   const now = new Date()
   
-  // Calculate most recent Monday
+  // most recent monday
   const currentDay = now.getDay()
   const daysToMonday = currentDay === 0 ? 6 : currentDay - 1
   const mostRecentMonday = new Date(now)
@@ -673,7 +666,7 @@ const processRunningYearChartData = (logs) => {
   runningYearDurationData.value = months.map(m => ({ label: m.label, duration: m.duration }))
 }
 
-// Chart.js data and options
+// chart data and options
 const workoutChartData = computed(() => {
   const ctx = document.createElement('canvas').getContext('2d')
   const gradient = ctx.createLinearGradient(0, 0, 0, 220)
@@ -694,7 +687,7 @@ const workoutChartData = computed(() => {
   }
 })
 
-// Year charts - workouts
+// year charts
 const hasWorkoutYearData = computed(() => workoutYearData.value.some(d => d.workouts > 0))
 const hasExerciseYearData = computed(() => exerciseYearData.value.some(d => d.exercises > 0))
 const hasDurationYearData = computed(() => durationYearData.value.some(d => d.duration > 0))
@@ -859,7 +852,6 @@ const runningDistanceChartData = computed(() => {
   }
 })
 
-// Year charts - running
 const hasRunningYearRunsData = computed(() => runningYearRunsData.value.some(d => d.runs > 0))
 const hasRunningYearDurationData = computed(() => runningYearDurationData.value.some(d => d.duration > 0))
 const hasRunningYearDistanceData = computed(() => runningYearDistanceData.value.some(d => d.distance > 0))
@@ -924,9 +916,8 @@ const runningYearDistanceChartData = computed(() => {
   }
 })
 
-// Stats computed properties
 const currentStreak = computed(() => {
-  // Calculate consecutive days with workouts
+  // consecutive-day streak
   if (!workoutLogs.value.length && !runningLogs.value.length) return 0
   
   const allLogs = [...workoutLogs.value, ...runningLogs.value]

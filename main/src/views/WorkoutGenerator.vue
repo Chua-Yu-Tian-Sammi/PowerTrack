@@ -1,5 +1,5 @@
 <template>
-  <div class="workout-generator-apple">
+  <div class="workout-generator-view">
     <div class="generator-container">
       <!-- Page Header -->
       <Transition name="header-fade">
@@ -20,7 +20,7 @@
               <!-- Duration & Intensity Row -->
               <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
                 <div class="group">
-                  <label for="timeMin" class="apple-label">Duration</label>
+                  <label for="timeMin" class="app-label">Duration</label>
                   <div style="position: relative;">
                       <input 
                         type="number" 
@@ -30,7 +30,7 @@
                         max="120" 
                         required
                       placeholder="45"
-                      class="apple-input"
+                      class="app-input"
                       style="padding-right: 3rem;"
                       >
                     <span style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); font-size: 0.8125rem; opacity: 0.4; pointer-events: none;">min</span>
@@ -38,8 +38,8 @@
                 </div>
 
                 <div class="group">
-                  <label for="intensity" class="apple-label">Intensity</label>
-                  <select id="intensity" v-model="workoutForm.intensity" required class="apple-select">
+                  <label for="intensity" class="app-label">Intensity</label>
+                  <select id="intensity" v-model="workoutForm.intensity" required class="app-select">
                       <option value="low">Low</option>
                       <option value="medium">Medium</option>
                       <option value="high">High</option>
@@ -50,8 +50,8 @@
               <!-- Goal & Experience Row -->
               <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
                 <div class="group">
-                  <label for="goal" class="apple-label">Goal</label>
-                  <select id="goal" v-model="workoutForm.goal" required class="apple-select">
+                  <label for="goal" class="app-label">Goal</label>
+                  <select id="goal" v-model="workoutForm.goal" required class="app-select">
                       <option value="weight_loss">Weight Loss</option>
                       <option value="muscle_gain">Muscle Gain</option>
                       <option value="endurance">Endurance</option>
@@ -61,8 +61,8 @@
                   </div>
 
                 <div class="group">
-                  <label for="experienceLevel" class="apple-label">Experience Level</label>
-                  <select id="experienceLevel" v-model="workoutForm.experienceLevel" required class="apple-select">
+                  <label for="experienceLevel" class="app-label">Experience Level</label>
+                  <select id="experienceLevel" v-model="workoutForm.experienceLevel" required class="app-select">
                       <option value="beginner">Beginner</option>
                       <option value="intermediate">Intermediate</option>
                       <option value="advanced">Advanced</option>
@@ -166,7 +166,7 @@
                 </p>
               <router-link 
                 to="/profile" 
-                class="apple-input"
+                class="app-input"
                 style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; text-decoration: none; background: rgba(0, 0, 0, 0.05);"
               >
                 <i class="bi" :class="AuthService.getCurrentUser() ? 'bi-person-plus' : 'bi-box-arrow-in-right'"></i>
@@ -260,12 +260,16 @@
       </div>
 
     <!-- Toast Notification -->
-    <div v-if="notification.show" class="notification-container">
-      <div class="notification" :class="`notification-${notification.type}`">
-        <i class="bi" :class="notification.type === 'success' ? 'bi-check-circle' : 'bi-exclamation-triangle'"></i>
-        <span>{{ notification.message }}</span>
-      </div>
-    </div>
+    <Teleport to="body">
+      <Transition name="fade">
+        <div v-if="notification.show" class="notification-container">
+          <div class="notification" :class="`notification-${notification.type}`">
+            <i class="bi" :class="notification.type === 'success' ? 'bi-check-circle' : 'bi-exclamation-triangle'"></i>
+            <span>{{ notification.message }}</span>
+          </div>
+        </div>
+      </Transition>
+    </Teleport>
 
     <!-- Active Workout Confirmation Modal -->
     <ActiveWorkoutModal 

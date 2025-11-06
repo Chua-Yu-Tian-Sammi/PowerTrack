@@ -1,6 +1,6 @@
 <template>
   <div 
-    class="exercise-card-apple"
+    class="exercise-card-view"
     :style="{ '--transition-delay': delay + 's' }"
   >
     <!-- Image Placeholder -->
@@ -79,7 +79,7 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { resolveExerciseImage, UNAVAILABLE_DATA_URI } from '../services/imageResolver.js'
 
 const props = defineProps({
@@ -96,25 +96,19 @@ const props = defineProps({
 defineEmits(['addToRoutine'])
 
 const unavailableUri = UNAVAILABLE_DATA_URI
-const imageSrcRef = ref(null)
-const imageSrc = computed(() => {
-  if (!imageSrcRef.value) {
-    imageSrcRef.value = resolveExerciseImage(props.exercise?.exerciseId, props.exercise)
-  }
-  return imageSrcRef.value
-})
+const imageSrc = ref(null)
 const imageLoaded = ref(false)
 
 // Update image source when exercise changes
 watch(() => props.exercise?.exerciseId, () => {
   imageLoaded.value = false
-  imageSrcRef.value = resolveExerciseImage(props.exercise?.exerciseId, props.exercise)
+  imageSrc.value = resolveExerciseImage(props.exercise?.exerciseId, props.exercise)
 }, { immediate: true })
 
 const handleImageError = (e) => {
   if (!e || !e.target) return
   if (e.target.src !== UNAVAILABLE_DATA_URI) {
-    imageSrcRef.value = UNAVAILABLE_DATA_URI
+    imageSrc.value = UNAVAILABLE_DATA_URI
     e.target.src = UNAVAILABLE_DATA_URI
   }
 }
@@ -186,7 +180,7 @@ const getDifficultyBadgeClass = (difficulty) => {
 
 <style>
 /* Global styles - not scoped so dark mode works */
-.exercise-card-apple {
+.exercise-card-view {
   background: #ffffff;
   border-radius: 1.5rem;
   overflow: hidden;
@@ -212,7 +206,7 @@ const getDifficultyBadgeClass = (difficulty) => {
   }
 }
 
-.exercise-card-apple:hover {
+.exercise-card-view:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }

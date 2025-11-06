@@ -1,17 +1,17 @@
 <template>
-  <div class="user-profile-apple">
+  <div class="user-profile-view">
     <!-- Not authenticated -->
     <div v-if="!userProfile && !AuthService.getCurrentUser()" class="empty-state" style="min-height: 80vh; display: flex; align-items: center; justify-content: center;">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-6">
-            <div class="apple-card text-center" style="padding: 3rem;">
+            <div class="app-card text-center" style="padding: 3rem;">
               <div style="font-size: 4rem; opacity: 0.3; margin-bottom: 1.5rem;">
                 <i class="bi bi-person-circle"></i>
               </div>
               <h2 style="font-size: 1.75rem; font-weight: 500; margin-bottom: 1rem;">Welcome to PowerTrack</h2>
               <p class="welcome-text" style="margin-bottom: 2rem;">Sign in to access your personalized fitness profile and start tracking your progress.</p>
-              <button class="apple-save-btn" @click="showSignIn = true">
+              <button class="app-save-btn" @click="showSignIn = true">
                 <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
               </button>
             </div>
@@ -25,7 +25,7 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-6">
-            <div class="apple-card text-center" style="padding: 3rem;">
+            <div class="app-card text-center" style="padding: 3rem;">
               <div style="font-size: 4rem; opacity: 0.3; margin-bottom: 1.5rem;">
                 <i class="bi bi-person-circle"></i>
               </div>
@@ -45,18 +45,18 @@
       <div class="profile-container">
         <!-- Header -->
         <Transition name="header-fade" appear>
-          <div class="apple-header">
+          <div v-if="true" class="app-header">
             <div class="d-flex align-items-center justify-content-between mb-4">
               <div class="d-flex align-items-center gap-3">
-                <div class="apple-avatar">
+                <div class="app-avatar">
                   <i class="bi bi-person"></i>
                 </div>
                 <div>
-                  <h1 class="apple-username mb-0">{{ profileForm.username }}</h1>
-                  <p class="apple-email mb-0">{{ profileForm.email }}</p>
+                  <h1 class="app-username mb-0">{{ profileForm.username }}</h1>
+                  <p class="app-email mb-0">{{ profileForm.email }}</p>
                 </div>
               </div>
-              <button class="apple-signout-btn d-flex align-items-center" @click="signOut">
+              <button class="app-signout-btn d-flex align-items-center" @click="signOut">
                 <i class="bi bi-box-arrow-right me-2"></i>
                 <span>Sign Out</span>
               </button>
@@ -67,22 +67,22 @@
         <form @submit.prevent="updateProfile">
           <!-- Personal Information -->
           <Transition name="section-fade" appear>
-            <div class="apple-card" style="transition-delay: 0.1s;">
-              <h3 class="apple-card-title">Personal Information</h3>
+            <div v-if="true" class="app-card" style="transition-delay: 0.1s;">
+              <h3 class="app-card-title">Personal Information</h3>
               <div class="row g-3">
                 <div class="col-md-6">
-                  <label class="apple-label">Username</label>
+                  <label class="app-label">Username</label>
                   <input
                     type="text"
-                    class="apple-input"
+                    class="app-input"
                     v-model="profileForm.username"
                     placeholder="Enter your username"
                     required
                   />
                 </div>
                 <div class="col-md-6">
-                  <label class="apple-label">Experience Level</label>
-                  <select class="apple-select" v-model="profileForm.experienceLevel" required>
+                  <label class="app-label">Experience Level</label>
+                  <select class="app-select" v-model="profileForm.experienceLevel" required>
                     <option value="beginner">Beginner</option>
                     <option value="intermediate">Intermediate</option>
                     <option value="advanced">Advanced</option>
@@ -94,32 +94,32 @@
 
           <!-- Body Metrics -->
           <Transition name="section-fade" appear>
-            <div class="apple-card" style="transition-delay: 0.15s;">
-              <h3 class="apple-card-title">Body Metrics</h3>
+            <div v-if="true" class="app-card" style="transition-delay: 0.15s;">
+              <h3 class="app-card-title">Body Metrics</h3>
               
               <!-- Height & Weight Inputs -->
               <div class="row g-3 mb-4">
                 <div class="col-md-6">
-                  <label class="apple-label">Height</label>
-                  <div class="apple-input-group">
+                  <label class="app-label">Height</label>
+                  <div class="app-input-group">
                     <input
                       type="number"
-                      class="apple-input"
+                      class="app-input"
                       v-model="profileForm.heightCm"
                       placeholder="160"
                       min="100"
                       max="250"
                       required
                     />
-                    <span class="apple-input-suffix">cm</span>
+                    <span class="app-input-suffix">cm</span>
                   </div>
                 </div>
                 <div class="col-md-6">
-                  <label class="apple-label">Weight</label>
-                  <div class="apple-input-group">
+                  <label class="app-label">Weight</label>
+                  <div class="app-input-group">
                     <input
                       type="number"
-                      class="apple-input"
+                      class="app-input"
                       v-model="profileForm.weightKg"
                       placeholder="45"
                       min="30"
@@ -127,7 +127,7 @@
                       step="0.1"
                       required
                     />
-                    <span class="apple-input-suffix">kg</span>
+                    <span class="app-input-suffix">kg</span>
                   </div>
                 </div>
               </div>
@@ -175,12 +175,12 @@
 
           <!-- Fitness Preferences -->
           <Transition name="section-fade" appear>
-            <div class="apple-card" style="transition-delay: 0.2s;">
-              <h3 class="apple-card-title">Fitness Preferences</h3>
+            <div v-if="true" class="app-card" style="transition-delay: 0.2s;">
+              <h3 class="app-card-title">Fitness Preferences</h3>
               
               <div class="mb-3">
-                <label class="apple-label">Primary Goal</label>
-                <select class="apple-select" v-model="profileForm.goal" required>
+                <label class="app-label">Primary Goal</label>
+                <select class="app-select" v-model="profileForm.goal" required>
                   <option value="general_fitness">General Fitness</option>
                   <option value="strength">Strength</option>
                   <option value="muscle_gain">Muscle Gain</option>
@@ -191,26 +191,26 @@
 
               <div class="row g-3">
                 <div class="col-md-6">
-                  <label class="apple-label">Preferred Intensity</label>
-                  <select class="apple-select" v-model="profileForm.preferredIntensity" required>
+                  <label class="app-label">Preferred Intensity</label>
+                  <select class="app-select" v-model="profileForm.preferredIntensity" required>
                     <option value="low">Low</option>
                     <option value="medium">Medium</option>
                     <option value="high">High</option>
                   </select>
                 </div>
                 <div class="col-md-6">
-                  <label class="apple-label">Workout Duration</label>
-                  <div class="apple-input-group">
+                  <label class="app-label">Workout Duration</label>
+                  <div class="app-input-group">
                     <input
                       type="number"
-                      class="apple-input"
+                      class="app-input"
                       v-model="profileForm.preferredTimeMin"
                       placeholder="45"
                       min="10"
                       max="180"
                       required
                     />
-                    <span class="apple-input-suffix">min</span>
+                    <span class="app-input-suffix">min</span>
                   </div>
                 </div>
               </div>
@@ -219,8 +219,8 @@
 
           <!-- Save Button -->
           <Transition name="section-fade" appear>
-            <div style="transition-delay: 0.3s;">
-              <button type="submit" class="apple-save-btn" :disabled="saving">
+            <div v-if="true" style="transition-delay: 0.3s;">
+              <button type="submit" class="app-save-btn" :disabled="saving">
                 <span v-if="saving" class="spinner-border spinner-border-sm me-2"></span>
                 {{ saving ? 'Saving Changes...' : 'Save Changes' }}
               </button>
@@ -232,41 +232,41 @@
 
     <!-- Sign In Modal -->
     <Transition name="fade">
-      <div v-if="showSignIn" class="apple-modal-backdrop" @click.self="showSignIn = false">
-        <div class="apple-modal">
-          <div class="apple-modal-header">
-            <h5 class="apple-modal-title">Sign In</h5>
-            <button class="apple-modal-close" @click="showSignIn = false">
+      <div v-if="showSignIn" class="app-modal-backdrop" @mousedown.self="showSignIn = false">
+        <div class="app-modal">
+          <div class="app-modal-header">
+            <h5 class="app-modal-title">Sign In</h5>
+            <button class="app-modal-close" @click="showSignIn = false">
               <i class="bi bi-x-lg" style="font-size: 0.875rem;"></i>
             </button>
           </div>
-          <div class="apple-modal-body">
+          <div class="app-modal-body">
             <form @submit.prevent="signIn">
               <div class="form-group">
-                <label class="apple-label">Email</label>
+                <label class="app-label">Email</label>
                 <input
                   type="email"
-                  class="apple-input"
+                  class="app-input"
                   v-model="signInForm.email"
                   placeholder="your@email.com"
                   required
                 />
               </div>
               <div class="form-group">
-                <label class="apple-label">Password</label>
+                <label class="app-label">Password</label>
                 <input
                   type="password"
-                  class="apple-input"
+                  class="app-input"
                   v-model="signInForm.password"
                   placeholder="Enter your password"
                   required
                 />
               </div>
-              <button type="submit" class="apple-modal-submit" :disabled="signingIn">
+              <button type="submit" class="app-modal-submit" :disabled="signingIn">
                 <span v-if="signingIn" class="spinner-border spinner-border-sm me-2"></span>
                 {{ signingIn ? 'Signing In...' : 'Sign In' }}
               </button>
-              <div class="apple-modal-footer">
+              <div class="app-modal-footer">
                 <p>
                   Don't have an account? 
                   <a href="#" @click.prevent="showSignUp = true; showSignIn = false">Sign up</a>
@@ -280,41 +280,41 @@
 
     <!-- Sign Up Modal -->
     <Transition name="fade">
-      <div v-if="showSignUp" class="apple-modal-backdrop" @click.self="showSignUp = false">
-        <div class="apple-modal">
-          <div class="apple-modal-header">
-            <h5 class="apple-modal-title">Sign Up</h5>
-            <button class="apple-modal-close" @click="showSignUp = false">
+      <div v-if="showSignUp" class="app-modal-backdrop" @mousedown.self="showSignUp = false">
+        <div class="app-modal">
+          <div class="app-modal-header">
+            <h5 class="app-modal-title">Sign Up</h5>
+            <button class="app-modal-close" @click="showSignUp = false">
               <i class="bi bi-x-lg" style="font-size: 0.875rem;"></i>
             </button>
           </div>
-          <div class="apple-modal-body">
+          <div class="app-modal-body">
             <form @submit.prevent="signUp">
               <div class="form-group">
-                <label class="apple-label">Email</label>
+                <label class="app-label">Email</label>
                 <input
                   type="email"
-                  class="apple-input"
+                  class="app-input"
                   v-model="signUpForm.email"
                   placeholder="your@email.com"
                   required
                 />
               </div>
               <div class="form-group">
-                <label class="apple-label">Password</label>
+                <label class="app-label">Password</label>
                 <input
                   type="password"
-                  class="apple-input"
+                  class="app-input"
                   v-model="signUpForm.password"
                   placeholder="Choose a password"
                   required
                 />
               </div>
               <div class="form-group">
-                <label class="apple-label">Username</label>
+                <label class="app-label">Username</label>
                 <input
                   type="text"
-                  class="apple-input"
+                  class="app-input"
                   v-model="signUpForm.username"
                   placeholder="Your name"
                   required
@@ -323,10 +323,10 @@
               <div class="row g-3">
                 <div class="col-6">
                   <div class="form-group">
-                    <label class="apple-label">Height (cm)</label>
+                    <label class="app-label">Height (cm)</label>
                     <input
                       type="number"
-                      class="apple-input"
+                      class="app-input"
                       v-model="signUpForm.heightCm"
                       placeholder="175"
                       required
@@ -335,10 +335,10 @@
                 </div>
                 <div class="col-6">
                   <div class="form-group">
-                    <label class="apple-label">Weight (kg)</label>
+                    <label class="app-label">Weight (kg)</label>
                     <input
                       type="number"
-                      class="apple-input"
+                      class="app-input"
                       v-model="signUpForm.weightKg"
                       placeholder="70"
                       required
@@ -349,8 +349,8 @@
               <div class="row g-3">
                 <div class="col-6">
                   <div class="form-group">
-                    <label class="apple-label">Goal</label>
-                    <select class="apple-select" v-model="signUpForm.goal" required>
+                    <label class="app-label">Goal</label>
+                    <select class="app-select" v-model="signUpForm.goal" required>
                       <option value="weight_loss">Weight Loss</option>
                       <option value="muscle_gain">Muscle Gain</option>
                       <option value="endurance">Endurance</option>
@@ -361,8 +361,8 @@
                 </div>
                 <div class="col-6">
                   <div class="form-group">
-                    <label class="apple-label">Experience</label>
-                    <select class="apple-select" v-model="signUpForm.experienceLevel" required>
+                    <label class="app-label">Experience</label>
+                    <select class="app-select" v-model="signUpForm.experienceLevel" required>
                       <option value="beginner">Beginner</option>
                       <option value="intermediate">Intermediate</option>
                       <option value="advanced">Advanced</option>
@@ -370,11 +370,11 @@
                   </div>
                 </div>
               </div>
-              <button type="submit" class="apple-modal-submit" :disabled="signingUp">
+              <button type="submit" class="app-modal-submit" :disabled="signingUp">
                 <span v-if="signingUp" class="spinner-border spinner-border-sm me-2"></span>
                 {{ signingUp ? 'Creating Account...' : 'Sign Up' }}
               </button>
-              <div class="apple-modal-footer">
+              <div class="app-modal-footer">
                 <p>
                   Already have an account? 
                   <a href="#" @click.prevent="showSignIn = true; showSignUp = false">Sign in</a>
@@ -387,19 +387,21 @@
     </Transition>
 
     <!-- Toast Notification -->
-    <Transition name="fade">
-      <div v-if="notification.show" class="notification-container">
-        <div class="notification" :class="`notification-${notification.type}`">
-          <i class="bi" :class="notification.type === 'success' ? 'bi-check-circle' : 'bi-exclamation-triangle'"></i>
-          <span>{{ notification.message }}</span>
+    <Teleport to="body">
+      <Transition name="fade">
+        <div v-if="notification.show" class="notification-container">
+          <div class="notification" :class="`notification-${notification.type}`">
+            <i class="bi" :class="notification.type === 'success' ? 'bi-check-circle' : 'bi-exclamation-triangle'"></i>
+            <span>{{ notification.message }}</span>
+          </div>
         </div>
-      </div>
-    </Transition>
+      </Transition>
+    </Teleport>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, computed, watch } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { AuthService } from '../services/authService.js'
 import { WorkoutService } from '../services/workoutService.js'
 import { getErrorMessage } from '../utils/errorHandler.js'

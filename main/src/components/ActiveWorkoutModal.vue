@@ -29,7 +29,7 @@
 
             <!-- Current Workout Card -->
             <Transition name="card-fade">
-              <div class="current-workout-card">
+              <div v-if="true" class="current-workout-card">
                 <!-- Subtle background pattern -->
                 <div class="card-background-pattern"></div>
                 
@@ -81,7 +81,6 @@
 
 <script setup>
 import { ref, watch, computed } from 'vue'
-import { useRouter } from 'vue-router'
 import { WorkoutStateService } from '../services/workoutStateService.js'
 
 const props = defineProps({
@@ -101,7 +100,6 @@ const props = defineProps({
 
 const emit = defineEmits(['cancel', 'end-workout'])
 
-const router = useRouter()
 const ending = ref(false)
 const activeWorkoutData = ref(null)
 

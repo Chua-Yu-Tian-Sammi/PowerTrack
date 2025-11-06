@@ -9,7 +9,7 @@
   color: #212529;
 }
 
-/* Page transition animations - Smooth and polished */
+/* page transitions */
 .fade-enter-active {
   transition: opacity 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
               transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -38,12 +38,12 @@
   transform: translateY(0) scale(1);
 }
 
-/* Ensure smooth scrolling during transitions */
+/* smooth scrolling */
 html {
   scroll-behavior: smooth;
 }
 
-/* Optimize rendering during transitions */
+/* transition rendering hints */
 .page-wrapper {
   width: 100%;
   min-height: 100%;
@@ -54,7 +54,7 @@ html {
   -webkit-transform: translateZ(0);
 }
 
-/* Design tokens and base theming */
+/* design tokens */
 :root {
   --font-size: 16px;
   --background: #ffffff;
@@ -115,7 +115,7 @@ body {
   transition: background 0.3s ease, color 0.3s ease;
 }
 
-/* Apple-inspired dark mode base styles */
+/* dark mode base */
 .dark body,
 body.dark,
 html.dark body {
@@ -128,7 +128,7 @@ html.dark {
   color-scheme: dark;
 }
 
-/* Card styling for dark mode */
+/* dark mode card */
 .dark .card {
   background: #1a1a1a;
   border-color: rgba(255, 255, 255, 0.1);
@@ -141,7 +141,7 @@ html.dark {
   color: #ffffff;
 }
 
-/* Form elements dark mode */
+/* dark mode form elements */
 .dark .form-control,
 .dark .form-select,
 html.dark .form-control,
@@ -197,7 +197,7 @@ html.dark .form-control::placeholder {
   color: rgba(255, 255, 255, 0.5) !important;
 }
 
-/* Text colors for dark mode */
+/* dark mode text */
 .dark .text-muted {
   color: rgba(255, 255, 255, 0.75) !important;
 }
@@ -210,7 +210,7 @@ html.dark .form-control::placeholder {
   color: rgba(255, 255, 255, 0.85);
 }
 
-/* Links in dark mode */
+/* dark mode links */
 .dark a {
   color: rgba(255, 255, 255, 0.8);
 }
@@ -219,7 +219,7 @@ html.dark .form-control::placeholder {
   color: #ffffff;
 }
 
-/* Buttons in dark mode - Apple style */
+/* dark mode buttons */
 .dark .btn-primary {
   background: #ffffff;
   color: #000000;
@@ -252,7 +252,7 @@ html.dark .form-control::placeholder {
   color: #ffffff;
 }
 
-/* Background adjustments */
+/* dark mode background */
 .dark .bg-light {
   background: rgba(255, 255, 255, 0.05) !important;
 }

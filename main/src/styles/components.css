@@ -1,6 +1,4 @@
-/* Modern navbar styling is now handled by the component's scoped styles */
 
-/* Global page styling - add bottom margin to all pages */
 .workout-generator,
 .exercise-library,
 .progress-dashboard,
@@ -908,15 +906,15 @@
   }
 }
 
-/* Apple-Inspired Profile Redesign */
-.user-profile-apple {
+/* modern profile redesign */
+.user-profile-view {
   min-height: 100vh;
   background: #fbfbfd;
   padding-top: 2rem;
   padding-bottom: 5rem;
 }
 
-.user-profile-apple .profile-container {
+.user-profile-view .profile-container {
   max-width: 880px;
   margin: 0 auto;
   padding: 0 1.5rem;
@@ -953,11 +951,11 @@
 }
 
 /* Compact Header */
-.user-profile-apple .apple-header {
+.user-profile-view .app-header {
   margin-bottom: 3rem;
 }
 
-.user-profile-apple .apple-avatar {
+.user-profile-view .app-avatar {
   width: 3.5rem;
   height: 3.5rem;
   background: rgba(0, 0, 0, 0.05);
@@ -967,12 +965,12 @@
   justify-content: center;
 }
 
-.user-profile-apple .apple-avatar i {
+.user-profile-view .app-avatar i {
   font-size: 1.5rem;
   opacity: 0.5;
 }
 
-.user-profile-apple .apple-username {
+.user-profile-view .app-username {
   font-size: 1.75rem;
   font-weight: 400;
   letter-spacing: -0.02em;
@@ -980,13 +978,13 @@
   color: #030213;
 }
 
-.user-profile-apple .apple-email {
+.user-profile-view .app-email {
   font-size: 0.875rem;
   opacity: 0.5;
   margin-top: 0.125rem;
 }
 
-.user-profile-apple .apple-signout-btn {
+.user-profile-view .app-signout-btn {
   height: 2.25rem;
   padding: 0 1rem;
   border-radius: 9999px;
@@ -997,12 +995,12 @@
   transition: all 0.2s ease;
 }
 
-.user-profile-apple .apple-signout-btn:hover {
+.user-profile-view .app-signout-btn:hover {
   background: rgba(0, 0, 0, 0.04);
 }
 
-/* Apple Cards */
-.user-profile-apple .apple-card {
+
+.user-profile-view .app-card {
   background: #ffffff;
   border-radius: 1.5rem;
   padding: 2rem;
@@ -1012,12 +1010,12 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.user-profile-apple .apple-card:hover {
+.user-profile-view .app-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-.user-profile-apple .apple-card-title {
+.user-profile-view .app-card-title {
   font-size: 1.1875rem;
   font-weight: 400;
   letter-spacing: -0.02em;
@@ -1026,7 +1024,7 @@
 }
 
 /* Form Elements */
-.user-profile-apple .apple-label {
+.user-profile-view .app-label {
   display: block;
   font-size: 0.8125rem;
   opacity: 0.6;
@@ -1034,8 +1032,8 @@
   font-weight: 400;
 }
 
-.user-profile-apple .apple-input,
-.user-profile-apple .apple-select {
+.user-profile-view .app-input,
+.user-profile-view .app-select {
   background: #f3f3f5;
   border: 1px solid transparent;
   border-radius: 0.75rem;
@@ -1047,7 +1045,7 @@
   color: #030213 !important;
 }
 
-.user-profile-apple .apple-select {
+.user-profile-view .app-select {
   padding-right: 2.5rem;
   appearance: none;
   -webkit-appearance: none;
@@ -1059,36 +1057,36 @@
   background-position: right 1rem center;
 }
 
-.user-profile-apple .apple-select option {
+.user-profile-view .app-select option {
   color: #030213 !important;
   background: #ffffff !important;
 }
 
-.user-profile-apple .apple-select::-ms-expand {
+.user-profile-view .app-select::-ms-expand {
   display: none;
 }
 
-.user-profile-apple .apple-input[type="number"] {
+.user-profile-view .app-input[type="number"] {
   padding-right: 3rem;
 }
 
-.user-profile-apple .apple-input-group .apple-input[type="number"] {
+.user-profile-view .app-input-group .app-input[type="number"] {
   padding-right: 2.2rem;
 }
 
-.user-profile-apple .apple-input:focus,
-.user-profile-apple .apple-select:focus {
+.user-profile-view .app-input:focus,
+.user-profile-view .app-select:focus {
   outline: none;
   border-color: rgba(0, 0, 0, 0.1);
   box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.02);
   background: #f3f3f5;
 }
 
-.user-profile-apple .apple-input-group {
+.user-profile-view .app-input-group {
   position: relative;
 }
 
-.user-profile-apple .apple-input-suffix {
+.user-profile-view .app-input-suffix {
   position: absolute;
   right: 1rem;
   top: 50%;
@@ -1099,7 +1097,7 @@
 }
 
 /* BMI Section */
-.user-profile-apple .bmi-card {
+.user-profile-view .bmi-card {
   background: linear-gradient(135deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.04) 100%);
   border-radius: 1rem;
   padding: 1.5rem;
@@ -1107,7 +1105,7 @@
   margin-top: 2rem;
 }
 
-.user-profile-apple .bmi-header-label {
+.user-profile-view .bmi-header-label {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -1117,19 +1115,19 @@
   margin-bottom: 1rem;
 }
 
-.user-profile-apple .bmi-header-label i {
+.user-profile-view .bmi-header-label i {
   opacity: 0.5;
   font-size: 1rem;
 }
 
-.user-profile-apple .bmi-display {
+.user-profile-view .bmi-display {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   margin-bottom: 1.25rem;
 }
 
-.user-profile-apple .bmi-value {
+.user-profile-view .bmi-value {
   font-size: 3.5rem;
   font-weight: 400;
   letter-spacing: -0.02em;
@@ -1137,7 +1135,7 @@
   color: #030213;
 }
 
-.user-profile-apple .bmi-badge {
+.user-profile-view .bmi-badge {
   padding: 0.5rem 1rem;
   border-radius: 9999px;
   font-size: 0.875rem;
@@ -1146,33 +1144,33 @@
   margin-top: 0.25rem;
 }
 
-.user-profile-apple .bmi-badge.underweight {
+.user-profile-view .bmi-badge.underweight {
   background: rgba(59, 130, 246, 0.1);
   color: rgb(37, 99, 235);
 }
 
-.user-profile-apple .bmi-badge.normal {
+.user-profile-view .bmi-badge.normal {
   background: rgba(34, 197, 94, 0.1);
   color: rgb(22, 163, 74);
 }
 
-.user-profile-apple .bmi-badge.overweight {
+.user-profile-view .bmi-badge.overweight {
   background: rgba(249, 115, 22, 0.1);
   color: rgb(234, 88, 12);
 }
 
-.user-profile-apple .bmi-badge.obese {
+.user-profile-view .bmi-badge.obese {
   background: rgba(239, 68, 68, 0.1);
   color: rgb(220, 38, 38);
 }
 
 /* BMI Range Indicator */
-.user-profile-apple .bmi-range {
+.user-profile-view .bmi-range {
   margin-top: 1.5rem;
   position: relative;
 }
 
-.user-profile-apple .bmi-bar {
+.user-profile-view .bmi-bar {
   height: 0.375rem;
   background: rgba(0, 0, 0, 0.05);
   border-radius: 9999px;
@@ -1182,51 +1180,51 @@
   z-index: 1;
 }
 
-.dark .user-profile-apple .bmi-bar {
+.dark .user-profile-view .bmi-bar {
   background: rgba(255, 255, 255, 0.1);
 }
 
-.user-profile-apple .bmi-bar-segment {
+.user-profile-view .bmi-bar-segment {
   flex: 1;
 }
 
-.user-profile-apple .bmi-bar-segment.blue {
+.user-profile-view .bmi-bar-segment.blue {
   background: rgba(59, 130, 246, 0.3);
 }
 
-.dark .user-profile-apple .bmi-bar-segment.blue {
+.dark .user-profile-view .bmi-bar-segment.blue {
   background: #3b82f6;
   box-shadow: 0 0 10px rgba(59, 130, 246, 0.6);
 }
 
-.user-profile-apple .bmi-bar-segment.green {
+.user-profile-view .bmi-bar-segment.green {
   background: rgba(34, 197, 94, 0.3);
 }
 
-.dark .user-profile-apple .bmi-bar-segment.green {
+.dark .user-profile-view .bmi-bar-segment.green {
   background: #22c55e;
   box-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
 }
 
-.user-profile-apple .bmi-bar-segment.orange {
+.user-profile-view .bmi-bar-segment.orange {
   background: rgba(249, 115, 22, 0.3);
 }
 
-.dark .user-profile-apple .bmi-bar-segment.orange {
+.dark .user-profile-view .bmi-bar-segment.orange {
   background: #f97316;
   box-shadow: 0 0 10px rgba(249, 115, 22, 0.6);
 }
 
-.user-profile-apple .bmi-bar-segment.red {
+.user-profile-view .bmi-bar-segment.red {
   background: rgba(239, 68, 68, 0.3);
 }
 
-.dark .user-profile-apple .bmi-bar-segment.red {
+.dark .user-profile-view .bmi-bar-segment.red {
   background: #ef4444;
   box-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
 }
 
-.user-profile-apple .bmi-pointer-container {
+.user-profile-view .bmi-pointer-container {
   position: absolute;
   top: -0.625rem;
   left: 0;
@@ -1235,7 +1233,7 @@
   pointer-events: none;
 }
 
-.user-profile-apple .bmi-pointer {
+.user-profile-view .bmi-pointer {
   position: absolute;
   top: 0;
   width: 0.125rem;
@@ -1246,11 +1244,11 @@
   transition: left 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.dark .user-profile-apple .bmi-pointer {
+.dark .user-profile-view .bmi-pointer {
   background: #ffffff;
 }
 
-.user-profile-apple .bmi-pointer::before {
+.user-profile-view .bmi-pointer::before {
   content: '';
   position: absolute;
   top: -0.25rem;
@@ -1262,47 +1260,47 @@
   border-radius: 50%;
 }
 
-.dark .user-profile-apple .bmi-pointer::before {
+.dark .user-profile-view .bmi-pointer::before {
   background: #ffffff;
 }
 
-.user-profile-apple .bmi-labels {
+.user-profile-view .bmi-labels {
   position: relative;
   margin-top: 0.25rem;
   height: 1rem;
 }
 
-.user-profile-apple .bmi-labels span {
+.user-profile-view .bmi-labels span {
   position: absolute;
   font-size: 0.6875rem;
   opacity: 0.4;
   transform: translateX(-50%);
 }
 
-.user-profile-apple .bmi-labels span:nth-child(1) {
+.user-profile-view .bmi-labels span:nth-child(1) {
   left: 25%;
 }
 
-.user-profile-apple .bmi-labels span:nth-child(2) {
+.user-profile-view .bmi-labels span:nth-child(2) {
   left: 50%;
 }
 
-.user-profile-apple .bmi-labels span:nth-child(3) {
+.user-profile-view .bmi-labels span:nth-child(3) {
   left: 75%;
 }
 
-.user-profile-apple .bmi-placeholder {
+.user-profile-view .bmi-placeholder {
   padding: 1.5rem 0;
   text-align: center;
 }
 
-.user-profile-apple .bmi-placeholder p {
+.user-profile-view .bmi-placeholder p {
   font-size: 0.875rem;
   opacity: 0.3;
 }
 
 /* Save Button */
-.user-profile-apple .apple-save-btn {
+.user-profile-view .app-save-btn {
   width: 100%;
   height: 3rem;
   border-radius: 9999px;
@@ -1315,20 +1313,20 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.user-profile-apple .apple-save-btn:hover {
+.user-profile-view .app-save-btn:hover {
   background: #000000;
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.user-profile-apple .apple-save-btn:disabled {
+.user-profile-view .app-save-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   transform: none;
 }
 
-/* Apple Modals */
-.user-profile-apple .apple-modal-backdrop {
+/* modern modals */
+.user-profile-view .app-modal-backdrop {
   position: fixed;
   top: 0;
   left: 0;
@@ -1345,7 +1343,7 @@
   overflow-y: auto;
 }
 
-.user-profile-apple .apple-modal {
+.user-profile-view .app-modal {
   background: #ffffff;
   border-radius: 1.5rem;
   max-width: 440px;
@@ -1366,7 +1364,7 @@
   }
 }
 
-.user-profile-apple .apple-modal-header {
+.user-profile-view .app-modal-header {
   padding: 1.5rem 2rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   display: flex;
@@ -1374,14 +1372,14 @@
   justify-content: space-between;
 }
 
-.user-profile-apple .apple-modal-title {
+.user-profile-view .app-modal-title {
   font-size: 1.25rem;
   font-weight: 500;
   letter-spacing: -0.01em;
   color: #030213;
 }
 
-.user-profile-apple .apple-modal-close {
+.user-profile-view .app-modal-close {
   background: rgba(0, 0, 0, 0.05);
   border: none;
   width: 2rem;
@@ -1394,23 +1392,23 @@
   padding: 0;
 }
 
-.user-profile-apple .apple-modal-close:hover {
+.user-profile-view .app-modal-close:hover {
   background: rgba(0, 0, 0, 0.1);
 }
 
-.user-profile-apple .apple-modal-body {
+.user-profile-view .app-modal-body {
   padding: 2rem;
 }
 
-.user-profile-apple .apple-modal .form-group {
+.user-profile-view .app-modal .form-group {
   margin-bottom: 1.5rem;
 }
 
-.user-profile-apple .apple-modal .form-group:last-of-type {
+.user-profile-view .app-modal .form-group:last-of-type {
   margin-bottom: 2rem;
 }
 
-.user-profile-apple .apple-modal-submit {
+.user-profile-view .app-modal-submit {
   width: 100%;
   height: 3rem;
   border-radius: 0.75rem;
@@ -1422,42 +1420,42 @@
   transition: all 0.2s ease;
 }
 
-.user-profile-apple .apple-modal-submit:hover:not(:disabled) {
+.user-profile-view .app-modal-submit:hover:not(:disabled) {
   background: #000000;
   transform: translateY(-1px);
 }
 
-.user-profile-apple .apple-modal-submit:disabled {
+.user-profile-view .app-modal-submit:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-.user-profile-apple .apple-modal-footer {
+.user-profile-view .app-modal-footer {
   text-align: center;
   margin-top: 1.5rem;
   padding-top: 1.5rem;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.user-profile-apple .apple-modal-footer p {
+.user-profile-view .app-modal-footer p {
   margin: 0;
   font-size: 0.875rem;
   color: rgba(0, 0, 0, 0.5);
 }
 
-.user-profile-apple .apple-modal-footer a {
+.user-profile-view .app-modal-footer a {
   color: #030213;
   font-weight: 600;
   text-decoration: none;
   transition: opacity 0.2s ease;
 }
 
-.user-profile-apple .apple-modal-footer a:hover {
+.user-profile-view .app-modal-footer a:hover {
   opacity: 0.7;
 }
 
 /* Workout Summary Box */
-.user-profile-apple .workout-summary-box {
+.user-profile-view .workout-summary-box {
   background: rgba(0, 123, 255, 0.08);
   border-left: 3px solid #007bff;
   padding: 1rem;
@@ -1465,64 +1463,64 @@
   margin-bottom: 1.5rem;
 }
 
-.dark .user-profile-apple .workout-summary-box {
+.dark .user-profile-view .workout-summary-box {
   background: rgba(59, 130, 246, 0.15);
   border-left-color: #3b82f6;
 }
 
-.user-profile-apple .workout-summary-title {
+.user-profile-view .workout-summary-title {
   font-weight: 600;
   margin-bottom: 0.5rem;
   color: #030213;
 }
 
-.dark .user-profile-apple .workout-summary-title {
+.dark .user-profile-view .workout-summary-title {
   color: #ffffff;
 }
 
-.user-profile-apple .workout-summary-content {
+.user-profile-view .workout-summary-content {
   font-size: 0.875rem;
   opacity: 0.7;
   color: rgba(0, 0, 0, 0.7);
 }
 
-.dark .user-profile-apple .workout-summary-content {
+.dark .user-profile-view .workout-summary-content {
   color: rgba(255, 255, 255, 0.7);
   opacity: 1;
 }
 
 /* Checkbox Group */
-.user-profile-apple .checkbox-group {
+.user-profile-view .checkbox-group {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   margin-bottom: 1rem;
 }
 
-.user-profile-apple .workout-checkbox {
+.user-profile-view .workout-checkbox {
   width: 1.25rem;
   height: 1.25rem;
   cursor: pointer;
 }
 
-.user-profile-apple .workout-checkbox-label {
+.user-profile-view .workout-checkbox-label {
   margin: 0;
   cursor: pointer;
   user-select: none;
   color: #030213;
 }
 
-.dark .user-profile-apple .workout-checkbox-label {
+.dark .user-profile-view .workout-checkbox-label {
   color: rgba(255, 255, 255, 0.85);
 }
 
 /* Workout Modal Actions */
-.user-profile-apple .workout-modal-actions {
+.user-profile-view .workout-modal-actions {
   display: flex;
   gap: 0.75rem;
 }
 
-.user-profile-apple .apple-modal-cancel-btn {
+.user-profile-view .app-modal-cancel-btn {
   flex: 1;
   height: 3rem;
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -1534,20 +1532,20 @@
   transition: all 0.2s ease;
 }
 
-.dark .user-profile-apple .apple-modal-cancel-btn {
+.dark .user-profile-view .app-modal-cancel-btn {
   border-color: rgba(255, 255, 255, 0.2);
   color: #ffffff;
 }
 
-.user-profile-apple .apple-modal-cancel-btn:hover {
+.user-profile-view .app-modal-cancel-btn:hover {
   background: rgba(0, 0, 0, 0.05);
 }
 
-.dark .user-profile-apple .apple-modal-cancel-btn:hover {
+.dark .user-profile-view .app-modal-cancel-btn:hover {
   background: rgba(255, 255, 255, 0.1);
 }
 
-.user-profile-apple .apple-modal-end-btn {
+.user-profile-view .app-modal-end-btn {
   flex: 1;
   height: 3rem;
   background: #ef4444;
@@ -1559,19 +1557,19 @@
   transition: all 0.2s ease;
 }
 
-.user-profile-apple .apple-modal-end-btn:hover:not(:disabled) {
+.user-profile-view .app-modal-end-btn:hover:not(:disabled) {
   background: #dc2626;
   transform: translateY(-1px);
 }
 
-.user-profile-apple .apple-modal-end-btn:disabled {
+.user-profile-view .app-modal-end-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   transform: none;
 }
 
 /* Centered Modal (appears at current viewport position) */
-.user-profile-apple .apple-modal-backdrop-centered {
+.user-profile-view .app-modal-backdrop-centered {
   align-items: center;
   padding-top: 1rem;
   padding-bottom: 1rem;
@@ -1579,82 +1577,82 @@
 
 /* Responsive Modal Styles */
 @media (max-width: 768px) {
-  .user-profile-apple .apple-modal-backdrop {
+  .user-profile-view .app-modal-backdrop {
     padding-top: 2rem;
     padding-left: 0.75rem;
     padding-right: 0.75rem;
   }
 
-  .user-profile-apple .apple-modal-backdrop-centered {
+  .user-profile-view .app-modal-backdrop-centered {
     padding-top: 1rem;
     padding-bottom: 1rem;
     padding-left: 0.75rem;
     padding-right: 0.75rem;
   }
 
-  .user-profile-apple .apple-modal {
+  .user-profile-view .app-modal {
     max-width: 100%;
   }
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .user-profile-apple {
+  .user-profile-view {
     padding-top: 1.5rem;
   }
 
-  .user-profile-apple .profile-container {
+  .user-profile-view .profile-container {
     padding: 0 1rem;
   }
 
-  .user-profile-apple .apple-card {
+  .user-profile-view .app-card {
     padding: 1.5rem;
   }
 
-  .user-profile-apple .apple-header {
+  .user-profile-view .app-header {
     margin-bottom: 2rem;
   }
 
-  .user-profile-apple .apple-avatar {
+  .user-profile-view .app-avatar {
     width: 2.75rem;
     height: 2.75rem;
   }
 
-  .user-profile-apple .apple-avatar i {
+  .user-profile-view .app-avatar i {
     font-size: 1.25rem;
   }
 
-  .user-profile-apple .apple-signout-btn {
+  .user-profile-view .app-signout-btn {
     font-size: 0.75rem;
     padding: 0 0.75rem;
     height: 2rem;
   }
 
-  .user-profile-apple .apple-signout-btn span {
+  .user-profile-view .app-signout-btn span {
     display: none;
   }
 
-  .user-profile-apple .bmi-value {
+  .user-profile-view .bmi-value {
     font-size: 2.5rem;
   }
   
-  .user-profile-apple .apple-username {
+  .user-profile-view .app-username {
     font-size: 1.5rem;
   }
 
-  .user-profile-apple .bmi-badge {
+  .user-profile-view .bmi-badge {
     font-size: 0.75rem;
     padding: 0.375rem 0.75rem;
   }
 
-  .user-profile-apple .bmi-display {
+  .user-profile-view .bmi-display {
     flex-direction: column;
     gap: 0.75rem;
   }
 }
 
 @media (max-width: 480px) {
-  .user-profile-apple .apple-signout-btn i {
+  .user-profile-view .app-signout-btn i {
     margin-right: 0 !important;
   }
 }
@@ -1664,22 +1662,22 @@
   transform: translateY(-2px);
 }
 
-/* Apple-Inspired Workout Tracking Redesign */
-.workout-tracking-apple {
+/* modern workout tracking redesign */
+.workout-tracking-view {
   min-height: 100vh;
   background: #fbfbfd;
   padding-top: 2rem;
   padding-bottom: 5rem;
 }
 
-.workout-tracking-apple .tracking-container {
+.workout-tracking-view .tracking-container {
   max-width: 880px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
 
 /* Workout Header Card */
-.workout-tracking-apple .workout-header-card {
+.workout-tracking-view .workout-header-card {
   background: #ffffff;
   border-radius: 1.5rem;
   padding: 1.5rem 2rem;
@@ -1688,7 +1686,7 @@
   margin-bottom: 1.5rem;
 }
 
-.workout-tracking-apple .workout-title {
+.workout-tracking-view .workout-title {
   font-size: 1.5rem;
   font-weight: 500;
   letter-spacing: -0.02em;
@@ -1696,13 +1694,13 @@
   margin-bottom: 0.25rem;
 }
 
-.workout-tracking-apple .workout-subtitle {
+.workout-tracking-view .workout-subtitle {
   font-size: 0.875rem;
   opacity: 0.5;
   color: #030213;
 }
 
-.workout-tracking-apple .workout-timer {
+.workout-tracking-view .workout-timer {
   font-size: 2rem;
   font-weight: 300;
   letter-spacing: -0.02em;
@@ -1710,7 +1708,7 @@
   line-height: 1;
 }
 
-.workout-tracking-apple .workout-timer-label {
+.workout-tracking-view .workout-timer-label {
   font-size: 0.75rem;
   opacity: 0.5;
   text-transform: uppercase;
@@ -1718,7 +1716,7 @@
   margin-top: 0.25rem;
 }
 
-.workout-tracking-apple .play-button {
+.workout-tracking-view .play-button {
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
@@ -1732,7 +1730,7 @@
   font-size: 1.25rem;
 }
 
-.workout-tracking-apple .play-button.pause-button {
+.workout-tracking-view .play-button.pause-button {
   width: 2rem;
   height: 2rem;
   font-size: 0.875rem;
@@ -1740,23 +1738,23 @@
   color: rgba(0, 0, 0, 0.6);
 }
 
-.workout-tracking-apple .play-button:hover {
+.workout-tracking-view .play-button:hover {
   transform: scale(1.05);
   background: #000000;
 }
 
-.workout-tracking-apple .play-button.pause-button:hover {
+.workout-tracking-view .play-button.pause-button:hover {
   background: rgba(0, 0, 0, 0.15);
 }
 
-.workout-tracking-apple .play-button:disabled {
+.workout-tracking-view .play-button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   transform: none;
 }
 
 /* Progress Bar */
-.workout-tracking-apple .progress-bar-container {
+.workout-tracking-view .progress-bar-container {
   height: 0.375rem;
   background: rgba(0, 0, 0, 0.08);
   border-radius: 9999px;
@@ -1764,17 +1762,17 @@
   margin-top: 1rem;
 }
 
-.workout-tracking-apple .progress-bar-container.progress-bar-clickable {
+.workout-tracking-view .progress-bar-container.progress-bar-clickable {
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.workout-tracking-apple .progress-bar-container.progress-bar-clickable:hover {
+.workout-tracking-view .progress-bar-container.progress-bar-clickable:hover {
   background: rgba(0, 0, 0, 0.12);
   transform: scaleY(1.2);
 }
 
-.workout-tracking-apple .progress-bar-fill {
+.workout-tracking-view .progress-bar-fill {
   height: 100%;
   background: #030213;
   border-radius: 9999px;
@@ -1782,7 +1780,7 @@
 }
 
 /* Exercise Item */
-.workout-tracking-apple .exercise-item {
+.workout-tracking-view .exercise-item {
   background: #ffffff;
   border-radius: 1rem;
   padding: 1.25rem 1.5rem;
@@ -1794,17 +1792,17 @@
   gap: 1rem;
 }
 
-.workout-tracking-apple .exercise-item:hover {
+.workout-tracking-view .exercise-item:hover {
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
-.workout-tracking-apple .exercise-item.completed {
+.workout-tracking-view .exercise-item.completed {
   background: rgba(34, 197, 94, 0.08);
   border-color: rgba(34, 197, 94, 0.2);
 }
 
-.workout-tracking-apple .exercise-checkbox {
+.workout-tracking-view .exercise-checkbox {
   width: 1.75rem;
   height: 1.75rem;
   border: 2px solid rgba(0, 0, 0, 0.2);
@@ -1818,46 +1816,46 @@
   background: transparent;
 }
 
-.workout-tracking-apple .exercise-checkbox:hover {
+.workout-tracking-view .exercise-checkbox:hover {
   border-color: rgba(0, 0, 0, 0.4);
 }
 
-.workout-tracking-apple .exercise-checkbox.checked {
+.workout-tracking-view .exercise-checkbox.checked {
   background: #22c55e;
   border-color: #22c55e;
   color: white;
 }
 
-.workout-tracking-apple .exercise-number {
+.workout-tracking-view .exercise-number {
   font-size: 0.875rem;
   opacity: 0.5;
   margin-right: 0.5rem;
   font-weight: 500;
 }
 
-.workout-tracking-apple .exercise-name {
+.workout-tracking-view .exercise-name {
   font-size: 1rem;
   font-weight: 500;
   color: #030213;
   flex: 1;
 }
 
-.workout-tracking-apple .exercise-name.completed {
+.workout-tracking-view .exercise-name.completed {
   text-decoration: line-through;
   opacity: 0.6;
 }
 
-.workout-tracking-apple .exercise-stats {
+.workout-tracking-view .exercise-stats {
   display: flex;
   align-items: center;
   gap: 1.5rem;
 }
 
-.workout-tracking-apple .exercise-stat {
+.workout-tracking-view .exercise-stat {
   text-align: center;
 }
 
-.workout-tracking-apple .exercise-stat-value {
+.workout-tracking-view .exercise-stat-value {
   font-size: 1.125rem;
   font-weight: 600;
   color: #030213;
@@ -1865,7 +1863,7 @@
   margin-bottom: 0.25rem;
 }
 
-.workout-tracking-apple .exercise-stat-label {
+.workout-tracking-view .exercise-stat-label {
   font-size: 0.6875rem;
   opacity: 0.5;
   text-transform: uppercase;
@@ -1873,13 +1871,13 @@
 }
 
 /* Distance Input */
-.workout-tracking-apple .distance-input-group {
+.workout-tracking-view .distance-input-group {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-.workout-tracking-apple .distance-input {
+.workout-tracking-view .distance-input {
   width: 100px;
   padding: 0.375rem 0.5rem;
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -1890,21 +1888,21 @@
   transition: all 0.2s ease;
 }
 
-.workout-tracking-apple .distance-input:focus {
+.workout-tracking-view .distance-input:focus {
   outline: none;
   background: #e8e8ea;
   border-color: rgba(0, 0, 0, 0.15);
   box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
 }
 
-.workout-tracking-apple .distance-label {
+.workout-tracking-view .distance-label {
   font-size: 0.875rem;
   opacity: 0.6;
   color: rgba(0, 0, 0, 0.6);
 }
 
 /* Complete Button */
-.workout-tracking-apple .complete-button {
+.workout-tracking-view .complete-button {
   width: 100%;
   max-width: 500px;
   margin: 2rem auto 0;
@@ -1923,20 +1921,20 @@
   gap: 0.5rem;
 }
 
-.workout-tracking-apple .complete-button:hover:not(:disabled) {
+.workout-tracking-view .complete-button:hover:not(:disabled) {
   background: #16a34a;
   transform: translateY(-1px);
   box-shadow: 0 6px 16px rgba(34, 197, 94, 0.3);
 }
 
-.workout-tracking-apple .complete-button:disabled {
+.workout-tracking-view .complete-button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   transform: none;
 }
 
 /* Start Workout Card */
-.workout-tracking-apple .start-workout-card {
+.workout-tracking-view .start-workout-card {
   background: #ffffff;
   border-radius: 1.5rem;
   padding: 2.5rem 2rem;
@@ -1946,20 +1944,20 @@
   margin-bottom: 1.5rem;
 }
 
-.workout-tracking-apple .start-workout-card h5 {
+.workout-tracking-view .start-workout-card h5 {
   font-size: 1.25rem;
   font-weight: 500;
   margin-bottom: 0.5rem;
   color: #030213;
 }
 
-.workout-tracking-apple .start-workout-card p {
+.workout-tracking-view .start-workout-card p {
   font-size: 0.9375rem;
   opacity: 0.6;
   margin-bottom: 1.5rem;
 }
 
-.workout-tracking-apple .start-button {
+.workout-tracking-view .start-button {
   height: 3rem;
   padding: 0 2rem;
   border-radius: 9999px;
@@ -1974,12 +1972,12 @@
   gap: 0.5rem;
 }
 
-.workout-tracking-apple .start-button:hover:not(:disabled) {
+.workout-tracking-view .start-button:hover:not(:disabled) {
   background: #16a34a;
   transform: translateY(-1px);
 }
 
-.workout-tracking-apple .end-button {
+.workout-tracking-view .end-button {
   height: 3rem;
   padding: 0 2rem;
   border-radius: 9999px;
@@ -1994,13 +1992,13 @@
   gap: 0.5rem;
 }
 
-.workout-tracking-apple .end-button:hover:not(:disabled) {
+.workout-tracking-view .end-button:hover:not(:disabled) {
   background: #dc2626;
   transform: translateY(-1px);
 }
 
 /* Empty State */
-.workout-tracking-apple .empty-state-card {
+.workout-tracking-view .empty-state-card {
   background: #ffffff;
   border-radius: 1.5rem;
   padding: 4rem 2rem;
@@ -2009,27 +2007,27 @@
   text-align: center;
 }
 
-.workout-tracking-apple .empty-state-icon {
+.workout-tracking-view .empty-state-icon {
   font-size: 4rem;
   opacity: 0.2;
   margin-bottom: 1.5rem;
 }
 
-.workout-tracking-apple .empty-state-card h3 {
+.workout-tracking-view .empty-state-card h3 {
   font-size: 1.5rem;
   font-weight: 500;
   margin-bottom: 0.75rem;
   color: #030213;
 }
 
-.workout-tracking-apple .empty-state-card p {
+.workout-tracking-view .empty-state-card p {
   font-size: 0.9375rem;
   opacity: 0.6;
   margin-bottom: 2rem;
 }
 
 /* Map Container */
-.workout-tracking-apple .map-card {
+.workout-tracking-view .map-card {
   background: #ffffff;
   border-radius: 1.5rem;
   overflow: hidden;
@@ -2038,12 +2036,12 @@
   margin-bottom: 1.5rem;
 }
 
-.workout-tracking-apple .map-header {
+.workout-tracking-view .map-header {
   padding: 1.25rem 1.5rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.workout-tracking-apple .map-header h5 {
+.workout-tracking-view .map-header h5 {
   font-size: 1.125rem;
   font-weight: 500;
   margin: 0;
@@ -2052,56 +2050,56 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .workout-tracking-apple {
+  .workout-tracking-view {
     padding-top: 1.5rem;
   }
 
-  .workout-tracking-apple .tracking-container {
+  .workout-tracking-view .tracking-container {
     padding: 0 1rem;
   }
 
-  .workout-tracking-apple .workout-header-card {
+  .workout-tracking-view .workout-header-card {
     padding: 1.25rem 1.5rem;
   }
 
-  .workout-tracking-apple .workout-title {
+  .workout-tracking-view .workout-title {
     font-size: 1.25rem;
   }
 
-  .workout-tracking-apple .workout-timer {
+  .workout-tracking-view .workout-timer {
     font-size: 1.5rem;
   }
 
-  .workout-tracking-apple .exercise-item {
+  .workout-tracking-view .exercise-item {
     flex-wrap: wrap;
     padding: 1rem 1.25rem;
   }
 
-  .workout-tracking-apple .exercise-stats {
+  .workout-tracking-view .exercise-stats {
     width: 100%;
     justify-content: flex-start;
     margin-top: 0.75rem;
     padding-left: 2.75rem;
   }
 
-  .workout-tracking-apple .exercise-stat {
+  .workout-tracking-view .exercise-stat {
     text-align: left;
   }
 
-  .workout-tracking-apple .play-button {
+  .workout-tracking-view .play-button {
     width: 2.5rem;
     height: 2.5rem;
     font-size: 1rem;
   }
 
   /* Mobile layout for distance and timer */
-  .workout-tracking-apple .workout-header-card > .d-flex.justify-content-between {
+  .workout-tracking-view .workout-header-card > .d-flex.justify-content-between {
     flex-direction: column;
     align-items: flex-start !important;
     gap: 0.75rem;
   }
 
-  .workout-tracking-apple .workout-header-card .timer-container {
+  .workout-tracking-view .workout-header-card .timer-container {
     flex-direction: row;
     align-items: center;
     width: 100%;
@@ -2109,41 +2107,41 @@
     margin-top: 0;
   }
 
-  .workout-tracking-apple .workout-header-card .timer-container .text-end {
+  .workout-tracking-view .workout-header-card .timer-container .text-end {
     text-align: left !important;
   }
 
-  .workout-tracking-apple .workout-header-card .timer-container button {
+  .workout-tracking-view .workout-header-card .timer-container button {
     order: -1;
     margin-right: 0.5rem;
     flex-shrink: 0;
   }
 
   /* Ensure distance input takes full width on mobile when stacking */
-  .workout-tracking-apple .workout-header-card .d-flex.justify-content-between > div:first-child {
+  .workout-tracking-view .workout-header-card .d-flex.justify-content-between > div:first-child {
     width: 100%;
   }
 }
 
-/* Apple-Inspired Workout Generator Redesign */
-.workout-generator-apple {
+/* modern workout generator redesign */
+.workout-generator-view {
   min-height: 100vh;
   background: #fbfbfd;
   padding-top: 2rem;
   padding-bottom: 5rem;
 }
 
-.workout-generator-apple .generator-container {
+.workout-generator-view .generator-container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
 
-.workout-generator-apple .page-header {
+.workout-generator-view .page-header {
   margin-bottom: 3rem;
 }
 
-.workout-generator-apple .page-title {
+.workout-generator-view .page-title {
   font-size: 2rem;
   font-weight: 500;
   letter-spacing: -0.02em;
@@ -2151,14 +2149,14 @@
   margin-bottom: 0.5rem;
 }
 
-.workout-generator-apple .page-subtitle {
+.workout-generator-view .page-subtitle {
   font-size: 0.9375rem;
   opacity: 0.5;
   color: #030213;
 }
 
 /* Preferences and Profile Grid */
-.workout-generator-apple .preferences-grid {
+.workout-generator-view .preferences-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.5rem;
@@ -2166,13 +2164,13 @@
 }
 
 @media (min-width: 1024px) {
-  .workout-generator-apple .preferences-grid {
+  .workout-generator-view .preferences-grid {
     grid-template-columns: 2fr 1fr;
   }
 }
 
 /* Workout Preferences Card */
-.workout-generator-apple .preferences-card {
+.workout-generator-view .preferences-card {
   background: #ffffff;
   border-radius: 1.5rem;
   padding: 2rem;
@@ -2181,12 +2179,12 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.workout-generator-apple .preferences-card:hover {
+.workout-generator-view .preferences-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-.workout-generator-apple .preferences-title {
+.workout-generator-view .preferences-title {
   font-size: 1.375rem;
   font-weight: 500;
   letter-spacing: -0.02em;
@@ -2194,20 +2192,20 @@
   color: #030213;
 }
 
-.workout-generator-apple .group {
+.workout-generator-view .group {
   display: flex;
   flex-direction: column;
 }
 
-.workout-generator-apple .apple-label {
+.workout-generator-view .app-label {
   font-size: 0.8125rem;
   opacity: 0.6;
   margin-bottom: 0.75rem;
   color: #030213;
 }
 
-.workout-generator-apple .apple-input,
-.workout-generator-apple .apple-select {
+.workout-generator-view .app-input,
+.workout-generator-view .app-select {
   width: 100%;
   padding: 0.75rem 1rem;
   padding-right: 2.5rem;
@@ -2222,47 +2220,47 @@
   -moz-appearance: none;
 }
 
-.workout-generator-apple .apple-input {
+.workout-generator-view .app-input {
   cursor: text;
 }
 
 /* Hide number input spinners */
-.workout-generator-apple .apple-input[type="number"]::-webkit-inner-spin-button,
-.workout-generator-apple .apple-input[type="number"]::-webkit-outer-spin-button {
+.workout-generator-view .app-input[type="number"]::-webkit-inner-spin-button,
+.workout-generator-view .app-input[type="number"]::-webkit-outer-spin-button {
   appearance: none;
   -webkit-appearance: none;
   margin: 0;
 }
 
-.workout-generator-apple .apple-input[type="number"] {
+.workout-generator-view .app-input[type="number"] {
   appearance: textfield;
   -moz-appearance: textfield;
 }
 
-.workout-generator-apple .apple-select {
+.workout-generator-view .app-select {
   cursor: pointer;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23030213' fill-opacity='0.4' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 1rem center;
 }
 
-.workout-generator-apple .apple-select::-ms-expand {
+.workout-generator-view .app-select::-ms-expand {
   display: none;
 }
 
-.workout-generator-apple .apple-input:focus,
-.workout-generator-apple .apple-select:focus {
+.workout-generator-view .app-input:focus,
+.workout-generator-view .app-select:focus {
   outline: none;
   background: #e8e8ea;
   box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
 }
 
 /* Muscle Groups Badges */
-.workout-generator-apple .muscle-groups-container {
+.workout-generator-view .muscle-groups-container {
   margin-top: 1.5rem;
 }
 
-.workout-generator-apple .muscle-groups-label {
+.workout-generator-view .muscle-groups-label {
   font-size: 0.8125rem;
   opacity: 0.6;
   margin-bottom: 0.75rem;
@@ -2270,26 +2268,26 @@
   transition: color 0.3s ease;
 }
 
-.dark .workout-generator-apple .muscle-groups-label {
+.dark .workout-generator-view .muscle-groups-label {
   color: rgba(255, 255, 255, 0.85);
 }
 
-.dark .workout-generator-apple .muscle-groups-label span {
+.dark .workout-generator-view .muscle-groups-label span {
   color: rgba(255, 255, 255, 0.75);
 }
 
-.workout-generator-apple .muscle-groups-label span {
+.workout-generator-view .muscle-groups-label span {
   opacity: 0.4;
   font-size: 0.75rem;
 }
 
-.workout-generator-apple .muscle-badges {
+.workout-generator-view .muscle-badges {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
 }
 
-.workout-generator-apple .muscle-badge {
+.workout-generator-view .muscle-badge {
   padding: 0.5rem 1rem;
   border-radius: 9999px;
   border: 2px solid rgba(0, 0, 0, 0.1);
@@ -2301,20 +2299,20 @@
   cursor: pointer;
 }
 
-.workout-generator-apple .muscle-badge:hover {
+.workout-generator-view .muscle-badge:hover {
   border-color: rgba(0, 0, 0, 0.3);
   background: rgba(0, 0, 0, 0.02);
   transform: translateY(-1px);
 }
 
-.workout-generator-apple .muscle-badge.selected {
+.workout-generator-view .muscle-badge.selected {
   background: #030213;
   color: #ffffff;
   border-color: #030213;
 }
 
 /* Generate Button */
-.workout-generator-apple .generate-button {
+.workout-generator-view .generate-button {
   width: 100%;
   height: 3.5rem;
   border-radius: 9999px;
@@ -2333,20 +2331,20 @@
   cursor: pointer;
 }
 
-.workout-generator-apple .generate-button:hover:not(:disabled) {
+.workout-generator-view .generate-button:hover:not(:disabled) {
   background: #000000;
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.workout-generator-apple .generate-button:disabled {
+.workout-generator-view .generate-button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   transform: none;
 }
 
 /* Profile Summary Card */
-.workout-generator-apple .profile-summary-card {
+.workout-generator-view .profile-summary-card {
   background: #ffffff;
   border-radius: 1.5rem;
   padding: 2rem;
@@ -2359,27 +2357,27 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.workout-generator-apple .profile-summary-card:hover {
+.workout-generator-view .profile-summary-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 @media (max-width: 1023px) {
-  .workout-generator-apple .profile-summary-card {
+  .workout-generator-view .profile-summary-card {
     position: static;
     max-height: none;
   }
 
-  .workout-generator-apple .preferences-card {
+  .workout-generator-view .preferences-card {
     order: 2;
   }
 
-  .workout-generator-apple .profile-summary-card {
+  .workout-generator-view .profile-summary-card {
     order: 1;
   }
 }
 
-.workout-generator-apple .profile-summary-title {
+.workout-generator-view .profile-summary-title {
   font-size: 1.375rem;
   font-weight: 500;
   letter-spacing: -0.02em;
@@ -2390,12 +2388,12 @@
   gap: 0.5rem;
 }
 
-.workout-generator-apple .profile-summary-title i {
+.workout-generator-view .profile-summary-title i {
   opacity: 0.5;
   font-size: 1.25rem;
 }
 
-.workout-generator-apple .profile-stat {
+.workout-generator-view .profile-stat {
   display: flex;
   align-items: flex-start;
   gap: 0.75rem;
@@ -2404,15 +2402,15 @@
   transition: border-color 0.3s ease;
 }
 
-.dark .workout-generator-apple .profile-stat {
+.dark .workout-generator-view .profile-stat {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.workout-generator-apple .profile-stat:last-child {
+.workout-generator-view .profile-stat:last-child {
   border-bottom: none;
 }
 
-.workout-generator-apple .profile-stat-icon {
+.workout-generator-view .profile-stat-icon {
   width: 2rem;
   height: 2rem;
   border-radius: 0.5rem;
@@ -2423,17 +2421,17 @@
   flex-shrink: 0;
 }
 
-.workout-generator-apple .profile-stat-icon i {
+.workout-generator-view .profile-stat-icon i {
   font-size: 1rem;
   opacity: 0.5;
 }
 
-.workout-generator-apple .profile-stat-content {
+.workout-generator-view .profile-stat-content {
   flex: 1;
   min-width: 0;
 }
 
-.workout-generator-apple .profile-stat-label {
+.workout-generator-view .profile-stat-label {
   font-size: 0.6875rem;
   opacity: 0.5;
   text-transform: uppercase;
@@ -2442,14 +2440,14 @@
   color: #030213;
 }
 
-.workout-generator-apple .profile-stat-value {
+.workout-generator-view .profile-stat-value {
   font-size: 0.9375rem;
   font-weight: 500;
   color: #030213;
 }
 
 /* Generated Workout Card */
-.workout-generator-apple .generated-workout-card {
+.workout-generator-view .generated-workout-card {
   background: #ffffff;
   border-radius: 1.5rem;
   padding: 2rem;
@@ -2458,7 +2456,7 @@
   margin-top: 1.5rem;
 }
 
-.workout-generator-apple .generated-workout-header {
+.workout-generator-view .generated-workout-header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -2467,7 +2465,7 @@
   gap: 1rem;
 }
 
-.workout-generator-apple .generated-workout-title {
+.workout-generator-view .generated-workout-title {
   font-size: 1.375rem;
   font-weight: 500;
   letter-spacing: -0.02em;
@@ -2475,19 +2473,19 @@
   margin-bottom: 0.25rem;
 }
 
-.workout-generator-apple .generated-workout-summary {
+.workout-generator-view .generated-workout-summary {
   font-size: 0.875rem;
   opacity: 0.5;
   color: #030213;
 }
 
-.workout-generator-apple .generated-workout-actions {
+.workout-generator-view .generated-workout-actions {
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
 }
 
-.workout-generator-apple .workout-action-btn {
+.workout-generator-view .workout-action-btn {
   height: 2.5rem;
   padding: 0 1.5rem;
   border-radius: 9999px;
@@ -2503,47 +2501,47 @@
   text-align: center;
 }
 
-.workout-generator-apple .workout-action-btn span.btn-text-full {
+.workout-generator-view .workout-action-btn span.btn-text-full {
   display: inline;
 }
 
-.workout-generator-apple .workout-action-btn span.btn-text-short {
+.workout-generator-view .workout-action-btn span.btn-text-short {
   display: none;
 }
 
-.workout-generator-apple .workout-action-btn.primary {
+.workout-generator-view .workout-action-btn.primary {
   background: #030213;
   color: #ffffff;
 }
 
-.workout-generator-apple .workout-action-btn.primary:hover:not(:disabled) {
+.workout-generator-view .workout-action-btn.primary:hover:not(:disabled) {
   background: #000000;
   transform: translateY(-1px);
 }
 
-.workout-generator-apple .workout-action-btn.secondary {
+.workout-generator-view .workout-action-btn.secondary {
   background: #ffffff;
   color: #030213;
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.workout-generator-apple .workout-action-btn.secondary:hover:not(:disabled) {
+.workout-generator-view .workout-action-btn.secondary:hover:not(:disabled) {
   background: rgba(0, 0, 0, 0.02);
   border-color: rgba(0, 0, 0, 0.2);
 }
 
-.workout-generator-apple .workout-action-btn.danger {
+.workout-generator-view .workout-action-btn.danger {
   background: #ffffff;
   color: #ef4444;
   border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
-.workout-generator-apple .workout-action-btn.danger:hover:not(:disabled) {
+.workout-generator-view .workout-action-btn.danger:hover:not(:disabled) {
   background: rgba(239, 68, 68, 0.05);
   border-color: rgba(239, 68, 68, 0.3);
 }
 
-.workout-generator-apple .regenerate-btn {
+.workout-generator-view .regenerate-btn {
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
@@ -2556,19 +2554,19 @@
   cursor: pointer;
 }
 
-.workout-generator-apple .regenerate-btn:hover {
+.workout-generator-view .regenerate-btn:hover {
   background: rgba(0, 0, 0, 0.08);
   transform: scale(1.05);
 }
 
 /* Exercise List */
-.workout-generator-apple .exercise-list {
+.workout-generator-view .exercise-list {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
 
-.workout-generator-apple .exercise-list-item {
+.workout-generator-view .exercise-list-item {
   background: rgba(0, 0, 0, 0.02);
   border-radius: 1rem;
   padding: 1.25rem 1.5rem;
@@ -2576,19 +2574,19 @@
   transition: all 0.2s ease;
 }
 
-.workout-generator-apple .exercise-list-item:hover {
+.workout-generator-view .exercise-list-item:hover {
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
-.workout-generator-apple .exercise-item-content {
+.workout-generator-view .exercise-item-content {
   display: flex;
   align-items: center;
   gap: 1rem;
   width: 100%;
 }
 
-.workout-generator-apple .exercise-number-circle {
+.workout-generator-view .exercise-number-circle {
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
@@ -2599,14 +2597,14 @@
   flex-shrink: 0;
 }
 
-.workout-generator-apple .exercise-number-circle span {
+.workout-generator-view .exercise-number-circle span {
   font-size: 0.875rem;
   font-weight: 600;
   color: #030213;
   opacity: 0.7;
 }
 
-.workout-generator-apple .exercise-name {
+.workout-generator-view .exercise-name {
   font-size: 1rem;
   font-weight: 500;
   color: #030213;
@@ -2614,17 +2612,17 @@
   margin: 0;
 }
 
-.workout-generator-apple .exercise-stats {
+.workout-generator-view .exercise-stats {
   display: flex;
   gap: 1.5rem;
   flex-shrink: 0;
 }
 
-.workout-generator-apple .exercise-stat-item {
+.workout-generator-view .exercise-stat-item {
   text-align: left;
 }
 
-.workout-generator-apple .exercise-stat-value {
+.workout-generator-view .exercise-stat-value {
   font-size: 1.125rem;
   font-weight: 600;
   color: #030213;
@@ -2632,7 +2630,7 @@
   margin-bottom: 0.25rem;
 }
 
-.workout-generator-apple .exercise-stat-label {
+.workout-generator-view .exercise-stat-label {
   font-size: 0.6875rem;
   opacity: 0.5;
   text-transform: uppercase;
@@ -2642,21 +2640,21 @@
 
 /* Mobile Layout for Exercise Items */
 @media (max-width: 768px) {
-  .workout-generator-apple .exercise-item-content {
+  .workout-generator-view .exercise-item-content {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.75rem;
   }
 
-  .workout-generator-apple .exercise-list-item {
+  .workout-generator-view .exercise-list-item {
     padding: 1.5rem;
   }
 
-  .workout-generator-apple .exercise-name {
+  .workout-generator-view .exercise-name {
     width: 100%;
   }
 
-  .workout-generator-apple .exercise-stats {
+  .workout-generator-view .exercise-stats {
     width: 100%;
     margin-top: 0.25rem;
   }
@@ -2664,80 +2662,80 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .workout-generator-apple {
+  .workout-generator-view {
     padding-top: 1.5rem;
   }
 
-  .workout-generator-apple .generator-container {
+  .workout-generator-view .generator-container {
     padding: 0 1rem;
   }
 
-  .workout-generator-apple .page-title {
+  .workout-generator-view .page-title {
     font-size: 1.5rem;
   }
 
-  .workout-generator-apple .preferences-card,
-  .workout-generator-apple .profile-summary-card,
-  .workout-generator-apple .generated-workout-card {
+  .workout-generator-view .preferences-card,
+  .workout-generator-view .profile-summary-card,
+  .workout-generator-view .generated-workout-card {
     padding: 1.5rem;
   }
 
-  .workout-generator-apple .generated-workout-actions {
+  .workout-generator-view .generated-workout-actions {
     flex-direction: column;
   }
 
-  .workout-generator-apple .workout-action-btn {
+  .workout-generator-view .workout-action-btn {
     width: 100%;
   }
 
-  .workout-generator-apple .workout-action-btn span.btn-text-full {
+  .workout-generator-view .workout-action-btn span.btn-text-full {
     display: none !important;
   }
 
-  .workout-generator-apple .workout-action-btn span.btn-text-short {
+  .workout-generator-view .workout-action-btn span.btn-text-short {
     display: inline !important;
   }
 }
 
 @media (max-width: 480px) {
-  .workout-generator-apple .workout-action-btn {
+  .workout-generator-view .workout-action-btn {
     padding: 0 1rem;
   }
 
-  .workout-generator-apple .workout-action-btn span.btn-text-short {
+  .workout-generator-view .workout-action-btn span.btn-text-short {
     display: none !important;
   }
 }
 
 @media (min-width: 769px) {
-  .workout-generator-apple .workout-action-btn span.btn-text-full {
+  .workout-generator-view .workout-action-btn span.btn-text-full {
     display: inline !important;
   }
 
-  .workout-generator-apple .workout-action-btn span.btn-text-short {
+  .workout-generator-view .workout-action-btn span.btn-text-short {
     display: none !important;
   }
 }
 
-/* Apple-Inspired Progress Dashboard Redesign */
-.progress-dashboard-apple {
+/* modern progress dashboard redesign */
+.progress-dashboard-view {
   min-height: 100vh;
   background: #fbfbfd;
   padding-top: 2rem;
   padding-bottom: 5rem;
 }
 
-.progress-dashboard-apple .dashboard-container {
+.progress-dashboard-view .dashboard-container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
 
-.progress-dashboard-apple .page-header {
+.progress-dashboard-view .page-header {
   margin-bottom: 2rem;
 }
 
-.progress-dashboard-apple .page-title {
+.progress-dashboard-view .page-title {
   font-size: 2rem;
   font-weight: 500;
   letter-spacing: -0.02em;
@@ -2745,7 +2743,7 @@
   margin-bottom: 0.5rem;
 }
 
-.progress-dashboard-apple .page-subtitle {
+.progress-dashboard-view .page-subtitle {
   font-size: 0.9375rem;
   opacity: 0.5;
   color: #030213;
@@ -2753,14 +2751,14 @@
 }
 
 /* Stats Overview Cards */
-.progress-dashboard-apple .stats-overview {
+.progress-dashboard-view .stats-overview {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
   margin-bottom: 2rem;
 }
 
-.progress-dashboard-apple .stat-card {
+.progress-dashboard-view .stat-card {
   background: #ffffff;
   border-radius: 1.5rem;
   padding: 1.5rem;
@@ -2769,12 +2767,12 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.progress-dashboard-apple .stat-card:hover {
+.progress-dashboard-view .stat-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-.progress-dashboard-apple .stat-card-icon {
+.progress-dashboard-view .stat-card-icon {
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 0.75rem;
@@ -2785,26 +2783,26 @@
   flex-shrink: 0;
 }
 
-.progress-dashboard-apple .stat-card-icon.blue {
+.progress-dashboard-view .stat-card-icon.blue {
   background: rgba(59, 130, 246, 0.1);
   color: #3b82f6;
 }
 
-.progress-dashboard-apple .stat-card-icon.orange {
+.progress-dashboard-view .stat-card-icon.orange {
   background: rgba(249, 115, 22, 0.1);
   color: #f97316;
 }
 
-.progress-dashboard-apple .stat-card-icon.green {
+.progress-dashboard-view .stat-card-icon.green {
   background: rgba(34, 197, 94, 0.1);
   color: #22c55e;
 }
 
-.progress-dashboard-apple .stat-card-icon i {
+.progress-dashboard-view .stat-card-icon i {
   font-size: 1.25rem;
 }
 
-.progress-dashboard-apple .stat-card-value {
+.progress-dashboard-view .stat-card-value {
   font-size: 2rem;
   font-weight: 600;
   color: #030213;
@@ -2812,13 +2810,13 @@
   margin-bottom: 0.5rem;
 }
 
-.progress-dashboard-apple .stat-card-label {
+.progress-dashboard-view .stat-card-label {
   font-size: 0.9375rem;
   opacity: 0.5;
   color: #030213;
 }
 
-.progress-dashboard-apple .stat-card-period {
+.progress-dashboard-view .stat-card-period {
   font-size: 0.75rem;
   opacity: 0.4;
   color: #030213;
@@ -2826,7 +2824,7 @@
 }
 
 /* Navigation Tabs */
-.progress-dashboard-apple .nav-tabs-container {
+.progress-dashboard-view .nav-tabs-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -2835,7 +2833,7 @@
   gap: 1rem;
 }
 
-.progress-dashboard-apple .nav-tabs-apple {
+.progress-dashboard-view .nav-tabs-view {
   display: flex;
   gap: 0.5rem;
   background: #ffffff;
@@ -2845,7 +2843,7 @@
   border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.progress-dashboard-apple .nav-tab-apple {
+.progress-dashboard-view .nav-tab-view {
   padding: 0.75rem 1.5rem;
   border-radius: 0.75rem;
   font-size: 0.9375rem;
@@ -2861,23 +2859,23 @@
   opacity: 0.6;
 }
 
-.progress-dashboard-apple .nav-tab-apple:hover {
+.progress-dashboard-view .nav-tab-view:hover {
   opacity: 0.8;
 }
 
-.progress-dashboard-apple .nav-tab-apple.active {
+.progress-dashboard-view .nav-tab-view.active {
   background: #030213;
   color: #ffffff;
   opacity: 1;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.progress-dashboard-apple .nav-tab-apple i {
+.progress-dashboard-view .nav-tab-view i {
   font-size: 1rem;
 }
 
 /* Date Filter */
-.progress-dashboard-apple .date-filter {
+.progress-dashboard-view .date-filter {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -2888,23 +2886,23 @@
   transition: opacity 0.2s ease;
 }
 
-.progress-dashboard-apple .date-filter:hover {
+.progress-dashboard-view .date-filter:hover {
   opacity: 0.7;
 }
 
-.progress-dashboard-apple .date-filter i {
+.progress-dashboard-view .date-filter i {
   font-size: 1rem;
 }
 
 /* Chart Cards */
-.progress-dashboard-apple .charts-grid {
+.progress-dashboard-view .charts-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
   margin-bottom: 3rem;
 }
 
-.progress-dashboard-apple .chart-card {
+.progress-dashboard-view .chart-card {
   background: #ffffff;
   border-radius: 1.5rem;
   padding: 1.5rem;
@@ -2913,12 +2911,12 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.progress-dashboard-apple .chart-card:hover {
+.progress-dashboard-view .chart-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-.progress-dashboard-apple .chart-title {
+.progress-dashboard-view .chart-title {
   font-size: 0.9375rem;
   font-weight: 500;
   letter-spacing: -0.01em;
@@ -2927,13 +2925,13 @@
   margin-bottom: 1.5rem;
 }
 
-.progress-dashboard-apple .chart-container-apple {
+.progress-dashboard-view .chart-container-view {
   position: relative;
   height: 220px;
 }
 
 /* Section Header */
-.progress-dashboard-apple .section-header {
+.progress-dashboard-view .section-header {
   margin-bottom: 1.5rem;
   margin-top: 3rem;
   font-size: 1.1875rem;
@@ -2943,24 +2941,24 @@
   color: #030213;
 }
 
-.progress-dashboard-apple .section-header:first-of-type {
+.progress-dashboard-view .section-header:first-of-type {
   margin-top: 0;
 }
 
 /* Empty State */
-.progress-dashboard-apple .empty-state {
+.progress-dashboard-view .empty-state {
   text-align: center;
   padding: 3rem 1.5rem;
 }
 
-.progress-dashboard-apple .empty-state i {
+.progress-dashboard-view .empty-state i {
   font-size: 3rem;
   opacity: 0.2;
   margin-bottom: 1rem;
   display: block;
 }
 
-.progress-dashboard-apple .empty-state p {
+.progress-dashboard-view .empty-state p {
   font-size: 0.9375rem;
   opacity: 0.5;
   color: #030213;
@@ -2968,14 +2966,14 @@
 }
 
 /* Loading State */
-.progress-dashboard-apple .loading-state {
+.progress-dashboard-view .loading-state {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 3rem 1.5rem;
 }
 
-.progress-dashboard-apple .loading-state .spinner-border {
+.progress-dashboard-view .loading-state .spinner-border {
   width: 2rem;
   height: 2rem;
   border-width: 3px;
@@ -2984,51 +2982,51 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .progress-dashboard-apple {
+  .progress-dashboard-view {
     padding-top: 1.5rem;
   }
 
-  .progress-dashboard-apple .dashboard-container {
+  .progress-dashboard-view .dashboard-container {
     padding: 0 1rem;
   }
 
-  .progress-dashboard-apple .page-title {
+  .progress-dashboard-view .page-title {
     font-size: 1.5rem;
   }
 
-  .progress-dashboard-apple .page-subtitle {
+  .progress-dashboard-view .page-subtitle {
     margin-left: 0;
     margin-top: 0.5rem;
   }
 
-  .progress-dashboard-apple .stats-overview {
+  .progress-dashboard-view .stats-overview {
     grid-template-columns: repeat(2, 1fr);
     gap: 0.75rem;
   }
 
-  .progress-dashboard-apple .stat-card {
+  .progress-dashboard-view .stat-card {
     padding: 1.25rem;
   }
 
-  .progress-dashboard-apple .stat-card-value {
+  .progress-dashboard-view .stat-card-value {
     font-size: 1.5rem;
   }
 
-  .progress-dashboard-apple .charts-grid {
+  .progress-dashboard-view .charts-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
 
-  .progress-dashboard-apple .nav-tabs-container {
+  .progress-dashboard-view .nav-tabs-container {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .progress-dashboard-apple .nav-tabs-apple {
+  .progress-dashboard-view .nav-tabs-view {
     width: 100%;
   }
 
-  .progress-dashboard-apple .nav-tab-apple {
+  .progress-dashboard-view .nav-tab-view {
     flex: 1;
     justify-content: center;
     padding: 0.625rem 1rem;
@@ -3037,31 +3035,31 @@
 }
 
 @media (max-width: 480px) {
-  .progress-dashboard-apple .stats-overview {
+  .progress-dashboard-view .stats-overview {
     grid-template-columns: 1fr;
   }
 }
 
-/* Apple-Inspired Running Routes Redesign */
-.running-routes-apple {
+/* modern running routes redesign */
+.running-routes-view {
   min-height: 100vh;
   background: #fbfbfd;
   padding-top: 2rem;
   padding-bottom: 5rem;
 }
 
-.running-routes-apple .routes-container {
+.running-routes-view .routes-container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
 
-.running-routes-apple .page-header {
+.running-routes-view .page-header {
   margin-bottom: 2rem;
   position: relative;
 }
 
-.running-routes-apple .page-header::before {
+.running-routes-view .page-header::before {
   content: '';
   position: absolute;
   top: -5rem;
@@ -3074,7 +3072,7 @@
   pointer-events: none;
 }
 
-.running-routes-apple .page-header::after {
+.running-routes-view .page-header::after {
   content: '';
   position: absolute;
   top: -2.5rem;
@@ -3087,7 +3085,7 @@
   pointer-events: none;
 }
 
-.running-routes-apple .page-title {
+.running-routes-view .page-title {
   font-size: 2rem;
   font-weight: 500;
   letter-spacing: -0.02em;
@@ -3097,7 +3095,7 @@
   z-index: 1;
 }
 
-.running-routes-apple .page-subtitle {
+.running-routes-view .page-subtitle {
   font-size: 0.9375rem;
   opacity: 0.5;
   color: #030213;
@@ -3106,7 +3104,7 @@
 }
 
 /* Route Preferences Card */
-.running-routes-apple .preferences-card {
+.running-routes-view .preferences-card {
   background: #ffffff;
   border-radius: 1.5rem;
   padding: 2rem;
@@ -3116,12 +3114,12 @@
   margin-bottom: 2rem;
 }
 
-.running-routes-apple .preferences-card:hover {
+.running-routes-view .preferences-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-.running-routes-apple .preferences-title {
+.running-routes-view .preferences-title {
   font-size: 1.375rem;
   font-weight: 500;
   letter-spacing: -0.02em;
@@ -3129,27 +3127,27 @@
   color: #030213;
 }
 
-.running-routes-apple .preferences-grid {
+.running-routes-view .preferences-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1.5rem;
   margin-bottom: 1.5rem;
 }
 
-.running-routes-apple .preference-group {
+.running-routes-view .preference-group {
   display: flex;
   flex-direction: column;
 }
 
-.running-routes-apple .preference-label {
+.running-routes-view .preference-label {
   font-size: 0.8125rem;
   opacity: 0.6;
   margin-bottom: 0.75rem;
   color: #030213;
 }
 
-.running-routes-apple .preference-input,
-.running-routes-apple .preference-select {
+.running-routes-view .preference-input,
+.running-routes-view .preference-select {
   width: 100%;
   padding: 0.75rem 1rem;
   padding-right: 2.5rem;
@@ -3168,25 +3166,25 @@
   background-position: right 1rem center;
 }
 
-.running-routes-apple .preference-select::-ms-expand {
+.running-routes-view .preference-select::-ms-expand {
   display: none;
 }
 
-.running-routes-apple .preference-input:focus,
-.running-routes-apple .preference-select:focus {
+.running-routes-view .preference-input:focus,
+.running-routes-view .preference-select:focus {
   outline: none;
   background: #e8e8ea;
   box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
 }
 
-.running-routes-apple .preference-helper {
+.running-routes-view .preference-helper {
   font-size: 0.6875rem;
   opacity: 0.4;
   margin-top: 0.5rem;
   color: #030213;
 }
 
-.running-routes-apple .search-button {
+.running-routes-view .search-button {
   width: 100%;
   height: 3rem;
   border-radius: 9999px;
@@ -3204,24 +3202,24 @@
   cursor: pointer;
 }
 
-.running-routes-apple .search-button:hover:not(:disabled) {
+.running-routes-view .search-button:hover:not(:disabled) {
   background: #000000;
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.running-routes-apple .search-button:disabled {
+.running-routes-view .search-button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   transform: none;
 }
 
 /* Route Results Section */
-.running-routes-apple .results-header {
+.running-routes-view .results-header {
   margin-bottom: 1.5rem;
 }
 
-.running-routes-apple .results-title {
+.running-routes-view .results-title {
   font-size: 1.375rem;
   font-weight: 500;
   letter-spacing: -0.02em;
@@ -3229,13 +3227,13 @@
   margin-bottom: 0.5rem;
 }
 
-.running-routes-apple .results-subtitle {
+.running-routes-view .results-subtitle {
   font-size: 0.8125rem;
   opacity: 0.5;
   color: #030213;
 }
 
-.running-routes-apple .routes-grid {
+.running-routes-view .routes-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.5rem;
@@ -3243,7 +3241,7 @@
 }
 
 /* Route Card */
-.running-routes-apple .route-card {
+.running-routes-view .route-card {
   background: #ffffff;
   border-radius: 1.5rem;
   overflow: hidden;
@@ -3254,12 +3252,12 @@
   max-width: 100%; /* Prevent overflow */
 }
 
-.running-routes-apple .route-card:hover {
+.running-routes-view .route-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-.running-routes-apple .route-map-preview {
+.running-routes-view .route-map-preview {
   position: relative;
   width: 100%;
   aspect-ratio: 16/9;
@@ -3269,7 +3267,7 @@
   transition: opacity 0.3s ease;
 }
 
-.running-routes-apple .route-map-preview .map-placeholder {
+.running-routes-view .route-map-preview .map-placeholder {
   width: 100%;
   height: 100%;
   display: flex;
@@ -3280,20 +3278,20 @@
   transition: opacity 0.3s ease;
 }
 
-.running-routes-apple .route-map-preview .map-placeholder i {
+.running-routes-view .route-map-preview .map-placeholder i {
   font-size: 3rem;
   opacity: 0.2;
   color: #030213;
 }
 
-.running-routes-apple .route-map-preview .map-placeholder p {
+.running-routes-view .route-map-preview .map-placeholder p {
   font-size: 0.8125rem;
   opacity: 0.5;
   color: #030213;
   margin: 0;
 }
 
-.running-routes-apple .route-map-preview .map-container {
+.running-routes-view .route-map-preview .map-container {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -3305,7 +3303,7 @@
   transition: opacity 0.3s ease;
 }
 
-.running-routes-apple .route-elevation-badge {
+.running-routes-view .route-elevation-badge {
   position: absolute;
   bottom: 1rem;
   left: 1rem;
@@ -3320,22 +3318,22 @@
   z-index: 10;
 }
 
-.running-routes-apple .route-elevation-badge i {
+.running-routes-view .route-elevation-badge i {
   font-size: 0.875rem;
   color: #f97316;
 }
 
-.running-routes-apple .route-elevation-badge span {
+.running-routes-view .route-elevation-badge span {
   font-size: 0.75rem;
   font-weight: 500;
   color: #f97316;
 }
 
-.running-routes-apple .route-content {
+.running-routes-view .route-content {
   padding: 1.5rem;
 }
 
-.running-routes-apple .route-name {
+.running-routes-view .route-name {
   font-size: 1.1875rem;
   font-weight: 500;
   letter-spacing: -0.01em;
@@ -3343,14 +3341,14 @@
   margin-bottom: 1rem;
 }
 
-.running-routes-apple .route-badges {
+.running-routes-view .route-badges {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
   margin-bottom: 1rem;
 }
 
-.running-routes-apple .route-badge {
+.running-routes-view .route-badge {
   padding: 0.375rem 0.75rem;
   border-radius: 9999px;
   font-size: 0.8125rem;
@@ -3358,25 +3356,25 @@
   border: 1px solid;
 }
 
-.running-routes-apple .route-badge.distance {
+.running-routes-view .route-badge.distance {
   background: rgba(59, 130, 246, 0.1);
   color: #3b82f6;
   border-color: rgba(59, 130, 246, 0.2);
 }
 
-.running-routes-apple .route-badge.type.loop {
+.running-routes-view .route-badge.type.loop {
   background: rgba(34, 197, 94, 0.1);
   color: #22c55e;
   border-color: rgba(34, 197, 94, 0.2);
 }
 
-.running-routes-apple .route-badge.type.point-to-point {
+.running-routes-view .route-badge.type.point-to-point {
   background: rgba(168, 85, 247, 0.1);
   color: #a855f7;
   border-color: rgba(168, 85, 247, 0.2);
 }
 
-.running-routes-apple .route-badge.elevation {
+.running-routes-view .route-badge.elevation {
   background: rgba(249, 115, 22, 0.1);
   color: #f97316;
   border-color: rgba(249, 115, 22, 0.2);
@@ -3385,11 +3383,11 @@
   gap: 0.375rem;
 }
 
-.running-routes-apple .route-badge.elevation i {
+.running-routes-view .route-badge.elevation i {
   font-size: 0.875rem;
 }
 
-.running-routes-apple .route-meta {
+.running-routes-view .route-meta {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -3399,22 +3397,22 @@
   color: #030213;
 }
 
-.running-routes-apple .route-meta-item {
+.running-routes-view .route-meta-item {
   display: flex;
   align-items: center;
   gap: 0.375rem;
 }
 
-.running-routes-apple .route-meta-item i {
+.running-routes-view .route-meta-item i {
   font-size: 0.875rem;
 }
 
-.running-routes-apple .route-actions {
+.running-routes-view .route-actions {
   display: flex;
   gap: 0.75rem;
 }
 
-.running-routes-apple .route-action-btn {
+.running-routes-view .route-action-btn {
   flex: 1;
   height: 2.75rem;
   padding: 0 1.5rem;
@@ -3430,53 +3428,53 @@
   cursor: pointer;
 }
 
-.running-routes-apple .route-action-btn.outline {
+.running-routes-view .route-action-btn.outline {
   background: #ffffff;
   color: #030213;
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.running-routes-apple .route-action-btn.outline:hover:not(:disabled) {
+.running-routes-view .route-action-btn.outline:hover:not(:disabled) {
   background: rgba(0, 0, 0, 0.02);
   border-color: rgba(0, 0, 0, 0.2);
 }
 
-.running-routes-apple .route-action-btn.primary {
+.running-routes-view .route-action-btn.primary {
   background: #030213;
   color: #ffffff;
 }
 
-.running-routes-apple .route-action-btn.primary:hover:not(:disabled) {
+.running-routes-view .route-action-btn.primary:hover:not(:disabled) {
   background: #000000;
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.running-routes-apple .route-action-btn i {
+.running-routes-view .route-action-btn i {
   font-size: 1rem;
 }
 
 /* Empty States */
-.running-routes-apple .empty-state {
+.running-routes-view .empty-state {
   text-align: center;
   padding: 4rem 1.5rem;
 }
 
-.running-routes-apple .empty-state i {
+.running-routes-view .empty-state i {
   font-size: 3rem;
   opacity: 0.2;
   margin-bottom: 1rem;
   display: block;
 }
 
-.running-routes-apple .empty-state h4 {
+.running-routes-view .empty-state h4 {
   font-size: 1.1875rem;
   font-weight: 500;
   color: #030213;
   margin-bottom: 0.5rem;
 }
 
-.running-routes-apple .empty-state p {
+.running-routes-view .empty-state p {
   font-size: 0.9375rem;
   opacity: 0.5;
   color: #030213;
@@ -3484,7 +3482,7 @@
 }
 
 /* Loading State */
-.running-routes-apple .loading-state {
+.running-routes-view .loading-state {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -3492,14 +3490,14 @@
   padding: 4rem 1.5rem;
 }
 
-.running-routes-apple .loading-state .spinner-border {
+.running-routes-view .loading-state .spinner-border {
   width: 2rem;
   height: 2rem;
   border-width: 3px;
   color: rgba(0, 0, 0, 0.3);
 }
 
-.running-routes-apple .loading-state p {
+.running-routes-view .loading-state p {
   font-size: 0.9375rem;
   opacity: 0.5;
   color: #030213;
@@ -3508,7 +3506,7 @@
 }
 
 /* Error State */
-.running-routes-apple .error-state {
+.running-routes-view .error-state {
   background: rgba(239, 68, 68, 0.05);
   border: 1px solid rgba(239, 68, 68, 0.2);
   border-radius: 0.75rem;
@@ -3520,46 +3518,46 @@
   font-size: 0.9375rem;
 }
 
-.running-routes-apple .error-state i {
+.running-routes-view .error-state i {
   font-size: 1.25rem;
   flex-shrink: 0;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .running-routes-apple {
+  .running-routes-view {
     padding-top: 1.5rem;
   }
 
-  .running-routes-apple .routes-container {
+  .running-routes-view .routes-container {
     padding: 0 1rem;
   }
 
-  .running-routes-apple .page-title {
+  .running-routes-view .page-title {
     font-size: 1.5rem;
   }
 
-  .running-routes-apple .preferences-card {
+  .running-routes-view .preferences-card {
     padding: 1.5rem;
   }
 
-  .running-routes-apple .preferences-grid {
+  .running-routes-view .preferences-grid {
     grid-template-columns: 1fr;
   }
 
-  .running-routes-apple .routes-grid {
+  .running-routes-view .routes-grid {
     grid-template-columns: 1fr;
   }
 
-  .running-routes-apple .route-content {
+  .running-routes-view .route-content {
     padding: 1.25rem;
   }
 
-  .running-routes-apple .route-actions {
+  .running-routes-view .route-actions {
     flex-direction: column;
   }
 
-  .running-routes-apple .route-action-btn {
+  .running-routes-view .route-action-btn {
     width: 100%;
   }
 }
@@ -4023,6 +4021,8 @@
   right: 20px;
   left: 20px;
   z-index: 1050;
+  display: flex;
+  justify-content: center;
 }
 
 .notification {
@@ -4034,7 +4034,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   animation: slideIn 0.3s ease-out;
   max-width: 400px;
-  margin: 0 auto;
+  width: 100%;
   word-wrap: break-word;
   overflow-wrap: break-word;
 }
@@ -4043,10 +4043,11 @@
   .notification-container {
     left: auto;
     right: 20px;
+    justify-content: flex-end;
   }
   
   .notification {
-    margin: 0;
+    width: auto;
   }
 }
 
@@ -4178,91 +4179,34 @@
   }
 }
 
-/* Toast notifications for UserProfile */
-.notification-container {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  left: 20px;
-  z-index: 1050;
-}
-
-.notification {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 1rem 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  animation: slideIn 0.3s ease-out;
-  max-width: 400px;
-  margin: 0 auto;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-}
-
-@media (min-width: 576px) {
-  .notification-container {
-    left: auto;
-    right: 20px;
-  }
-  
-  .notification {
-    margin: 0;
-  }
-}
-
-.notification-success {
-  background: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
-}
-
 .notification-success i {
   color: #28a745;
-}
-
-.notification-error {
-  background: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
 }
 
 .notification-error i {
   color: #dc3545;
 }
 
-@keyframes slideIn {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
 
-
-/* Apple-Inspired Exercise Library Redesign */
-.exercise-library-apple {
+/* modern exercise library redesign */
+.exercise-library-view {
   min-height: 100vh;
   background: #fbfbfd;
   padding-top: 2rem;
   padding-bottom: 5rem;
 }
 
-.exercise-library-apple .library-container {
+.exercise-library-view .library-container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
 
-.exercise-library-apple .page-header {
+.exercise-library-view .page-header {
   margin-bottom: 3rem;
 }
 
-.exercise-library-apple .page-title {
+.exercise-library-view .page-title {
   font-size: 2rem;
   font-weight: 500;
   letter-spacing: -0.02em;
@@ -4270,14 +4214,14 @@
   margin-bottom: 0.5rem;
 }
 
-.exercise-library-apple .page-subtitle {
+.exercise-library-view .page-subtitle {
   font-size: 0.9375rem;
   opacity: 0.5;
   color: #030213;
 }
 
 /* Filters Card */
-.exercise-library-apple .filters-card {
+.exercise-library-view .filters-card {
   background: #ffffff;
   border-radius: 1.5rem;
   padding: 2rem;
@@ -4287,23 +4231,23 @@
   margin-bottom: 2rem;
 }
 
-.exercise-library-apple .filters-card:hover {
+.exercise-library-view .filters-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 /* Search Container */
-.exercise-library-apple .search-container {
+.exercise-library-view .search-container {
   margin-bottom: 1.5rem;
 }
 
-.exercise-library-apple .search-input-wrapper {
+.exercise-library-view .search-input-wrapper {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-.exercise-library-apple .search-icon {
+.exercise-library-view .search-icon {
   position: absolute;
   left: 1rem;
   font-size: 1rem;
@@ -4313,7 +4257,7 @@
   z-index: 1;
 }
 
-.exercise-library-apple .search-input {
+.exercise-library-view .search-input {
   width: 100%;
   height: 3rem;
   padding: 0 1rem 0 2.75rem;
@@ -4326,29 +4270,29 @@
   outline: none;
 }
 
-.exercise-library-apple .search-input:focus {
+.exercise-library-view .search-input:focus {
   background: rgba(0, 0, 0, 0.07);
   box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
 }
 
-.exercise-library-apple .search-input::placeholder {
+.exercise-library-view .search-input::placeholder {
   opacity: 0.4;
   color: #030213;
 }
 
 /* Filters Grid */
-.exercise-library-apple .filters-grid {
+.exercise-library-view .filters-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1.5rem;
 }
 
-.exercise-library-apple .filter-group {
+.exercise-library-view .filter-group {
   display: flex;
   flex-direction: column;
 }
 
-.exercise-library-apple .filter-label {
+.exercise-library-view .filter-label {
   font-size: 0.6875rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -4358,7 +4302,7 @@
   font-weight: 500;
 }
 
-.exercise-library-apple .filter-select {
+.exercise-library-view .filter-select {
   width: 100%;
   height: 2.75rem;
   padding: 0 1rem;
@@ -4379,22 +4323,22 @@
 }
 
 /* Remove default browser dropdown triangles */
-.exercise-library-apple .filter-select::-ms-expand {
+.exercise-library-view .filter-select::-ms-expand {
   display: none;
 }
 
-.exercise-library-apple .filter-select:focus {
+.exercise-library-view .filter-select:focus {
   outline: none;
   border-color: rgba(0, 0, 0, 0.2);
   box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
 }
 
 /* Results Count */
-.exercise-library-apple .results-count {
+.exercise-library-view .results-count {
   margin-bottom: 1rem;
 }
 
-.exercise-library-apple .results-count p {
+.exercise-library-view .results-count p {
   font-size: 0.8125rem;
   opacity: 0.5;
   color: #030213;
@@ -4402,19 +4346,19 @@
 }
 
 /* Exercises Grid */
-.exercise-library-apple .exercises-grid {
+.exercise-library-view .exercises-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 1.5rem;
 }
 
 /* Empty State */
-.exercise-library-apple .empty-state {
+.exercise-library-view .empty-state {
   text-align: center;
   padding: 4rem 1.5rem;
 }
 
-.exercise-library-apple .empty-state p {
+.exercise-library-view .empty-state p {
   font-size: 0.9375rem;
   opacity: 0.5;
   color: #030213;
@@ -4422,7 +4366,7 @@
 }
 
 /* Loading State */
-.exercise-library-apple .loading-state {
+.exercise-library-view .loading-state {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -4430,14 +4374,14 @@
   padding: 4rem 1.5rem;
 }
 
-.exercise-library-apple .loading-state .spinner-border {
+.exercise-library-view .loading-state .spinner-border {
   width: 2rem;
   height: 2rem;
   border-width: 3px;
   color: rgba(0, 0, 0, 0.3);
 }
 
-.exercise-library-apple .loading-state p {
+.exercise-library-view .loading-state p {
   font-size: 0.9375rem;
   opacity: 0.5;
   color: #030213;
@@ -4447,79 +4391,79 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .exercise-library-apple {
+  .exercise-library-view {
     padding-top: 1.5rem;
   }
 
-  .exercise-library-apple .library-container {
+  .exercise-library-view .library-container {
     padding: 0 1rem;
   }
 
-  .exercise-library-apple .page-title {
+  .exercise-library-view .page-title {
     font-size: 1.5rem;
   }
 
-  .exercise-library-apple .filters-card {
+  .exercise-library-view .filters-card {
     padding: 1.5rem;
   }
 
-  .exercise-library-apple .filters-grid {
+  .exercise-library-view .filters-grid {
     grid-template-columns: 1fr;
   }
 
-  .exercise-library-apple .exercises-grid {
+  .exercise-library-view .exercises-grid {
     grid-template-columns: 1fr;
   }
 }
 
 /* ============================================
-   DARK MODE STYLES FOR ALL APPLE PAGES
+   dark mode styles for all views
    ============================================ */
 
-/* Workout Generator Apple - Dark Mode */
-.dark .workout-generator-apple {
+/* workout generator - dark mode */
+.dark .workout-generator-view {
   background: #000000;
 }
 
-.dark .workout-generator-apple .page-title,
-.dark .workout-generator-apple .page-subtitle,
-.dark .workout-generator-apple .preferences-title,
-.dark .workout-generator-apple .apple-label,
-.dark .workout-generator-apple .profile-summary-title,
-.dark .workout-generator-apple .generated-workout-title,
-.dark .workout-generator-apple .generated-workout-summary,
-.dark .workout-generator-apple .exercise-name,
-.dark .workout-generator-apple .profile-stat-value,
-.dark .workout-generator-apple .profile-stat-label {
+.dark .workout-generator-view .page-title,
+.dark .workout-generator-view .page-subtitle,
+.dark .workout-generator-view .preferences-title,
+.dark .workout-generator-view .app-label,
+.dark .workout-generator-view .profile-summary-title,
+.dark .workout-generator-view .generated-workout-title,
+.dark .workout-generator-view .generated-workout-summary,
+.dark .workout-generator-view .exercise-name,
+.dark .workout-generator-view .profile-stat-value,
+.dark .workout-generator-view .profile-stat-label {
   color: #ffffff;
 }
 
-.dark .workout-generator-apple .page-subtitle,
-.dark .workout-generator-apple .generated-workout-summary,
-.dark .workout-generator-apple .profile-stat-label {
+.dark .workout-generator-view .page-subtitle,
+.dark .workout-generator-view .generated-workout-summary,
+.dark .workout-generator-view .profile-stat-label {
   color: rgba(255, 255, 255, 0.75);
 }
 
-.dark .workout-generator-apple .profile-stat-value {
+.dark .workout-generator-view .profile-stat-value {
   color: rgba(255, 255, 255, 0.95);
 }
 
-.dark .workout-generator-apple .preferences-card,
-.dark .workout-generator-apple .profile-summary-card,
-.dark .workout-generator-apple .generated-workout-card {
+.dark .workout-generator-view .preferences-card,
+.dark .workout-generator-view .profile-summary-card,
+.dark .workout-generator-view .generated-workout-card {
   background: #1a1a1a;
   border-color: rgba(255, 255, 255, 0.1);
 }
 
-.dark .workout-generator-apple .apple-input,
-html.dark .workout-generator-apple .apple-input {
+.dark .workout-generator-view .app-input,
+html.dark .workout-generator-view .app-input {
   background: rgba(255, 255, 255, 0.05) !important;
   border-color: rgba(255, 255, 255, 0.1) !important;
   color: #ffffff !important;
 }
 
-.dark .workout-generator-apple .apple-select,
-html.dark .workout-generator-apple .apple-select {
+.dark .workout-generator-view .app-select,
+html.dark .workout-generator-view .app-select {
   background: rgba(255, 255, 255, 0.05) !important;
   border-color: rgba(255, 255, 255, 0.1) !important;
   color: #ffffff !important;
@@ -4532,134 +4476,134 @@ html.dark .workout-generator-apple .apple-select {
   -moz-appearance: none !important;
 }
 
-.dark .workout-generator-apple .apple-select::-ms-expand,
-html.dark .workout-generator-apple .apple-select::-ms-expand {
+.dark .workout-generator-view .app-select::-ms-expand,
+html.dark .workout-generator-view .app-select::-ms-expand {
   display: none !important;
 }
 
-.dark .workout-generator-apple .apple-select option,
-html.dark .workout-generator-apple .apple-select option {
+.dark .workout-generator-view .app-select option,
+html.dark .workout-generator-view .app-select option {
   background: #1a1a1a !important;
   color: #ffffff !important;
 }
 
-.dark .workout-generator-apple .apple-input:focus,
-.dark .workout-generator-apple .apple-select:focus,
-html.dark .workout-generator-apple .apple-input:focus,
-html.dark .workout-generator-apple .apple-select:focus {
+.dark .workout-generator-view .app-input:focus,
+.dark .workout-generator-view .app-select:focus,
+html.dark .workout-generator-view .app-input:focus,
+html.dark .workout-generator-view .app-select:focus {
   background: rgba(255, 255, 255, 0.08) !important;
   border-color: rgba(255, 255, 255, 0.2) !important;
 }
 
-.dark .workout-generator-apple .muscle-badge {
+.dark .workout-generator-view .muscle-badge {
   border-color: rgba(255, 255, 255, 0.2);
   color: rgba(255, 255, 255, 0.8);
 }
 
-.dark .workout-generator-apple .muscle-badge:hover {
+.dark .workout-generator-view .muscle-badge:hover {
   border-color: rgba(255, 255, 255, 0.4);
   background: rgba(255, 255, 255, 0.05);
 }
 
-.dark .workout-generator-apple .muscle-badge.selected {
+.dark .workout-generator-view .muscle-badge.selected {
   background: #ffffff;
   color: #000000;
   border-color: #ffffff;
 }
 
-.dark .workout-generator-apple .generate-button,
-.dark .workout-generator-apple .workout-action-btn.primary {
+.dark .workout-generator-view .generate-button,
+.dark .workout-generator-view .workout-action-btn.primary {
   background: #ffffff;
   color: #000000;
 }
 
-.dark .workout-generator-apple .generate-button:hover:not(:disabled),
-.dark .workout-generator-apple .workout-action-btn.primary:hover:not(:disabled) {
+.dark .workout-generator-view .generate-button:hover:not(:disabled),
+.dark .workout-generator-view .workout-action-btn.primary:hover:not(:disabled) {
   background: rgba(255, 255, 255, 0.9);
 }
 
-.dark .workout-generator-apple .workout-action-btn.secondary {
+.dark .workout-generator-view .workout-action-btn.secondary {
   background: rgba(255, 255, 255, 0.05);
   border-color: rgba(255, 255, 255, 0.2);
   color: #ffffff;
 }
 
-.dark .workout-generator-apple .workout-action-btn.secondary:hover:not(:disabled) {
+.dark .workout-generator-view .workout-action-btn.secondary:hover:not(:disabled) {
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.3);
 }
 
-.dark .workout-generator-apple .exercise-list-item {
+.dark .workout-generator-view .exercise-list-item {
   background: rgba(255, 255, 255, 0.03);
   border-color: rgba(255, 255, 255, 0.1);
 }
 
-.dark .workout-generator-apple .exercise-number-circle {
+.dark .workout-generator-view .exercise-number-circle {
   background: rgba(255, 255, 255, 0.1);
 }
 
-.dark .workout-generator-apple .exercise-number-circle span,
-.dark .workout-generator-apple .exercise-stat-value {
+.dark .workout-generator-view .exercise-number-circle span,
+.dark .workout-generator-view .exercise-stat-value {
   color: #ffffff;
 }
 
-.dark .workout-generator-apple .exercise-stat-label {
+.dark .workout-generator-view .exercise-stat-label {
   color: rgba(255, 255, 255, 0.5);
 }
 
-/* Exercise Library Apple - Dark Mode */
-.dark .exercise-library-apple,
-html.dark .exercise-library-apple {
+/* exercise library - dark mode */
+.dark .exercise-library-view,
+html.dark .exercise-library-view {
   background: #000000;
 }
 
-.dark .exercise-library-apple .page-title,
-.dark .exercise-library-apple .page-subtitle,
-html.dark .exercise-library-apple .page-title,
-html.dark .exercise-library-apple .page-subtitle {
+.dark .exercise-library-view .page-title,
+.dark .exercise-library-view .page-subtitle,
+html.dark .exercise-library-view .page-title,
+html.dark .exercise-library-view .page-subtitle {
   color: #ffffff;
 }
 
-.dark .exercise-library-apple .page-subtitle,
-html.dark .exercise-library-apple .page-subtitle {
+.dark .exercise-library-view .page-subtitle,
+html.dark .exercise-library-view .page-subtitle {
   color: rgba(255, 255, 255, 0.75);
 }
 
-.dark .exercise-library-apple .filters-card,
-html.dark .exercise-library-apple .filters-card {
+.dark .exercise-library-view .filters-card,
+html.dark .exercise-library-view .filters-card {
   background: #1a1a1a !important;
   border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-.dark .exercise-library-apple .search-input,
-html.dark .exercise-library-apple .search-input {
+.dark .exercise-library-view .search-input,
+html.dark .exercise-library-view .search-input {
   background: rgba(255, 255, 255, 0.05) !important;
   color: #ffffff !important;
 }
 
-.dark .exercise-library-apple .search-input:focus,
-html.dark .exercise-library-apple .search-input:focus {
+.dark .exercise-library-view .search-input:focus,
+html.dark .exercise-library-view .search-input:focus {
   background: rgba(255, 255, 255, 0.08) !important;
   box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1) !important;
 }
 
-.dark .exercise-library-apple .search-input::placeholder,
-html.dark .exercise-library-apple .search-input::placeholder {
+.dark .exercise-library-view .search-input::placeholder,
+html.dark .exercise-library-view .search-input::placeholder {
   color: rgba(255, 255, 255, 0.5) !important;
 }
 
-.dark .exercise-library-apple .search-icon,
-html.dark .exercise-library-apple .search-icon {
+.dark .exercise-library-view .search-icon,
+html.dark .exercise-library-view .search-icon {
   color: rgba(255, 255, 255, 0.6) !important;
 }
 
-.dark .exercise-library-apple .filter-label,
-html.dark .exercise-library-apple .filter-label {
+.dark .exercise-library-view .filter-label,
+html.dark .exercise-library-view .filter-label {
   color: rgba(255, 255, 255, 0.7) !important;
 }
 
-.dark .exercise-library-apple .filter-select,
-html.dark .exercise-library-apple .filter-select {
+.dark .exercise-library-view .filter-select,
+html.dark .exercise-library-view .filter-select {
   background: rgba(255, 255, 255, 0.05) !important;
   border-color: rgba(255, 255, 255, 0.2) !important;
   color: #ffffff !important;
@@ -4674,48 +4618,48 @@ html.dark .exercise-library-apple .filter-select {
 }
 
 /* Remove default browser dropdown styling that causes triangles */
-.dark .exercise-library-apple .filter-select::-ms-expand,
-html.dark .exercise-library-apple .filter-select::-ms-expand {
+.dark .exercise-library-view .filter-select::-ms-expand,
+html.dark .exercise-library-view .filter-select::-ms-expand {
   display: none !important;
 }
 
-.dark .exercise-library-apple .filter-select option,
-html.dark .exercise-library-apple .filter-select option {
+.dark .exercise-library-view .filter-select option,
+html.dark .exercise-library-view .filter-select option {
   background: #1a1a1a !important;
   color: #ffffff !important;
 }
 
-.dark .exercise-library-apple .filter-select:focus,
-html.dark .exercise-library-apple .filter-select:focus {
+.dark .exercise-library-view .filter-select:focus,
+html.dark .exercise-library-view .filter-select:focus {
   background: rgba(255, 255, 255, 0.08) !important;
   border-color: rgba(255, 255, 255, 0.3) !important;
   box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1) !important;
 }
 
-.dark .exercise-library-apple .results-count p,
-html.dark .exercise-library-apple .results-count p {
+.dark .exercise-library-view .results-count p,
+html.dark .exercise-library-view .results-count p {
   color: rgba(255, 255, 255, 0.75) !important;
 }
 
-.dark .exercise-library-apple .empty-state p,
-.dark .exercise-library-apple .loading-state p,
-html.dark .exercise-library-apple .empty-state p,
-html.dark .exercise-library-apple .loading-state p {
+.dark .exercise-library-view .empty-state p,
+.dark .exercise-library-view .loading-state p,
+html.dark .exercise-library-view .empty-state p,
+html.dark .exercise-library-view .loading-state p {
   color: rgba(255, 255, 255, 0.75) !important;
 }
 
-.dark .exercise-library-apple .loading-state .spinner-border,
-html.dark .exercise-library-apple .loading-state .spinner-border {
+.dark .exercise-library-view .loading-state .spinner-border,
+html.dark .exercise-library-view .loading-state .spinner-border {
   color: rgba(255, 255, 255, 0.4) !important;
   border-color: rgba(255, 255, 255, 0.2) !important;
 }
 
-.dark .exercise-library-apple .pagination-wrapper,
-html.dark .exercise-library-apple .pagination-wrapper {
+.dark .exercise-library-view .pagination-wrapper,
+html.dark .exercise-library-view .pagination-wrapper {
   background: transparent;
 }
 
-/* Notification Dark Mode - Opaque Apple Style */
+/* notification dark mode */
 .dark .notification-success,
 html.dark .notification-success {
   background: #1a1a1a !important;
@@ -4747,119 +4691,119 @@ html.dark .notification {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
 }
 
-/* Progress Dashboard Apple - Dark Mode */
-.dark .progress-dashboard-apple {
+/* progress dashboard - dark mode */
+.dark .progress-dashboard-view {
   background: #000000;
 }
 
-.dark .progress-dashboard-apple .page-title,
-.dark .progress-dashboard-apple .page-subtitle,
-.dark .progress-dashboard-apple .stat-card-value,
-.dark .progress-dashboard-apple .stat-card-label,
-.dark .progress-dashboard-apple .section-header,
-.dark .progress-dashboard-apple .chart-title {
+.dark .progress-dashboard-view .page-title,
+.dark .progress-dashboard-view .page-subtitle,
+.dark .progress-dashboard-view .stat-card-value,
+.dark .progress-dashboard-view .stat-card-label,
+.dark .progress-dashboard-view .section-header,
+.dark .progress-dashboard-view .chart-title {
   color: #ffffff;
 }
 
-.dark .progress-dashboard-apple .page-subtitle,
-.dark .progress-dashboard-apple .stat-card-label,
-.dark .progress-dashboard-apple .stat-card-period,
-.dark .progress-dashboard-apple .section-header,
-.dark .progress-dashboard-apple .chart-title {
+.dark .progress-dashboard-view .page-subtitle,
+.dark .progress-dashboard-view .stat-card-label,
+.dark .progress-dashboard-view .stat-card-period,
+.dark .progress-dashboard-view .section-header,
+.dark .progress-dashboard-view .chart-title {
   color: rgba(255, 255, 255, 0.75);
 }
 
-.dark .progress-dashboard-apple .stat-card {
+.dark .progress-dashboard-view .stat-card {
   background: #1a1a1a;
   border-color: rgba(255, 255, 255, 0.1);
 }
 
-.dark .progress-dashboard-apple .nav-tabs-apple {
+.dark .progress-dashboard-view .nav-tabs-view {
   background: #1a1a1a;
   border-color: rgba(255, 255, 255, 0.1);
 }
 
-.dark .progress-dashboard-apple .nav-tab-apple {
+.dark .progress-dashboard-view .nav-tab-view {
   color: rgba(255, 255, 255, 0.6);
 }
 
-.dark .progress-dashboard-apple .nav-tab-apple:hover {
+.dark .progress-dashboard-view .nav-tab-view:hover {
   color: rgba(255, 255, 255, 0.8);
 }
 
-.dark .progress-dashboard-apple .nav-tab-apple.active {
+.dark .progress-dashboard-view .nav-tab-view.active {
   background: #ffffff;
   color: #000000;
 }
 
-.dark .progress-dashboard-apple .date-filter {
+.dark .progress-dashboard-view .date-filter {
   color: rgba(255, 255, 255, 0.6);
 }
 
-.dark .progress-dashboard-apple .chart-card {
+.dark .progress-dashboard-view .chart-card {
   background: #1a1a1a;
   border-color: rgba(255, 255, 255, 0.1);
 }
 
-.dark .progress-dashboard-apple .empty-state p,
-.dark .progress-dashboard-apple .loading-state .spinner-border {
+.dark .progress-dashboard-view .empty-state p,
+.dark .progress-dashboard-view .loading-state .spinner-border {
   color: rgba(255, 255, 255, 0.6);
 }
 
-/* User Profile Apple - Dark Mode */
-.dark .user-profile-apple {
+/* user profile - dark mode */
+.dark .user-profile-view {
   background: #000000;
 }
 
-.dark .user-profile-apple .apple-username,
-.dark .user-profile-apple .apple-card-title,
-.dark .user-profile-apple .apple-modal-title,
-.dark .user-profile-apple .bmi-value {
+.dark .user-profile-view .app-username,
+.dark .user-profile-view .app-card-title,
+.dark .user-profile-view .app-modal-title,
+.dark .user-profile-view .bmi-value {
   color: #ffffff;
 }
 
-.dark .user-profile-apple .apple-email,
-.dark .user-profile-apple .apple-label,
-.dark .user-profile-apple .bmi-header-label,
-.dark .user-profile-apple .apple-modal-footer p {
+.dark .user-profile-view .app-email,
+.dark .user-profile-view .app-label,
+.dark .user-profile-view .bmi-header-label,
+.dark .user-profile-view .app-modal-footer p {
   color: rgba(255, 255, 255, 0.75);
 }
 
-.dark .user-profile-apple .apple-modal-footer a {
+.dark .user-profile-view .app-modal-footer a {
   color: #ffffff;
 }
 
-.dark .user-profile-apple .apple-modal-footer a:hover {
+.dark .user-profile-view .app-modal-footer a:hover {
   opacity: 0.8;
 }
 
-.user-profile-apple .welcome-text {
+.user-profile-view .welcome-text {
   color: rgba(0, 0, 0, 0.5);
 }
 
-.dark .user-profile-apple .welcome-text {
+.dark .user-profile-view .welcome-text {
   color: rgba(255, 255, 255, 0.7);
 }
 
-.dark .user-profile-apple .apple-card,
-.dark .user-profile-apple .bmi-card,
-.dark .user-profile-apple .apple-modal,
-html.dark .user-profile-apple .apple-card,
-html.dark .user-profile-apple .bmi-card,
-html.dark .user-profile-apple .apple-modal {
+.dark .user-profile-view .app-card,
+.dark .user-profile-view .bmi-card,
+.dark .user-profile-view .app-modal,
+html.dark .user-profile-view .app-card,
+html.dark .user-profile-view .bmi-card,
+html.dark .user-profile-view .app-modal {
   background: #1a1a1a !important;
   border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-.dark .user-profile-apple .apple-input,
-html.dark .user-profile-apple .apple-input {
+.dark .user-profile-view .app-input,
+html.dark .user-profile-view .app-input {
   background: rgba(255, 255, 255, 0.05) !important;
   border-color: rgba(255, 255, 255, 0.1) !important;
   color: #ffffff !important;
 }
 
-.dark .user-profile-apple .apple-select,
-html.dark .user-profile-apple .apple-select {
+.dark .user-profile-view .app-select,
+html.dark .user-profile-view .app-select {
   background: rgba(255, 255, 255, 0.05) !important;
   border-color: rgba(255, 255, 255, 0.1) !important;
   color: #ffffff !important;
@@ -4872,13 +4816,13 @@ html.dark .user-profile-apple .apple-select {
   -moz-appearance: none !important;
 }
 
-.dark .user-profile-apple .apple-select::-ms-expand,
-html.dark .user-profile-apple .apple-select::-ms-expand {
+.dark .user-profile-view .app-select::-ms-expand,
+html.dark .user-profile-view .app-select::-ms-expand {
   display: none !important;
 }
 
-.dark .user-profile-apple .apple-select,
-html.dark .user-profile-apple .apple-select {
+.dark .user-profile-view .app-select,
+html.dark .user-profile-view .app-select {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' fill-opacity='0.6' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
   background-repeat: no-repeat !important;
   background-position: right 1rem center !important;
@@ -4887,62 +4831,62 @@ html.dark .user-profile-apple .apple-select {
   -moz-appearance: none !important;
 }
 
-.dark .user-profile-apple .apple-select::-ms-expand,
-html.dark .user-profile-apple .apple-select::-ms-expand {
+.dark .user-profile-view .app-select::-ms-expand,
+html.dark .user-profile-view .app-select::-ms-expand {
   display: none !important;
 }
 
-.dark .user-profile-apple .apple-select option,
-html.dark .user-profile-apple .apple-select option {
+.dark .user-profile-view .app-select option,
+html.dark .user-profile-view .app-select option {
   background: #1a1a1a !important;
   color: #ffffff !important;
 }
 
-.dark .user-profile-apple .apple-input:focus,
-.dark .user-profile-apple .apple-select:focus,
-html.dark .user-profile-apple .apple-input:focus,
-html.dark .user-profile-apple .apple-select:focus {
+.dark .user-profile-view .app-input:focus,
+.dark .user-profile-view .app-select:focus,
+html.dark .user-profile-view .app-input:focus,
+html.dark .user-profile-view .app-select:focus {
   background: rgba(255, 255, 255, 0.08) !important;
   border-color: rgba(255, 255, 255, 0.2) !important;
 }
 
-.dark .user-profile-apple .apple-save-btn,
-.dark .user-profile-apple .apple-modal-submit {
+.dark .user-profile-view .app-save-btn,
+.dark .user-profile-view .app-modal-submit {
   background: #ffffff;
   color: #000000;
 }
 
-.dark .user-profile-apple .apple-save-btn:hover:not(:disabled),
-.dark .user-profile-apple .apple-modal-submit:hover:not(:disabled) {
+.dark .user-profile-view .app-save-btn:hover:not(:disabled),
+.dark .user-profile-view .app-modal-submit:hover:not(:disabled) {
   background: rgba(255, 255, 255, 0.9);
 }
 
-.dark .user-profile-apple .apple-signout-btn {
+.dark .user-profile-view .app-signout-btn {
   border-color: rgba(255, 255, 255, 0.2);
   color: rgba(255, 255, 255, 0.8);
 }
 
-.dark .user-profile-apple .apple-signout-btn:hover {
+.dark .user-profile-view .app-signout-btn:hover {
   background: rgba(255, 255, 255, 0.1);
 }
 
-.dark .user-profile-apple .apple-modal-backdrop,
-html.dark .user-profile-apple .apple-modal-backdrop {
+.dark .user-profile-view .app-modal-backdrop,
+html.dark .user-profile-view .app-modal-backdrop {
   background: rgba(0, 0, 0, 0.6) !important;
 }
 
-.dark .user-profile-apple .apple-modal-header,
-html.dark .user-profile-apple .apple-modal-header {
+.dark .user-profile-view .app-modal-header,
+html.dark .user-profile-view .app-modal-header {
   border-bottom-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-.dark .user-profile-apple .apple-modal-close,
-html.dark .user-profile-apple .apple-modal-close {
+.dark .user-profile-view .app-modal-close,
+html.dark .user-profile-view .app-modal-close {
   background: rgba(255, 255, 255, 0.1) !important;
 }
 
-.dark .user-profile-apple .apple-modal-close:hover,
-html.dark .user-profile-apple .apple-modal-close:hover {
+.dark .user-profile-view .app-modal-close:hover,
+html.dark .user-profile-view .app-modal-close:hover {
   background: rgba(255, 255, 255, 0.15) !important;
 }
 
@@ -5066,156 +5010,156 @@ html.dark .dropdown-menu[data-bs-popper] {
   transform: none !important;
 }
 
-/* Workout Tracking Apple - Dark Mode */
-.dark .workout-tracking-apple {
+/* workout tracking - dark mode */
+.dark .workout-tracking-view {
   background: #000000;
 }
 
-.dark .workout-tracking-apple .workout-title,
-.dark .workout-tracking-apple .workout-subtitle,
-.dark .workout-tracking-apple .workout-timer,
-.dark .workout-tracking-apple .workout-timer-label,
-.dark .workout-tracking-apple .exercise-name,
-.dark .workout-tracking-apple .exercise-stat-value,
-.dark .workout-tracking-apple .start-workout-card h5,
-.dark .workout-tracking-apple .empty-state-card h3,
-.dark .workout-tracking-apple .map-header h5 {
+.dark .workout-tracking-view .workout-title,
+.dark .workout-tracking-view .workout-subtitle,
+.dark .workout-tracking-view .workout-timer,
+.dark .workout-tracking-view .workout-timer-label,
+.dark .workout-tracking-view .exercise-name,
+.dark .workout-tracking-view .exercise-stat-value,
+.dark .workout-tracking-view .start-workout-card h5,
+.dark .workout-tracking-view .empty-state-card h3,
+.dark .workout-tracking-view .map-header h5 {
   color: #ffffff;
 }
 
-.dark .workout-tracking-apple .workout-subtitle,
-.dark .workout-tracking-apple .workout-timer-label,
-.dark .workout-tracking-apple .exercise-stat-label,
-.dark .workout-tracking-apple .start-workout-card p,
-.dark .workout-tracking-apple .empty-state-card p {
+.dark .workout-tracking-view .workout-subtitle,
+.dark .workout-tracking-view .workout-timer-label,
+.dark .workout-tracking-view .exercise-stat-label,
+.dark .workout-tracking-view .start-workout-card p,
+.dark .workout-tracking-view .empty-state-card p {
   color: rgba(255, 255, 255, 0.75);
 }
 
-.dark .workout-tracking-apple .workout-header-card,
-.dark .workout-tracking-apple .exercise-item,
-.dark .workout-tracking-apple .start-workout-card,
-.dark .workout-tracking-apple .empty-state-card,
-.dark .workout-tracking-apple .map-card {
+.dark .workout-tracking-view .workout-header-card,
+.dark .workout-tracking-view .exercise-item,
+.dark .workout-tracking-view .start-workout-card,
+.dark .workout-tracking-view .empty-state-card,
+.dark .workout-tracking-view .map-card {
   background: #1a1a1a;
   border-color: rgba(255, 255, 255, 0.1);
 }
 
-.dark .workout-tracking-apple .exercise-item.completed {
+.dark .workout-tracking-view .exercise-item.completed {
   background: rgba(34, 197, 94, 0.15);
   border-color: rgba(34, 197, 94, 0.3);
 }
 
-.dark .workout-tracking-apple .play-button {
+.dark .workout-tracking-view .play-button {
   background: #ffffff;
   color: #000000;
 }
 
-.dark .workout-tracking-apple .play-button.pause-button {
+.dark .workout-tracking-view .play-button.pause-button {
   background: rgba(255, 255, 255, 0.9);
   color: #ffffff;
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.dark .workout-tracking-apple .play-button:hover:not(:disabled) {
+.dark .workout-tracking-view .play-button:hover:not(:disabled) {
   background: rgba(255, 255, 255, 0.9);
 }
 
-.dark .workout-tracking-apple .play-button.pause-button:hover:not(:disabled) {
+.dark .workout-tracking-view .play-button.pause-button:hover:not(:disabled) {
   background: #ffffff;
   color: #000000;
 }
 
-.dark .workout-tracking-apple .progress-bar-container {
+.dark .workout-tracking-view .progress-bar-container {
   background: rgba(255, 255, 255, 0.1);
 }
 
-.dark .workout-tracking-apple .progress-bar-fill {
+.dark .workout-tracking-view .progress-bar-fill {
   background: #ffffff;
 }
 
-.dark .workout-tracking-apple .distance-input {
+.dark .workout-tracking-view .distance-input {
   background: rgba(255, 255, 255, 0.05) !important;
   border-color: rgba(255, 255, 255, 0.1) !important;
   color: #ffffff !important;
 }
 
-.dark .workout-tracking-apple .distance-input:focus {
+.dark .workout-tracking-view .distance-input:focus {
   background: rgba(255, 255, 255, 0.08) !important;
   border-color: rgba(255, 255, 255, 0.2) !important;
   box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.05);
 }
 
-.dark .workout-tracking-apple .distance-label {
+.dark .workout-tracking-view .distance-label {
   color: rgba(255, 255, 255, 0.6);
 }
 
-.dark .workout-tracking-apple .exercise-checkbox {
+.dark .workout-tracking-view .exercise-checkbox {
   border-color: rgba(255, 255, 255, 0.3);
 }
 
-.dark .workout-tracking-apple .exercise-checkbox.checked {
+.dark .workout-tracking-view .exercise-checkbox.checked {
   background: #22c55e;
   border-color: #22c55e;
 }
 
-.dark .workout-tracking-apple .complete-button,
-.dark .workout-tracking-apple .start-button {
+.dark .workout-tracking-view .complete-button,
+.dark .workout-tracking-view .start-button {
   background: #22c55e;
   color: #ffffff;
 }
 
-.dark .workout-tracking-apple .end-button {
+.dark .workout-tracking-view .end-button {
   background: #ef4444;
   color: #ffffff;
 }
 
-.dark .workout-tracking-apple .exercise-number {
+.dark .workout-tracking-view .exercise-number {
   color: rgba(255, 255, 255, 0.5);
 }
 
-/* Running Routes Apple - Dark Mode */
-.dark .running-routes-apple {
+/* running routes - dark mode */
+.dark .running-routes-view {
   background: #000000;
 }
 
-.dark .running-routes-apple .page-title,
-.dark .running-routes-apple .page-subtitle,
-.dark .running-routes-apple .preferences-title,
-.dark .running-routes-apple .results-title,
-.dark .running-routes-apple .results-subtitle,
-.dark .running-routes-apple .route-name,
-.dark .running-routes-apple .empty-state h4,
-.dark .running-routes-apple .map-header h5 {
+.dark .running-routes-view .page-title,
+.dark .running-routes-view .page-subtitle,
+.dark .running-routes-view .preferences-title,
+.dark .running-routes-view .results-title,
+.dark .running-routes-view .results-subtitle,
+.dark .running-routes-view .route-name,
+.dark .running-routes-view .empty-state h4,
+.dark .running-routes-view .map-header h5 {
   color: #ffffff;
 }
 
-.dark .running-routes-apple .page-subtitle,
-.dark .running-routes-apple .preference-label,
-.dark .running-routes-apple .preference-helper,
-.dark .running-routes-apple .results-subtitle,
-.dark .running-routes-apple .route-meta,
-.dark .running-routes-apple .empty-state p,
-.dark .running-routes-apple .loading-state p {
+.dark .running-routes-view .page-subtitle,
+.dark .running-routes-view .preference-label,
+.dark .running-routes-view .preference-helper,
+.dark .running-routes-view .results-subtitle,
+.dark .running-routes-view .route-meta,
+.dark .running-routes-view .empty-state p,
+.dark .running-routes-view .loading-state p {
   color: rgba(255, 255, 255, 0.75);
 }
 
-.dark .running-routes-apple .preferences-card,
-.dark .running-routes-apple .route-card,
-.dark .running-routes-apple .empty-state,
-.dark .running-routes-apple .map-card {
+.dark .running-routes-view .preferences-card,
+.dark .running-routes-view .route-card,
+.dark .running-routes-view .empty-state,
+.dark .running-routes-view .map-card {
   background: #1a1a1a;
   border-color: rgba(255, 255, 255, 0.1);
 }
 
-.dark .running-routes-apple .preference-input,
-html.dark .running-routes-apple .preference-input {
+.dark .running-routes-view .preference-input,
+html.dark .running-routes-view .preference-input {
   background: rgba(255, 255, 255, 0.05) !important;
   border-color: rgba(255, 255, 255, 0.1) !important;
   color: #ffffff !important;
 }
 
-.dark .running-routes-apple .preference-select,
-html.dark .running-routes-apple .preference-select {
+.dark .running-routes-view .preference-select,
+html.dark .running-routes-view .preference-select {
   background: rgba(255, 255, 255, 0.05) !important;
   border-color: rgba(255, 255, 255, 0.1) !important;
   color: #ffffff !important;
@@ -5228,65 +5172,84 @@ html.dark .running-routes-apple .preference-select {
   -moz-appearance: none !important;
 }
 
-.dark .running-routes-apple .preference-select::-ms-expand,
-html.dark .running-routes-apple .preference-select::-ms-expand {
+.dark .running-routes-view .preference-select::-ms-expand,
+html.dark .running-routes-view .preference-select::-ms-expand {
   display: none !important;
 }
 
-.dark .running-routes-apple .preference-select option,
-html.dark .running-routes-apple .preference-select option {
+.dark .running-routes-view .preference-select option,
+html.dark .running-routes-view .preference-select option {
   background: #1a1a1a !important;
   color: #ffffff !important;
 }
 
-.dark .running-routes-apple .preference-input:focus,
-.dark .running-routes-apple .preference-select:focus,
-html.dark .running-routes-apple .preference-input:focus,
-html.dark .running-routes-apple .preference-select:focus {
+.dark .running-routes-view .preference-input:focus,
+.dark .running-routes-view .preference-select:focus,
+html.dark .running-routes-view .preference-input:focus,
+html.dark .running-routes-view .preference-select:focus {
   background: rgba(255, 255, 255, 0.08) !important;
   border-color: rgba(255, 255, 255, 0.2) !important;
 }
 
-.dark .running-routes-apple .search-button,
-.dark .running-routes-apple .route-action-btn.primary {
+.dark .running-routes-view .search-button,
+.dark .running-routes-view .route-action-btn.primary {
   background: #ffffff;
   color: #000000;
 }
 
-.dark .running-routes-apple .search-button:hover:not(:disabled),
-.dark .running-routes-apple .route-action-btn.primary:hover:not(:disabled) {
+.dark .running-routes-view .search-button:hover:not(:disabled),
+.dark .running-routes-view .route-action-btn.primary:hover:not(:disabled) {
   background: rgba(255, 255, 255, 0.9);
 }
 
-.dark .running-routes-apple .route-action-btn.outline {
+.dark .running-routes-view .route-action-btn.outline {
   background: rgba(255, 255, 255, 0.05);
   border-color: rgba(255, 255, 255, 0.2);
   color: #ffffff;
 }
 
-.dark .running-routes-apple .route-action-btn.outline:hover:not(:disabled) {
+.dark .running-routes-view .route-action-btn.outline:hover:not(:disabled) {
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.3);
 }
 
-.dark .running-routes-apple .route-map-preview {
+.dark .running-routes-view .route-map-preview {
   background: rgba(255, 255, 255, 0.05);
 }
 
-.dark .running-routes-apple .route-map-preview .map-placeholder i,
-.dark .running-routes-apple .route-map-preview .map-placeholder p {
+.dark .running-routes-view .route-map-preview .map-placeholder i,
+.dark .running-routes-view .route-map-preview .map-placeholder p {
   color: rgba(255, 255, 255, 0.3);
 }
 
-.dark .running-routes-apple .route-elevation-badge {
+.dark .running-routes-view .route-elevation-badge {
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(8px);
 }
 
-.dark .running-routes-apple .error-state {
+.dark .running-routes-view .error-state {
   background: rgba(239, 68, 68, 0.15);
   border-color: rgba(239, 68, 68, 0.3);
   color: #ef4444;
+}
+
+/* Routine Builder - Light Mode */
+.routine-page .page-header {
+  margin-bottom: 3rem;
+}
+
+.routine-page .page-title {
+  font-size: 2rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: #030213;
+  margin-bottom: 0.5rem;
+}
+
+.routine-page .page-subtitle {
+  font-size: 0.9375rem;
+  opacity: 0.5;
+  color: #030213;
 }
 
 /* Routine Builder - Dark Mode */
@@ -5492,8 +5455,8 @@ html.dark .workout-generator .form-select:focus {
   background: #000000 !important;
 }
 
-.dark .routine-page .hero-title,
-.dark .routine-page .hero-subtitle,
+.dark .routine-page .page-title,
+.dark .routine-page .page-subtitle,
 .dark .routine-page .card-title,
 .dark .routine-page .routines-title,
 .dark .routine-page .routine-card-title,
@@ -5502,7 +5465,7 @@ html.dark .workout-generator .form-select:focus {
   color: rgba(255, 255, 255, 0.95);
 }
 
-.dark .routine-page .hero-subtitle,
+.dark .routine-page .page-subtitle,
 .dark .routine-page .text-muted,
 .dark .routine-page .empty-title,
 .dark .routine-page .empty-subtitle,
@@ -5510,18 +5473,18 @@ html.dark .workout-generator .form-select:focus {
   color: rgba(255, 255, 255, 0.75);
 }
 
-.dark .routine-page .hero {
+.dark .routine-page .page-header {
   background: #000000;
   transition: background 0.3s ease;
 }
 
-.dark .routine-page .hero-title,
-.dark .routine-page .hero-subtitle {
+.dark .routine-page .page-title,
+.dark .routine-page .page-subtitle {
   color: #ffffff;
   transition: color 0.3s ease;
 }
 
-.dark .routine-page .hero-subtitle {
+.dark .routine-page .page-subtitle {
   color: rgba(255, 255, 255, 0.7);
 }
 
@@ -5530,12 +5493,12 @@ html.dark .workout-generator .form-select:focus {
   transition: background 0.3s ease;
 }
 
-.routine-page .hero {
+.routine-page .page-header {
   transition: background 0.3s ease;
 }
 
-.routine-page .hero-title,
-.routine-page .hero-subtitle {
+.routine-page .page-title,
+.routine-page .page-subtitle {
   transition: color 0.3s ease;
 }
 
@@ -5649,66 +5612,66 @@ html.dark .workout-generator .form-select:focus {
 }
 
 /* Exercise Card Dark Mode - Global Override */
-.dark .exercise-card-apple,
-html.dark .exercise-card-apple {
+.dark .exercise-card-view,
+html.dark .exercise-card-view {
   background: #1a1a1a !important;
   border-color: rgba(255, 255, 255, 0.1) !important;
   transition: all 0.3s ease;
 }
 
-.dark .exercise-card-apple .exercise-name,
-html.dark .exercise-card-apple .exercise-name {
+.dark .exercise-card-view .exercise-name,
+html.dark .exercise-card-view .exercise-name {
   color: #ffffff !important;
 }
 
-.dark .exercise-card-apple .exercise-description,
-html.dark .exercise-card-apple .exercise-description {
+.dark .exercise-card-view .exercise-description,
+html.dark .exercise-card-view .exercise-description {
   color: rgba(255, 255, 255, 0.75) !important;
 }
 
-.dark .exercise-card-apple .badge-label,
-.dark .exercise-card-apple .info-label,
-html.dark .exercise-card-apple .badge-label,
-html.dark .exercise-card-apple .info-label {
+.dark .exercise-card-view .badge-label,
+.dark .exercise-card-view .info-label,
+html.dark .exercise-card-view .badge-label,
+html.dark .exercise-card-view .info-label {
   color: rgba(255, 255, 255, 0.7) !important;
 }
 
-.dark .exercise-card-apple .info-pill,
-html.dark .exercise-card-apple .info-pill {
+.dark .exercise-card-view .info-pill,
+html.dark .exercise-card-view .info-pill {
   background: rgba(255, 255, 255, 0.1) !important;
   color: rgba(255, 255, 255, 0.9) !important;
 }
 
-.dark .exercise-card-apple .exercise-image-placeholder,
-html.dark .exercise-card-apple .exercise-image-placeholder {
+.dark .exercise-card-view .exercise-image-placeholder,
+html.dark .exercise-card-view .exercise-image-placeholder {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%) !important;
 }
 
-.dark .exercise-card-apple .image-circle,
-html.dark .exercise-card-apple .image-circle {
+.dark .exercise-card-view .image-circle,
+html.dark .exercise-card-view .image-circle {
   border-color: rgba(255, 255, 255, 0.2) !important;
 }
 
-.dark .exercise-card-apple .image-wave,
-html.dark .exercise-card-apple .image-wave {
+.dark .exercise-card-view .image-wave,
+html.dark .exercise-card-view .image-wave {
   color: rgba(255, 255, 255, 0.2) !important;
 }
 
-.dark .exercise-card-apple .add-to-routine-btn,
-html.dark .exercise-card-apple .add-to-routine-btn {
+.dark .exercise-card-view .add-to-routine-btn,
+html.dark .exercise-card-view .add-to-routine-btn {
   background: #ffffff !important;
   color: #000000 !important;
 }
 
-.dark .exercise-card-apple .add-to-routine-btn:hover,
-html.dark .exercise-card-apple .add-to-routine-btn:hover {
+.dark .exercise-card-view .add-to-routine-btn:hover,
+html.dark .exercise-card-view .add-to-routine-btn:hover {
   background: rgba(255, 255, 255, 0.9) !important;
 }
 
-.dark .exercise-card-apple .difficulty-default,
-.dark .exercise-card-apple .intensity-default,
-html.dark .exercise-card-apple .difficulty-default,
-html.dark .exercise-card-apple .intensity-default {
+.dark .exercise-card-view .difficulty-default,
+.dark .exercise-card-view .intensity-default,
+html.dark .exercise-card-view .difficulty-default,
+html.dark .exercise-card-view .intensity-default {
   background: rgba(255, 255, 255, 0.1) !important;
   color: rgba(255, 255, 255, 0.9) !important;
   border-color: rgba(255, 255, 255, 0.2) !important;
@@ -5816,18 +5779,18 @@ body,
 }
 
 
-/* Apple-Inspired Home Page Styles */
-.home-page-apple {
+/* modern home page styles */
+.home-page-view {
   min-height: 100vh;
   background: #fbfbfd;
 }
 
-.dark .home-page-apple {
+.dark .home-page-view {
   background: #000000;
 }
 
 /* Hero Section */
-.home-page-apple .hero-section {
+.home-page-view .hero-section {
   position: relative;
   min-height: 100vh;
   display: flex;
@@ -5841,29 +5804,29 @@ body,
   padding: 0;
 }
 
-.dark .home-page-apple .hero-section {
+.dark .home-page-view .hero-section {
   background: #000000;
 }
 
-.home-page-apple .hero-background {
+.home-page-view .hero-background {
   position: absolute;
   inset: 0;
   overflow: hidden;
   background: linear-gradient(to bottom, rgba(59, 130, 246, 0.1), rgba(255, 255, 255, 0), rgba(255, 255, 255, 0));
 }
 
-.dark .home-page-apple .hero-background {
+.dark .home-page-view .hero-background {
   background: linear-gradient(to bottom, rgba(59, 130, 246, 0.05), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0));
 }
 
-.home-page-apple .gradient-blob {
+.home-page-view .gradient-blob {
   position: absolute;
   border-radius: 50%;
   filter: blur(80px);
   opacity: 0.3;
 }
 
-.home-page-apple .blob-1 {
+.home-page-view .blob-1 {
   top: -50%;
   left: -25%;
   width: 800px;
@@ -5871,7 +5834,7 @@ body,
   background: rgba(59, 130, 246, 0.2);
 }
 
-.home-page-apple .blob-2 {
+.home-page-view .blob-2 {
   top: 25%;
   right: -25%;
   width: 600px;
@@ -5879,7 +5842,7 @@ body,
   background: rgba(99, 102, 241, 0.2);
 }
 
-.home-page-apple .hero-container {
+.home-page-view .hero-container {
   position: relative;
   z-index: 10;
   width: 100%;
@@ -5889,7 +5852,7 @@ body,
   text-align: center;
 }
 
-.home-page-apple .hero-content {
+.home-page-view .hero-content {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -5897,11 +5860,11 @@ body,
   pointer-events: none;
 }
 
-.home-page-apple .hero-content * {
+.home-page-view .hero-content * {
   pointer-events: auto;
 }
 
-.home-page-apple .hero-badge {
+.home-page-view .hero-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -5914,31 +5877,31 @@ body,
   margin-bottom: 2rem;
 }
 
-.dark .home-page-apple .hero-badge {
+.dark .home-page-view .hero-badge {
   background: rgba(26, 26, 26, 0.5);
   border-color: rgba(255, 255, 255, 0.1);
 }
 
-.home-page-apple .hero-badge i {
+.home-page-view .hero-badge i {
   font-size: 1rem;
   color: #3b82f6;
 }
 
-.dark .home-page-apple .hero-badge i {
+.dark .home-page-view .hero-badge i {
   color: #60a5fa;
 }
 
-.home-page-apple .hero-badge span {
+.home-page-view .hero-badge span {
   font-size: 0.8125rem;
   color: rgba(0, 0, 0, 0.6);
   font-weight: 500;
 }
 
-.dark .home-page-apple .hero-badge span {
+.dark .home-page-view .hero-badge span {
   color: rgba(255, 255, 255, 0.7);
 }
 
-.home-page-apple .hero-title {
+.home-page-view .hero-title {
   font-size: 3.5rem;
   font-weight: 500;
   letter-spacing: -0.02em;
@@ -5948,22 +5911,22 @@ body,
 }
 
 @media (min-width: 768px) {
-  .home-page-apple .hero-title {
+  .home-page-view .hero-title {
     font-size: 4.5rem;
   }
 }
 
 @media (min-width: 1024px) {
-  .home-page-apple .hero-title {
+  .home-page-view .hero-title {
     font-size: 5.25rem;
   }
 }
 
-.dark .home-page-apple .hero-title {
+.dark .home-page-view .hero-title {
   color: #ffffff;
 }
 
-.home-page-apple .hero-description {
+.home-page-view .hero-description {
   font-size: 1.125rem;
   color: rgba(0, 0, 0, 0.6);
   max-width: 42rem;
@@ -5973,16 +5936,16 @@ body,
 }
 
 @media (min-width: 768px) {
-  .home-page-apple .hero-description {
+  .home-page-view .hero-description {
     font-size: 1.25rem;
   }
 }
 
-.dark .home-page-apple .hero-description {
+.dark .home-page-view .hero-description {
   color: rgba(255, 255, 255, 0.7);
 }
 
-.home-page-apple .hero-actions {
+.home-page-view .hero-actions {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -5991,12 +5954,12 @@ body,
 }
 
 @media (min-width: 640px) {
-  .home-page-apple .hero-actions {
+  .home-page-view .hero-actions {
     flex-direction: row;
   }
 }
 
-.home-page-apple .btn-primary {
+.home-page-view .btn-primary {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -6012,30 +5975,30 @@ body,
   transition: all 0.2s ease;
 }
 
-.home-page-apple .btn-primary:hover {
+.home-page-view .btn-primary:hover {
   background: #1d4ed8;
   box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
   transform: translateY(-1px);
 }
 
-.dark .home-page-apple .btn-primary {
+.dark .home-page-view .btn-primary {
   background: #3b82f6;
 }
 
-.dark .home-page-apple .btn-primary:hover {
+.dark .home-page-view .btn-primary:hover {
   background: #2563eb;
 }
 
-.home-page-apple .btn-primary i {
+.home-page-view .btn-primary i {
   font-size: 1rem;
   transition: transform 0.2s ease;
 }
 
-.home-page-apple .btn-primary:hover i {
+.home-page-view .btn-primary:hover i {
   transform: translateX(2px);
 }
 
-.home-page-apple .btn-secondary {
+.home-page-view .btn-secondary {
   display: inline-flex;
   align-items: center;
   padding: 0.875rem 2rem;
@@ -6050,23 +6013,23 @@ body,
   transition: all 0.2s ease;
 }
 
-.home-page-apple .btn-secondary:hover {
+.home-page-view .btn-secondary:hover {
   border-color: rgba(0, 0, 0, 0.2);
   background: rgba(0, 0, 0, 0.02);
 }
 
-.dark .home-page-apple .btn-secondary {
+.dark .home-page-view .btn-secondary {
   background: rgba(26, 26, 26, 0.8);
   border-color: rgba(255, 255, 255, 0.15);
   color: #ffffff;
 }
 
-.dark .home-page-apple .btn-secondary:hover {
+.dark .home-page-view .btn-secondary:hover {
   background: rgba(26, 26, 26, 1);
   border-color: rgba(255, 255, 255, 0.25);
 }
 
-.home-page-apple .trust-indicators {
+.home-page-view .trust-indicators {
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
@@ -6076,44 +6039,44 @@ body,
   width: 100%;
 }
 
-.dark .home-page-apple .trust-indicators {
+.dark .home-page-view .trust-indicators {
   color: rgba(255, 255, 255, 0.6);
 }
 
-.home-page-apple .trust-item {
+.home-page-view .trust-item {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   font-size: 0.8125rem;
 }
 
-.home-page-apple .trust-item i {
+.home-page-view .trust-item i {
   font-size: 1rem;
 }
 
 
 /* Features Section */
-.home-page-apple .features-section {
+.home-page-view .features-section {
   padding: 8rem 0;
   background: #ffffff;
 }
 
-.dark .home-page-apple .features-section {
+.dark .home-page-view .features-section {
   background: #000000;
 }
 
-.home-page-apple .features-container {
+.home-page-view .features-container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
 
-.home-page-apple .section-header {
+.home-page-view .section-header {
   text-align: center;
   margin-bottom: 5rem;
 }
 
-.home-page-apple .section-title {
+.home-page-view .section-title {
   font-size: 2.625rem;
   font-weight: 500;
   letter-spacing: -0.02em;
@@ -6122,39 +6085,39 @@ body,
 }
 
 @media (min-width: 768px) {
-  .home-page-apple .section-title {
+  .home-page-view .section-title {
     font-size: 3.25rem;
   }
 }
 
-.dark .home-page-apple .section-title {
+.dark .home-page-view .section-title {
   color: #ffffff;
 }
 
-.home-page-apple .section-subtitle {
+.home-page-view .section-subtitle {
   font-size: 1.0625rem;
   color: rgba(0, 0, 0, 0.6);
   max-width: 42rem;
   margin: 0 auto;
 }
 
-.dark .home-page-apple .section-subtitle {
+.dark .home-page-view .section-subtitle {
   color: rgba(255, 255, 255, 0.6);
 }
 
-.home-page-apple .features-grid {
+.home-page-view .features-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.5rem;
 }
 
 @media (min-width: 768px) {
-  .home-page-apple .features-grid {
+  .home-page-view .features-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-.home-page-apple .feature-card {
+.home-page-view .feature-card {
   padding: 2rem;
   border-radius: 1.5rem;
   border: 1px solid rgba(0, 0, 0, 0.05);
@@ -6162,54 +6125,54 @@ body,
   cursor: pointer;
 }
 
-.home-page-apple .feature-card:hover {
+.home-page-view .feature-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   border-color: rgba(0, 0, 0, 0.1);
 }
 
-.dark .home-page-apple .feature-card {
+.dark .home-page-view .feature-card {
   border-color: rgba(255, 255, 255, 0.1);
 }
 
-.dark .home-page-apple .feature-card:hover {
+.dark .home-page-view .feature-card:hover {
   border-color: rgba(255, 255, 255, 0.2);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
-.home-page-apple .feature-blue {
+.home-page-view .feature-blue {
   background: rgba(59, 130, 246, 0.05);
 }
 
-.dark .home-page-apple .feature-blue {
+.dark .home-page-view .feature-blue {
   background: rgba(59, 130, 246, 0.1);
 }
 
-.home-page-apple .feature-indigo {
+.home-page-view .feature-indigo {
   background: rgba(99, 102, 241, 0.05);
 }
 
-.dark .home-page-apple .feature-indigo {
+.dark .home-page-view .feature-indigo {
   background: rgba(99, 102, 241, 0.1);
 }
 
-.home-page-apple .feature-green {
+.home-page-view .feature-green {
   background: rgba(34, 197, 94, 0.05);
 }
 
-.dark .home-page-apple .feature-green {
+.dark .home-page-view .feature-green {
   background: rgba(34, 197, 94, 0.1);
 }
 
-.home-page-apple .feature-orange {
+.home-page-view .feature-orange {
   background: rgba(249, 115, 22, 0.05);
 }
 
-.dark .home-page-apple .feature-orange {
+.dark .home-page-view .feature-orange {
   background: rgba(249, 115, 22, 0.1);
 }
 
-.home-page-apple .feature-icon {
+.home-page-view .feature-icon {
   width: 3.5rem;
   height: 3.5rem;
   border-radius: 1rem;
@@ -6223,52 +6186,52 @@ body,
   transition: transform 0.3s ease;
 }
 
-.home-page-apple .feature-card:hover .feature-icon {
+.home-page-view .feature-card:hover .feature-icon {
   transform: scale(1.05);
 }
 
-.dark .home-page-apple .feature-icon {
+.dark .home-page-view .feature-icon {
   background: rgba(26, 26, 26, 0.8);
   border-color: rgba(255, 255, 255, 0.1);
 }
 
-.home-page-apple .feature-icon i {
+.home-page-view .feature-icon i {
   font-size: 1.75rem;
 }
 
-.home-page-apple .icon-blue i {
+.home-page-view .icon-blue i {
   color: #2563eb;
 }
 
-.dark .home-page-apple .icon-blue i {
+.dark .home-page-view .icon-blue i {
   color: #60a5fa;
 }
 
-.home-page-apple .icon-indigo i {
+.home-page-view .icon-indigo i {
   color: #6366f1;
 }
 
-.dark .home-page-apple .icon-indigo i {
+.dark .home-page-view .icon-indigo i {
   color: #818cf8;
 }
 
-.home-page-apple .icon-green i {
+.home-page-view .icon-green i {
   color: #22c55e;
 }
 
-.dark .home-page-apple .icon-green i {
+.dark .home-page-view .icon-green i {
   color: #4ade80;
 }
 
-.home-page-apple .icon-orange i {
+.home-page-view .icon-orange i {
   color: #f97316;
 }
 
-.dark .home-page-apple .icon-orange i {
+.dark .home-page-view .icon-orange i {
   color: #fb923c;
 }
 
-.home-page-apple .feature-title {
+.home-page-view .feature-title {
   font-size: 1.5rem;
   font-weight: 500;
   letter-spacing: -0.01em;
@@ -6276,37 +6239,37 @@ body,
   margin-bottom: 0.75rem;
 }
 
-.dark .home-page-apple .feature-title {
+.dark .home-page-view .feature-title {
   color: #ffffff;
 }
 
-.home-page-apple .feature-description {
+.home-page-view .feature-description {
   font-size: 0.9375rem;
   color: rgba(0, 0, 0, 0.6);
   line-height: 1.6;
 }
 
-.dark .home-page-apple .feature-description {
+.dark .home-page-view .feature-description {
   color: rgba(255, 255, 255, 0.6);
 }
 
 /* Showcase Section */
-.home-page-apple .showcase-section {
+.home-page-view .showcase-section {
   padding: 8rem 0;
   background: rgba(0, 0, 0, 0.02);
 }
 
-.dark .home-page-apple .showcase-section {
+.dark .home-page-view .showcase-section {
   background: rgba(255, 255, 255, 0.02);
 }
 
-.home-page-apple .showcase-container {
+.home-page-view .showcase-container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
 
-.home-page-apple .showcase-item {
+.home-page-view .showcase-item {
   display: grid;
   grid-template-columns: 1fr;
   gap: 4rem;
@@ -6314,30 +6277,30 @@ body,
   margin-bottom: 8rem;
 }
 
-.home-page-apple .showcase-item:last-child {
+.home-page-view .showcase-item:last-child {
   margin-bottom: 0;
 }
 
 @media (min-width: 1024px) {
-  .home-page-apple .showcase-item {
+  .home-page-view .showcase-item {
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
   }
 
-  .home-page-apple .showcase-item.reverse {
+  .home-page-view .showcase-item.reverse {
     grid-template-columns: 1fr 1fr;
   }
 
-  .home-page-apple .showcase-item.reverse .showcase-image {
+  .home-page-view .showcase-item.reverse .showcase-image {
     order: 1;
   }
 
-  .home-page-apple .showcase-item.reverse .showcase-content {
+  .home-page-view .showcase-item.reverse .showcase-content {
     order: 2;
   }
 }
 
-.home-page-apple .showcase-badge {
+.home-page-view .showcase-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -6349,31 +6312,31 @@ body,
   margin-bottom: 1.5rem;
 }
 
-.dark .home-page-apple .showcase-badge {
+.dark .home-page-view .showcase-badge {
   background: rgba(26, 26, 26, 0.8);
   border-color: rgba(255, 255, 255, 0.1);
 }
 
-.home-page-apple .showcase-badge i {
+.home-page-view .showcase-badge i {
   font-size: 1rem;
   color: #3b82f6;
 }
 
-.dark .home-page-apple .showcase-badge i {
+.dark .home-page-view .showcase-badge i {
   color: #60a5fa;
 }
 
-.home-page-apple .showcase-badge span {
+.home-page-view .showcase-badge span {
   font-size: 0.8125rem;
   color: rgba(0, 0, 0, 0.6);
   font-weight: 500;
 }
 
-.dark .home-page-apple .showcase-badge span {
+.dark .home-page-view .showcase-badge span {
   color: rgba(255, 255, 255, 0.7);
 }
 
-.home-page-apple .showcase-title {
+.home-page-view .showcase-title {
   font-size: 2.625rem;
   font-weight: 500;
   letter-spacing: -0.02em;
@@ -6382,39 +6345,39 @@ body,
 }
 
 @media (min-width: 768px) {
-  .home-page-apple .showcase-title {
+  .home-page-view .showcase-title {
     font-size: 3rem;
   }
 }
 
-.dark .home-page-apple .showcase-title {
+.dark .home-page-view .showcase-title {
   color: #ffffff;
 }
 
-.home-page-apple .showcase-description {
+.home-page-view .showcase-description {
   font-size: 1.0625rem;
   color: rgba(0, 0, 0, 0.6);
   line-height: 1.7;
   margin-bottom: 2rem;
 }
 
-.dark .home-page-apple .showcase-description {
+.dark .home-page-view .showcase-description {
   color: rgba(255, 255, 255, 0.6);
 }
 
-.home-page-apple .showcase-features {
+.home-page-view .showcase-features {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.home-page-apple .showcase-feature-item {
+.home-page-view .showcase-feature-item {
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
 
-.home-page-apple .feature-check {
+.home-page-view .feature-check {
   width: 1.5rem;
   height: 1.5rem;
   border-radius: 50%;
@@ -6425,33 +6388,33 @@ body,
   flex-shrink: 0;
 }
 
-.dark .home-page-apple .feature-check {
+.dark .home-page-view .feature-check {
   background: rgba(34, 197, 94, 0.2);
 }
 
-.home-page-apple .feature-check i {
+.home-page-view .feature-check i {
   font-size: 0.875rem;
   color: #22c55e;
 }
 
-.dark .home-page-apple .feature-check i {
+.dark .home-page-view .feature-check i {
   color: #4ade80;
 }
 
-.home-page-apple .showcase-feature-item span {
+.home-page-view .showcase-feature-item span {
   font-size: 0.9375rem;
   color: rgba(0, 0, 0, 0.7);
 }
 
-.dark .home-page-apple .showcase-feature-item span {
+.dark .home-page-view .showcase-feature-item span {
   color: rgba(255, 255, 255, 0.7);
 }
 
-.home-page-apple .showcase-image {
+.home-page-view .showcase-image {
   position: relative;
 }
 
-.home-page-apple .image-card {
+.home-page-view .image-card {
   position: relative;
   border-radius: 1.5rem;
   overflow: hidden;
@@ -6459,32 +6422,32 @@ body,
   border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.home-page-apple .image-placeholder {
+.home-page-view .image-placeholder {
   width: 100%;
   height: 500px;
   position: relative;
   overflow: hidden;
 }
 
-.home-page-apple .workout-image {
+.home-page-view .workout-image {
   background-image: url('https://images.unsplash.com/photo-1756115484694-009466dbaa67?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmaXRuZXNzJTIwd29ya291dCUyMGd5bXxlbnwxfHx8fDE3NjIxMDU1MTZ8MA&ixlib=rb-4.1.0&q=80&w=1080');
   background-size: cover;
   background-position: center;
 }
 
-.home-page-apple .route-image {
+.home-page-view .route-image {
   background-image: url('https://images.unsplash.com/photo-1653341859296-b92ef5dc553e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxydW5uaW5nJTIwb3V0ZG9vciUyMHRyYWlsfGVufDF8fHx8MTc2MjE2MTQ1N3ww&ixlib=rb-4.1.0&q=80&w=1080');
   background-size: cover;
   background-position: center;
 }
 
-.home-page-apple .image-overlay {
+.home-page-view .image-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.2), transparent);
 }
 
-.home-page-apple .floating-card {
+.home-page-view .floating-card {
   position: absolute;
   bottom: 1.5rem;
   left: 1.5rem;
@@ -6497,72 +6460,72 @@ body,
   border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.dark .home-page-apple .floating-card {
+.dark .home-page-view .floating-card {
   background: rgba(26, 26, 26, 0.95);
   border-color: rgba(255, 255, 255, 0.1);
 }
 
-.home-page-apple .floating-card-header {
+.home-page-view .floating-card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1rem;
 }
 
-.home-page-apple .floating-card-header span:first-child {
+.home-page-view .floating-card-header span:first-child {
   font-size: 0.8125rem;
   color: rgba(0, 0, 0, 0.5);
 }
 
-.dark .home-page-apple .floating-card-header span:first-child {
+.dark .home-page-view .floating-card-header span:first-child {
   color: rgba(255, 255, 255, 0.6);
 }
 
-.home-page-apple .floating-badge {
+.home-page-view .floating-badge {
   padding: 0.375rem 0.75rem;
   border-radius: 9999px;
   font-size: 0.8125rem;
   font-weight: 500;
 }
 
-.home-page-apple .floating-badge.beginner {
+.home-page-view .floating-badge.beginner {
   background: rgba(34, 197, 94, 0.1);
   color: #22c55e;
 }
 
-.dark .home-page-apple .floating-badge.beginner {
+.dark .home-page-view .floating-badge.beginner {
   background: rgba(34, 197, 94, 0.2);
   color: #4ade80;
 }
 
-.home-page-apple .floating-badge.scenic {
+.home-page-view .floating-badge.scenic {
   background: rgba(59, 130, 246, 0.1);
   color: #2563eb;
 }
 
-.dark .home-page-apple .floating-badge.scenic {
+.dark .home-page-view .floating-badge.scenic {
   background: rgba(59, 130, 246, 0.2);
   color: #60a5fa;
 }
 
-.home-page-apple .floating-card h4 {
+.home-page-view .floating-card h4 {
   font-size: 1.0625rem;
   font-weight: 500;
   color: #030213;
   margin-bottom: 1rem;
 }
 
-.dark .home-page-apple .floating-card h4 {
+.dark .home-page-view .floating-card h4 {
   color: #ffffff;
 }
 
-.home-page-apple .floating-card-meta {
+.home-page-view .floating-card-meta {
   display: flex;
   align-items: center;
   gap: 1.5rem;
 }
 
-.home-page-apple .meta-item {
+.home-page-view .meta-item {
   display: flex;
   align-items: center;
   gap: 0.375rem;
@@ -6570,16 +6533,16 @@ body,
   color: rgba(0, 0, 0, 0.6);
 }
 
-.dark .home-page-apple .meta-item {
+.dark .home-page-view .meta-item {
   color: rgba(255, 255, 255, 0.6);
 }
 
-.home-page-apple .meta-item i {
+.home-page-view .meta-item i {
   font-size: 0.875rem;
 }
 
 /* Profile Summary Card for Showcase */
-.home-page-apple .profile-summary-card {
+.home-page-view .profile-summary-card {
   position: absolute;
   bottom: 1.5rem;
   left: 1.5rem;
@@ -6592,16 +6555,16 @@ body,
   border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.dark .home-page-apple .profile-summary-card {
+.dark .home-page-view .profile-summary-card {
   background: rgba(26, 26, 26, 0.95);
   border-color: rgba(255, 255, 255, 0.1);
 }
 
-.home-page-apple .apple-header-profile {
+.home-page-view .app-header-profile {
   margin-bottom: 1.5rem;
 }
 
-.home-page-apple .apple-avatar-profile {
+.home-page-view .app-avatar-profile {
   width: 56px;
   height: 56px;
   border-radius: 9999px;
@@ -6612,20 +6575,20 @@ body,
   flex-shrink: 0;
 }
 
-.dark .home-page-apple .apple-avatar-profile {
+.dark .home-page-view .app-avatar-profile {
   background: rgba(255, 255, 255, 0.1);
 }
 
-.home-page-apple .apple-avatar-profile i {
+.home-page-view .app-avatar-profile i {
   font-size: 1.75rem;
   color: rgba(0, 0, 0, 0.4);
 }
 
-.dark .home-page-apple .apple-avatar-profile i {
+.dark .home-page-view .app-avatar-profile i {
   color: rgba(255, 255, 255, 0.6);
 }
 
-.home-page-apple .apple-username-profile {
+.home-page-view .app-username-profile {
   font-size: 1.25rem;
   font-weight: 500;
   letter-spacing: -0.01em;
@@ -6633,60 +6596,60 @@ body,
   margin-bottom: 0.25rem;
 }
 
-.dark .home-page-apple .apple-username-profile {
+.dark .home-page-view .app-username-profile {
   color: #ffffff;
 }
 
-.home-page-apple .apple-email-profile {
+.home-page-view .app-email-profile {
   font-size: 0.875rem;
   color: rgba(0, 0, 0, 0.5);
   margin: 0;
 }
 
-.dark .home-page-apple .apple-email-profile {
+.dark .home-page-view .app-email-profile {
   color: rgba(255, 255, 255, 0.6);
 }
 
-.home-page-apple .profile-stats {
+.home-page-view .profile-stats {
   display: flex;
   gap: 1rem;
   padding-top: 1rem;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.dark .home-page-apple .profile-stats {
+.dark .home-page-view .profile-stats {
   border-top-color: rgba(255, 255, 255, 0.1);
 }
 
-.home-page-apple .profile-stats .stat-item {
+.home-page-view .profile-stats .stat-item {
   flex: 1;
   text-align: center;
 }
 
-.home-page-apple .profile-stats .stat-value {
+.home-page-view .profile-stats .stat-value {
   font-size: 0.9375rem;
   font-weight: 600;
   color: #030213;
   margin-bottom: 0.25rem;
 }
 
-.dark .home-page-apple .profile-stats .stat-value {
+.dark .home-page-view .profile-stats .stat-value {
   color: #ffffff;
 }
 
-.home-page-apple .profile-stats .stat-label {
+.home-page-view .profile-stats .stat-label {
   font-size: 0.75rem;
   color: rgba(0, 0, 0, 0.5);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
-.dark .home-page-apple .profile-stats .stat-label {
+.dark .home-page-view .profile-stats .stat-label {
   color: rgba(255, 255, 255, 0.6);
 }
 
 /* Route Card Example for Showcase */
-.home-page-apple .route-card-example {
+.home-page-view .route-card-example {
   position: absolute;
   bottom: 1.5rem;
   left: 1.5rem;
@@ -6699,16 +6662,16 @@ body,
   border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.dark .home-page-apple .route-card-example {
+.dark .home-page-view .route-card-example {
   background: rgba(26, 26, 26, 0.95);
   border-color: rgba(255, 255, 255, 0.1);
 }
 
-.home-page-apple .route-content-example {
+.home-page-view .route-content-example {
   width: 100%;
 }
 
-.home-page-apple .route-name-example {
+.home-page-view .route-name-example {
   font-size: 1.1875rem;
   font-weight: 500;
   letter-spacing: -0.01em;
@@ -6716,18 +6679,18 @@ body,
   margin-bottom: 1rem;
 }
 
-.dark .home-page-apple .route-name-example {
+.dark .home-page-view .route-name-example {
   color: #ffffff;
 }
 
-.home-page-apple .route-badges-example {
+.home-page-view .route-badges-example {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
   margin-bottom: 1rem;
 }
 
-.home-page-apple .route-badge-example {
+.home-page-view .route-badge-example {
   padding: 0.375rem 0.75rem;
   border-radius: 9999px;
   font-size: 0.8125rem;
@@ -6735,19 +6698,19 @@ body,
   border: 1px solid;
 }
 
-.home-page-apple .route-badge-example.distance {
+.home-page-view .route-badge-example.distance {
   background: rgba(59, 130, 246, 0.1);
   color: #3b82f6;
   border-color: rgba(59, 130, 246, 0.2);
 }
 
-.home-page-apple .route-badge-example.type.loop {
+.home-page-view .route-badge-example.type.loop {
   background: rgba(34, 197, 94, 0.1);
   color: #22c55e;
   border-color: rgba(34, 197, 94, 0.2);
 }
 
-.home-page-apple .route-badge-example.elevation {
+.home-page-view .route-badge-example.elevation {
   background: rgba(249, 115, 22, 0.1);
   color: #f97316;
   border-color: rgba(249, 115, 22, 0.2);
@@ -6756,11 +6719,11 @@ body,
   gap: 0.375rem;
 }
 
-.home-page-apple .route-badge-example.elevation i {
+.home-page-view .route-badge-example.elevation i {
   font-size: 0.875rem;
 }
 
-.home-page-apple .route-meta-example {
+.home-page-view .route-meta-example {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -6769,42 +6732,42 @@ body,
   color: #030213;
 }
 
-.dark .home-page-apple .route-meta-example {
+.dark .home-page-view .route-meta-example {
   color: rgba(255, 255, 255, 0.6);
 }
 
-.home-page-apple .route-meta-item-example {
+.home-page-view .route-meta-item-example {
   display: flex;
   align-items: center;
   gap: 0.375rem;
 }
 
-.home-page-apple .route-meta-item-example i {
+.home-page-view .route-meta-item-example i {
   font-size: 0.875rem;
 }
 
 /* Stats Section */
-.home-page-apple .stats-section {
+.home-page-view .stats-section {
   padding: 8rem 0;
   background: #1f2937;
 }
 
-.dark .home-page-apple .stats-section {
+.dark .home-page-view .stats-section {
   background: #000000;
 }
 
-.home-page-apple .stats-container {
+.home-page-view .stats-container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
 
-.home-page-apple .stats-header {
+.home-page-view .stats-header {
   text-align: center;
   margin-bottom: 5rem;
 }
 
-.home-page-apple .stats-title {
+.home-page-view .stats-title {
   font-size: 2.625rem;
   font-weight: 500;
   letter-spacing: -0.02em;
@@ -6813,35 +6776,35 @@ body,
 }
 
 @media (min-width: 768px) {
-  .home-page-apple .stats-title {
+  .home-page-view .stats-title {
     font-size: 3.25rem;
   }
 }
 
-.home-page-apple .stats-subtitle {
+.home-page-view .stats-subtitle {
   font-size: 1.0625rem;
   color: rgba(255, 255, 255, 0.6);
   max-width: 42rem;
   margin: 0 auto;
 }
 
-.home-page-apple .stats-grid {
+.home-page-view .stats-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
 }
 
 @media (min-width: 1024px) {
-  .home-page-apple .stats-grid {
+  .home-page-view .stats-grid {
     grid-template-columns: repeat(4, 1fr);
   }
 }
 
-.home-page-apple .stat-card {
+.home-page-view .stat-card {
   text-align: center;
 }
 
-.home-page-apple .stat-value {
+.home-page-view .stat-value {
   font-size: 3rem;
   font-weight: 500;
   letter-spacing: -0.02em;
@@ -6850,53 +6813,53 @@ body,
 }
 
 @media (min-width: 768px) {
-  .home-page-apple .stat-value {
+  .home-page-view .stat-value {
     font-size: 3.5rem;
   }
 }
 
-.home-page-apple .stat-label {
+.home-page-view .stat-label {
   font-size: 0.9375rem;
   color: rgba(255, 255, 255, 0.6);
 }
 
 /* Testimonials Section */
-.home-page-apple .testimonials-section {
+.home-page-view .testimonials-section {
   padding: 8rem 0;
   background: #ffffff;
 }
 
-.dark .home-page-apple .testimonials-section {
+.dark .home-page-view .testimonials-section {
   background: #000000;
 }
 
-.home-page-apple .testimonials-container {
+.home-page-view .testimonials-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
 
 /* Final CTA Section */
-.home-page-apple .final-cta-section {
+.home-page-view .final-cta-section {
   padding: 4rem 0 8rem 0;
   background: linear-gradient(to bottom, #ffffff, rgba(0, 0, 0, 0.02));
 }
 
-.dark .home-page-apple .final-cta-section {
+.dark .home-page-view .final-cta-section {
   background: linear-gradient(to bottom, #000000, rgba(255, 255, 255, 0.02));
 }
 
-.home-page-apple .cta-container {
+.home-page-view .cta-container {
   max-width: 900px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
 
-.home-page-apple .cta-content {
+.home-page-view .cta-content {
   text-align: center;
 }
 
-.home-page-apple .cta-title {
+.home-page-view .cta-title {
   font-size: 2.625rem;
   font-weight: 500;
   letter-spacing: -0.02em;
@@ -6905,16 +6868,16 @@ body,
 }
 
 @media (min-width: 768px) {
-  .home-page-apple .cta-title {
+  .home-page-view .cta-title {
     font-size: 3.5rem;
   }
 }
 
-.dark .home-page-apple .cta-title {
+.dark .home-page-view .cta-title {
   color: #ffffff;
 }
 
-.home-page-apple .cta-description {
+.home-page-view .cta-description {
   font-size: 1.125rem;
   color: rgba(0, 0, 0, 0.6);
   line-height: 1.7;
@@ -6924,11 +6887,11 @@ body,
   margin-right: auto;
 }
 
-.dark .home-page-apple .cta-description {
+.dark .home-page-view .cta-description {
   color: rgba(255, 255, 255, 0.6);
 }
 
-.home-page-apple .cta-actions {
+.home-page-view .cta-actions {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -6936,7 +6899,7 @@ body,
 }
 
 @media (min-width: 640px) {
-  .home-page-apple .cta-actions {
+  .home-page-view .cta-actions {
     flex-direction: row;
     justify-content: center;
   }
@@ -6975,27 +6938,27 @@ body,
 
 /* Responsive */
 @media (max-width: 768px) {
-  .home-page-apple .hero-container {
+  .home-page-view .hero-container {
     padding: 4rem 1rem;
   }
 
-  .home-page-apple .hero-title {
+  .home-page-view .hero-title {
     font-size: 2.5rem;
   }
 
-  .home-page-apple .features-section,
-  .home-page-apple .showcase-section,
-  .home-page-apple .stats-section,
-  .home-page-apple .testimonials-section {
+  .home-page-view .features-section,
+  .home-page-view .showcase-section,
+  .home-page-view .stats-section,
+  .home-page-view .testimonials-section {
     padding: 4rem 0;
   }
   
-  .home-page-apple .final-cta-section {
+  .home-page-view .final-cta-section {
     padding: 2rem 0 4rem 0;
   }
 
-  .home-page-apple .section-header,
-  .home-page-apple .stats-header {
+  .home-page-view .section-header,
+  .home-page-view .stats-header {
     margin-bottom: 3rem;
   }
 }

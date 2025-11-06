@@ -1,5 +1,5 @@
 <template>
-  <div class="home-page-apple">
+  <div class="home-page-view">
     <!-- Hero Section -->
     <section class="hero-section">
       <!-- Background Gradient -->
@@ -22,10 +22,10 @@
       <!-- Hero Content -->
       <div class="hero-container">
         <Transition name="hero-fade">
-          <div class="hero-content">
+          <div v-if="true" class="hero-content">
             <!-- Badge -->
             <Transition name="fade-up" appear>
-              <div class="hero-badge">
+              <div v-if="true" class="hero-badge">
                 <i class="bi bi-heart-pulse"></i>
                 <span>Your Personal Fitness Journey</span>
               </div>
@@ -33,7 +33,7 @@
 
             <!-- Title -->
             <Transition name="fade-up" appear :style="{ 'transition-delay': '0.1s' }">
-              <h1 class="hero-title">
+              <h1 v-if="true" class="hero-title">
                 Train Smarter.
                 <br />
                 Reach Your Goals.
@@ -42,7 +42,7 @@
 
             <!-- Description -->
             <Transition name="fade-up" appear :style="{ 'transition-delay': '0.2s' }">
-              <p class="hero-description">
+              <p v-if="true" class="hero-description">
                 Personalized workout plans and running routes designed for your fitness level. 
                 Track your progress and stay motivated every step of the way.
               </p>
@@ -50,7 +50,7 @@
 
             <!-- CTA Buttons -->
             <Transition name="fade-up" appear :style="{ 'transition-delay': '0.3s' }">
-              <div class="hero-actions">
+              <div v-if="true" class="hero-actions">
                 <router-link to="/workout" class="btn-primary">
                   Get Started 
                 </router-link>
@@ -62,7 +62,7 @@
 
             <!-- Trust Indicators -->
             <Transition name="fade-up" appear :style="{ 'transition-delay': '0.5s' }">
-              <div class="trust-indicators">
+              <div v-if="true" class="trust-indicators">
                 <div class="trust-item">
                   <i class="bi bi-check-circle"></i>
                   <span>Free to Start</span>
@@ -82,7 +82,7 @@
     <section class="features-section">
       <div class="features-container">
         <Transition name="fade-up" appear>
-          <div class="section-header">
+          <div v-if="true" class="section-header">
             <h2 class="section-title">Everything You Need</h2>
             <p class="section-subtitle">
               Powerful features designed to help you reach your fitness goals.
@@ -99,6 +99,7 @@
             :style="{ 'transition-delay': `${index * 0.1}s` }"
           >
             <div 
+              v-if="true"
               class="feature-card"
               :class="feature.bgClass"
               @mouseenter="handleFeatureHover(index)"
@@ -120,7 +121,7 @@
         <!-- Workout Plans Showcase -->
         <div class="showcase-item">
           <Transition name="fade-up" appear>
-            <div class="showcase-content">
+            <div v-if="true" class="showcase-content">
               <div class="showcase-badge">
                 <i class="bi bi-heart-pulse"></i>
                 <span>Custom Workouts</span>
@@ -146,19 +147,19 @@
           </Transition>
 
           <Transition name="fade-up" appear :style="{ 'transition-delay': '0.2s' }">
-            <div class="showcase-image">
+            <div v-if="true" class="showcase-image">
               <div class="image-card">
                 <div class="image-placeholder workout-image">
                   <div class="image-overlay"></div>
                   <div class="profile-summary-card">
-                    <div class="apple-header-profile">
+                    <div class="app-header-profile">
                       <div class="d-flex align-items-center gap-3">
-                        <div class="apple-avatar-profile">
+                        <div class="app-avatar-profile">
                           <i class="bi bi-person"></i>
                         </div>
                         <div>
-                          <h1 class="apple-username-profile mb-0">Ah Gong</h1>
-                          <p class="apple-email-profile mb-0">ahgong@gmail.com</p>
+                          <h1 class="app-username-profile mb-0">Ah Gong</h1>
+                          <p class="app-email-profile mb-0">ahgong@gmail.com</p>
                         </div>
                       </div>
                     </div>
@@ -186,7 +187,7 @@
         <!-- Route Discovery Showcase -->
         <div class="showcase-item reverse">
           <Transition name="fade-up" appear>
-            <div class="showcase-image">
+            <div v-if="true" class="showcase-image">
               <div class="image-card">
                 <div class="image-placeholder route-image">
                   <div class="image-overlay"></div>
@@ -219,7 +220,7 @@
           </Transition>
 
           <Transition name="fade-up" appear :style="{ 'transition-delay': '0.2s' }">
-            <div class="showcase-content">
+            <div v-if="true" class="showcase-content">
               <div class="showcase-badge">
                 <i class="bi bi-signpost-split"></i>
                 <span>Running Routes</span>
@@ -251,7 +252,7 @@
     <section id="stats-section" class="stats-section">
       <div class="stats-container">
         <Transition name="fade-up" appear>
-          <div class="stats-header">
+          <div v-if="true" class="stats-header">
             <h2 class="stats-title">Where Everyday Athletes Level Up</h2>
             <p class="stats-subtitle">
               A growing community of fitness enthusiasts achieving their goals every day.
@@ -267,7 +268,7 @@
             appear
             :style="{ 'transition-delay': `${index * 0.1}s` }"
           >
-            <div class="stat-card">
+            <div v-if="true" class="stat-card">
               <div class="stat-value">{{ formatStatValue(stat.value, index) }}</div>
               <div class="stat-label">{{ stat.label }}</div>
             </div>
@@ -280,7 +281,7 @@
     <section class="testimonials-section">
       <div class="testimonials-container">
         <Transition name="fade-up" appear>
-          <div class="section-header">
+          <div v-if="true" class="section-header">
             <h2 class="section-title">What People Say</h2>
             <p class="section-subtitle">
               Real stories from users transforming their fitness journey.
@@ -289,7 +290,7 @@
         </Transition>
 
         <Transition name="fade-up" appear :style="{ 'transition-delay': '0.2s' }">
-          <TestimonialCarousel :testimonials="testimonials" />
+          <TestimonialCarousel v-if="true" :testimonials="testimonials" />
         </Transition>
       </div>
     </section>
@@ -298,7 +299,7 @@
     <section class="final-cta-section">
       <div class="cta-container">
         <Transition name="fade-up" appear>
-          <div class="cta-content">
+          <div v-if="true" class="cta-content">
             <h2 class="cta-title">Start Your Fitness Journey</h2>
             <p class="cta-description">
               Join thousands of users achieving their fitness goals with personalized 
@@ -414,9 +415,7 @@ const formatStatValue = (value, index) => {
   return countUpStats.value[index]
 }
 
-const handleFeatureHover = (index) => {
-  // Feature hover animation handled by CSS
-}
+
 
 const scrollToPersonalizedWorkout = () => {
   const element = document.getElementById('personalized-workout')

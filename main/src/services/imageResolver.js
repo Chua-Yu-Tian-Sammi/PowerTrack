@@ -1,9 +1,6 @@
-// Resolves static exercise images from the assets folder organized by muscle group
-// Images are located in /assets/<MuscleGroup>/<exerciseName>.jpg|png|webp
 
-const SUPPORTED_EXTENSIONS = ['webp', 'png', 'jpg', 'jpeg'];
 
-// Inline minimal SVG fallback (blank unavailable picture)
+// fallback pic
 export const UNAVAILABLE_DATA_URI =
   'data:image/svg+xml;utf8,' +
   encodeURIComponent(
@@ -121,7 +118,7 @@ function getImageFileName(exerciseId) {
     
     // Shoulder exercises
     'overhead_press': 'overhead_press',
-    'dumbbell_shoulder_press': 'dumbell_shoulder_press', // Note: typo in filename
+    'dumbbell_shoulder_press': 'dumbell_shoulder_press', 
     'arnold_press': 'arnold_press',
     'lateral_raises': 'lateral_raise',
     'front_raises': 'front_raise',
